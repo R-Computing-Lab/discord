@@ -5,7 +5,7 @@
 \title{Simulate Biometrically informed Univariate Data}
 \usage{
 kinsim1(r = c(1, 0.5), npg = 100, npergroup = rep(npg, length(r)),
-  mu = 0, ace = c(1, 1, 1), r_vector = NULL, variance = FALSE, ...)
+  mu = 0, ace = c(1, 1, 1), r_vector = NULL, ...)
 }
 \arguments{
 \item{r}{levels of relatedness; default is MZ and DZ twins c(1,.5)}

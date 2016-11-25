@@ -6,10 +6,9 @@
 \usage{
 kinsim_multi(r_all = c(1, 0.5), npg_all = 500,
   npergroup_all = rep(npg_all, length(r_all)), mu_all = 0, variables = 2,
-  mu_list = rep(mu_all, variables), r_vector = NULL, ace_all = c(1/3, 1/3,
-  1/3), ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow =
-  variables), cov_a = 1, cov_c = 1, cov_e = 1, variance = FALSE,
-  model = "Correlated", ...)
+  mu_list = rep(mu_all, variables), r_vector = NULL, ace_all = c(1, 1, 1),
+  ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
+  cov_a = 1, cov_c = 1, cov_e = 1, model = "Correlated", ...)
 }
 \arguments{
 \item{r_all}{levels of relatedness; default is MZ and DZ twins c(1,.5)}

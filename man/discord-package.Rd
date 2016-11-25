@@ -16,7 +16,7 @@ running
 \code{devtools::install_github} \code{(repo = 'smasongarrison/discord')}
 (make sure \href{https://cran.r-project.org/package=devtools}{devtools} is already installed).
 If you're having trouble with the package, please install the development version.  If this doesn't solve
-your problem, please create a \href{https://github.com/smasongarrison/discord/issues}{new issue}, or email Will.
+your problem, please create a \href{https://github.com/smasongarrison/discord/issues}{new issue}, or email Mason.
 }
 \examples{
 
