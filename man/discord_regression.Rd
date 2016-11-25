@@ -4,15 +4,14 @@
 \alias{discord_regression}
 \title{Discord Regression}
 \usage{
-discord_regression(doublentered = F, outcome = y, sep = "", scale = T,
-  df, id = NULL)
+discord_regression()
 }
 \arguments{
-\item{r_all}{levels of relatedness; default is MZ and DZ twins c(1,.5)}
+\item{x}{x}
 }
 \value{
 Returns \code{data.frame} with the following:
-\item{Ai_1}{genetic component for variable i for kin1}
+\item{X}{X}
 }
 \description{
 Run discord analysis on discord data

@@ -1,17 +1,11 @@
 #' Discord Regression
 #' @description Run discord analysis on discord data
-#' @param r_all levels of relatedness; default is MZ and DZ twins c(1,.5)
+#' @param x x
 
 #' @return Returns \code{data.frame} with the following:
-#' \item{Ai_1}{genetic component for variable i for kin1}
+#' \item{X}{X}
 
-discord_regression<- function(doublentered=F,
-                        outcome=y,
-                        sep="",
-                        scale=T,
-                        df,
-                        id=NULL
-){
+discord_regression<- function(){
   arguments <- as.list(match.call())
 
   IVlist <- list()
