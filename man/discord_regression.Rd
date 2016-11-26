@@ -4,7 +4,8 @@
 \alias{discord_regression}
 \title{Discord Regression}
 \usage{
-discord_regression()
+discord_regression(doublentered = F, outcome = y, sep = "", scale = T,
+  df = NULL, id = NULL)
 }
 \arguments{
 \item{x}{x}
@@ -14,6 +15,6 @@ Returns \code{data.frame} with the following:
 \item{X}{X}
 }
 \description{
-Run discord analysis on discord data
+Run discord analysis on discord data.
 }
 

@@ -1,11 +1,11 @@
 #' Simulate Biometrically informed Univariate Data
 #' @description Generate paired univariate data, given ACE parameters.
-#' @param r levels of relatedness; default is MZ and DZ twins c(1,.5)
-#' @param npg Sample Size per Group; default is 100
-#' @param npergroup List of sample size by group; default repeats \code{npg} for all groups
-#' @param mu Mean for generated variable; default is 0
-#' @param ace list of variance components; default is c(1,1,1)
-#' @param r_vector Alternative, give vector of r cofficients for entire sample
+#' @param r Levels of relatedness; default is MZ and DZ twins c(1,.5)
+#' @param npg Sample size per group; default is 100.
+#' @param npergroup List of sample sizes by group; default repeats \code{npg} for all groups.
+#' @param mu Mean for generated variable; default is 0.
+#' @param ace Vector of variance components, ordered by c(a, c, e); default is c(1,1,1).
+#' @param r_vector Alternative, give vector of relatedness cofficients for entire sample.
 #'
 #' @return Returns \code{data.frame} with the following:
 #' \item{id}{id}

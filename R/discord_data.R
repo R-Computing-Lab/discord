@@ -1,11 +1,11 @@
 #' Restructure Data
 #' @description Restructure wide form data into analyzable data, sorted by outcome.
-#' @param outcome name of your outcome variable
-#' @param scale rescale all variables at the individual level to have a mean of 0 and a SD of 1
-#' @param df dataframe with all variables in it
-#' @param id  optional id variable
-#' @param doubleentered  is data double entered? Default is FALSE
-#' @return Returns \code{data.frame} with the following:
+#' @param outcome Name of outcome variable
+#' @param scale If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.
+#' @param df Dataframe with all variables in it.
+#' @param id id variable (optional).
+#' @param doubleentered  Describes whether data are double entered. Default is FALSE.
+#' @return Returns \code{data.frame} with the following variables:
 #' \item{id}{id}
 #' \item{outcome_1}{outcome for kin1; kin1 is always greater than kin2, except when tied. Then kin1 is randomly selected from the pair}
 #' \item{outcome_2}{outcome for kin2}
@@ -21,7 +21,7 @@ discord_data<- function(doublentered=F,
                    outcome=y,
                    sep="",
                    scale=T,
-                   df,
+                   df=NULL,
                    id=NULL
                    ){
   arguments <- as.list(match.call())

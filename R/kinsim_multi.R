@@ -1,18 +1,18 @@
 #' Simulate Biometrically informed Multivariate Data
 #' @description Generate paired multivariate data, given ACE parameters.
-#' @param r_all levels of relatedness; default is MZ and DZ twins c(1,.5)
-#' @param npg_all Sample Size per Group; default is 500
-#' @param npergroup_all List of sample size by group; default repeats \code{npg_all} for all groups
-#' @param variables number of variables to generate; default is 2.
-#' @param mu_all Mean for each generated variable; default is 0
+#' @param r_all Levels of relatedness; default is MZ and DZ twins c(1,.5).
+#' @param npg_all Sample size per group; default is 500.
+#' @param npergroup_all Vector of sample sizes by group; default repeats \code{npg_all} for all groups
+#' @param variables Number of variables to generate; default is 2. Currently, limited to max of two variables.
+#' @param mu_all Mean for each generated variable; default is 0.
 #' @param mu_list List of means by variable; default repeats \code{mu_all} for all variables
-#' @param r_vector Alternative, give vector of r cofficients for entire sample
-#'  @param ace_all list of variance components for each generated variable; default is c(1,1,1)
-#'  @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repete \code{ace_all} for each variable.
-#'  @param  cov_a shared variance for genetics; default is 1
-#'  @param cov_c shared variance for c; default is 1
-#'  @param cov_e shared variance for e; default is 1
-#'  @param model moding type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.
+#' @param r_vector Alternative, give vector of r cofficients for entire sample.
+#'  @param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
+#'  @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
+#'  @param  cov_a Shared variance for additive genetics (a); default is 1
+#'  @param cov_c Shared variance for shared-environment (c); default is 1
+#'  @param cov_e shared variance for non-shared-environment (e); default is 1
+#'  @param model Moding type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.
 #' @return Returns \code{data.frame} with the following:
 #' \item{Ai_1}{genetic component for variable i for kin1}
 #' \item{Ai_2}{genetic component for variable i for kin2}
@@ -21,7 +21,7 @@
 #' \item{Ei_1}{non-shared-environmental component for variable i for kin1}
 #' \item{Ei_2}{non-shared-environmental component for variable i for kin2}
 #' \item{yi_1}{generated variable i for kin1}
-#' \item{y2}{generated variable i for kin2}
+#' \item{yi_2}{generated variable i for kin2}
 #' \item{r}{level of relatedness for the kin pair}
 #' \item{id}{id}
 

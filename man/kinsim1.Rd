@@ -8,17 +8,17 @@ kinsim1(r = c(1, 0.5), npg = 100, npergroup = rep(npg, length(r)),
   mu = 0, ace = c(1, 1, 1), r_vector = NULL, ...)
 }
 \arguments{
-\item{r}{levels of relatedness; default is MZ and DZ twins c(1,.5)}
+\item{r}{Levels of relatedness; default is MZ and DZ twins c(1,.5)}
 
-\item{npg}{Sample Size per Group; default is 100}
+\item{npg}{Sample size per group; default is 100.}
 
-\item{npergroup}{List of sample size by group; default repeats \code{npg} for all groups}
+\item{npergroup}{List of sample sizes by group; default repeats \code{npg} for all groups.}
 
-\item{mu}{Mean for generated variable; default is 0}
+\item{mu}{Mean for generated variable; default is 0.}
 
-\item{ace}{list of variance components; default is c(1,1,1)}
+\item{ace}{Vector of variance components, ordered by c(a, c, e); default is c(1,1,1).}
 
-\item{r_vector}{Alternative, give vector of r cofficients for entire sample}
+\item{r_vector}{Alternative, give vector of relatedness cofficients for entire sample.}
 }
 \value{
 Returns \code{data.frame} with the following:

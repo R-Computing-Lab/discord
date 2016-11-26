@@ -39,5 +39,6 @@ Maintainer: S. Mason Garrison <s.mason.garrison@gmail.com>
 \references{
 test
 }
-\keyword{package}
+\keyword{behavior}
+\keyword{genetics}
 

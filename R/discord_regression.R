@@ -1,11 +1,19 @@
 #' Discord Regression
-#' @description Run discord analysis on discord data
+#' @description Run discord analysis on discord data.
 #' @param x x
 
 #' @return Returns \code{data.frame} with the following:
 #' \item{X}{X}
 
-discord_regression<- function(){
+discord_regression<- function(
+
+  doublentered=F,
+                              outcome=y,
+                              sep="",
+                              scale=T,
+                              df=NULL,
+                              id=NULL
+){
   arguments <- as.list(match.call())
 
   IVlist <- list()

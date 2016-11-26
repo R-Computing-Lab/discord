@@ -4,22 +4,22 @@
 \alias{discord_data}
 \title{Restructure Data}
 \usage{
-discord_data(doublentered = F, outcome = y, sep = "", scale = T, df,
-  id = NULL)
+discord_data(doublentered = F, outcome = y, sep = "", scale = T,
+  df = NULL, id = NULL)
 }
 \arguments{
-\item{outcome}{name of your outcome variable}
+\item{outcome}{Name of outcome variable}
 
-\item{scale}{rescale all variables at the individual level to have a mean of 0 and a SD of 1}
+\item{scale}{If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.}
 
-\item{df}{dataframe with all variables in it}
+\item{df}{Dataframe with all variables in it.}
 
-\item{id}{optional id variable}
+\item{id}{id variable (optional).}
 
-\item{doubleentered}{is data double entered? Default is FALSE}
+\item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
 }
 \value{
-Returns \code{data.frame} with the following:
+Returns \code{data.frame} with the following variables:
 \item{id}{id}
 \item{outcome_1}{outcome for kin1; kin1 is always greater than kin2, except when tied. Then kin1 is randomly selected from the pair}
 \item{outcome_2}{outcome for kin2}
