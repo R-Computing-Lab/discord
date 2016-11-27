@@ -1,10 +1,13 @@
 #' Restructure Data
 #' @description Restructure wide form data into analyzable data, sorted by outcome.
 #' @param outcome Name of outcome variable
+#' @param predictors Names of predictors. Default is to use all variables in \code{df} that are not the outcome.
 #' @param scale If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.
 #' @param df Dataframe with all variables in it.
 #' @param id id variable (optional).
 #' @param doubleentered  Describes whether data are double entered. Default is FALSE.
+#' @param sep Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.
+#' @param full If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.
 #' @return Returns \code{data.frame} with the following variables:
 #' \item{id}{id}
 #' \item{outcome_1}{outcome for kin1; kin1 is always greater than kin2, except when tied. Then kin1 is randomly selected from the pair}
@@ -17,13 +20,15 @@
 #'\item{predictor_i_mean}{mean predictor i for kin1 and kin2}
 
 
-discord_data<- function(doublentered=F,
+discord_data<- function(
                    outcome=y,
+                   predictors=NULL,
+                   doublentered=F,
                    sep="",
                    scale=T,
                    df=NULL,
-                   id=NULL
-                   ){
+                   id=NULL,
+                   full=T){
   arguments <- as.list(match.call())
 
   IVlist <- list()
@@ -36,8 +41,9 @@ discord_data<- function(doublentered=F,
     id<-rep(1:length(outcome1[,1]))
 
 }
-
+  if(is.null(predictors)){
   predictors<-setdiff(unique(gsub(paste0(sep,"1|",sep,"2"),"",names(df))),paste0(arguments$outcome))
+  }
   if(!doublentered){
     outcome2x<-outcome2
     outcome2<-c(outcome2[,1],outcome1[,1])
@@ -113,6 +119,12 @@ DV$ysort[DV$outcome_diff==0]<-c(select,abs(select-1))
  merged.data.frame<-subset(merged.data.frame,ysort==1)
  merged.data.frame$ysort<-NULL
  merged.data.frame <- merged.data.frame[order(merged.data.frame$id),]
+ if(!full)
+ {varskeep<-c("id",paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),paste0(predictors,"_diff"),paste0(predictors,"_mean"))
+
+ merged.data.frame<-merged.data.frame[varskeep]
+
+ }
   return(merged.data.frame)
 }
 

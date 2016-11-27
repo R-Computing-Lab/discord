@@ -4,11 +4,25 @@
 \alias{discord_regression}
 \title{Discord Regression}
 \usage{
-discord_regression(doublentered = F, outcome = y, sep = "", scale = T,
-  df = NULL, id = NULL)
+discord_regression(discord_data = T, outcome = y, predictors = NULL,
+  doublentered = F, sep = "", scale = T, df = NULL, id = NULL)
 }
 \arguments{
-\item{x}{x}
+\item{discord_data}{If TRUE, the run regression only. Else, restructure data into discord data, and then run regression.}
+
+\item{outcome}{Name of outcome variable}
+
+\item{predictors}{Names of predictors. Default is to use all variables in \code{df} that are not the outcome.}
+
+\item{sep}{Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.}
+
+\item{scale}{If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.}
+
+\item{df}{Dataframe with all variables in it.}
+
+\item{id}{id variable (optional).}
+
+\item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
 }
 \value{
 Returns \code{data.frame} with the following:
