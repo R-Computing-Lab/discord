@@ -6,13 +6,13 @@
 #' @param variables Number of variables to generate; default is 2. Currently, limited to max of two variables.
 #' @param mu_all Mean for each generated variable; default is 0.
 #' @param mu_list List of means by variable; default repeats \code{mu_all} for all variables
-#' @param r_vector Alternative, give vector of r cofficients for entire sample.
+#' @param r_vector Alternative, give vector of r coefficients for entire sample.
 #'  @param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
 #'  @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
 #'  @param  cov_a Shared variance for additive genetics (a); default is 1
 #'  @param cov_c Shared variance for shared-environment (c); default is 1
 #'  @param cov_e shared variance for non-shared-environment (e); default is 1
-#'  @param model Moding type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.
+#'  @param model Modeling type. Default is correlated factors model "Correlated"; alternative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.
 #' @return Returns \code{data.frame} with the following:
 #' \item{Ai_1}{genetic component for variable i for kin1}
 #' \item{Ai_2}{genetic component for variable i for kin2}
@@ -33,7 +33,6 @@ kinsim_multi <- function(
   mu_all=0,
   variables=2,
   mu_list=rep(mu_all,variables),
-
   r_vector=NULL, # alternative specification, give vector of rs
   ace_all=c(1,1,1), # variance default
   ace_list=matrix(rep(ace_all,variables),byrow=TRUE,nrow=variables),
@@ -98,8 +97,7 @@ kinsim_multi <- function(
         E.r <- rmvn(n,sigma=sigma_e)
         E.r[,1:2]<- E.r[,1:2]*sE[1]; E.r[,3:4]<- E.r[,3:4]*sE[2]
 
-          y.r <-  A.r + C.r + E.r
-
+        y.r <-  A.r + C.r + E.r
 
         y.r[,1:2]<-y.r[,1:2]+mu_list[1]
         y.r[,3:4]<-y.r[,3:4]+mu_list[2]
