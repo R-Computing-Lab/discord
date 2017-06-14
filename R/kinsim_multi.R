@@ -1,4 +1,5 @@
 #' Simulate Biometrically informed Multivariate Data
+#' @export
 #' @description Generate paired multivariate data, given ACE parameters.
 #' @param r_all Levels of relatedness; default is MZ and DZ twins c(1,.5).
 #' @param npg_all Sample size per group; default is 500.
@@ -7,12 +8,13 @@
 #' @param mu_all Mean for each generated variable; default is 0.
 #' @param mu_list List of means by variable; default repeats \code{mu_all} for all variables
 #' @param r_vector Alternative, give vector of r coefficients for entire sample.
-#'  @param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
-#'  @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
-#'  @param  cov_a Shared variance for additive genetics (a); default is 1
-#'  @param cov_c Shared variance for shared-environment (c); default is 1
-#'  @param cov_e shared variance for non-shared-environment (e); default is 1
-#'  @param model Modeling type. Default is correlated factors model "Correlated"; alternative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.
+#' @param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
+#' @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
+#' @param cov_a Shared variance for additive genetics (a); default is 1
+#' @param cov_c Shared variance for shared-environment (c); default is 1
+#' @param cov_e shared variance for non-shared-environment (e); default is 1
+#' @param model Modeling type. Default is correlated factors model "Correlated"; alternative specification will be a "Cholesky" model, where variable 1 accounts for variance in variable 2.
+#' @param  ... further arguments passed to or from other methods
 #' @return Returns \code{data.frame} with the following:
 #' \item{Ai_1}{genetic component for variable i for kin1}
 #' \item{Ai_2}{genetic component for variable i for kin2}
@@ -39,15 +41,14 @@ kinsim_multi <- function(
   cov_a=1, #default shared variance for genetics
   cov_c=1, #default shared variance for c
   cov_e=1, #default shared variance for e
-
   model="Correlated",#"Cholesky", #modeling type
   ...){
 
-    sA <- ace_list[,1]^0.5; sC <- ace_list[,2]^0.5; sE <- ace_list[,3]^0.5
-
+  sA <- ace_list[,1]^0.5; sC <- ace_list[,2]^0.5; sE <- ace_list[,3]^0.5
   S2 <- diag(4)*-1+1
 
   datalist <- list()
+  mu=r=NULL #fix R CMD error
   if(variables==1){
     data_v<-kinsim1(r=r_all,
                     npergroup=npergroup_all,	#
@@ -145,13 +146,13 @@ kinsim_multi <- function(
       E.r <- rmvn(n,sigma=sigma_e)
       E.r[,1:2]<- E.r[,1:2]*sE[1]; E.r[,3:4]<- E.r[,3:4]*sE[2]
 
-      if(variance){
-        y.r <-  A.r + C.r + E.r
-      }else{
+      #if(variance){
+   #     y.r <-  A.r + C.r + E.r
+    #  }else{
         y.r <- A.r
         y.r[,1:2]<-A.r[,1:2]*ace_list[1,1] + C.r[,1:2]*ace_list[1,2] + E.r[,1:2]*ace_list[1,3]
         y.r[,3:4]<-A.r[,3:4]*ace_list[2,1] + C.r[,3:4]*ace_list[2,2] + E.r[,3:4]*ace_list[2,3]
-      }
+   #   }
       y.r[,1:2]<-y.r[,1:2]+mu_list[1]
       y.r[,3:4]<-y.r[,3:4]+mu_list[2]
       y.r <- mu + A.r + C.r + E.r
@@ -161,66 +162,7 @@ kinsim_multi <- function(
       names(datalist)[i]<-paste0("datar",r[i])
       merged.data.frame = data.r
     }
-
-  }else if(model=="Cholesky"){
-    for(i in 1:variables){
-      if(i==1){
-        data_v<-kinsim1(r=r_all,
-                        npergroup=npergroup_all,	#
-                        mu=mu_list[i],			#intercept
-                        ace= ace_list[[i]],r_vector=r_vector
-        )
-        data_v$A1_u<-data_v$A1
-        data_v$A2_u<-data_v$A2
-        data_v$C1_u<-data_v$C1
-        data_v$C2_u<-data_v$C2
-        data_v$E1_u<-data_v$E1
-        data_v$E2_u<-data_v$E2
-        data_v$y1_u<-data_v$y1
-        data_v$y2_u<-data_v$y2
-      }else{
-        data_v<-kinsim1(r=r_all,
-                        mu=mu_list[i],			#intercept
-                        ace= ace_list[[i]],r_vector=datalist$v1$r)
-        data_v$id<-NULL
-        data_v$r<-NULL
-        # Parse Genetic into Unique and total
-        data_v$A1_u<-data_v$A1
-        data_v$A2_u<-data_v$A2
-        data_v$C1_u<-data_v$C1
-        data_v$C2_u<-data_v$C2
-        data_v$E1_u<-data_v$E1
-        data_v$E2_u<-data_v$E2
-        data_v$y1_u<-data_v$y1
-        data_v$y2_u<-data_v$y2
-
-
-          data_v$A1<- cov_a_list[i]*datalist$v1$A1_u+(1-cov_a_list[i])*data_v$A1_u
-          data_v$A2<-cov_a_list[i]*datalist$v1$A2_u+(1-cov_a_list[i])*data_v$A2_u
-
-
-          #Parse C into unique and total
-
-          data_v$C1<-cov_c_list[i]*datalist$v1$C1_u+(1-cov_c_list[i])*data_v$C1_u
-          data_v$C2<-cov_c_list[i]*datalist$v1$C2_u+(1-cov_c_list[i])*data_v$C2_u
-
-          #Parse E into unique and total
-
-          data_v$E1<-cov_e_list[i]*datalist$v1$E1_u+(1-cov_e_list[i])*data_v$E1_u
-          data_v$E2<-cov_e_list[i]*datalist$v1$E2_u+(1-cov_e_list[i])*data_v$E2_u
-
-      }
-      data_v$y1<-data_v$A1+data_v$C1+data_v$E1+mu_list[i]
-      data_v$y2<-data_v$A2+data_v$C2+data_v$E2+mu_list[i]
-
-
-      datalist[[i]] <- data_v
-      names(datalist)[i]<-paste0("v",i)
-    }
-
-    merged.data.frame =as.data.frame(datalist)
-    names(merged.data.frame)[c(1,10)]<-c("id","r")
-  }else{
+  } else{
     stop(paste0("You have tried to generate data beyond the current limitations of this program. Model specification ",model," not recognized."))
   }
 

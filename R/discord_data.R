@@ -1,4 +1,5 @@
 #' Restructure Data
+#' @export
 #' @description Restructure wide form data into analyzable data, sorted by outcome.
 #' @param outcome Name of outcome variable
 #' @param scale If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.
@@ -7,6 +8,8 @@
 #' @param doubleentered  Describes whether data are double entered. Default is FALSE.
 #' @param full If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.
 #' @param predictors Names of predictors. Default is to use all variables in \code{df} that are not the outcome.
+#' @param sep The character in \code{df} that separates root outcome and predictors from mean and diff labelscharacter string to separate the names of the \code{predictors} and \code{outcome}s from kin identifier (1 or 2). Not \code{NA_character_}.
+#'
 #' @return Returns \code{data.frame} with the following variables:
 #' \item{id}{id}
 #' \item{outcome_1}{outcome for kin1; kin1 is always greater than kin2, except when tied. Then kin1 is randomly selected from the pair}
@@ -19,8 +22,8 @@
 #'\item{predictor_i_mean}{mean predictor i for kin1 and kin2}
 
 
-discord_data<- function(doublentered=F,
-                        outcome=y,
+discord_data<- function(doubleentered=F,
+                        outcome=NULL,
                         predictors=NULL,
                         sep="",
                         scale=T,
@@ -31,11 +34,11 @@ discord_data<- function(doublentered=F,
   arguments <- as.list(match.call())
   outcome = as.character(outcome)
   arguments$outcome <- outcome
-  
+
   IVlist <- list()
   outcome1=subset(df, select=paste0(arguments$outcome,sep,"1"))
   outcome2=subset(df, select=paste0(arguments$outcome,sep,"2"))
-  
+
   #create id if not supplied
   if(is.null(id))
   {
@@ -48,8 +51,8 @@ discord_data<- function(doublentered=F,
     predictors<-setdiff(unique(gsub(paste0(sep,"1|",sep,"2"),"",names(df))),paste0(arguments$outcome))
   }
 
-  
-  if(!doublentered){
+
+  if(!doubleentered){
     outcome2x<-outcome2
     outcome2<-c(outcome2[,1],outcome1[,1])
     outcome1<-c(outcome1[,1],outcome2x[,1])
@@ -60,9 +63,9 @@ discord_data<- function(doublentered=F,
     DV<-data.frame(outcome1,outcome2)
     DV$outcome_diff<- DV$outcome1-DV$outcome2
     DV$outcome_mean<-(DV$outcome1+DV$outcome2)/2
-    
+
     remove(outcome1);remove(outcome2x);remove(outcome2)
-    
+
     for(i in 1:length(predictors)){
       predictor1x= predictor1=subset(df, select=paste0(predictors[i],sep,"1"))
       predictor2=subset(df, select=paste0(predictors[i],sep,"2"))
@@ -78,7 +81,7 @@ discord_data<- function(doublentered=F,
       IVi$predictor_mean<-(IVi$predictor1+IVi$predictor2)/2
       names(IVi)<-c(paste0(predictors[i],"_1"),paste0(predictors[i],"_2"),paste0(predictors[i],"_diff"),paste0(predictors[i],"_mean"))
       IVlist[[i]] <- IVi
-      
+
       names(IVlist)[i]<-paste0("")
     }
   }else{
@@ -89,7 +92,7 @@ discord_data<- function(doublentered=F,
     DV<-data.frame(outcome1,outcome2)
     DV$outcome_diff<-DV$outcome1-DV$outcome2
     DV$outcome_mean<-(DV$outcome1+DV$outcome2)/2
-    
+
     remove(outcome1);remove(outcome2)
     for(i in 1:length(predictors)){
       predictor1=subset(df, select=paste0(predictors[i],sep,"1"))
@@ -116,18 +119,18 @@ discord_data<- function(doublentered=F,
   }
   DV$id<-NULL
   names(DV)<-c(paste0(arguments$outcome,"_1"),paste0(arguments$outcome,"_2"),paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),"ysort")
-  
+
   merged.data.frame =data.frame(IVlist)
   merged.data.frame =data.frame(id,DV,merged.data.frame)
-  id<-NULL
+  id<-ysort<-NULL #appeases R CMD check
   merged.data.frame<-subset(merged.data.frame,ysort==1)
   merged.data.frame$ysort<-NULL
   merged.data.frame <- merged.data.frame[order(merged.data.frame$id),]
   if(!full)
   {varskeep<-c("id",paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),paste0(predictors,"_diff"),paste0(predictors,"_mean"))
-  
+
   merged.data.frame<-merged.data.frame[varskeep]
-  
+
   }
   return(merged.data.frame)
 }

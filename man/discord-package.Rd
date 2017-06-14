@@ -2,8 +2,8 @@
 % Please edit documentation in R/discord.R
 \docType{package}
 \name{discord-package}
-\alias{discord}
 \alias{discord-package}
+\alias{discord}
 \title{Functions for Discordant Kinship Modeling.}
 \description{
 Utilities and functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Also includes functions for generating genetically- and environmentally informed multivariate data for kin pairs.
@@ -31,14 +31,11 @@ install.packages('discord')
 devtools::install_github('smasongarrison/discord')
 }
 }
+\references{
+EJP
+}
 \author{
 \href{http://www.smasongarrison.com}{S. Mason Garrison} (Vanderbilt Univerisity)
 
 Maintainer: S. Mason Garrison <s.mason.garrison@gmail.com>
 }
-\references{
-test
-}
-\keyword{behavior}
-\keyword{genetics}
-

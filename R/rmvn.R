@@ -1,5 +1,5 @@
 #' rmvn
-#'
+#' @keywords internal
 #' @param n Sample Size
 #' @param sigma Covariance matrix
 #' @return Generates multivariate normal data from a covariance matrix (\code{sigma}) of length \code{n}

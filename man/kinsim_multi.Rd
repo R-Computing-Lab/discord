@@ -23,13 +23,21 @@ kinsim_multi(r_all = c(1, 0.5), npg_all = 500,
 
 \item{mu_list}{List of means by variable; default repeats \code{mu_all} for all variables}
 
-\item{r_vector}{Alternative, give vector of r cofficients for entire sample.
-@param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
-@param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
-@param  cov_a Shared variance for additive genetics (a); default is 1
-@param cov_c Shared variance for shared-environment (c); default is 1
-@param cov_e shared variance for non-shared-environment (e); default is 1
-@param model Moding type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.}
+\item{r_vector}{Alternative, give vector of r coefficients for entire sample.}
+
+\item{ace_all}{Vector of variance components for each generated variable; default is c(1,1,1).}
+
+\item{ace_list}{Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.}
+
+\item{cov_a}{Shared variance for additive genetics (a); default is 1}
+
+\item{cov_c}{Shared variance for shared-environment (c); default is 1}
+
+\item{cov_e}{shared variance for non-shared-environment (e); default is 1}
+
+\item{model}{Modeling type. Default is correlated factors model "Correlated"; alternative specification will be a "Cholesky" model, where variable 1 accounts for variance in variable 2.}
+
+\item{...}{further arguments passed to or from other methods}
 }
 \value{
 Returns \code{data.frame} with the following:
@@ -47,4 +55,3 @@ Returns \code{data.frame} with the following:
 \description{
 Generate paired multivariate data, given ACE parameters.
 }
-

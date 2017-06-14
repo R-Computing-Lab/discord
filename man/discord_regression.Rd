@@ -4,17 +4,36 @@
 \alias{discord_regression}
 \title{Discord Regression}
 \usage{
-discord_regression(doublentered = F, outcome = y, sep = "", scale = T,
-  df = NULL, id = NULL)
+discord_regression(df, outcome, predictors, sep = "_", mean = "mean",
+  diff = "diff", doubleentered = F, id = NULL, format_data = F,
+  scale = TRUE, ...)
 }
 \arguments{
-\item{x}{x}
+\item{df}{Dataframe with all variables in it.}
+
+\item{outcome}{Name of outcome variable.}
+
+\item{predictors}{list of predictors to be used (names will be expanded, expanded versions should exist in \code{df} unless format_data=T).}
+
+\item{sep}{The character in \code{df} that separates root outcome and predictors from mean and diff labels}
+
+\item{mean}{The string in \code{df} that designates the mean variable derived from outcome and predictor variables}
+
+\item{diff}{The string in \code{df} that designates the diff variable derived from outcome and predictor variables}
+
+\item{doubleentered}{Describes whether data are double entered. Default is FALSE. Only used if \code{format_data}=T.}
+
+\item{id}{id variable (optional). Only used if format_data=T.}
+
+\item{format_data}{If TRUE, runs \code{discord_data} function.}
+
+\item{scale}{If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1. Only used if format_data=T.}
+
+\item{...}{further arguments passed to or from other methods}
 }
 \value{
-Returns \code{data.frame} with the following:
-\item{X}{X}
+Returns \code{lm} of the formula: outcome ~ predictors
 }
 \description{
 Run discord analysis on discord data.
 }
-
