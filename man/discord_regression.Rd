@@ -5,7 +5,7 @@
 \title{Discord Regression}
 \usage{
 discord_regression(discord_data = T, outcome = y, predictors = NULL,
-  doublentered = F, sep = "", scale = T, df = NULL, id = NULL)
+  doubleentered = F, sep = "", scale = T, df = NULL, id = NULL, ...)
 }
 \arguments{
 \item{discord_data}{If TRUE, the run regression only. Else, restructure data into discord data, and then run regression.}
@@ -13,6 +13,8 @@ discord_regression(discord_data = T, outcome = y, predictors = NULL,
 \item{outcome}{Name of outcome variable}
 
 \item{predictors}{Names of predictors. Default is to use all variables in \code{df} that are not the outcome.}
+
+\item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
 
 \item{sep}{Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.}
 
@@ -22,13 +24,11 @@ discord_regression(discord_data = T, outcome = y, predictors = NULL,
 
 \item{id}{id variable (optional).}
 
-\item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
+\item{...}{Optional pass on additional inputs.}
 }
 \value{
-Returns \code{data.frame} with the following:
-\item{X}{X}
+Returns \code{data.frame}
 }
 \description{
 Run discord analysis on discord data.
 }
-

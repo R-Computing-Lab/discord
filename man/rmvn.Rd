@@ -17,4 +17,3 @@ Generates multivariate normal data from a covariance matrix (\code{sigma}) of le
 \description{
 rmvn
 }
-

@@ -25,7 +25,7 @@
 #' Maintainer: S. Mason Garrison <s.mason.garrison@gmail.com>
 #'
 #' @references test
-#' @keywords behavior genetics
+#' @keywords "behavior genetics"
 #' @examples
 #'
 #' library(discord) #Load the package into the current R session.

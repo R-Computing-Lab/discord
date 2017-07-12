@@ -7,13 +7,14 @@
 #' @param id id variable (optional).
 #' @param doubleentered  Describes whether data are double entered. Default is FALSE.
 #' @param sep Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.
+#' @param ... Optional pass on additional inputs.
 #' @param full If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.
 #' @return Returns \code{data.frame} with the following variables:
 #' \item{id}{id}
 #' \item{outcome_1}{outcome for kin1; kin1 is always greater than kin2, except when tied. Then kin1 is randomly selected from the pair}
 #' \item{outcome_2}{outcome for kin2}
-#'\item{outcome_diff}{difference between outcome of kin1 and kin2}
-#'\item{outcome_mean}{mean outcome for kin1 and kin2}
+#' \item{outcome_diff}{difference between outcome of kin1 and kin2}
+#' \item{outcome_mean}{mean outcome for kin1 and kin2}
 #' \item{predictor_i_1}{predictor variable i for kin1}
 #' \item{predictor_i_2}{predictor variable i for kin2}
 #'\item{predictor_i_diff}{difference between predictor i of kin1 and kin2}
@@ -23,12 +24,13 @@
 discord_data<- function(
                    outcome=y,
                    predictors=NULL,
-                   doublentered=F,
+                   doubleentered=F,
                    sep="",
                    scale=T,
                    df=NULL,
                    id=NULL,
-                   full=T){
+                   full=T,
+                   ...){
   arguments <- as.list(match.call())
 
   IVlist <- list()
@@ -44,7 +46,7 @@ discord_data<- function(
   if(is.null(predictors)){
   predictors<-setdiff(unique(gsub(paste0(sep,"1|",sep,"2"),"",names(df))),paste0(arguments$outcome))
   }
-  if(!doublentered){
+  if(!doubleentered){
     outcome2x<-outcome2
     outcome2<-c(outcome2[,1],outcome1[,1])
     outcome1<-c(outcome1[,1],outcome2x[,1])

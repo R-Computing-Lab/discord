@@ -19,6 +19,8 @@ kinsim1(r = c(1, 0.5), npg = 100, npergroup = rep(npg, length(r)),
 \item{ace}{Vector of variance components, ordered by c(a, c, e); default is c(1,1,1).}
 
 \item{r_vector}{Alternative, give vector of relatedness cofficients for entire sample.}
+
+\item{...}{Optional pass on additional inputs.}
 }
 \value{
 Returns \code{data.frame} with the following:
@@ -36,4 +38,3 @@ Returns \code{data.frame} with the following:
 \description{
 Generate paired univariate data, given ACE parameters.
 }
-

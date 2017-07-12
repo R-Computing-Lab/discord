@@ -4,16 +4,23 @@
 \alias{kinsim_multi}
 \title{Simulate Biometrically informed Multivariate Data}
 \usage{
-kinsim_multi(r_all = c(1, 0.5), npg_all = 500,
-  npergroup_all = rep(npg_all, length(r_all)), mu_all = 0, variables = 2,
-  mu_list = rep(mu_all, variables), r_vector = NULL, ace_all = c(1, 1, 1),
-  ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
-  cov_a = 1, cov_c = 1, cov_e = 1, model = "Correlated", ...)
+kinsim_multi(r_all = c(1, 0.5), npg_all = 500, reliability_all = NULL,
+  prop_var_explained_all = reliability_all^2, npergroup_all = rep(npg_all,
+  length(r_all)), mu_all = 0, variables = 2, mu_list = rep(mu_all,
+  variables), reliability_list = NULL,
+  prop_var_explained_list = rep(prop_var_explained_all, variables),
+  r_vector = NULL, ace_all = c(1, 1, 1), ace_list = matrix(rep(ace_all,
+  variables), byrow = TRUE, nrow = variables), cov_a = 0, cov_c = 0,
+  cov_e = 0, model = "Correlated", ...)
 }
 \arguments{
 \item{r_all}{Levels of relatedness; default is MZ and DZ twins c(1,.5).}
 
 \item{npg_all}{Sample size per group; default is 500.}
+
+\item{reliability_all}{Optional Additional error. Indicates correlation between True Y and Measured Y. Default is 1}
+
+\item{prop_var_explained_all}{Optional Additional error. Indicates proportion of variance explained in True Y from Measured Y. Default is \code{reliability_all}^2}
 
 \item{npergroup_all}{Vector of sample sizes by group; default repeats \code{npg_all} for all groups}
 
@@ -23,13 +30,25 @@ kinsim_multi(r_all = c(1, 0.5), npg_all = 500,
 
 \item{mu_list}{List of means by variable; default repeats \code{mu_all} for all variables}
 
-\item{r_vector}{Alternative, give vector of r cofficients for entire sample.
-@param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
-@param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
-@param  cov_a Shared variance for additive genetics (a); default is 1
-@param cov_c Shared variance for shared-environment (c); default is 1
-@param cov_e shared variance for non-shared-environment (e); default is 1
-@param model Moding type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.}
+\item{reliability_list}{Vector of Reliabilities for each generated variable; default is to repeat \code{reliability_all} for each variable}
+
+\item{prop_var_explained_list}{Vector of R^2 for each generated variable; default is to repeat \code{prop_var_explained_all} for each variable}
+
+\item{r_vector}{Alternative, give vector of r cofficients for entire sample.}
+
+\item{ace_all}{Vector of variance components for each generated variable; default is c(1,1,1).}
+
+\item{ace_list}{Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.}
+
+\item{cov_a}{Shared variance for additive genetics (a); default is 1}
+
+\item{cov_c}{Shared variance for shared-environment (c); default is 1}
+
+\item{cov_e}{shared variance for non-shared-environment (e); default is 1}
+
+\item{model}{Moding type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.}
+
+\item{...}{Optional pass on additional inputs.}
 }
 \value{
 Returns \code{data.frame} with the following:
@@ -47,4 +66,3 @@ Returns \code{data.frame} with the following:
 \description{
 Generate paired multivariate data, given ACE parameters.
 }
-

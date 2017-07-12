@@ -8,21 +8,22 @@
 #' @param id id variable (optional).
 #' @param sep Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.
 #' @param doubleentered  Describes whether data are double entered. Default is FALSE.
-
-#' @return Returns \code{data.frame} with the following:
-#' \item{X}{X}
+#' @param ... Optional pass on additional inputs.
+#'
+#' @return Returns \code{data.frame}
 
 discord_regression<- function(discord_data=T,
                               outcome=y,
                               predictors=NULL,
-                              doublentered=F,
+                              doubleentered=F,
                               sep="",
                               scale=T,
                               df=NULL,
-                              id=NULL
+                              id=NULL,
+                              ...
 ){
   if(!discord_data){
-   df<- discord_data(outcome=outcome,doublentered=doublentered,
+   df<- discord_data(outcome=outcome,doubleentered=doubleentered,
                  sep=sep,
                  scale=scale,
                  df=df,

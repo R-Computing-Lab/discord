@@ -6,6 +6,7 @@
 #' @param mu Mean for generated variable; default is 0.
 #' @param ace Vector of variance components, ordered by c(a, c, e); default is c(1,1,1).
 #' @param r_vector Alternative, give vector of relatedness cofficients for entire sample.
+#' @param ... Optional pass on additional inputs.
 #'
 #' @return Returns \code{data.frame} with the following:
 #' \item{id}{id}

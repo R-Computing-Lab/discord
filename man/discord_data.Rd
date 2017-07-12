@@ -4,13 +4,15 @@
 \alias{discord_data}
 \title{Restructure Data}
 \usage{
-discord_data(outcome = y, predictors = NULL, doublentered = F, sep = "",
-  scale = T, df = NULL, id = NULL, full = T)
+discord_data(outcome = y, predictors = NULL, doubleentered = F,
+  sep = "", scale = T, df = NULL, id = NULL, full = T, ...)
 }
 \arguments{
 \item{outcome}{Name of outcome variable}
 
 \item{predictors}{Names of predictors. Default is to use all variables in \code{df} that are not the outcome.}
+
+\item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
 
 \item{sep}{Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.}
 
@@ -22,7 +24,7 @@ discord_data(outcome = y, predictors = NULL, doublentered = F, sep = "",
 
 \item{full}{If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.}
 
-\item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
+\item{...}{Optional pass on additional inputs.}
 }
 \value{
 Returns \code{data.frame} with the following variables:
@@ -39,4 +41,3 @@ Returns \code{data.frame} with the following variables:
 \description{
 Restructure wide form data into analyzable data, sorted by outcome.
 }
-
