@@ -40,20 +40,20 @@ discord_data<- function(
   #create id if not supplied
   if(is.null(id))
   {
-    id<-rep(1:length(outcome1[,1]))
-
-}
+    id<-rep(1:length(outcome1[,1]))}
+  #If no predictors selected, grab all variables not listed as outcome, and contain sep 1 or sep 2
   if(is.null(predictors)){
-  predictors<-setdiff(unique(gsub(paste0(sep,"1|",sep,"2"),"",names(df))),paste0(arguments$outcome))
+predictors<-setdiff(unique(gsub(paste0(sep,"1|",sep,"2"),"",grep(paste0(sep,"1|",sep,"2"),names(df),value = TRUE))),paste0(arguments$outcome))
+#unpaired.predictors=setdiff(grep(paste0(sep,"1|",sep,"2"),names(df),value = TRUE,invert=TRUE),paste0(arguments$id))
   }
   if(!doubleentered){
     outcome2x<-outcome2
     outcome2<-c(outcome2[,1],outcome1[,1])
     outcome1<-c(outcome1[,1],outcome2x[,1])
-if(scale)
-{outcome1<-scale(outcome1)
-outcome2<-scale(outcome2)
-}
+  if(scale)
+  {outcome1<-scale(outcome1)
+  outcome2<-scale(outcome2)
+  }
     DV<-data.frame(outcome1,outcome2)
     DV$outcome_diff<- DV$outcome1-DV$outcome2
     DV$outcome_mean<-(DV$outcome1+DV$outcome2)/2
@@ -65,8 +65,8 @@ outcome2<-scale(outcome2)
     predictor2=subset(df, select=paste0(predictors[i],sep,"2"))
     predictor1<-c(predictor1[,1],predictor2[,1])
     predictor2<-c(predictor2[,1],predictor1x[,1])
-    if(scale)
-    {predictor1<-scale(predictor1)
+    if(scale){
+      predictor1<-scale(predictor1)
     predictor2<-scale(predictor2)
     }
     remove(predictor1x)
@@ -85,7 +85,7 @@ outcome2<-scale(outcome2)
     }
     DV<-data.frame(outcome1,outcome2)
     DV$outcome_diff<-NA
-    DV$outcome_diff<-DV$outcome1-DV$outcome2
+    DV$outcome_diff<- DV$outcome1-DV$outcome2
     DV$outcome_mean<-(DV$outcome1+DV$outcome2)/2
 
    # remove(outcome1);remove(outcome2x);remove(outcome2)
@@ -123,10 +123,9 @@ DV$ysort[DV$outcome_diff==0]<-c(select,abs(select-1))
  merged.data.frame <- merged.data.frame[order(merged.data.frame$id),]
  if(!full)
  {varskeep<-c("id",paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),paste0(predictors,"_diff"),paste0(predictors,"_mean"))
-
  merged.data.frame<-merged.data.frame[varskeep]
-
  }
+
   return(merged.data.frame)
 }
 

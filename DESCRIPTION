@@ -10,4 +10,4 @@ URL: https://github.com/smasongarrison/discord
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 6.0.1
-imports: stats as.formula lm rnorm sd
+imports: stats
