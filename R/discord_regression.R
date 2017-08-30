@@ -8,6 +8,7 @@
 #' @param id id variable (optional).
 #' @param sep Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.
 #' @param doubleentered  Describes whether data are double entered. Default is FALSE.
+#' @param additional_formula Optional string to add additional inputs to formula
 #' @param ... Optional pass on additional inputs.
 #'
 #' @return Returns \code{data.frame}
@@ -20,6 +21,7 @@ discord_regression<- function(discord_data=T,
                               scale=T,
                               df=NULL,
                               id=NULL,
+                              additional_formula=NULL,
                               ...
 ){
   if(!discord_data){
@@ -34,7 +36,10 @@ discord_regression<- function(discord_data=T,
   if(is.null(predictors)){
     predictors<-setdiff(unique(gsub("_1|_2|_diff|_mean|id","",names(df))),paste0(arguments$outcome))
   }
-  regression<-lm(as.formula(paste0(arguments$outcome,"_diff")," ~ ",cat(paste0(predictors,"_diff"), sep = " + "),cat(paste0(predictors,"_mean"), sep = " + ")," + ", paste0(arguments$outcome,"_mean")),data=df)
+  if(is.null(additional_formula)){
+    additional_formula=""
+  }
+  regression<-lm(as.formula(paste0(paste0(arguments$outcome,"_diff"," ~ "),paste0(predictors,'_diff+',collapse=""),paste0(predictors,'_mean+',collapse=""),arguments$outcome,"_mean",paste0(additional_formula))),data=df)
   print(summary(regression))
   return(regression)
 }
