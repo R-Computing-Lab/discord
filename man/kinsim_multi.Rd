@@ -46,7 +46,7 @@ kinsim_multi(r_all = c(1, 0.5), npg_all = 500, reliability_all = NULL,
 
 \item{cov_e}{shared variance for non-shared-environment (e); default is 1}
 
-\item{model}{Moding type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2.}
+\item{model}{Model type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2, is currently disabled.}
 
 \item{...}{Optional pass on additional inputs.}
 }

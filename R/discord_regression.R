@@ -1,5 +1,6 @@
 #' Discord Regression
 #' @description Run discord analysis on discord data.
+#' @importFrom stats lm as.formula
 #' @param discord_data If TRUE, the run regression only. Else, restructure data into discord data, and then run regression.
 #' @param outcome Name of outcome variable
 #' @param predictors Names of predictors. Default is to use all variables in \code{df} that are not the outcome.
@@ -14,7 +15,7 @@
 #' @return Returns \code{data.frame}
 
 discord_regression<- function(discord_data=T,
-                              outcome=y,
+                              outcome,
                               predictors=NULL,
                               doubleentered=F,
                               sep="",

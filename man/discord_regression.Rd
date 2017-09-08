@@ -4,8 +4,9 @@
 \alias{discord_regression}
 \title{Discord Regression}
 \usage{
-discord_regression(discord_data = T, outcome = y, predictors = NULL,
-  doubleentered = F, sep = "", scale = T, df = NULL, id = NULL, ...)
+discord_regression(discord_data = T, outcome, predictors = NULL,
+  doubleentered = F, sep = "", scale = T, df = NULL, id = NULL,
+  additional_formula = NULL, ...)
 }
 \arguments{
 \item{discord_data}{If TRUE, the run regression only. Else, restructure data into discord data, and then run regression.}
@@ -23,6 +24,8 @@ discord_regression(discord_data = T, outcome = y, predictors = NULL,
 \item{df}{Dataframe with all variables in it.}
 
 \item{id}{id variable (optional).}
+
+\item{additional_formula}{Optional string to add additional inputs to formula}
 
 \item{...}{Optional pass on additional inputs.}
 }

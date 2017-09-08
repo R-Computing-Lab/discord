@@ -1,5 +1,6 @@
 #' Restructure Data
 #' @description Restructure wide form data into analyzable data, sorted by outcome.
+
 #' @param outcome Name of outcome variable
 #' @param predictors Names of predictors. Default is to use all variables in \code{df} that are not the outcome.
 #' @param scale If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.
@@ -32,7 +33,7 @@ discord_data<- function(
   full=T,
   ...){
   arguments <- as.list(match.call())
-  
+  y <- ysort <- NULL
   IVlist <- list()
   outcome1=subset(df, select=paste0(arguments$outcome,sep,"1"))[,1]
   outcome2=subset(df, select=paste0(arguments$outcome,sep,"2"))[,1]
@@ -58,9 +59,9 @@ discord_data<- function(
     DV<-data.frame(outcome1,outcome2)
     DV$outcome_diff<- DV$outcome1-DV$outcome2
     DV$outcome_mean<-(DV$outcome1+DV$outcome2)/2
-    
+
     remove(outcome1);remove(outcome2x);remove(outcome2)
-    
+
     for(i in 1:length(predictors)){
       predictor1x= predictor1=subset(df, select=paste0(predictors[i],sep,"1"))[,1]
       predictor2=subset(df, select=paste0(predictors[i],sep,"2"))[,1]
@@ -76,7 +77,7 @@ discord_data<- function(
       IVi$predictor_mean<-(IVi$predictor1+IVi$predictor2)/2
       names(IVi)<-c(paste0(predictors[i],"_1"),paste0(predictors[i],"_2"),paste0(predictors[i],"_diff"),paste0(predictors[i],"_mean"))
       IVlist[[i]] <- IVi
-      
+
       names(IVlist)[i]<-paste0("")
     }
   }else{
@@ -91,7 +92,7 @@ discord_data<- function(
     DV$outcome_diff<- DV$outcome1-DV$outcome2
 
     DV$outcome_mean<-(DV$outcome1+DV$outcome2)/2
-    
+
     remove(outcome1);remove(outcome2)
     for(i in 1:length(predictors)){
       predictor1=subset(df, select=paste0(predictors[i],sep,"1"))[,1]
@@ -108,20 +109,20 @@ discord_data<- function(
       names(IVlist)[i]<-paste0("")
     }
   }
-  
+
   DV$id<-id
   DV$ysort<-0
   DV$ysort[DV$outcome_diff>0&!is.na(DV$outcome_diff)]<-1
 
   # randomly select for sorting on identical outcomes
-  
+
   if(length(unique(DV$id[DV$outcome_diff==0]))>0){
     select<-sample(c(0,1), replace=TRUE, size=length(unique(DV$id[DV$outcome_diff==0&!is.na(DV$outcome_diff)])))
     DV$ysort[DV$outcome_diff==0&!is.na(DV$outcome_diff)]<-c(select,abs(select-1))
   }
   DV$id<-NULL
   names(DV)<-c(paste0(arguments$outcome,"_1"),paste0(arguments$outcome,"_2"),paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),"ysort")
-  
+
   merged.data.frame =data.frame(IVlist)
   merged.data.frame =data.frame(id,DV,merged.data.frame)
   id<-NULL
@@ -132,7 +133,7 @@ discord_data<- function(
   {varskeep<-c("id",paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),paste0(predictors,"_diff"),paste0(predictors,"_mean"))
   merged.data.frame<-merged.data.frame[varskeep]
   }
-  
+
   return(merged.data.frame)
 }
 
