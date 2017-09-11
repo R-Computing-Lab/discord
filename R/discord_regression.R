@@ -25,6 +25,7 @@ discord_regression<- function(discord_data=T,
                               additional_formula=NULL,
                               ...
 ){
+  
   if(!discord_data){
    df<- discord_data(outcome=outcome,doubleentered=doubleentered,
                  sep=sep,

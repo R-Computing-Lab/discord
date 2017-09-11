@@ -10,5 +10,5 @@ URL: https://github.com/smasongarrison/discord
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 6.0.1
-imports: stats,base
-suggests: NLSYLinks
+imports: stats
+suggest: NLSYLinks
