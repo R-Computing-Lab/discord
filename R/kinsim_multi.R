@@ -1,4 +1,5 @@
 #' Simulate Biometrically informed Multivariate Data
+#' @export
 #' @description Generate paired multivariate data, given ACE parameters.
 #' @importFrom stats rnorm sd
 #' @param r_all Levels of relatedness; default is MZ and DZ twins c(1,.5).
@@ -7,6 +8,7 @@
 #' @param variables Number of variables to generate; default is 2. Currently, limited to max of two variables.
 #' @param mu_all Mean for each generated variable; default is 0.
 #' @param mu_list List of means by variable; default repeats \code{mu_all} for all variables
+<<<<<<< HEAD
 #' @param r_vector Alternative, give vector of r cofficients for entire sample.
 #' @param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
 #' @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
@@ -20,6 +22,16 @@
 #'@param cov_e shared variance for non-shared-environment (e); default is 1
 #'@param model Model type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2, is currently disabled.
 
+=======
+#' @param r_vector Alternative, give vector of r coefficients for entire sample.
+#' @param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
+#' @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
+#' @param cov_a Shared variance for additive genetics (a); default is 1
+#' @param cov_c Shared variance for shared-environment (c); default is 1
+#' @param cov_e shared variance for non-shared-environment (e); default is 1
+#' @param model Modeling type. Default is correlated factors model "Correlated"; alternative specification will be a "Cholesky" model, where variable 1 accounts for variance in variable 2.
+#' @param  ... further arguments passed to or from other methods
+>>>>>>> Cleaning
 #' @return Returns \code{data.frame} with the following:
 #' \item{Ai_1}{genetic component for variable i for kin1}
 #' \item{Ai_2}{genetic component for variable i for kin2}
@@ -42,6 +54,7 @@ kinsim_multi <- function(
   mu_all=0,
   variables=2,
   mu_list=rep(mu_all,variables),
+<<<<<<< HEAD
   reliability_list=NULL,
   prop_var_explained_list=rep(prop_var_explained_all,variables),
   r_vector=NULL, # alternative specification, give vector of rs
@@ -55,8 +68,22 @@ kinsim_multi <- function(
      mu=NULL
     sA <- ace_list[,1]^0.5; sC <- ace_list[,2]^0.5; sE <- ace_list[,3]^0.5
     S2 <- diag(4)*-1+1
+=======
+  r_vector=NULL, # alternative specification, give vector of rs
+  ace_all=c(1,1,1), # variance default
+  ace_list=matrix(rep(ace_all,variables),byrow=TRUE,nrow=variables),
+  cov_a=1, #default shared variance for genetics
+  cov_c=1, #default shared variance for c
+  cov_e=1, #default shared variance for e
+  model="Correlated",#"Cholesky", #modeling type
+  ...){
+
+  sA <- ace_list[,1]^0.5; sC <- ace_list[,2]^0.5; sE <- ace_list[,3]^0.5
+  S2 <- diag(4)*-1+1
+>>>>>>> Cleaning
 
   datalist <- list()
+  mu=r=NULL #fix R CMD error
   if(variables==1){
     data_v<-kinsim1(r=r_all,
                     npergroup=npergroup_all,	#
@@ -106,8 +133,7 @@ kinsim_multi <- function(
         E.r <- rmvn(n,sigma=sigma_e)
         E.r[,1:2]<- E.r[,1:2]*sE[1]; E.r[,3:4]<- E.r[,3:4]*sE[2]
 
-          y.r <-  A.r + C.r + E.r
-
+        y.r <-  A.r + C.r + E.r
 
         y.r[,1:2]<-y.r[,1:2]+mu_list[1]
         y.r[,3:4]<-y.r[,3:4]+mu_list[2]
@@ -156,10 +182,20 @@ kinsim_multi <- function(
       E.r <- rmvn(n,sigma=sigma_e)
       E.r[,1:2]<- E.r[,1:2]*sE[1]; E.r[,3:4]<- E.r[,3:4]*sE[2]
 
+<<<<<<< HEAD
 
         y.r <- A.r
         y.r[,1:2]<-A.r[,1:2]*ace_list[1,1] + C.r[,1:2]*ace_list[1,2] + E.r[,1:2]*ace_list[1,3]
       y.r[,3:4]<-A.r[,3:4]*ace_list[2,1] + C.r[,3:4]*ace_list[2,2] + E.r[,3:4]*ace_list[2,3]
+=======
+      #if(variance){
+   #     y.r <-  A.r + C.r + E.r
+    #  }else{
+        y.r <- A.r
+        y.r[,1:2]<-A.r[,1:2]*ace_list[1,1] + C.r[,1:2]*ace_list[1,2] + E.r[,1:2]*ace_list[1,3]
+        y.r[,3:4]<-A.r[,3:4]*ace_list[2,1] + C.r[,3:4]*ace_list[2,2] + E.r[,3:4]*ace_list[2,3]
+   #   }
+>>>>>>> Cleaning
       y.r[,1:2]<-y.r[,1:2]+mu_list[1]
       y.r[,3:4]<-y.r[,3:4]+mu_list[2]
       y.r <- mu + A.r + C.r + E.r
@@ -170,9 +206,14 @@ kinsim_multi <- function(
       datalist[[i]] <- data.r
       names(datalist)[i]<-paste0("datar",r_all[i])
       merged.data.frame = data.r
+<<<<<<< HEAD
 
 
   }else{
+=======
+    }
+  } else{
+>>>>>>> Cleaning
     stop(paste0("You have tried to generate data beyond the current limitations of this program. Model specification ",model," not recognized."))
   }
 

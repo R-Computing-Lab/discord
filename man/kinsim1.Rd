@@ -20,7 +20,11 @@ kinsim1(r = c(1, 0.5), npg = 100, npergroup = rep(npg, length(r)),
 
 \item{r_vector}{Alternative, give vector of relatedness cofficients for entire sample.}
 
+<<<<<<< HEAD
 \item{...}{Optional pass on additional inputs.}
+=======
+\item{...}{further arguments passed to or from other methods}
+>>>>>>> Cleaning
 }
 \value{
 Returns \code{data.frame} with the following:

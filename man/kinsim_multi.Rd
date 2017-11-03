@@ -30,11 +30,15 @@ kinsim_multi(r_all = c(1, 0.5), npg_all = 500, reliability_all = NULL,
 
 \item{mu_list}{List of means by variable; default repeats \code{mu_all} for all variables}
 
+<<<<<<< HEAD
 \item{reliability_list}{Vector of Reliabilities for each generated variable; default is to repeat \code{reliability_all} for each variable}
 
 \item{prop_var_explained_list}{Vector of R^2 for each generated variable; default is to repeat \code{prop_var_explained_all} for each variable}
 
 \item{r_vector}{Alternative, give vector of r cofficients for entire sample.}
+=======
+\item{r_vector}{Alternative, give vector of r coefficients for entire sample.}
+>>>>>>> Cleaning
 
 \item{ace_all}{Vector of variance components for each generated variable; default is c(1,1,1).}
 
@@ -46,9 +50,15 @@ kinsim_multi(r_all = c(1, 0.5), npg_all = 500, reliability_all = NULL,
 
 \item{cov_e}{shared variance for non-shared-environment (e); default is 1}
 
+<<<<<<< HEAD
 \item{model}{Model type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2, is currently disabled.}
 
 \item{...}{Optional pass on additional inputs.}
+=======
+\item{model}{Modeling type. Default is correlated factors model "Correlated"; alternative specification will be a "Cholesky" model, where variable 1 accounts for variance in variable 2.}
+
+\item{...}{further arguments passed to or from other methods}
+>>>>>>> Cleaning
 }
 \value{
 Returns \code{data.frame} with the following:

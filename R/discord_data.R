@@ -1,4 +1,5 @@
 #' Restructure Data
+#' @export
 #' @description Restructure wide form data into analyzable data, sorted by outcome.
 
 #' @param outcome Name of outcome variable
@@ -7,9 +8,16 @@
 #' @param df Dataframe with all variables in it.
 #' @param id id variable (optional).
 #' @param doubleentered  Describes whether data are double entered. Default is FALSE.
+<<<<<<< HEAD
 #' @param sep Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.
 #' @param ... Optional pass on additional inputs.
 #' @param full If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.
+=======
+#' @param full If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.
+#' @param predictors Names of predictors. Default is to use all variables in \code{df} that are not the outcome.
+#' @param sep The character in \code{df} that separates root outcome and predictors from mean and diff labelscharacter string to separate the names of the \code{predictors} and \code{outcome}s from kin identifier (1 or 2). Not \code{NA_character_}.
+#'
+>>>>>>> Cleaning
 #' @return Returns \code{data.frame} with the following variables:
 #' \item{id}{id}
 #' \item{outcome_1}{outcome for kin1; kin1 is always greater than kin2, except when tied. Then kin1 is randomly selected from the pair}
@@ -22,6 +30,7 @@
 #'\item{predictor_i_mean}{mean predictor i for kin1 and kin2}
 
 
+<<<<<<< HEAD
 discord_data<- function(
   outcome=y,
   predictors=NULL,
@@ -34,6 +43,21 @@ discord_data<- function(
   ...){
   arguments <- as.list(match.call())
   y <- ysort <- NULL
+=======
+discord_data<- function(doubleentered=F,
+                        outcome=NULL,
+                        predictors=NULL,
+                        sep="",
+                        scale=T,
+                        df=NULL,
+                        id=NULL,
+                        full=T
+){
+  arguments <- as.list(match.call())
+  outcome = as.character(outcome)
+  arguments$outcome <- outcome
+
+>>>>>>> Cleaning
   IVlist <- list()
   outcome1=subset(df, select=paste0(arguments$outcome,sep,"1"))[,1]
   outcome2=subset(df, select=paste0(arguments$outcome,sep,"2"))[,1]
@@ -41,19 +65,36 @@ discord_data<- function(
   #create id if not supplied
   if(is.null(id))
   {
+<<<<<<< HEAD
     id<-rep(1:length(outcome1[,1]))}
   #If no predictors selected, grab all variables not listed as outcome, and contain sep 1 or sep 2
   if(is.null(predictors)){
     predictors<-setdiff(unique(gsub(paste0(sep,"1|",sep,"2"),"",grep(paste0(sep,"1|",sep,"2"),names(df),value = TRUE))),paste0(arguments$outcome))
     #unpaired.predictors=setdiff(grep(paste0(sep,"1|",sep,"2"),names(df),value = TRUE,invert=TRUE),paste0(arguments$id))
   }
+=======
+    id<-rep(1:length(outcome1[,1]))
+  }
+  if(!is.null(predictors)){
+    predictors<-paste0(predictors)
+  }
+  if(is.null(predictors)){
+    predictors<-setdiff(unique(gsub(paste0(sep,"1|",sep,"2"),"",names(df))),paste0(arguments$outcome))
+  }
+
+>>>>>>> Cleaning
 
   if(!doubleentered){
     outcome2x<-outcome2
     outcome2<-c(outcome2[,1],outcome1[,1])
     outcome1<-c(outcome1[,1],outcome2x[,1])
+<<<<<<< HEAD
     if(scale&is.numeric(outcome1)){
       outcome1<-scale(outcome1)
+=======
+    if(scale)
+    {outcome1<-scale(outcome1)
+>>>>>>> Cleaning
     outcome2<-scale(outcome2)
     }
     DV<-data.frame(outcome1,outcome2)
@@ -63,6 +104,7 @@ discord_data<- function(
     remove(outcome1);remove(outcome2x);remove(outcome2)
 
     for(i in 1:length(predictors)){
+<<<<<<< HEAD
       predictor1x= predictor1=subset(df, select=paste0(predictors[i],sep,"1"))[,1]
       predictor2=subset(df, select=paste0(predictors[i],sep,"2"))[,1]
       predictor1<-c(predictor1[,1],predictor2[,1])
@@ -70,6 +112,15 @@ discord_data<- function(
       if(scale&is.numeric(predictor1)){
         predictor1<-scale(predictor1)
         predictor2<-scale(predictor2)
+=======
+      predictor1x= predictor1=subset(df, select=paste0(predictors[i],sep,"1"))
+      predictor2=subset(df, select=paste0(predictors[i],sep,"2"))
+      predictor1<-c(predictor1[,1],predictor2[,1])
+      predictor2<-c(predictor2[,1],predictor1x[,1])
+      if(scale)
+      {predictor1<-scale(predictor1)
+      predictor2<-scale(predictor2)
+>>>>>>> Cleaning
       }
       remove(predictor1x)
       IVi<-data.frame(predictor1,predictor2)
@@ -81,16 +132,24 @@ discord_data<- function(
       names(IVlist)[i]<-paste0("")
     }
   }else{
+<<<<<<< HEAD
     if(scale&is.numeric(outcome1))
+=======
+    if(scale)
+>>>>>>> Cleaning
     {outcome1<-scale(outcome1)
     outcome2<-scale(outcome2)
     }
     DV<-data.frame(outcome1,outcome2)
+<<<<<<< HEAD
    names(DV)
     DV$outcome_diff<-NA
 
     DV$outcome_diff<- DV$outcome1-DV$outcome2
 
+=======
+    DV$outcome_diff<-DV$outcome1-DV$outcome2
+>>>>>>> Cleaning
     DV$outcome_mean<-(DV$outcome1+DV$outcome2)/2
 
     remove(outcome1);remove(outcome2)
@@ -109,6 +168,7 @@ discord_data<- function(
       names(IVlist)[i]<-paste0("")
     }
   }
+<<<<<<< HEAD
 
   DV$id<-id
   DV$ysort<-0
@@ -119,21 +179,41 @@ discord_data<- function(
   if(length(unique(DV$id[DV$outcome_diff==0]))>0){
     select<-sample(c(0,1), replace=TRUE, size=length(unique(DV$id[DV$outcome_diff==0&!is.na(DV$outcome_diff)])))
     DV$ysort[DV$outcome_diff==0&!is.na(DV$outcome_diff)]<-c(select,abs(select-1))
+=======
+  DV$id<-id
+  DV$ysort<-0
+  DV$ysort[DV$outcome_diff>0]<-1
+  # randomly select for sorting on identical outcomes
+  if(length(unique(DV$id[DV$outcome_diff==0]))>0){
+    select<-sample(c(0,1), replace=TRUE, size=length(unique(DV$id[DV$outcome_diff==0])))
+    DV$ysort[DV$outcome_diff==0]<-c(select,abs(select-1))
+>>>>>>> Cleaning
   }
   DV$id<-NULL
   names(DV)<-c(paste0(arguments$outcome,"_1"),paste0(arguments$outcome,"_2"),paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),"ysort")
 
   merged.data.frame =data.frame(IVlist)
   merged.data.frame =data.frame(id,DV,merged.data.frame)
+<<<<<<< HEAD
   id<-NULL
+=======
+  id<-ysort<-NULL #appeases R CMD check
+>>>>>>> Cleaning
   merged.data.frame<-subset(merged.data.frame,ysort==1)
   merged.data.frame$ysort<-NULL
   merged.data.frame <- merged.data.frame[order(merged.data.frame$id),]
   if(!full)
   {varskeep<-c("id",paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),paste0(predictors,"_diff"),paste0(predictors,"_mean"))
+<<<<<<< HEAD
   merged.data.frame<-merged.data.frame[varskeep]
   }
 
+=======
+
+  merged.data.frame<-merged.data.frame[varskeep]
+
+  }
+>>>>>>> Cleaning
   return(merged.data.frame)
 }
 

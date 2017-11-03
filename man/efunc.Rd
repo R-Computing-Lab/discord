@@ -15,3 +15,7 @@ Replaces error message (\code{error}) with NA
 \description{
 Error Function
 }
+<<<<<<< HEAD
+=======
+\keyword{internal}
+>>>>>>> Cleaning
