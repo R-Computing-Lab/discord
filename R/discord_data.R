@@ -25,7 +25,7 @@
 #'\item{predictor_i_mean}{mean predictor i for kin1 and kin2}
 
 
-<<<<<<< HEAD
+
 discord_data<- function(
   outcome=y,
   predictors=NULL,
@@ -38,21 +38,7 @@ discord_data<- function(
   ...){
   arguments <- as.list(match.call())
   y <- ysort <- NULL
-=======
-discord_data<- function(doubleentered=F,
-                        outcome=NULL,
-                        predictors=NULL,
-                        sep="",
-                        scale=T,
-                        df=NULL,
-                        id=NULL,
-                        full=T
-){
-  arguments <- as.list(match.call())
-  outcome = as.character(outcome)
-  arguments$outcome <- outcome
 
->>>>>>> Cleaning
   IVlist <- list()
   outcome1=subset(df, select=paste0(arguments$outcome,sep,"1"))[,1]
   outcome2=subset(df, select=paste0(arguments$outcome,sep,"2"))[,1]
@@ -67,7 +53,6 @@ discord_data<- function(doubleentered=F,
     #unpaired.predictors=setdiff(grep(paste0(sep,"1|",sep,"2"),names(df),value = TRUE,invert=TRUE),paste0(arguments$id))
   }
 
->>>>>>> Cleaning
 
   if(!doubleentered){
     outcome2x<-outcome2
