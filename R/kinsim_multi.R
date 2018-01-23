@@ -43,7 +43,7 @@ kinsim_multi <- function(
   variables=2,
   mu_list=rep(mu_all,variables),
   reliability_list=NULL,
-  prop_var_explained_list=rep(prop_var_explained_all,variables),
+#  prop_var_explained_list=rep(prop_var_explained_all,variables),
   r_vector=NULL, # alternative specification, give vector of rs
   ace_all=c(1,1,1), # variance default
   ace_list=matrix(rep(ace_all,variables),byrow=TRUE,nrow=variables),
