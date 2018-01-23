@@ -36,14 +36,14 @@
 kinsim_multi <- function(
   r_all=c(1,.5),
   npg_all=500,
-  reliability_all=NULL,
-  prop_var_explained_all=reliability_all^2,
+#  reliability_all=NULL,
+ # prop_var_explained_all=reliability_all^2,
   npergroup_all=rep(npg_all,length(r_all)),
   mu_all=0,
   variables=2,
   mu_list=rep(mu_all,variables),
   reliability_list=NULL,
-#  prop_var_explained_list=rep(prop_var_explained_all,variables),
+ # prop_var_explained_list=rep(prop_var_explained_all,variables),
   r_vector=NULL, # alternative specification, give vector of rs
   ace_all=c(1,1,1), # variance default
   ace_list=matrix(rep(ace_all,variables),byrow=TRUE,nrow=variables),
@@ -176,24 +176,24 @@ kinsim_multi <- function(
     stop(paste0("You have tried to generate data beyond the current limitations of this program. Model specification ",model," not recognized."))
   }
   
-  if(prop_var_explained_list[1]!=1){
-    merged.data.frame$ytrue1_1= merged.data.frame$y1_1
-    merged.data.frame$ytrue1_2= merged.data.frame$y1_2
+#  if(prop_var_explained_list[1]!=1){
+#    merged.data.frame$ytrue1_1= merged.data.frame$y1_1
+ #   merged.data.frame$ytrue1_2= merged.data.frame$y1_2
     
-    merged.data.frame$y1_1= merged.data.frame$ytrue1_1*prop_var_explained_list[1]^.5+rnorm(length(merged.data.frame$ytrue1_1),sd=sd(merged.data.frame$ytrue1_1))*(1-prop_var_explained_list[1])^.5
+ #   merged.data.frame$y1_1= merged.data.frame$ytrue1_1*prop_var_explained_list[1]^.5+rnorm(length(merged.data.frame$ytrue1_1),sd=sd(merged.data.frame$ytrue1_1))*(1-prop_var_explained_list[1])^.5
     
-    merged.data.frame$y1_2= merged.data.frame$ytrue1_2*prop_var_explained_list[1]^.5+rnorm(length(merged.data.frame$ytrue1_2),sd=sd(merged.data.frame$ytrue1_2))*(1-prop_var_explained_list[1])^.5
+#    merged.data.frame$y1_2= merged.data.frame$ytrue1_2*prop_var_explained_list[1]^.5+rnorm(length(merged.data.frame$ytrue1_2),sd=sd(merged.data.frame$ytrue1_2))*(1-prop_var_explained_list[1])^.5
     
-  }
+ # }
   
-  if(variables==2&prop_var_explained_list[2]!=1){
-    merged.data.frame$ytrue2_1= merged.data.frame$y2_1
-    merged.data.frame$ytrue2_2= merged.data.frame$y2_2
+#  if(variables==2&prop_var_explained_list[2]!=1){
+#    merged.data.frame$ytrue2_1= merged.data.frame$y2_1
+#    merged.data.frame$ytrue2_2= merged.data.frame$y2_2
     
-    merged.data.frame$y2_1= merged.data.frame$ytrue2_1*prop_var_explained_list[2]^.5+rnorm(length(merged.data.frame$ytrue2_1),sd=sd(merged.data.frame$ytrue2_1))*(1-prop_var_explained_list[2])^.5
+ #   merged.data.frame$y2_1= merged.data.frame$ytrue2_1*prop_var_explained_list[2]^.5+rnorm(length(merged.data.frame$ytrue2_1),sd=sd(merged.data.frame$ytrue2_1))*(1-prop_var_explained_list[2])^.5
     
-    merged.data.frame$y2_2= merged.data.frame$ytrue2_2*prop_var_explained_list[2]^.5+rnorm(length(merged.data.frame$ytrue2_2),sd=sd(merged.data.frame$ytrue2_2))*(1-prop_var_explained_list[2])^.5
+ #   merged.data.frame$y2_2= merged.data.frame$ytrue2_2*prop_var_explained_list[2]^.5+rnorm(length(merged.data.frame$ytrue2_2),sd=sd(merged.data.frame$ytrue2_2))*(1-prop_var_explained_list[2])^.5
     
-  }
+ # }
   return(merged.data.frame)
 }
