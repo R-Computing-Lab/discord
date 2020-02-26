@@ -30,9 +30,12 @@ kinsim1 <- function(
   r_vector=NULL,
   ...){
 
-    sA <- ace[1]^0.5; sC <- ace[2]^0.5; sE <- ace[3]^0.5
+  sA <- ace[1]^0.5;
+  sC <- ace[2]^0.5;
+  sE <- ace[3]^0.5
 
-  S2 <- matrix(c(0,1,1,0),2)
+  S2 <- matrix(c(0,1,
+                 1,0),2)
   datalist <- list()
 
   if(is.null(r_vector)){

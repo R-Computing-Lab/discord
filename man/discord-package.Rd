@@ -32,19 +32,14 @@ devtools::install_github('smasongarrison/discord')
 }
 }
 \references{
-<<<<<<< HEAD
-test
-=======
-EJP
->>>>>>> Cleaning
 }
 \author{
 \href{http://www.smasongarrison.com}{S. Mason Garrison} (Vanderbilt Univerisity)
 
 Maintainer: S. Mason Garrison <s.mason.garrison@gmail.com>
 }
-<<<<<<< HEAD
+
 \keyword{"behavior}
 \keyword{genetics"}
-=======
->>>>>>> Cleaning
+
+
