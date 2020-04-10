@@ -4,28 +4,26 @@
 \alias{discord_data}
 \title{Restructure Data}
 \usage{
-<<<<<<< HEAD
-discord_data(outcome = y, predictors = NULL, doubleentered = F,
-  sep = "", scale = T, df = NULL, id = NULL, full = T, ...)
-=======
-discord_data(doubleentered = F, outcome = NULL, predictors = NULL,
-  sep = "", scale = T, df = NULL, id = NULL, full = T)
->>>>>>> Cleaning
+discord_data(
+  outcome = y,
+  predictors = NULL,
+  doubleentered = F,
+  sep = "",
+  scale = T,
+  df = NULL,
+  id = NULL,
+  full = T,
+  ...
+)
 }
 \arguments{
-\item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
-
 \item{outcome}{Name of outcome variable}
 
 \item{predictors}{Names of predictors. Default is to use all variables in \code{df} that are not the outcome.}
 
-<<<<<<< HEAD
 \item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
 
-\item{sep}{Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.}
-=======
-\item{sep}{The character in \code{df} that separates root outcome and predictors from mean and diff labelscharacter string to separate the names of the \code{predictors} and \code{outcome}s from kin identifier (1 or 2). Not \code{NA_character_}.}
->>>>>>> Cleaning
+\item{sep}{The character in \code{df} that separates root outcome and predictors from mean and diff labels character string to separate the names of the \code{predictors} and \code{outcome}s from kin identifier (1 or 2). Not \code{NA_character_}.}
 
 \item{scale}{If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.}
 
@@ -34,11 +32,8 @@ discord_data(doubleentered = F, outcome = NULL, predictors = NULL,
 \item{id}{id variable (optional).}
 
 \item{full}{If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.}
-<<<<<<< HEAD
 
 \item{...}{Optional pass on additional inputs.}
-=======
->>>>>>> Cleaning
 }
 \value{
 Returns \code{data.frame} with the following variables:

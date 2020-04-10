@@ -4,8 +4,15 @@
 \alias{kinsim1}
 \title{Simulate Biometrically informed Univariate Data}
 \usage{
-kinsim1(r = c(1, 0.5), npg = 100, npergroup = rep(npg, length(r)),
-  mu = 0, ace = c(1, 1, 1), r_vector = NULL, ...)
+kinsim1(
+  r = c(1, 0.5),
+  npg = 100,
+  npergroup = rep(npg, length(r)),
+  mu = 0,
+  ace = c(1, 1, 1),
+  r_vector = NULL,
+  ...
+)
 }
 \arguments{
 \item{r}{Levels of relatedness; default is MZ and DZ twins c(1,.5)}
@@ -20,11 +27,7 @@ kinsim1(r = c(1, 0.5), npg = 100, npergroup = rep(npg, length(r)),
 
 \item{r_vector}{Alternative, give vector of relatedness cofficients for entire sample.}
 
-<<<<<<< HEAD
 \item{...}{Optional pass on additional inputs.}
-=======
-\item{...}{further arguments passed to or from other methods}
->>>>>>> Cleaning
 }
 \value{
 Returns \code{data.frame} with the following:
