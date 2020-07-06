@@ -132,8 +132,7 @@ discord_data<- function(
   DV$id<-NULL
   names(DV)<-c(paste0(arguments$outcome,"_1"),paste0(arguments$outcome,"_2"),paste0(arguments$outcome,"_diff"),paste0(arguments$outcome,"_mean"),"ysort")
 
-  merged.data.frame =data.frame(IVlist)
-  merged.data.frame =data.frame(id,DV,merged.data.frame)
+  merged.data.frame =data.frame(id,DV,IVlist)
 
   id<-ysort<-NULL #appeases R CMD check
 
