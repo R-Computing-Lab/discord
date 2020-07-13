@@ -1,9 +1,9 @@
 #' Discord Regression
-#' 
+#'
 #' Function to apply discordant regression to discordant data.
-#' 
-#' @importFrom stats lm as.formula
-#' 
+#'
+#' @importFrom stats lm formula
+#'
 #' @param outcome Name of outcome variable
 #' @param predictors Names of predictors.
 #' @param df dataframe with all variables in it.
@@ -12,19 +12,19 @@
 #'
 #' @return Returns \code{lm}
 
-discord_regression<- function(df,# = test, #dataframe
-                       outcome,#="H40", outcome of interest
-                       predictor,#=c("H50","H51"), #predictors?
-                       more_args=NULL #optional
+discord_regression<- function(df,
+                       outcome,
+                       predictors,
+                       more_args=NULL
                        ) {
   #grab variables
   outcome_diff=paste0(outcome,"_diff")
   outcome_mean=paste0(outcome,"_mean")
-  predictor_diff=paste0(predictor,"_diff")
-  predictor_mean=paste0(predictor,"_mean")
+  predictors_diff=paste0(predictors,"_diff")
+  predictors_mean=paste0(predictors,"_mean")
 
   # create string of predictors to go on the right side of the formula
-  right_side=paste(c(outcome_mean, predictor_diff,predictor_mean,more_args),collapse= "+")
+  right_side=paste(c(outcome_mean, predictors_diff,predictors_mean,more_args),collapse= "+")
 
   discord_formula= formula(paste0(outcome_diff," ~ ", right_side))
 

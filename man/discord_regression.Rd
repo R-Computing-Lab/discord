@@ -4,43 +4,22 @@
 \alias{discord_regression}
 \title{Discord Regression}
 \usage{
-discord_regression(
-  discord_data = T,
-  outcome,
-  predictors = NULL,
-  doubleentered = F,
-  sep = "",
-  scale = T,
-  df = NULL,
-  id = NULL,
-  additional_formula = NULL,
-  ...
-)
+discord_regression(df, outcome, predictor, more_args = NULL)
 }
 \arguments{
-\item{discord_data}{If TRUE, the run regression only. Else, restructure data into discord data, and then run regression.}
+\item{df}{dataframe with all variables in it.}
 
 \item{outcome}{Name of outcome variable}
 
-\item{predictors}{Names of predictors. Default is to use all variables in \code{df} that are not the outcome.}
+\item{more_args}{Optional string to add additional inputs to formula}
 
-\item{doubleentered}{Describes whether data are double entered. Default is FALSE.}
-
-\item{sep}{Specify how naming of the kin variables is. Default is "", which outputs as \code{outcome}1 and \code{outcome}2.}
-
-\item{scale}{If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.}
-
-\item{df}{Dataframe with all variables in it.}
-
-\item{id}{id variable (optional).}
-
-\item{additional_formula}{Optional string to add additional inputs to formula}
+\item{predictors}{Names of predictors.}
 
 \item{...}{Optional pass on additional inputs.}
 }
 \value{
-Returns \code{data.frame}
+Returns \code{lm}
 }
 \description{
-Run discord analysis on discord data.
+Function to apply discordant regression to discordant data.
 }
