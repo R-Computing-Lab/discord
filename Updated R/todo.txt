@@ -1,0 +1,19 @@
+Mason todo
+
+Restructure the R package
+
+multiple pieces
+
+1) NLSY  link specific functions
+	a) data cleaning
+	b) within gen linking
+	c) between gen linking
+	d) long form and wide form
+
+2) generic discordant functions
+	a) discord data (pair data and make the V)
+	b) discord sort (sort on the outcome data)
+	c) discord lm (classic regression; between family analyses)
+	d) discord regression (within family analyses)
+
+3) simulation
