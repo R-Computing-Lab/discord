@@ -20,12 +20,11 @@ summary(
   )
 
 
-discord_lm <- function(df = test, #dataframe
-                       outcome="H40", #outcome of interest
-                       predictor=c("H50","H51"), #predictors?
-                       more_args=NULL
+discord_lm <- function(df,# = test, #dataframe
+                       outcome,#="H40", outcome of interest
+                       predictor,#=c("H50","H51"), #predictors?
+                       more_args=NULL #optional
                        ) {
-
   #grab variables
   outcome_diff=paste0(outcome,"_diff")
   outcome_mean=paste0(outcome,"_mean")
@@ -42,4 +41,4 @@ discord_lm <- function(df = test, #dataframe
   eval(bquote(lm( .(discord_formula),data=df)))
   }
 
-discord_lm()
+
