@@ -2,16 +2,7 @@
 #' @export
 #' @description Restructure wide form data into analyzable data, sorted by outcome.
 #'
-
-#' @param outcome Name of outcome variable
-#' @param predictors Names of predictors.
-#' @param df dataframe with all variables in it.
-#' @param scale If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.
-#' @param id id variable (optional).
-#' @param doubleentered  Describes whether data are double entered. Default is FALSE.
-#' @param ... Optional pass on additional inputs.
-#' @param full If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.
-#' @param sep The character in \code{df} that separates root outcome and predictors from mean and diff labels character string to separate the names of the \code{predictors} and \code{outcome}s from kin identifier (1 or 2). Not \code{NA_character_}.
+#' @inheritParams discord_data
 #'
 #' @return Returns \code{data.frame} with the following variables:
 #' \item{id}{id}
@@ -26,7 +17,7 @@
 
 
 
-discord_data<- function(
+discord_data2<- function(
   outcome,
   predictors=NULL,
   doubleentered=F,
