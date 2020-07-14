@@ -1,9 +1,9 @@
 #' Restructure Data
 #' @export
 #' @description Restructure wide form data into analyzable data, sorted by outcome.
-
+#'
+#' @inheritParams discord_regression
 #' @param outcome Name of outcome variable
-#' @param predictors Names of predictors. Default is to use all variables in \code{df} that are not the outcome.
 #' @param scale If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.
 #' @param df Dataframe with all variables in it.
 #' @param id id variable (optional).
