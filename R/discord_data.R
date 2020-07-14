@@ -10,7 +10,6 @@
 #' @param doubleentered  Describes whether data are double entered. Default is FALSE.
 #' @param ... Optional pass on additional inputs.
 #' @param full If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.
-#' @param predictors Names of predictors. Default is to use all variables in \code{df} that are not the outcome.
 #' @param sep The character in \code{df} that separates root outcome and predictors from mean and diff labels character string to separate the names of the \code{predictors} and \code{outcome}s from kin identifier (1 or 2). Not \code{NA_character_}.
 #'
 #' @return Returns \code{data.frame} with the following variables:
