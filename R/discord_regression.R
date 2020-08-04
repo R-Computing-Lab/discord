@@ -22,7 +22,7 @@ discord_regression<- function(df,
   predictors_diff=paste0(predictors,"_diff")
   predictors_mean=paste0(predictors,"_mean")
   # create string of predictors to go on the right side of the formula
-  right_side=paste(c(outcome_mean, predictors_diff,predictors_mean,more_args),collapse= "+")
+  right_side=paste(c(outcome_mean, predictors_diff,predictors_mean,additional_formula),collapse= "+")
 
   discord_formula= formula(paste0(outcome_diff," ~ ", right_side))
 
