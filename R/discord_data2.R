@@ -15,7 +15,7 @@
 #'\item{predictor_i_diff}{difference between predictor i of kin1 and kin2}
 #'\item{predictor_i_mean}{mean predictor i for kin1 and kin2}
 
-df <- read.csv("E:/Dropbox/Lab/zSoftware/Github/discord/hidden/dsDouble_G1.csv", stringsAsFactors=TRUE)
+#df <- read.csv("E:/Dropbox/Lab/zSoftware/Github/discord/hidden/dsDouble_G1.csv", stringsAsFactors=TRUE)
 
 discord_data2<- function(
   outcome="FLU_total",
@@ -88,17 +88,18 @@ df[predictors_diff] <- df[predictors_S1]-df[predictors_S2]
 df[predictors_mean] <- .5*df[predictors_S1]+.5*df[predictors_S2]
 
  # keep essential variables, and all means, diffs, and sib12s
-df_dx = select(df,
-                  all_of(vars_keep))
+df_dx = dplyr::select(df,
+                  dplyr::all_of(vars_keep))
 
 }
-
-if(doubleentered){
-  df_dx
-}
-
-  return(merged.data.frame)
-}
+#
+# if(doubleentered){
+#   df_dx
+# }
+#
+#   return(merged.data.frame)
+#
+# }
 
 
 
