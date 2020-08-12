@@ -4,7 +4,14 @@
 \alias{discord_regression}
 \title{Discord Regression}
 \usage{
-discord_regression(df, outcome, predictors, more_args = NULL)
+discord_regression(
+  df,
+  outcome,
+  predictors,
+  more_args = NULL,
+  additional_formula = more_args,
+  ...
+)
 }
 \arguments{
 \item{df}{dataframe with all variables in it.}
@@ -14,6 +21,8 @@ discord_regression(df, outcome, predictors, more_args = NULL)
 \item{predictors}{Names of predictors.}
 
 \item{more_args}{Optional string to add additional inputs to formula}
+
+\item{additional_formula}{Depreciated}
 
 \item{...}{Optional pass on additional inputs.}
 }

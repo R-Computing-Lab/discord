@@ -9,6 +9,10 @@ Description: Functions for discordant kinship modeling (and other sibling-based 
 URL: https://github.com/smasongarrison/discord
 License: GPL-3
 LazyData: TRUE
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.1.9000
 imports: stats
 suggest: NLSYLinks
+Encoding: UTF-8
+Depends: R (>= 2.10)
+Imports: 
+    dplyr
