@@ -15,8 +15,6 @@
 #'\item{predictor_i_diff}{difference between predictor i of kin1 and kin2}
 #'\item{predictor_i_mean}{mean predictor i for kin1 and kin2}
 
-#df <- read.csv("E:/Dropbox/Lab/zSoftware/Github/discord/hidden/dsDouble_G1.csv", stringsAsFactors=TRUE)
-
 discord_data2<- function(
   outcome="FLU_total",
   predictors=c("S00_H40","EDU_40"),#=NULL,
