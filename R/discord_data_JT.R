@@ -1,53 +1,3 @@
-#' Restructure Data
-#' @export
-#' @description Restructure wide form data into analyzable data, sorted by outcome.
-#'
-
-#' @param outcome Name of outcome variable
-#' @param predictors Names of predictors.
-#' @param df dataframe with all variables in it.
-#' @param scale If TRUE, rescale all variables at the individual level to have a mean of 0 and a SD of 1.
-#' @param id id variable (optional).
-#' @param doubleentered  Describes whether data are double entered. Default is FALSE.
-#' @param ... Optional pass on additional inputs.
-#' @param full If TRUE, returns kin1 and kin2 scores in addition to diff and mean scores. If FALSE, only returns diff and mean scores.
-#' @param sep The character in \code{df} that separates root outcome and predictors from mean and diff labels character string to separate the names of the \code{predictors} and \code{outcome}s from kin identifier (1 or 2). Not \code{NA_character_}.
-#'
-#' @return Returns \code{data.frame} with the following variables:
-#' \item{id}{id}
-#' \item{outcome_1}{outcome for kin1; kin1 is always greater than kin2, except when tied. Then kin1 is randomly selected from the pair}
-#' \item{outcome_2}{outcome for kin2}
-#' \item{outcome_diff}{difference between outcome of kin1 and kin2}
-#' \item{outcome_mean}{mean outcome for kin1 and kin2}
-#' \item{predictor_i_1}{predictor variable i for kin1}
-#' \item{predictor_i_2}{predictor variable i for kin2}
-#'\item{predictor_i_diff}{difference between predictor i of kin1 and kin2}
-#'\item{predictor_i_mean}{mean predictor i for kin1 and kin2}
-
-
-
-discord_data_JT <- function(
-  outcome,
-  predictors=NULL,
-  doubleentered=F,
-  sep="",
-  scale=T,
-  df=NULL,
-  id=NULL,
-  full=T,
-  ...){
-
-
-}
-
-
-
-
-
-
-
-
-
 #' Add a difference and mean column
 #'
 #' This function takes in a dataframe from the
@@ -74,7 +24,6 @@ discord_data_JT <- function(
 #'
 #' @importFrom rlang .data
 #' @importFrom rlang :=
-#' @importFrom magrittr %>%
 #' @export
 #'
 #' @examples
@@ -168,9 +117,14 @@ makeMeanDiffs <- function(data, id, sex, race, variable, row) {
 #' @examples
 #'
 #' # Get unique ExtendedIDs and join with the sampleData dataframe.
-#' uniqueExtendedIDs <- sampleData %>% count(ExtendedID) %>% filter(n == 1) %>% select(-n) %>% left_join(sampleData)
+#' uniqueExtendedIDs <- sampleData %>%
+#' dplyr::count(ExtendedID) %>%
+#' dplyr::filter(n == 1) %>%
+#' dplyr::select(-n) %>%
+#' dplyr::left_join(sampleData)
 #'
-#' discordData(data = uniqueExtendedIDs, variables = c("FLU_2008", "edu_2008", "tnfi_2008"),
+#' discordData(data = uniqueExtendedIDs,
+#' variables = c("FLU_2008", "edu_2008", "tnfi_2008"),
 #' id = "ExtendedID", sex = "SEX", race = "RACE")
 #'
 discordData <- function(data, variables, id, sex, race) {
@@ -186,4 +140,47 @@ discordData <- function(data, variables, id, sex, race) {
 
 }
 
+#' Perform a Linear Regression within the Discordant Kinship Framework
+#'
+#' @param preppedData The output of \code{\link{discordData}}.
+#' @param outcome A character string containing the outcome variable of
+#'   interest.
+#' @param predictors A character vector containing the column names for
+#'   predicting the outcome.
+#'
+#' @return A tidy dataframe containing the model metrics via the
+#'   \link[broom]{tidy} function.
+#' @export
+#'
+#' @examples
+#'
+#' uniqueExtendedIDs <- sampleData %>%
+#' dplyr::count(ExtendedID) %>%
+#' dplyr::filter(n == 1) %>%
+#' dplyr::select(-n) %>%
+#' dplyr::left_join(sampleData)
+#' test <- discordData(data = uniqueExtendedIDs,
+#' variables = c("FLU_2008", "edu_2008", "tnfi_2008"),
+#' id = "ExtendedID", sex = "SEX", race = "RACE")
+#' fitModel <-
+#' discordRegression(preppedData = test, outcome = "FLU_2008",
+#' predictors = c("edu_2008", "tnfi_2008"))
+discordRegression <- function(preppedData, outcome, predictors) {
 
+  # if necessary, convert to lower case
+  outcome <- base::tolower(outcome)
+
+  realOutcome <- base::paste0(outcome, "_diff")
+  predOutcome <- base::paste0(outcome, "_mean")
+  pred_diff <- base::paste0(predictors, "_diff", collapse = " + ")
+  pred_mean <- base::paste0(predictors, "_mean", collapse = " + ")
+
+  preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean)
+
+  model <- stats::lm(stats::as.formula(paste(realOutcome, preds, sep = " ~ ")), data = preppedData)
+
+  output <- model %>% broom::tidy()
+
+  return(output)
+
+}

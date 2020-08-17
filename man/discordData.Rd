@@ -27,3 +27,17 @@ and mean of their scores for different variables.
 This function takes in the data and transforms it into a format where a
 discord regression can be performed.
 }
+\examples{
+
+# Get unique ExtendedIDs and join with the sampleData dataframe.
+uniqueExtendedIDs <- sampleData \%>\%
+dplyr::count(ExtendedID) \%>\%
+dplyr::filter(n == 1) \%>\%
+dplyr::select(-n) \%>\%
+dplyr::left_join(sampleData)
+
+discordData(data = uniqueExtendedIDs,
+variables = c("FLU_2008", "edu_2008", "tnfi_2008"),
+id = "ExtendedID", sex = "SEX", race = "RACE")
+
+}

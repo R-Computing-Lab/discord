@@ -20,4 +20,6 @@ Imports:
     purrr,
     magrittr,
     rlang,
-    janitor
+    janitor,
+    stats,
+    broom
