@@ -1,3 +1,12 @@
+
+
+checkSiblingOrder <- function(data, outcome) {
+
+
+}
+
+
+
 #' Add a difference and mean column
 #'
 #' This function takes in a dataframe from the
@@ -103,7 +112,7 @@ makeMeanDiffs <- function(data, id, sex, race, variable, row) {
 #' @param variables A character vector of variables to transform.
 #' @param id The extended family pair ID from
 #'   \link[Nlsylinks]{CreatePairLinksDoubleEntered}. Should be a character
-#'   vector.
+#'   string.
 #' @param sex The character string for the sex column name.
 #' @param race The character string for the race column name.
 #'
@@ -147,6 +156,11 @@ discordData <- function(data, variables, id, sex, race) {
 #'   interest.
 #' @param predictors A character vector containing the column names for
 #'   predicting the outcome.
+#' @param id The extended family pair ID from
+#'   \link[Nlsylinks]{CreatePairLinksDoubleEntered}. Should be a character
+#'   string.
+#' @param sex The character string for the sex column name.
+#' @param race The character string for the race column name.
 #'
 #' @return A tidy dataframe containing the model metrics via the
 #'   \link[broom]{tidy} function.
@@ -165,7 +179,7 @@ discordData <- function(data, variables, id, sex, race) {
 #' fitModel <-
 #' discordRegression(preppedData = test, outcome = "FLU_2008",
 #' predictors = c("edu_2008", "tnfi_2008"))
-discordRegression <- function(preppedData, outcome, predictors) {
+discordRegression <- function(preppedData, outcome, predictors, id = "ExtendedID", race = "RACE", sex = "SEX") {
 
   # if necessary, convert to lower case
   outcome <- base::tolower(outcome)
@@ -184,3 +198,4 @@ discordRegression <- function(preppedData, outcome, predictors) {
   return(output)
 
 }
+
