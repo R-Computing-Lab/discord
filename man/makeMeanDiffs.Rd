@@ -7,7 +7,7 @@
 makeMeanDiffs(data, id, sex, race, variable, row)
 }
 \arguments{
-\item{data}{The output of \link[Nlsylinks]{CreatePairLinksDoubleEntered}.}
+\item{data}{The output of \code{\link{checkSiblingOrder}}.}
 
 \item{id}{The extended family pair ID from
 \link[Nlsylinks]{CreatePairLinksDoubleEntered}. Should be a character
@@ -30,15 +30,8 @@ This function returns a dataframe with four columns and one row. The
   the pairs' sex and race.
 }
 \description{
-This function takes in a dataframe from the
-\link[Nlsylinks]{CreatePairLinksDoubleEntered} function. It also takes in a
-variable name and row number. It computes the difference between the two
-family members for a given variable and their mean.
-}
-\examples{
-
-makeMeanDiffs(data = sampleData, id = "ExtendedID",
-sex = "SEX", race = "RACE",
-variable = "edu_2008", row = 1)
-
+This function takes in a dataframe from the \code{\link{checkSiblingOrder}}
+function. It also takes in a variable name and row number. It computes the
+difference between the two family members for a given variable and their
+mean.
 }
