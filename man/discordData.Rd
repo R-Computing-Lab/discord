@@ -4,16 +4,27 @@
 \alias{discordData}
 \title{Prepare data for regression analysis}
 \usage{
-discordData(data, variables, id, sex, race)
+discordData(
+  data,
+  outcome,
+  predictors,
+  id = "extended_id",
+  sex = "sex",
+  race = "race"
+)
 }
 \arguments{
-\item{data}{The output of \link[Nlsylinks]{CreatePairLinksDoubleEntered}.}
+\item{data}{The output of \code{\link{checkSiblingOrder}}.}
 
-\item{variables}{A character vector of variables to transform.}
+\item{outcome}{A character string containing the outcome variable of
+interest.}
+
+\item{predictors}{A character vector containing the column names for
+predicting the outcome.}
 
 \item{id}{The extended family pair ID from
 \link[Nlsylinks]{CreatePairLinksDoubleEntered}. Should be a character
-vector.}
+string.}
 
 \item{sex}{The character string for the sex column name.}
 
@@ -24,20 +35,20 @@ A data frame that contains one row for each family pair and the difference
 and mean of their scores for different variables.
 }
 \description{
-This function takes in the data and transforms it into a format where a
-discord regression can be performed.
+This function takes in the data, outcome, and predictors, and transforms it
+into a format where a discord regression can be performed.
 }
 \examples{
 
 # Get unique ExtendedIDs and join with the sampleData dataframe.
 uniqueExtendedIDs <- sampleData \%>\%
-dplyr::count(ExtendedID) \%>\%
+dplyr::count(extended_id) \%>\%
 dplyr::filter(n == 1) \%>\%
 dplyr::select(-n) \%>\%
 dplyr::left_join(sampleData)
 
-discordData(data = uniqueExtendedIDs,
-variables = c("FLU_2008", "edu_2008", "tnfi_2008"),
-id = "ExtendedID", sex = "SEX", race = "RACE")
+discord:::discordData(data = uniqueExtendedIDs, outcome = "flu_2008",
+predictors = c("edu_2008", "tnfi_2008"),
+id = "extended_id", sex = "sex", race = "race")
 
 }
