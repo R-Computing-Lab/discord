@@ -4,32 +4,16 @@
 \alias{discordRegression}
 \title{Perform a Linear Regression within the Discordant Kinship Framework}
 \usage{
-discordRegression(
-  data,
-  outcome,
-  predictors,
-  id = "extended_id",
-  sex = "sex",
-  race = "race"
-)
+discordRegression(preppedData, outcome, predictors)
 }
 \arguments{
+\item{preppedData}{The output of \code{\link{discordData}}.}
+
 \item{outcome}{A character string containing the outcome variable of
 interest.}
 
 \item{predictors}{A character vector containing the column names for
 predicting the outcome.}
-
-\item{id}{The extended family pair ID from
-\link[Nlsylinks]{CreatePairLinksDoubleEntered}. Should be a character
-string.}
-
-\item{sex}{The character string for the sex column name.}
-
-\item{race}{The character string for the race column name.}
-
-\item{preppedData}{The output of
-\link[Nlsylinks]{CreatePairLinksDoubleEntered}.}
 }
 \value{
 A tidy dataframe containing the model metrics via the
@@ -41,12 +25,14 @@ Perform a Linear Regression within the Discordant Kinship Framework
 \examples{
 
 uniqueExtendedIDs <- sampleData \%>\%
-dplyr::count(extended_id) \%>\%
+dplyr::count(ExtendedID) \%>\%
 dplyr::filter(n == 1) \%>\%
 dplyr::select(-n) \%>\%
 dplyr::left_join(sampleData)
-
-fitModel <- discordRegression(data = uniqueExtendedIDs, outcome = "flu_2008",
+test <- discordData(data = uniqueExtendedIDs,
+variables = c("FLU_2008", "edu_2008", "tnfi_2008"),
+id = "ExtendedID", sex = "SEX", race = "RACE")
+fitModel <-
+discordRegression(preppedData = test, outcome = "FLU_2008",
 predictors = c("edu_2008", "tnfi_2008"))
-
 }
