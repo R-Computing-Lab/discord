@@ -208,8 +208,8 @@ discordData <- function(data, outcome, predictors, id = "extended_id", sex = "se
 
 #' Perform a Linear Regression within the Discordant Kinship Framework
 #'
-#' @param preppedData The output of
-#'   \link[Nlsylinks]{CreatePairLinksDoubleEntered}.
+#' @param data The output of
+#'   \link[Nlsylinks]{CreatePairLinksSingleEntered}.
 #' @param outcome A character string containing the outcome variable of
 #'   interest.
 #' @param predictors A character vector containing the column names for

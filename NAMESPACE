@@ -2,6 +2,7 @@
 
 export("%>%")
 export(discordRegression)
+export(discordRegressionUpdating)
 export(discord_data)
 export(discord_data2)
 importFrom(magrittr,"%>%")

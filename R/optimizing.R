@@ -164,6 +164,37 @@ discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", s
 
 }
 
+
+
+
+#' Perform a Linear Regression within the Discordant Kinship Framework - Optimized
+#'
+#' @param data The output of
+#'   \link[Nlsylinks]{CreatePairLinksSingleEntered}.
+#' @param outcome A character string containing the outcome variable of
+#'   interest.
+#' @param predictors A character vector containing the column names for
+#'   predicting the outcome.
+#' @param id The extended family pair ID from
+#'   \link[Nlsylinks]{CreatePairLinksDoubleEntered}. Should be a character
+#'   string.
+#' @param sex The character string for the sex column name.
+#' @param race The character string for the race column name.
+#'
+#' @return A tidy dataframe containing the model metrics via the
+#'   \link[broom]{tidy} function.
+#' @export
+#'
+#' @examples
+#'
+#' uniqueExtendedIDs <- sampleData %>%
+#' dplyr::count(extended_id) %>%
+#' dplyr::filter(n == 1) %>%
+#' dplyr::select(-n) %>%
+#' dplyr::left_join(sampleData)
+#'
+#' fitModel <- discordRegression(data = uniqueExtendedIDs, outcome = "flu_2008",
+#' predictors = c("edu_2008", "tnfi_2008"))
 discordRegressionUpdating <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race") {
 
   preppedData <- discordDataUpdating(data = data, outcome = outcome, predictors = predictors, id = id, sex = sex, race = race)
