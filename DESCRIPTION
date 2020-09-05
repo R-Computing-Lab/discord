@@ -22,4 +22,5 @@ Imports:
     rlang,
     janitor,
     stats,
-    broom
+    broom,
+    data.table
