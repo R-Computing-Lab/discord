@@ -18,21 +18,22 @@ checkSiblingOrder <- function(data, outcome, row) {
   S1 <- base::paste0(outcome, "_s1")
   S2 <- base::paste0(outcome, "_s2")
 
-  data <- data[row,]
+  data <- data %>% dplyr::slice(row)
 
-  #select the S1 and S2 columns with base syntax
-  #and using transform (base version of mutate) to add the order
-  if (data[, S1] > data[, S2]) {
+  if (data %>% dplyr::select(.data[[S1]]) > data %>% dplyr::select(.data[[S2]])) {
 
-    output <- base::transform(data, order = "s1")
+    output <- data %>%
+      dplyr::mutate(order = "s1")
 
-  } else if (data[, S1] < data[, S2]) {
+  } else if (data %>% dplyr::select(.data[[S1]]) < data %>% dplyr::select(.data[[S2]])) {
 
-    output <- base::transform(data, order = "s2")
+    output <- data %>%
+      dplyr::mutate(order = "s2")
 
-  } else if (data[, S1] == data[, S2]) {
+  } else if (data %>% dplyr::select(.data[[S1]]) == data %>% dplyr::select(.data[[S2]])) {
 
-    output <- base::transform(data, order = "either")
+    output <- data %>%
+      dplyr::mutate(order = "either")
 
   }
 
@@ -75,10 +76,9 @@ makeMeanDiffs <- function(data, id, sex, race, variable, row) {
   raceS1 <- base::paste0(race, "_s1")
   raceS2 <- base::paste0(race, "_s2")
 
-  data <- data[row,]
-  order <- data$order
+  data <- data %>% dplyr::slice(row)
 
-  if (order == "s1") {
+  if (data %>% dplyr::select(.data$order) == "s1") {
 
     output <- data %>%
       dplyr::select(.data[[id]],
@@ -92,7 +92,7 @@ makeMeanDiffs <- function(data, id, sex, race, variable, row) {
                     "{{variable}}_2" := .data[[S2]],
                     dplyr::everything())
 
-  } else if (order == "s2") {
+  } else if (data %>% dplyr::select(.data$order) == "s2") {
 
     output <- data %>%
       dplyr::select(.data[[id]],
@@ -106,7 +106,7 @@ makeMeanDiffs <- function(data, id, sex, race, variable, row) {
                     "{{variable}}_2" := .data[[S1]],
                     dplyr::everything())
 
-  } else if (order == "either") {
+  } else if (data %>% dplyr::select(.data$order) == "either") {
 
     p <- stats::rbinom(1,1,0.5)
 
@@ -142,8 +142,8 @@ makeMeanDiffs <- function(data, id, sex, race, variable, row) {
 
   }
 
-  # output <- output %>%
-  #   janitor::clean_names()
+  output <- output %>%
+    janitor::clean_names()
 
   return(output)
 
@@ -208,8 +208,8 @@ discordData <- function(data, outcome, predictors, id = "extended_id", sex = "se
 
 #' Perform a Linear Regression within the Discordant Kinship Framework
 #'
-#' @param data The output of
-#'   \link[Nlsylinks]{CreatePairLinksSingleEntered}.
+#' @param preppedData The output of
+#'   \link[Nlsylinks]{CreatePairLinksDoubleEntered}.
 #' @param outcome A character string containing the outcome variable of
 #'   interest.
 #' @param predictors A character vector containing the column names for
@@ -237,8 +237,7 @@ discordData <- function(data, outcome, predictors, id = "extended_id", sex = "se
 #'
 discordRegression <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race") {
 
-  preppedData <- discordData(data = data, outcome = outcome, predictors = predictors, id = id, sex = sex, race = race) %>%
-    janitor::clean_names()
+  preppedData <- discordData(data = data, outcome = outcome, predictors = predictors, id = id, sex = sex, race = race)
 
   # Run the discord regression
   realOutcome <- base::paste0(outcome, "_diff")
@@ -255,4 +254,3 @@ discordRegression <- function(data, outcome, predictors, id = "extended_id", sex
   return(output)
 
 }
-
