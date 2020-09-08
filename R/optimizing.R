@@ -43,20 +43,12 @@ checkSiblingOrderUpdating <- function(data, outcome, row) {
 }
 
 makeMeanDiffsUpdating <- function(data, id, sex, race, variable, row) {
-
   S1 <- base::paste0(variable, "_s1")
   S2 <- base::paste0(variable, "_s2")
   sexS1 <- base::paste0(sex, "_s1")
   sexS2 <- base::paste0(sex, "_s2")
   raceS1 <- base::paste0(race, "_s1")
   raceS2 <- base::paste0(race, "_s2")
-
-  # # convert into data table df and quote columns
-  # data <- as.data.table(data)
-  # id <- quote(id)
-  # sex <- quote(sex)
-  # race <- quote(race)
-  # variable <- quote(variable)
 
   data <- data[row,]
 
@@ -65,44 +57,36 @@ makeMeanDiffsUpdating <- function(data, id, sex, race, variable, row) {
     diff <- data[[S1]] - data[[S2]]
     mean <- base::mean(c(data[[S1]], data[[S2]]))
 
-    output <- data %>%
-      dplyr::transmute(id = .data[[id]],
-             "{{variable}}_1" := data[[S1]],
-             "{{variable}}_2" := data[[S2]],
-             "{{variable}}_diff" := diff,
-             "{{variable}}_mean" := mean)
-    # output <- data[row, .(id, S1, S2)] #%>%
-      # .[row, paste0(eval(variable), "_diff") := S1 - S2] %>%
-      # .[row, paste0(eval(variable), "_mean") := rowMeans(S1, S2)]
+    output <- data.frame(id = data[[id]],
+                         variable_1 = data[[S1]],
+                         variable_2 = data[[S2]],
+                         variable_diff = diff,
+                         variable_mean = mean)
 
-    # setcolorder(output, neworder = c(eval(id), eval(S1), eval(S2)))
-    # setnames(output, old = eval(S1), new = paste0(eval(variable), "_1"))
-    # setnames(output, old = eval(S2), new = paste0(eval(variable), "_2"))
+    names(output) <- c("id",
+                       paste0(variable, "_1"),
+                       paste0(variable, "_2"),
+                       paste0(variable, "_diff"),
+                       paste0(variable, "_mean"))
+
 
   } else if (data[, "order"] == "s2") {
 
     diff <- data[[S2]] - data[[S1]]
-    mean <- base::mean(c(data[[S2]], data[[S1]]))
+    mean <- base::mean(c(data[[S1]], data[[S2]]))
 
-    output <- data %>%
-      dplyr::transmute(id = .data[[id]],
-             "{{variable}}_1" := data[[S2]],
-             "{{variable}}_2" := data[[S1]],
-             "{{variable}}_diff" := diff,
-             "{{variable}}_mean" := mean)
+    output <- data.frame(id = data[[id]],
+                         variable_1 = data[[S2]],
+                         variable_2 = data[[S1]],
+                         variable_diff = diff,
+                         variable_mean = mean)
 
+    names(output) <- c("id",
+                       paste0(variable, "_1"),
+                       paste0(variable, "_2"),
+                       paste0(variable, "_diff"),
+                       paste0(variable, "_mean"))
 
-    # output <- data %>%
-    #   dplyr::select(.data[[id]],
-    #                 dplyr::contains({{variable}})) %>%
-    #   dplyr::mutate("{{variable}}_diff" := .data[[S2]] - .data[[S1]]) %>%
-    #   dplyr::rowwise() %>%
-    #   dplyr::mutate("{{variable}}_mean" := base::mean(c(.data[[S1]], .data[[S2]]))) %>%
-    #   dplyr::ungroup() %>%
-    #   dplyr::select(id = .data[[id]],
-    #                 "{{variable}}_1" := .data[[S2]],
-    #                 "{{variable}}_2" := .data[[S1]],
-    #                 dplyr::everything())
 
   } else if (data[, "order"] == "either") {
 
@@ -113,24 +97,34 @@ makeMeanDiffsUpdating <- function(data, id, sex, race, variable, row) {
       diff <- data[[S1]] - data[[S2]]
       mean <- base::mean(c(data[[S1]], data[[S2]]))
 
-      output <- data %>%
-        dplyr::transmute(id = .data[[id]],
-               "{{variable}}_1" := data[[S1]],
-               "{{variable}}_2" := data[[S2]],
-               "{{variable}}_diff" := diff,
-               "{{variable}}_mean" := mean)
+      output <- data.frame(id = data[[id]],
+                           variable_1 = data[[S1]],
+                           variable_2 = data[[S2]],
+                           variable_diff = diff,
+                           variable_mean = mean)
+
+      names(output) <- c("id",
+                         paste0(variable, "_1"),
+                         paste0(variable, "_2"),
+                         paste0(variable, "_diff"),
+                         paste0(variable, "_mean"))
 
     } else if (!p) {
 
       diff <- data[[S2]] - data[[S1]]
-      mean <- base::mean(c(data[[S2]], data[[S1]]))
+      mean <- base::mean(c(data[[S1]], data[[S2]]))
 
-      output <- data %>%
-        dplyr::transmute(id = .data[[id]],
-               "{{variable}}_1" := data[[S2]],
-               "{{variable}}_2" := data[[S1]],
-               "{{variable}}_diff" := diff,
-               "{{variable}}_mean" := mean)
+      output <- data.frame(id = data[[id]],
+                           variable_1 = data[[S2]],
+                           variable_2 = data[[S1]],
+                           variable_diff = diff,
+                           variable_mean = mean)
+
+      names(output) <- c("id",
+                         paste0(variable, "_1"),
+                         paste0(variable, "_2"),
+                         paste0(variable, "_diff"),
+                         paste0(variable, "_mean"))
 
     }
 
