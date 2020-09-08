@@ -16,11 +16,9 @@ Encoding: UTF-8
 Depends: R (>= 2.10)
 Imports: 
     dplyr,
-    tidyr,
     purrr,
     magrittr,
     rlang,
     janitor,
     stats,
     broom,
-    data.table

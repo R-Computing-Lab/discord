@@ -14,9 +14,6 @@ discordRegression(
 )
 }
 \arguments{
-\item{data}{The output of
-\link[Nlsylinks]{CreatePairLinksSingleEntered}.}
-
 \item{outcome}{A character string containing the outcome variable of
 interest.}
 
@@ -30,6 +27,9 @@ string.}
 \item{sex}{The character string for the sex column name.}
 
 \item{race}{The character string for the race column name.}
+
+\item{preppedData}{The output of
+\link[Nlsylinks]{CreatePairLinksDoubleEntered}.}
 }
 \value{
 A tidy dataframe containing the model metrics via the

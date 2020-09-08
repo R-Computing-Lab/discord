@@ -18,8 +18,6 @@ checkSiblingOrderUpdating <- function(data, outcome, row) {
   S1 <- base::paste0(outcome, "_s1")
   S2 <- base::paste0(outcome, "_s2")
 
-  # convert into data table df
-  #data <- data.table::as.data.table(data)
   data <- data[row,]
 
   #select the S1 and S2 columns with DT syntax
@@ -221,3 +219,10 @@ discordRegressionUpdating <- function(data, outcome, predictors, id = "extended_
 #
 # waldo::compare(makeMeanDiffsUpdating(oneRow, "extended_id", "sex", "race", "edu_2008", 1),
 #                makeMeanDiffs(oneRow, "extended_id", "sex", "race", "edu_2008", 1))
+
+
+
+
+
+
+
