@@ -15,30 +15,30 @@
 #'
 checkSiblingOrderUpdating <- function(data, outcome, row) {
 
-  S1 <- base::paste0(outcome, "_s1")
-  S2 <- base::paste0(outcome, "_s2")
-
   data <- data[row,]
+
+  S1 <- data[, base::paste0(outcome, "_s1")]
+  S2 <- data[, base::paste0(outcome, "_s2")]
 
   #select the S1 and S2 columns with DT syntax
   #and using transform (base version of mutate) to add the order
-  if (data[, S1] > data[, S2]) {
+  if (S1 > S2) {
 
-    output <- base::transform(data, order = "s1")
+    data$order <- "s1"
 
-  } else if (data[, S1] < data[, S2]) {
+  } else if (S1 < S2) {
 
-    output <- base::transform(data, order = "s2")
+    data$order <- "s2"
 
-  } else if (data[, S1] == data[, S2]) {
+  } else if (S1 == S2) {
 
-    output <- base::transform(data, order = "either")
+    data$order <- "either"
 
   }
 
-  return(output)
+  return(data)
 
-}
+  }
 
 makeMeanDiffsUpdating <- function(data, id, sex, race, variable, row) {
   S1 <- base::paste0(variable, "_s1")
