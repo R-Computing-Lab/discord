@@ -105,7 +105,7 @@ discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", s
   #order the data on outcome
   orderedOnOutcome <- purrr::map_df(.x = 1:base::nrow(data), ~checkSiblingOrderUpdating(data = data, outcome = outcome, row = .x))
 
-  orderedData <- orderedData[,c(id,
+  orderedData <- orderedOnOutcome[,c(id,
                                 paste0(variables, "_s1"), paste0(variables, "_s2"),
                                 paste0(sex, "_s1"), paste0(sex, "_s2"),
                                 paste0(race, "_s1"), paste0(race, "_s2"),
