@@ -165,7 +165,7 @@ discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", s
   if (base::is.null(sex) | base::is.null(race)) {
     output <- out %>% purrr::reduce(dplyr::left_join, by = c("id"))
   } else {
-      output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", "sex_1", "sex_2", "race_1", "race_2"))
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, "_1"), paste0(sex, "_2"), paste0(race, "_1"), paste0(race, "_2")))
   }
 
 
