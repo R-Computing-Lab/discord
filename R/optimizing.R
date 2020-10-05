@@ -213,7 +213,7 @@ discordRegressionUpdating <- function(data, outcome, predictors, id = "extended_
   predOutcome <- base::paste0(outcome, "_mean")
   pred_diff <- base::paste0(predictors, "_diff", collapse = " + ")
   pred_mean <- base::paste0(predictors, "_mean", collapse = " + ")
-  demographic_controls <- base::paste0(sex, "_1 + ", race, "_1 + ", sex, "_2 + ", race, "_2")
+  demographic_controls <- base::paste0(sex, "_1 + ", race, "_1 + ", sex, "_2")
 
   if (base::is.null(sex) | base::is.null(race)) {
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean)
