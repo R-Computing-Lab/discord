@@ -206,8 +206,6 @@ discordRegressionUpdating <- function(data, outcome, predictors, id = "extended_
 
   preppedData <- discordDataUpdating(data = data, outcome = outcome, predictors = predictors, id = id, sex = sex, race = race)
 
-  preppedData <- preppedData %>% janitor::clean_names()
-
   # Run the discord regression
   realOutcome <- base::paste0(outcome, "_diff")
   predOutcome <- base::paste0(outcome, "_mean")
