@@ -4,13 +4,15 @@
 \alias{checkSiblingOrderUpdating}
 \title{Check which sibling has more of the outcome}
 \usage{
-checkSiblingOrderUpdating(data, outcome, row)
+checkSiblingOrderUpdating(data, outcome, pair_identifiers, row)
 }
 \arguments{
 \item{data}{The output of \link[Nlsylinks]{CreatePairLinksDoubleEntered}.}
 
 \item{outcome}{A character string containing the outcome variable of
 interest.}
+
+\item{pair_identifiers}{A character vector of length two that contains the variable identifier for each kinship pair.}
 
 \item{row}{The row number of the data frame}
 }

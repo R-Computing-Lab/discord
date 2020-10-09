@@ -10,7 +10,8 @@ discordRegressionUpdating(
   predictors,
   id = "extended_id",
   sex = "sex",
-  race = "race"
+  race = "race",
+  pair_identifiers = c("_s1", "_s2")
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ string.}
 \item{sex}{The character string for the sex column name.}
 
 \item{race}{The character string for the race column name.}
+
+\item{pair_identifiers}{A character vector of length two that contains the variable identifier for each kinship pair.}
 }
 \value{
 A tidy dataframe containing the model metrics via the
@@ -46,6 +49,7 @@ dplyr::filter(n == 1) \%>\%
 dplyr::select(-n) \%>\%
 dplyr::left_join(sampleData)
 
-fitModel <- discordRegression(data = uniqueExtendedIDs, outcome = "flu_2008",
-predictors = c("edu_2008", "tnfi_2008"))
+fitModel <- discordRegressionUpdating(data = uniqueExtendedIDs, outcome = "flu_2008",
+predictors = c("edu_2008", "tnfi_2008"),
+pair_identifiers = c("_s1", "_s2"))
 }
