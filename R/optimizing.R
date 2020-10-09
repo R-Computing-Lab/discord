@@ -13,12 +13,12 @@
 #' @return A character string signifying which familial member (1, 2, or
 #'   neither) has more of the outcome.
 #'
-checkSiblingOrderUpdating <- function(data, outcome, row) {
+checkSiblingOrderUpdating <- function(data, outcome, pair_identifiers, row) {
 
   data <- data[row,]
 
-  outcome1 <- data[, base::paste0(outcome, "_s1")]
-  outcome2 <- data[, base::paste0(outcome, "_s2")]
+  outcome1 <- data[, base::paste0(outcome, pair_identifiers[1])]
+  outcome2 <- data[, base::paste0(outcome, pair_identifiers[2])]
 
   if (outcome1 > outcome2) {
 
@@ -41,133 +41,127 @@ checkSiblingOrderUpdating <- function(data, outcome, row) {
 
   }
 
-makeMeanDiffsUpdating <- function(data, id, sex, race, variable, row) {
+makeMeanDiffsUpdating <- function(data, id, sex, race, demographics, variable, pair_identifiers, row) {
 
-  S1 <- base::paste0(variable, "_s1")
-  S2 <- base::paste0(variable, "_s2")
+  S1 <- base::paste0(variable, pair_identifiers[1])
+  S2 <- base::paste0(variable, pair_identifiers[2])
+  sexS1 <- base::paste0(sex, pair_identifiers[1])
+  sexS2 <- base::paste0(sex, pair_identifiers[2])
+  raceS1 <- base::paste0(race, pair_identifiers[1])
+  raceS2 <- base::paste0(race, pair_identifiers[2])
 
   data <- data[row,]
 
-  if (base::is.null(sex) & base::is.null(race)) {
+
+  # write the core of the of the makeMeanDiffsUpdating
+  # This always runs -- ignoring sex or race variables
+  if (data[, "order"] == "s1") {
+
+    diff <- data[[S1]] - data[[S2]]
+    mean <- base::mean(c(data[[S1]], data[[S2]]))
+
+    output <- data.frame(id = data[[id]],
+                         variable_1 = data[[S1]],
+                         variable_2 = data[[S2]],
+                         variable_diff = diff,
+                         variable_mean = mean)
+
+  } else if (data[, "order"] == "s2") {
+
+    diff <- data[[S2]] - data[[S1]]
+    mean <- base::mean(c(data[[S1]], data[[S2]]))
+
+    output <- data.frame(id = data[[id]],
+                         variable_1 = data[[S2]],
+                         variable_2 = data[[S1]],
+                         variable_diff = diff,
+                         variable_mean = mean)
+
+  }
+
+  names(output) <- c("id",
+                     paste0(variable, "_1"),
+                     paste0(variable, "_2"),
+                     paste0(variable, "_diff"),
+                     paste0(variable, "_mean"))
+
+  #check for whether or not race and sex are defined
+
+  if (demographics == "race") {
 
     if (data[, "order"] == "s1") {
-
-      diff <- data[[S1]] - data[[S2]]
-      mean <- base::mean(c(data[[S1]], data[[S2]]))
-
-      output <- data.frame(id = data[[id]],
-                           variable_1 = data[[S1]],
-                           variable_2 = data[[S2]],
-                           variable_diff = diff,
-                           variable_mean = mean)
-
+      output_demographics <- data.frame(race_1 = data[[raceS1]],
+                                race_2 = data[[raceS2]])
     } else if (data[, "order"] == "s2") {
-
-      diff <- data[[S2]] - data[[S1]]
-      mean <- base::mean(c(data[[S1]], data[[S2]]))
-
-      output <- data.frame(id = data[[id]],
-                           variable_1 = data[[S2]],
-                           variable_2 = data[[S1]],
-                           variable_diff = diff,
-                           variable_mean = mean)
-
+      output_demographics <- data.frame(race_1 = data[[raceS2]],
+                                race_2 = data[[raceS1]])
     }
 
-    names(output) <- c("id",
-                       paste0(variable, "_1"),
-                       paste0(variable, "_2"),
-                       paste0(variable, "_diff"),
-                       paste0(variable, "_mean"))
-
-
-  } else {
-
-    sexS1 <- base::paste0(sex, "_s1")
-    sexS2 <- base::paste0(sex, "_s2")
-    raceS1 <- base::paste0(race, "_s1")
-    raceS2 <- base::paste0(race, "_s2")
+  } else if (demographics == "sex") {
 
     if (data[, "order"] == "s1") {
-
-      diff <- data[[S1]] - data[[S2]]
-      mean <- base::mean(c(data[[S1]], data[[S2]]))
-
-      output <- data.frame(id = data[[id]],
-                           variable_1 = data[[S1]],
-                           variable_2 = data[[S2]],
-                           variable_diff = diff,
-                           variable_mean = mean,
-                           sex_1 = data[[sexS1]],
-                           sex_2 = data[[sexS2]],
-                           race_1 = data[[raceS1]],
-                           race_2 = data[[raceS2]])
-
+      output_demographics <- data.frame(sex_1 = data[[sexS1]],
+                                sex_2 = data[[sexS2]])
     } else if (data[, "order"] == "s2") {
-
-      diff <- data[[S2]] - data[[S1]]
-      mean <- base::mean(c(data[[S1]], data[[S2]]))
-
-      output <- data.frame(id = data[[id]],
-                           variable_1 = data[[S2]],
-                           variable_2 = data[[S1]],
-                           variable_diff = diff,
-                           variable_mean = mean,
-                           sex_1 = data[[sexS2]],
-                           sex_2 = data[[sexS1]],
-                           race_1 = data[[raceS2]],
-                           race_2 = data[[raceS1]])
-
+      output_demographics <- data.frame(sex_1 = data[[sexS2]],
+                                sex_2 = data[[sexS1]])
     }
 
-    names(output) <- c("id",
-                       paste0(variable, "_1"),
-                       paste0(variable, "_2"),
-                       paste0(variable, "_diff"),
-                       paste0(variable, "_mean"),
-                       paste0(sex, "_1"),
-                       paste0(sex, "_2"),
-                       paste0(race, "_1"),
-                       paste0(race, "_2"))
+  } else if (demographics == "both") {
 
+    if (data[, "order"] == "s1") {
+      output_demographics <- data.frame(sex_1 = data[[sexS1]],
+                                        sex_2 = data[[sexS2]],
+                                        race_1 = data[[raceS1]],
+                                        race_2 = data[[raceS2]])
+    } else if (data[, "order"] == "s2") {
+      output_demographics <- data.frame(sex_1 = data[[sexS2]],
+                                        sex_2 = data[[sexS1]],
+                                        race_1 = data[[raceS2]],
+                                        race_2 = data[[raceS1]])
+    }
+
+  }
+
+  if (exists("output_demographics")) {
+    output <- base::cbind(output, output_demographics)
   }
 
   return(output)
 
 }
 
-discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race") {
+discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers, demographics = "both") {
   #combine outcome and predictors for manipulating the data
   variables <- c(outcome, predictors)
 
   #order the data on outcome
-  orderedOnOutcome <- purrr::map_df(.x = 1:base::nrow(data), ~checkSiblingOrderUpdating(data = data, outcome = outcome, row = .x))
-
-  if (base::is.null(sex) | base::is.null(race)) {
-    orderedData <- orderedOnOutcome[,c(id,
-                                       paste0(variables, "_s1"), paste0(variables, "_s2"),
-                                       "order")]
-
-  } else {
-    orderedData <- orderedOnOutcome[,c(id,
-                                       paste0(variables, "_s1"), paste0(variables, "_s2"),
-                                       paste0(sex, "_s1"), paste0(sex, "_s2"),
-                                       paste0(race, "_s1"), paste0(race, "_s2"),
-                                       "order")] #select relevant details now
-  }
-
+  orderedOnOutcome <- purrr::map_df(.x = 1:base::nrow(data), ~checkSiblingOrderUpdating(data = data,
+                                                                                        outcome = outcome,
+                                                                                        pair_identifiers = pair_identifiers,
+                                                                                        row = .x))
 
   out <- NULL
   for (i in 1:base::length(variables)) {
-    out[[i]] <- purrr::map_df(.x = 1:base::nrow(orderedData), ~makeMeanDiffsUpdating(data = orderedData, id = id, sex = sex, race = race, variables[i], row = .x))
+    out[[i]] <- purrr::map_df(.x = 1:base::nrow(orderedOnOutcome), ~makeMeanDiffsUpdating(data = orderedOnOutcome,
+                                                                                          id = id,
+                                                                                          sex = sex,
+                                                                                          race = race,
+                                                                                          pair_identifiers = pair_identifiers,
+                                                                                          demographics = demographics,
+                                                                                          variables[i], row = .x))
   }
 
-  if (base::is.null(sex) | base::is.null(race)) {
+
+  if (demographics == "none") {
     output <- out %>% purrr::reduce(dplyr::left_join, by = c("id"))
-  } else {
+  } else if (demographics == "race") {
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(race, "_1"), paste0(race, "_2")))
+  } else if (demographics == "sex") {
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, "_1"), paste0(sex, "_2")))
+  } else if (demographics == "both") {
     output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, "_1"), paste0(sex, "_2"), paste0(race, "_1"), paste0(race, "_2")))
   }
-
 
   return(output)
 
@@ -187,6 +181,7 @@ discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", s
 #'   string.
 #' @param sex The character string for the sex column name.
 #' @param race The character string for the race column name.
+#' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
 #'
 #' @return A tidy dataframe containing the model metrics via the
 #'   \link[broom]{tidy} function.
@@ -200,22 +195,47 @@ discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", s
 #' dplyr::select(-n) %>%
 #' dplyr::left_join(sampleData)
 #'
-#' fitModel <- discordRegression(data = uniqueExtendedIDs, outcome = "flu_2008",
-#' predictors = c("edu_2008", "tnfi_2008"))
-discordRegressionUpdating <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race") {
+#' fitModel <- discordRegressionUpdating(data = uniqueExtendedIDs, outcome = "flu_2008",
+#' predictors = c("edu_2008", "tnfi_2008"),
+#' pair_identifiers = c("_s1", "_s2"))
+discordRegressionUpdating <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers = c("_s1", "_s2")) {
 
-  preppedData <- discordDataUpdating(data = data, outcome = outcome, predictors = predictors, id = id, sex = sex, race = race)
+  if (is.null(sex) & is.null(race)) {
+    demographics <- "none"
+  } else if (is.null(sex) & !is.null(race)) {
+    demographics <- "race"
+  } else if (!is.null(sex) & is.null(race)) {
+    demographics <- "sex"
+  } else if (!is.null(sex) & !is.null(race)) {
+    demographics <- "both"
+  }
+
+  preppedData <- discordDataUpdating(data = data,
+                                     outcome = outcome,
+                                     predictors = predictors,
+                                     id = id,
+                                     sex = sex,
+                                     race = race,
+                                     pair_identifiers = pair_identifiers,
+                                     demographics = demographics)
 
   # Run the discord regression
   realOutcome <- base::paste0(outcome, "_diff")
   predOutcome <- base::paste0(outcome, "_mean")
   pred_diff <- base::paste0(predictors, "_diff", collapse = " + ")
   pred_mean <- base::paste0(predictors, "_mean", collapse = " + ")
-  demographic_controls <- base::paste0(sex, "_1 + ", race, "_1 + ", sex, "_2")
 
-  if (base::is.null(sex) | base::is.null(race)) {
+
+  if (demographics == "none") {
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean)
-  } else {
+  } else if (demographics == "race") {
+    demographic_controls <- base::paste0(race, "_1")
+    preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean, " + ", demographic_controls)
+  } else if (demographics == "sex") {
+    demographic_controls <- base::paste0(sex, "_1 + ", sex, "_2")
+    preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean, " + ", demographic_controls)
+  } else if (demographics == "both") {
+    demographic_controls <- base::paste0(sex, "_1 + ", race, "_1 + ", sex, "_2")
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean, " + ", demographic_controls)
   }
 
