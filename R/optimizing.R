@@ -9,6 +9,7 @@
 #' @param outcome A character string containing the outcome variable of
 #'   interest.
 #' @param row The row number of the data frame
+#' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
 #'
 #' @return A character string signifying which familial member (1, 2, or
 #'   neither) has more of the outcome.
@@ -246,21 +247,3 @@ discordRegressionUpdating <- function(data, outcome, predictors, id = "extended_
   return(output)
 
 }
-
-
-# oneRowDT[1,order := "s1"][]
-# oneRow <- checkSiblingOrder(oneRow, "edu_2008", 1)
-# microbenchmark(makeMeanDiffsUpdating(oneRow, "extended_id", "sex", "race", "edu_2008", 1))
-#
-#
-# #SELECT BEFORE GO INTO LOOP
-#
-# waldo::compare(makeMeanDiffsUpdating(oneRow, "extended_id", "sex", "race", "edu_2008", 1),
-#                makeMeanDiffs(oneRow, "extended_id", "sex", "race", "edu_2008", 1))
-
-
-
-
-
-
-
