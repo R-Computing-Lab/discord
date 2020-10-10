@@ -1,0 +1,119 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r setup}
+library(tidyverse)
+library(discord)
+library(tictoc)
+```
+
+```{r generate simulation data}
+
+# this function allows you to generate any paired data for any level of relatedness.
+# r_all is the relatedness coefficient.
+# Default is MZ twin vs DZ twin.
+#
+# in this, y1_1 is one variable for sibling one, y1_2 is one variable for sibling 2.
+# y2_1 is one variable for sibling one, and y2_2 is one variable for sibling 2.
+
+SIMDATA <- discord:::kinsim_multi(r_all = 1,
+                                  npg_all = 1200) %>% 
+  tibble() %>%
+  relocate(c(id, r), .before = A1_1)
+
+```
+
+```{r test on Mason function}
+set.seed(18)
+MasonRegression_MZTwins <- discord:::discordDataUpdating(SIMDATA, outcome = "y1", predictors = "y2", id = "id", 
+                              sex = NULL, race = NULL, pair_identifiers = c("_1", "_2"), 
+                              demographics = "none") %>%
+discord:::discord_regression(predictors = "y2", outcome = "y1") %>% broom::tidy()
+
+```
+
+```{r examine results of Mason function}
+# if this works, we should see not see a significant difference score since the covariance of the ACE are
+# 0 by default. If we wanted to specify cov_a = 1, cov_c = 1, and cov_e = 1, then we would find a significant
+# difference score. The two variables would be very highly correlated.
+
+# cov_a is the covariance for a1 and a2 (variable 1 and variable 2's added variance) -- 
+# how much genetic component overlaps
+# this translates into the genetic aspect of the correlation
+# 
+# A and C are the familial covariance. We cook out the variance associated with A and C, and the only thing that should
+# signal a significant difference score is the covariance of E.
+
+# if we want to be super confident, generate 200 datasets. Write a function to flag whether it's significant or not, and then 
+# count proportion.
+MasonRegression_MZTwins
+
+```
+
+
+```{r try my function}  
+
+set.seed(18)
+JTRegression_MZTwins <- discordRegressionUpdating(data = SIMDATA,
+                          outcome = "y1",
+                          predictors = "y2",
+                          sex = NULL,
+                          race = NULL,
+                          pair_identifiers = c("_1", "_2"),
+                          id = "id")
+
+```
+
+```{r compare our functions}
+waldo::compare(MasonRegression_MZTwins, JTRegression_MZTwins)
+```
+
+```{r define significants function}
+
+isSig <- function(df) {
+  
+  model <- discordRegressionUpdating(data = df,
+                          outcome = "y1",
+                          predictors = "y2",
+                          sex = NULL,
+                          race = NULL,
+                          pair_identifiers = c("_1", "_2"),
+                          id = "id")
+  
+  if (model[3,]$p.value < 0.05) {
+  sig <- TRUE
+} else {
+  sig <- FALSE
+}
+  return(list(model, sig))
+  
+}
+
+```
+
+```{r test many simulations}
+
+tic("generate 200 sims")
+simulations <- purrr::map(1:200, ~ discord:::kinsim_multi(r_all = 1,
+                                  npg_all = 1200) %>% 
+                            tibble() %>%
+  relocate(c(id, r), .before = A1_1))
+toc()
+
+
+
+
+tic("run 200 models and get significants")
+set.seed(18)
+significants <- purrr::map(simulations, ~ isSig(.x)) %>%
+  purrr::map(set_names, c("model", "significant_lgl"))
+toc()
+
+significantDF <- map_df(significants, ~ base::list("signficant" = .x$significant_lgl))
+
+significantDF %>% 
+  count(signficant)
+
+```
