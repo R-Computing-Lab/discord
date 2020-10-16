@@ -169,19 +169,50 @@ discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", s
 }
 
 
-#' Perform a Linear Regression within the Discordant Kinship Framework - Optimized
+
+#' Check for common errors in the discord regression function
 #'
-#' @param data The output of
-#'   \link[Nlsylinks]{CreatePairLinksSingleEntered}.
+#' Check for common errors in specifying id, sex, and race columns for discord regressions.
+#
+#' @param data The data to perform a discord regression on.
+#' @param id A unique kinship pair identifier.
+#' @param sex A character string for the sex column name.
+#' @param race A character string for the race column name.
+#' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
+#'
+#'
+#' @return An error message if one of the conditions are met.
+#'
+check_discord_errors <- function(data, id, sex, race, pair_identifiers) {
+
+  if (!id %in% base::names(data)) {
+    stop(paste0("The kinship pair ID \"", id, "\" is not valid. Please check that you have the correct column name."))
+  }
+  if (!base::is.null(sex) && base::sum(base::grepl(sex, base::names(data))) == 0) {
+    stop(paste0("The kinship pair sex identifier \"", sex, "\" is not appropriately defined. Please check that you have the correct column name."))
+  }
+  if (!base::is.null(race) && base::sum(base::grepl(race, base::names(data))) == 0) {
+    stop(paste0("The kinship pair race identifier \"", race, "\" is not appropriately defined. Please check that you have the correct column name."))
+  }
+  if (base::sum(base::grepl(pair_identifiers[1], base::names(data))) == 0 | base::sum(base::grepl(pair_identifiers[2], base::names(data))) == 0) {
+    stop(paste0("Please check that the kinship pair identifiers \"", pair_identifiers[1], "\" and \"", pair_identifiers[2],"\" are valid, i.e. ensure that you have the correct labels for each kin."))
+  }
+  if (!base::is.null(sex) & !base::is.null(race) && sex == race) {
+    stop("Please check that your sex and race variables are not equal.")
+  }
+
+}
+
+#' Perform a Linear Regression within the Discordant Kinship Framework
+#'
+#' @param data A data frame.
 #' @param outcome A character string containing the outcome variable of
 #'   interest.
 #' @param predictors A character vector containing the column names for
 #'   predicting the outcome.
-#' @param id The extended family pair ID from
-#'   \link[Nlsylinks]{CreatePairLinksDoubleEntered}. Should be a character
-#'   string.
-#' @param sex The character string for the sex column name.
-#' @param race The character string for the race column name.
+#' @param id A unique kinship pair identifier.
+#' @param sex A character string for the sex column name.
+#' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
 #'
 #' @return A tidy dataframe containing the model metrics via the
@@ -200,6 +231,8 @@ discordDataUpdating <- function(data, outcome, predictors, id = "extended_id", s
 #' predictors = c("edu_2008", "tnfi_2008"),
 #' pair_identifiers = c("_s1", "_s2"))
 discordRegressionUpdating <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers = c("_s1", "_s2")) {
+
+  check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
   if (is.null(sex) & is.null(race)) {
     demographics <- "none"
