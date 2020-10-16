@@ -42,11 +42,11 @@ kinsim_multi(
 
 \item{ace_list}{Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.}
 
-\item{cov_a}{Shared variance for additive genetics (a); default is 1}
+\item{cov_a}{Shared variance for additive genetics (a); default is 0.}
 
-\item{cov_c}{Shared variance for shared-environment (c); default is 1}
+\item{cov_c}{Shared variance for shared-environment (c); default is 0.}
 
-\item{cov_e}{shared variance for non-shared-environment (e); default is 1}
+\item{cov_e}{shared variance for non-shared-environment (e); default is 0.}
 
 \item{...}{Optional pass on additional inputs.}
 

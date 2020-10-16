@@ -1,4 +1,5 @@
 #' Simulate Biometrically informed Multivariate Data
+#'
 #' @description Generate paired multivariate data, given ACE parameters.
 #' @importFrom stats rnorm sd
 #' @param r_all Levels of relatedness; default is MZ and DZ twins c(1,.5).
@@ -15,9 +16,9 @@
 #' @param prop_var_explained_all Optional Additional error. Indicates proportion of variance explained in True Y from Measured Y. Default is \code{reliability_all}^2
 #' @param reliability_list Vector of Reliabilities for each generated variable; default is to repeat \code{reliability_all} for each variable
 #' @param prop_var_explained_list Vector of R^2 for each generated variable; default is to repeat \code{prop_var_explained_all} for each variable
-#'@param cov_a Shared variance for additive genetics (a); default is 1
-#'@param cov_c Shared variance for shared-environment (c); default is 1
-#'@param cov_e shared variance for non-shared-environment (e); default is 1
+#'@param cov_a Shared variance for additive genetics (a); default is 0.
+#'@param cov_c Shared variance for shared-environment (c); default is 0.
+#'@param cov_e shared variance for non-shared-environment (e); default is 0.
 #'@param model Model type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2, is currently disabled.
 
 #' @return Returns \code{data.frame} with the following:
@@ -51,7 +52,7 @@ kinsim_multi <- function(
   mu=NULL
   sA <- ace_list[,1]^0.5; sC <- ace_list[,2]^0.5; sE <- ace_list[,3]^0.5
   S2 <- diag(4)*-1+1
-  
+
   datalist <- list()
   if(variables==1){
     data_v<-kinsim1(r=r_all,
@@ -67,7 +68,7 @@ kinsim_multi <- function(
     data_v$E2_u<-data_v$E2
     data_v$y1_u<-data_v$y1
     data_v$y2_u<-data_v$y2
-    
+
     merged.data.frame =data_v
     names(merged.data.frame)[c(1,10)]<-c("id","r")
   }
@@ -78,39 +79,39 @@ kinsim_multi <- function(
       id=1:sum(npergroup_all)
       for(i in 1:length(r_all)){
         n = npergroup_all[i]
-        
+
         # Genetic Covariance
         sigma_a<-diag(4)+S2*r_all[i]
         sigma_a[1,3]<-cov_a;
         sigma_a[3,1]<-cov_a;sigma_a[2,4]<-cov_a;sigma_a[4,2]<-cov_a
         sigma_a[1,4]<-cov_a*r_all[i];sigma_a[4,1]<-cov_a*r_all[i];sigma_a[3,2]<-cov_a*r_all[i];sigma_a[2,3]<-cov_a*r_all[i]
         A.r <- rmvn(n,sigma=sigma_a)
-        
+
         A.r[,1:2]<- A.r[,1:2]*sA[1]; A.r[,3:4]<- A.r[,3:4]*sA[2]
-        
+
         # Shared C Covariance
         sigma_c<-diag(4)+S2*1
         sigma_c[1,3]<-cov_c;sigma_c[3,1]<-cov_c;sigma_c[2,4]<-cov_c;sigma_c[4,2]<-cov_c
         sigma_c[1,4]<-cov_c*1;sigma_c[4,1]<-cov_c*1;sigma_c[3,2]<-cov_c*1;sigma_c[2,3]<-cov_c*1
         C.r <- rmvn(n,sigma=sigma_c)
         C.r[,1:2]<- C.r[,1:2]*sC[1]; C.r[,3:4]<- C.r[,3:4]*sC[2]
-        
+
         # Shared E Covariance
         sigma_e<-diag(4)+S2*0
         sigma_e[1,3]<-cov_e;sigma_e[3,1]<-cov_e;sigma_e[2,4]<-cov_e;sigma_e[4,2]<-cov_e
         E.r <- rmvn(n,sigma=sigma_e)
         E.r[,1:2]<- E.r[,1:2]*sE[1]; E.r[,3:4]<- E.r[,3:4]*sE[2]
-        
+
         y.r <-  A.r + C.r + E.r
-        
-        
+
+
         y.r[,1:2]<-y.r[,1:2]+mu_list[1]
         y.r[,3:4]<-y.r[,3:4]+mu_list[2]
         r_ <- rep(r_all[i],n)
-        
+
         data.r<-data.frame(A.r,C.r,E.r,y.r,r_)
         names(data.r)<-c("A1_1","A1_2","A2_1","A2_2","C1_1","C1_2","C2_1","C2_2","E1_1","E1_2","E2_1","E2_2","y1_1","y1_2","y2_1","y2_2","r")
-        
+
         datalist[[i]] <- data.r
         names(datalist)[i]<-paste0("datar",r_all[i])
         print(r_all[i])
@@ -124,7 +125,7 @@ kinsim_multi <- function(
       unique_r= matrix(unique(r_vector))
       for(i in 1:length(unique_r)){
         n=length(r_vector[r_vector==unique_r[i]])
-        
+
         # Genetic Covariance
         sigma_a<-diag(4)+S2*unique_r[i]
         sigma_a[1,3]<-cov_a;
@@ -145,14 +146,14 @@ kinsim_multi <- function(
       sigma_c[1,4]<-cov_c*1;sigma_c[4,1]<-cov_c*1;sigma_c[3,2]<-cov_c*1;sigma_c[2,3]<-cov_c*1
       C.r <- rmvn(n,sigma=sigma_c)
       C.r[,1:2]<- C.r[,1:2]*sC[1]; C.r[,3:4]<- C.r[,3:4]*sC[2]
-      
+
       # Shared E Covariance
       sigma_e<-diag(4)+S2*0
       sigma_e[1,3]<-cov_e;sigma_e[3,1]<-cov_e;sigma_e[2,4]<-cov_e;sigma_e[4,2]<-cov_e
       E.r <- rmvn(n,sigma=sigma_e)
       E.r[,1:2]<- E.r[,1:2]*sE[1]; E.r[,3:4]<- E.r[,3:4]*sE[2]
-      
-      
+
+
       y.r <- A.r
       y.r[,1:2]<-A.r[,1:2]*ace_list[1,1] + C.r[,1:2]*ace_list[1,2] + E.r[,1:2]*ace_list[1,3]
       y.r[,3:4]<-A.r[,3:4]*ace_list[2,1] + C.r[,3:4]*ace_list[2,2] + E.r[,3:4]*ace_list[2,3]
@@ -161,8 +162,8 @@ kinsim_multi <- function(
       y.r <- mu + A.r + C.r + E.r
       data.r<-data.frame(A.r,C.r,E.r,y.r,r_vector,id)
       names(data.r)<-c("A1_1","A1_2","A2_1","A2_2","C1_1","C1_2","C2_1","C2_2","E1_1","E1_2","E2_1","E2_2","y1_1","y1_2","y2_1","y2_2","r","id")
-      
-    
+
+
     datalist[[i]] <- data.r
     names(datalist)[i]<-paste0("datar",r_all[i])
     merged.data.frame = data.r
