@@ -11,12 +11,12 @@ Utilities and functions for discordant kinship modeling (and other sibling-based
 \note{
 The release version is available through \href{https://cran.r-project.org/package=discord}{CRAN} by
 running \code{install.packages('discord')}.
-The most recent development version is available through \href{https://github.com/smasongarrison/discord}{GitHub} by
+The most recent development version is available through \href{https://github.com/R-Computing-Lab/discord}{GitHub} by
 running
-\code{devtools::install_github} \code{(repo = 'smasongarrison/discord')}
+\code{devtools::install_github} \code{(repo = 'R-Computing-Lab/discord')}
 (make sure \href{https://cran.r-project.org/package=devtools}{devtools} is already installed).
 If you're having trouble with the package, please install the development version.  If this doesn't solve
-your problem, please create a \href{https://github.com/smasongarrison/discord/issues}{new issue}, or email Mason.
+your problem, please create a \href{https://github.com/R-Computing-Lab/discord/issues}{new issue}, or email Mason.
 }
 \examples{
 
@@ -28,7 +28,7 @@ install.packages('discord')
 
 # Install/update discord with the development version from GitHub
 #install.packages('devtools') #Uncomment if `devtools` isn't installed already.
-devtools::install_github('smasongarrison/discord')
+devtools::install_github('R-Computing-Lab/discord')
 }
 }
 \references{
