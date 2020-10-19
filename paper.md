@@ -22,7 +22,7 @@ editor_options:
 # Summary
 
 The study of behavior genetics involves examining the interaction
-between genes and the environment on peoples' behavior. While randomized
+between genes and the environment on peoples' behavior. Although randomized
 studies on identical twins are the gold standard to determine causality,
 they are not always feasible due to small sample sizes and high costs.
 As an alternative, our team has developed a quasi-experimental paradigm
