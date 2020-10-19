@@ -17,7 +17,6 @@ x.log
 nohup.out
 tmp
 valgrind*
-test
 *.tmp
 *.bbl
 *.blg
