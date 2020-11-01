@@ -1,0 +1,58 @@
+---
+title: "Performing a Discordant-Kinship Regression"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Performing a Discordant-Kinship Regression}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+This vignette describes how to restructure data for comparing kin. The function that takes care of this is `discord_regression` which provides a dynamic framework for determining differences between kinship pairs on a measured outcome (behavior) given a set of predictors, returning the model coefficients in a tidy manner using the [broom](https://broom.tidymodels.org) package.
+
+Below, we describe the [theory] behind the discordant-kinship model and [Examples] how this works with data downloaded from the National Longitudinal Survey of Youth (NLSY) 1979, though this could be done with any data containing kin pairs. Note that the package must be installed and loaded as follows:
+
+```{r setup, eval = FALSE}
+# Install/update discord with the release version from CRAN.
+install.packages('discord')
+
+# Install/update discord with the development version from GitHub. 
+# If devtools is not installed, uncomment the line below.
+# install.packages('devtools')
+devtools::install_github('R-Computing-Lab/discord')
+
+# Load package
+library(discord)
+```
+
+# Theory
+
+> This section describes the theory of the discordant kinship model but is not necessary to successfully utilize the `discord` package.
+
+The core of the discordant kinship model can be explained with a simplistic case where a behavioral outcome $Y$ is predicted by one variable $X$, the discord regression model relates the difference in that outcome, $Y_{i\Delta}$, for a given kinship pair, indexed as $i$, in the following model, where $X_{i\Delta}$ is the difference in the predictor.
+
+$\mathrm{Y_{i\Delta}} = \beta_{0} + \beta_{1}\mathrm{\bar{Y_{i}}} + \beta_{2}\mathrm{\bar{X_{i}}} + \beta_{3}\mathrm{X_{i\Delta}}$
+
+where,
+
+$\mathrm{Y_{i\Delta}} = \mathrm{Y_{i,1}} - \mathrm{Y_{i,2}}$
+
+$\mathrm{X_{i\Delta}} = \mathrm{X_{i,1}} - \mathrm{X_{i,2}}$
+
+and $1$ and $2$ identify the individuals within the kinship pair, defined by
+
+$\mathrm{Y_{i,1}} > \mathrm{Y_{i,2}}$
+
+$\mathrm{X_{i,1}} > \mathrm{X_{i,2}}$
+
+# Examples
+
+Working...
