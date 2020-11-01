@@ -22,3 +22,8 @@ Imports:
     janitor,
     stats,
     broom,
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

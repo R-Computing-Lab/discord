@@ -6,7 +6,10 @@
 \alias{discord}
 \title{Functions for Discordant Kinship Modeling.}
 \description{
-Utilities and functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Also includes functions for generating genetically- and environmentally informed multivariate data for kin pairs.
+Utilities and functions for discordant kinship modeling (and
+  other sibling-based quasi-experimental designs). Also includes functions
+  for generating genetically- and environmentally informed multivariate data
+  for kin pairs.
 }
 \note{
 The release version is available through \href{https://cran.r-project.org/package=discord}{CRAN} by

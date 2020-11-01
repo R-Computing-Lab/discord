@@ -5,3 +5,5 @@
 desktop.ini
 ^hidden$
 ^R/optimizing2\.R$
+^testing\.Rmd$
+^testing\.nb\.html$

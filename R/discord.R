@@ -1,6 +1,9 @@
 #' @title Functions for Discordant Kinship Modeling.
 #'
-#' @description Utilities and functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Also includes functions for generating genetically- and environmentally informed multivariate data for kin pairs.
+#' @description Utilities and functions for discordant kinship modeling (and
+#'   other sibling-based quasi-experimental designs). Also includes functions
+#'   for generating genetically- and environmentally informed multivariate data
+#'   for kin pairs.
 
 #'
 #' @docType package

@@ -12,14 +12,11 @@
 #' @param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
 #' @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
 #' @param ... Optional pass on additional inputs.
-#' @param reliability_all Optional Additional error. Indicates correlation between True Y and Measured Y. Default is 1
-#' @param prop_var_explained_all Optional Additional error. Indicates proportion of variance explained in True Y from Measured Y. Default is \code{reliability_all}^2
 #' @param reliability_list Vector of Reliabilities for each generated variable; default is to repeat \code{reliability_all} for each variable
-#' @param prop_var_explained_list Vector of R^2 for each generated variable; default is to repeat \code{prop_var_explained_all} for each variable
-#'@param cov_a Shared variance for additive genetics (a); default is 0.
-#'@param cov_c Shared variance for shared-environment (c); default is 0.
-#'@param cov_e shared variance for non-shared-environment (e); default is 0.
-#'@param model Model type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2, is currently disabled.
+#' @param cov_a Shared variance for additive genetics (a); default is 0.
+#' @param cov_c Shared variance for shared-environment (c); default is 0.
+#' @param cov_e shared variance for non-shared-environment (e); default is 0.
+#' @param model Model type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2, is currently disabled.
 
 #' @return Returns \code{data.frame} with the following:
 #' \item{Ai_1}{genetic component for variable i for kin1}
@@ -34,7 +31,7 @@
 #' \item{id}{id}
 
 
-kinsim_multi <- function(
+kinsim <- function(
   r_all=c(1,.5),
   npg_all=500,
   npergroup_all=rep(npg_all,length(r_all)),
@@ -55,7 +52,7 @@ kinsim_multi <- function(
 
   datalist <- list()
   if(variables==1){
-    data_v<-kinsim1(r=r_all,
+    data_v<-kinsim_internal(r=r_all,
                     npergroup=npergroup_all,	#
                     mu=mu_list[1],			#intercept
                     ace= ace_list[[1]],r_vector=r_vector
@@ -114,7 +111,6 @@ kinsim_multi <- function(
 
         datalist[[i]] <- data.r
         names(datalist)[i]<-paste0("datar",r_all[i])
-        print(r_all[i])
       }
       merged.data.frame = Reduce(function(...) merge(..., all=T), datalist)
       merged.data.frame$id<-id

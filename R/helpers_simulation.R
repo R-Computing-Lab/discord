@@ -1,4 +1,17 @@
+#' rmvn
+#' @keywords internal
+#' @param n Sample Size
+#' @param sigma Covariance matrix
+#' @return Generates multivariate normal data from a covariance matrix (\code{sigma}) of length \code{n}
+
+
+rmvn <- function(n,sigma) {
+  Sh <- with(svd(sigma), v%*%diag(sqrt(d))%*%t(u))
+  matrix(stats::rnorm(ncol(sigma)*n),ncol=ncol(sigma))%*%Sh
+}
+
 #' Simulate Biometrically informed Univariate Data
+#'
 #' @description Generate paired univariate data, given ACE parameters.
 #' @param r Levels of relatedness; default is MZ and DZ twins c(1,.5)
 #' @param npg Sample size per group; default is 100.
@@ -21,7 +34,7 @@
 #' \item{r}{level of relatedness for the kin pair}
 
 
-kinsim1 <- function(
+kinsim_internal <- function(
   r=c(1,.5),
   npg=100,
   npergroup=rep(npg,length(r)),
@@ -76,7 +89,7 @@ kinsim1 <- function(
     C.r <- stats::rnorm(n,sd=sC);	C.r <- cbind(C.r,C.r)
     E.r <- cbind(stats::rnorm(n,sd=sE),stats::rnorm(n,sd=sE))
 
-      y.r <- mu + A.r + C.r + E.r
+    y.r <- mu + A.r + C.r + E.r
 
     data.r<-data.frame(id,A.r,C.r,E.r,y.r,r_vector)
     names(data.r)<-c("id","A1","A2","C1","C2","E1","E2","y1","y2","r")
