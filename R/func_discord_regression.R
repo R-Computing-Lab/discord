@@ -16,9 +16,12 @@
 #'
 #' @examples
 #'
-#' discord_regression(data = uniqueExtendedIDs, outcome = "flu_2008",
-#' predictors = c("edu_2008", "tnfi_2008"),
-#' pair_identifiers = c("_s1", "_s2"))
+#' discord_regression(data = sample_data,
+#' outcome = "height",
+#' predictors = "weight",
+#' pair_identifiers = c("_s1", "_s2"),
+#' sex = NULL,
+#' race = NULL)
 #'
 discord_regression <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers = c("_s1", "_s2")) {
 

@@ -20,10 +20,13 @@
 #'
 #' @examples
 #'
-#' discord_data(data = uniqueExtendedIDs,
-#' outcome = "flu_2008",
-#' predictors = "edu_2008",
-#' pair_identifiers = c("_s1", "_s2"))
+#' discord_data(data = sample_data,
+#' outcome = "height",
+#' predictors = "weight",
+#' pair_identifiers = c("_s1", "_s2"),
+#' sex = NULL,
+#' race = NULL,
+#' demographics = "none")
 #'
 discord_data <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers, demographics = "both") {
   #combine outcome and predictors for manipulating the data
