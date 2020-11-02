@@ -7,3 +7,7 @@ desktop.ini
 ^R/optimizing2\.R$
 ^testing\.Rmd$
 ^testing\.nb\.html$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$

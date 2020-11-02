@@ -18,17 +18,4 @@ knitr::opts_chunk$set(
 
 This vignette describes kinship simulations with `discord`. The function that takes care of this is `kinsim`. It provides a highly customizable framework for creating biometrically informed multivariate data given the ACE parameters, where *A* is the additive genetic effects, *C* is the common (shared) environmental effects, and *E* is the non-shared (individual-specific) environmental effects.
 
-Below are some use cases for different simulations. Note that the package must be installed and loaded as follows:
-
-```{r setup, eval = FALSE}
-# Install/update discord with the release version from CRAN.
-install.packages('discord')
-
-# Install/update discord with the development version from GitHub. 
-# If devtools is not installed, uncomment the line below.
-# install.packages('devtools')
-devtools::install_github('R-Computing-Lab/discord')
-
-# Load package
-library(discord)
-```
+Below are some use cases for different simulations.

@@ -1,0 +1,16 @@
+reference:
+- title: Data Manipulation and Modeling
+  desc:  Create and explore the relationship for kinship data.
+- contents:
+   - discord_data
+   - discord_regression
+- title: Simulations
+  desc: Create biometrically informed multivariate data given ACE parameters.
+- contents:
+   - kinsim
+
+authors:
+  S. Mason Garrison:
+    href: "https://www.smasongarrison.com"
+  Jonathan Trattner:
+    href: "https:/www.jdtrat.com"

@@ -18,20 +18,7 @@ knitr::opts_chunk$set(
 
 This vignette describes how to restructure data for comparing kin. The function that takes care of this is `discord_data`, which provides a dynamic framework for determining differences between kinship pairs on a measured outcome (behavior) given a set of predictors.
 
-We [Examples] how this works with data downloaded from the National Longitudinal Survey of Youth (NLSY) 1979, though this could be done with any data containing kin pairs. Note that the package must be installed and loaded as follows:
-
-```{r setup, eval = FALSE}
-# Install/update discord with the release version from CRAN.
-install.packages('discord')
-
-# Install/update discord with the development version from GitHub. 
-# If devtools is not installed, uncomment the line below.
-# install.packages('devtools')
-devtools::install_github('R-Computing-Lab/discord')
-
-# Load package
-library(discord)
-```
+We provide [Examples] of how this works with data downloaded from the National Longitudinal Survey of Youth (NLSY) 1979, though this could be done with any data containing kin pairs.
 
 # Examples
 
