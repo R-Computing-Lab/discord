@@ -16,7 +16,6 @@
 #' @param cov_a Shared variance for additive genetics (a); default is 0.
 #' @param cov_c Shared variance for shared-environment (c); default is 0.
 #' @param cov_e shared variance for non-shared-environment (e); default is 0.
-#' @param model Model type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2, is currently disabled.
 
 #' @return Returns \code{data.frame} with the following:
 #' \item{Ai_1}{genetic component for variable i for kin1}

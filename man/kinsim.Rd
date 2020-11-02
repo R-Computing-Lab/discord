@@ -49,8 +49,6 @@ kinsim(
 \item{cov_e}{shared variance for non-shared-environment (e); default is 0.}
 
 \item{...}{Optional pass on additional inputs.}
-
-\item{model}{Model type. Default is correlated factors model "Correlated"; alterative specification as a "Cholesky" model, where variable 1 accounts for variance in variable 2, is currently disabled.}
 }
 \value{
 Returns \code{data.frame} with the following:
