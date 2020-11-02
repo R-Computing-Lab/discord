@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perform a Linear Regression within the Discordant Kinship Framework — discord_regression • discord</title>
+<title>Sample Data from NLSY — sample_data • discord</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Perform a Linear Regression within the Discordant Kinship Framework — discord_regression" />
-<meta property="og:description" content="Perform a Linear Regression within the Discordant Kinship Framework" />
+<meta property="og:title" content="Sample Data from NLSY — sample_data" />
+<meta property="og:description" content="A data frame output from CreatePairLinksSingleEntered that
+contains data for kinship pairs' height and weight." />
 
 
 
@@ -126,81 +127,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perform a Linear Regression within the Discordant Kinship Framework</h1>
-    <small class="dont-index">Source: <a href='https://github.com/R-Computing-Lab/discord/blob/master/R/func_discord_regression.R'><code>R/func_discord_regression.R</code></a></small>
-    <div class="hidden name"><code>discord_regression.Rd</code></div>
+    <h1>Sample Data from NLSY</h1>
+    <small class="dont-index">Source: <a href='https://github.com/R-Computing-Lab/discord/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>sample_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Perform a Linear Regression within the Discordant Kinship Framework</p>
+    <p>A data frame output from CreatePairLinksSingleEntered that
+contains data for kinship pairs' height and weight.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>discord_regression</span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  <span class='va'>outcome</span>,
-  <span class='va'>predictors</span>,
-  id <span class='op'>=</span> <span class='st'>"extended_id"</span>,
-  sex <span class='op'>=</span> <span class='st'>"sex"</span>,
-  race <span class='op'>=</span> <span class='st'>"race"</span>,
-  pair_identifiers <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_s1"</span>, <span class='st'>"_s2"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>sample_data</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>data</th>
-      <td><p>A data frame.</p></td>
-    </tr>
-    <tr>
-      <th>outcome</th>
-      <td><p>A character string containing the outcome variable of
-interest.</p></td>
-    </tr>
-    <tr>
-      <th>predictors</th>
-      <td><p>A character vector containing the column names for
-predicting the outcome.</p></td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td><p>A unique kinship pair identifier.</p></td>
-    </tr>
-    <tr>
-      <th>sex</th>
-      <td><p>A character string for the sex column name.</p></td>
-    </tr>
-    <tr>
-      <th>race</th>
-      <td><p>A character string for the race column name.</p></td>
-    </tr>
-    <tr>
-      <th>pair_identifiers</th>
-      <td><p>A character vector of length two that contains the variable identifier for each kinship pair.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A tidy dataframe containing the model metrics via the
-  <a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a> function.</p>
+    <p>A data frame.</p><dl>
+  and weight information.
+</dl>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'>discord_regression</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>sample_data</span>,
-outcome <span class='op'>=</span> <span class='st'>"height"</span>,
-predictors <span class='op'>=</span> <span class='st'>"weight"</span>,
-pair_identifiers <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_s1"</span>, <span class='st'>"_s2"</span><span class='op'>)</span>,
-sex <span class='op'>=</span> <span class='cn'>NULL</span>,
-race <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 4 x 5</span><span>
-#&gt;   term        estimate std.error statistic  p.value
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> (Intercept)   0.895    0.006</span><span style='text-decoration: underline;'>38</span><span>    140.   0.  </span><span style='color: #555555;'> </span><span>   
-#&gt; </span><span style='color: #555555;'>2</span><span> height_mean   0.080</span><span style='text-decoration: underline;'>9</span><span>   0.006</span><span style='text-decoration: underline;'>98</span><span>     11.6  5.83</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-31</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> weight_diff   0.050</span><span style='text-decoration: underline;'>6</span><span>   0.005</span><span style='text-decoration: underline;'>05</span><span>     10.0  1.42</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-23</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> weight_mean  -</span><span style='color: #BB0000;'>0.058</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>   0.007</span><span style='text-decoration: underline;'>64</span><span>     -</span><span style='color: #BB0000;'>7.61</span><span> 2.77</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span></div><div class='input'>
-</div></span></pre>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>NLSY/R Lab</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
