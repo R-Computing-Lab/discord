@@ -7,9 +7,9 @@
 \title{Functions for Discordant Kinship Modeling.}
 \description{
 Utilities and functions for discordant kinship modeling (and
-  other sibling-based quasi-experimental designs). Also includes functions
-  for generating genetically- and environmentally informed multivariate data
-  for kin pairs.
+  other sibling-based quasi-experimental designs). Currently, the package
+  contains data restructuring functions and functions for generating
+  biometrically informed data for kin pairs.
 }
 \note{
 The release version is available through \href{https://cran.r-project.org/package=discord}{CRAN} by
@@ -38,9 +38,11 @@ devtools::install_github('R-Computing-Lab/discord')
 test
 }
 \author{
-\href{http://www.smasongarrison.com}{S. Mason Garrison} (Vanderbilt Univerisity)
+\href{http://www.smasongarrison.com}{S. Mason Garrison} (Wake Forest University)
+ Jonathan Trattner
+ Cermet Ream
 
-Maintainer: S. Mason Garrison <s.mason.garrison@gmail.com>
+Maintainer: S. Mason Garrison <garrissm@wfu.edu>
 }
 \keyword{"behavior}
 \keyword{genetics"}

@@ -8,7 +8,7 @@
 #' @param variables Number of variables to generate; default is 2. Currently, limited to max of two variables.
 #' @param mu_all Mean for each generated variable; default is 0.
 #' @param mu_list List of means by variable; default repeats \code{mu_all} for all variables
-#' @param r_vector Alternative, give vector of r cofficients for entire sample.
+#' @param r_vector Alternative, give vector of r coefficients for entire sample.
 #' @param ace_all Vector of variance components for each generated variable; default is c(1,1,1).
 #' @param ace_list Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.
 #' @param ... Optional pass on additional inputs.

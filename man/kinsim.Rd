@@ -36,7 +36,7 @@ kinsim(
 
 \item{reliability_list}{Vector of Reliabilities for each generated variable; default is to repeat \code{reliability_all} for each variable}
 
-\item{r_vector}{Alternative, give vector of r cofficients for entire sample.}
+\item{r_vector}{Alternative, give vector of r coefficients for entire sample.}
 
 \item{ace_all}{Vector of variance components for each generated variable; default is c(1,1,1).}
 

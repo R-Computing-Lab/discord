@@ -1,9 +1,9 @@
 #' @title Functions for Discordant Kinship Modeling.
 #'
 #' @description Utilities and functions for discordant kinship modeling (and
-#'   other sibling-based quasi-experimental designs). Also includes functions
-#'   for generating genetically- and environmentally informed multivariate data
-#'   for kin pairs.
+#'   other sibling-based quasi-experimental designs). Currently, the package
+#'   contains data restructuring functions and functions for generating
+#'   biometrically informed data for kin pairs.
 
 #'
 #' @docType package
@@ -22,10 +22,11 @@
 #'
 #' @author
 #'
+#'  \href{http://www.smasongarrison.com}{S. Mason Garrison} (Wake Forest University)
+#'  Jonathan Trattner
+#'  Cermet Ream
 #'
-#'  \href{http://www.smasongarrison.com}{S. Mason Garrison} (Vanderbilt Univerisity)
-#'
-#' Maintainer: S. Mason Garrison <s.mason.garrison@gmail.com>
+#' Maintainer: S. Mason Garrison <garrissm@wfu.edu>
 #' @references test
 #' @keywords "behavior genetics"
 #' @examples
