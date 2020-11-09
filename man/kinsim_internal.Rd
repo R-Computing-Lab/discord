@@ -25,7 +25,7 @@ kinsim_internal(
 
 \item{ace}{Vector of variance components, ordered by c(a, c, e); default is c(1,1,1).}
 
-\item{r_vector}{Alternative, give vector of relatedness cofficients for entire sample.}
+\item{r_vector}{Alternative, give vector of relatedness coefficients for entire sample.}
 
 \item{...}{Optional pass on additional inputs.}
 }
