@@ -38,7 +38,7 @@ devtools::install_github('R-Computing-Lab/discord')
 test
 }
 \author{
-\href{http://www.smasongarrison.com}{S. Mason Garrison} (Wake Forest University)
+\href{https://www.smasongarrison.com/}{S. Mason Garrison} (Wake Forest University)
  Jonathan Trattner
  Cermet Ream
 
