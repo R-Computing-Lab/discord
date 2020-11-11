@@ -3,11 +3,12 @@ title: 'discord: Functions for Discordant Kinship Modeling'
 tags:
   - kinship modeling
   - behavior genetics
+  - causal inference
 authors:
   - name: Jonathan D. Trattner
     orcid: 0000-0003-0872-7098
     affiliation: 1
-  - name: S. Mason Garrison^[Correspondence should be addressed to <s.mason.garrison at gmail.com>]
+  - name: S. Mason Garrison^[Correspondence should be addressed to <garrissm@wfu.edu>]
     affiliation: 1
 affiliations:
  - name: Wake Forest University, Winston-Salem, NC
