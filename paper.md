@@ -30,8 +30,9 @@ As an alternative, our team has developed a quasi-experimental paradigm
 gene-and-environmental variance among kinship pairs (siblings, cousins,
 etc.) and shed light on causal relationships arising from the "nature
 vs. nurture" debate. The crux of this paradigm relies on the
-discordant-kinship model and requires efficient simulations and
-structured data.
+discordant-kinship model, which in turn requires specifically structured data. 
+In addition, given the growing interest in limiting underpowered studies, 
+we also include simulation functions so that researcher can create custome simulated data.
 
 # Statement of need
 
