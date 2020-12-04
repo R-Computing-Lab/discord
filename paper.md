@@ -23,7 +23,11 @@ editor_options:
 # Summary
 
 The study of behavior genetics involves examining the interaction
-between genes and the environment on peoples' behavior. Although randomized
+between genes and the environment on peoples' behavior. 
+Specifically, it leverages genetic and environmental differences to better understand individual variation. Classic methods focus upon description, often by comparing different kinds of twins. 
+However, behavior genetics can do so much more than merely compare twins. It can be used to evaluate causal claims using any kind of kinship groups, cousins, siblings, etc. In this package, we provide a series of tools to harness the power of behavior genetics, using publicly available data.
+
+ Although randomized
 studies on identical twins are the gold standard to determine causality,
 they are not always feasible due to small sample sizes and high costs.
 As an alternative, our team has developed a quasi-experimental paradigm
@@ -33,7 +37,7 @@ etc.) and shed light on causal relationships arising from the "nature
 vs. nurture" debate. The crux of this paradigm relies on the
 discordant-kinship model, which in turn requires specifically structured data. 
 In addition, given the growing interest in limiting underpowered studies, 
-we also include simulation functions so that researcher can create custome simulated data.
+we also include simulation functions so that researcher can create custom simulated data.
 
 # Statement of need
 
