@@ -82,7 +82,7 @@ $\mathrm{X_{i,1}} > \mathrm{X_{i,2}}$
 
 # Acknowledgements
 
-We acknowledge contributions from Cermet Ream and support from Lucy
+We acknowledge contributions from Cermet Ream, Joe Rodgers, and support from Lucy
 D'Agostino McGowan on this project.
 
 # References
