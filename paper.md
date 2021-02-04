@@ -22,8 +22,7 @@ editor_options:
 
 # Summary
 
-The study of behavior genetics involves examining the interaction
-between genes and the environment on peoples' behavior. 
+Behavior genetics involves examining the genetic and environmental sources peoples' behavior. 
 Specifically, it leverages genetic and environmental differences to better understand individual variation. Classic methods focus upon description, often by comparing different kinds of twins. 
 However, behavior genetics can do so much more than merely compare twins. It can be used to evaluate causal claims using any kind of kinship groups, cousins, siblings, etc. In this package, we provide a series of tools to harness the power of behavior genetics, using publicly available data.
 
@@ -82,7 +81,6 @@ $\mathrm{X_{i,1}} > \mathrm{X_{i,2}}$
 
 # Acknowledgements
 
-We acknowledge contributions from Cermet Ream, Joe Rodgers, and support from Lucy
-D'Agostino McGowan on this project.
+We acknowledge contributions from Cermet Ream, Joe Rodgers, and support from Lucy D'Agostino McGowan on this project.
 
 # References
