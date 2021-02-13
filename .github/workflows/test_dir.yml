@@ -25,4 +25,4 @@ jobs:
         run: |
           ls
           echo "This is the current workspace: $GITHUB_WORKSPACE"
-          echo "There is this inside of a the reminders subdirectory: $GITHUB_WORKSPACE_reminders"
+          echo "There is this inside of a the event path: $GITHUB_EVENT_PATH"
