@@ -1,10 +1,10 @@
 on: 
   workflow_dispatch:
 
-name: Reminders
+name: Testing Directory
 
 jobs:
-  Reminding:
+  Directory:
     runs-on: macOS-latest
     env:
       MY_GITHUB_REPO: ${{ github.repository }}
