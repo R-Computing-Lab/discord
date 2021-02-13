@@ -12,6 +12,18 @@ jobs:
       MY_GITHUB_REPO: ${{ github.repository }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@v1
-      - uses: jdtrat/actions/reminders@master
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: main
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Checkout Reminders Repo
+        uses: actions/checkout@v2
+        with:
+          repository: jdtrat/actions
+          path: reminders
+      - name: Trigger Reminder
+        run: |
+          source("R/remind_collaborator.R")
+        shell: Rscript {0}
