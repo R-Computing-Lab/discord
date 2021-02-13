@@ -25,5 +25,5 @@ jobs:
           path: reminders
       - name: Trigger Reminder
         run: |
-          source("R/remind_collaborator.R")
+          source("reminders/R/remind_collaborator.R")
         shell: Rscript {0}
