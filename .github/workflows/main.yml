@@ -22,8 +22,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: jdtrat/actions
-          path: reminders
+          path: custom_actions
       - name: Trigger Reminder
         run: |
-          source(" ${{ secrets.GITHUB_WORKSPACE }}/reminders/R/remind_collaborator.R")
+          source("custom_actions/reminders/R/remind_collaborator.R")
         shell: Rscript {0}
