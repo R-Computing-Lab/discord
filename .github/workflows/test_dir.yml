@@ -24,5 +24,7 @@ jobs:
       - name: List env
         run: |
           ls
+          cd reminders
+          ls
           echo "This is the current workspace: $GITHUB_WORKSPACE"
           echo "There is this inside of a the event path: $GITHUB_EVENT_PATH"
