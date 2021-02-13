@@ -25,5 +25,5 @@ jobs:
           path: reminders
       - name: Trigger Reminder
         run: |
-          source("reminders/R/remind_collaborator.R")
+          source(" ${{ secrets.GITHUB_WORKSPACE }}/reminders/R/remind_collaborator.R")
         shell: Rscript {0}
