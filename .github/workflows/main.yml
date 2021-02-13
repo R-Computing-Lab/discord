@@ -13,4 +13,4 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      - uses: jdtrat/actions/reminders@v1.1-rcl
+      - uses: jdtrat/actions/reminders@master
