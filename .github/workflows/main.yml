@@ -21,15 +21,16 @@ jobs:
       - name: Checkout Reminders Repo
         uses: actions/checkout@v2
         with:
-          repository: jdtrat/actions/reminders@v1.0
+          repository: jdtrat/actions
           path: custom_actions
+          ref: v1.0-branch
       - name: Trigger Reminder
         env:
           ISSUE_NUMBER: 1
           REMINDEE: smasongarrison
           ACTION: publish this paper!
         run: |
-          source("custom_actions/R/remind_collaborator.R")
+          source("custom_actions/reminders/R/remind_collaborator.R")
         shell: Rscript {0}
       - name: Cache R packages
         if: runner.os != 'Windows'
