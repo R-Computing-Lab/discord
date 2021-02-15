@@ -3,10 +3,10 @@ on:
   schedule:
     - cron: "0 */11 * * 1,3,5"
   
-name: Reminders
+name: Add Comment Reminder
 
 jobs:
-  Reminding:
+  Comment-Reminder:
     runs-on: macOS-latest
     env:
       MY_GITHUB_REPO: ${{ github.repository }}
@@ -21,9 +21,20 @@ jobs:
       - name: Checkout Reminders Repo
         uses: actions/checkout@v2
         with:
-          repository: jdtrat/actions
+          repository: jdtrat/actions@v1.0
           path: custom_actions
       - name: Trigger Reminder
+        env:
+          ISSUE_NUMBER: 1
+          REMINDEE: smasongarrison
+          ACTION: publish this paper!
         run: |
           source("custom_actions/reminders/R/remind_collaborator.R")
         shell: Rscript {0}
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('R-version') }}-1-${{ hashFiles('depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('R-version') }}-1-
