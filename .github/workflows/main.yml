@@ -23,7 +23,7 @@ jobs:
         with:
           repository: jdtrat/actions
           path: custom_actions
-          ref: v1.0-branch
+          ref: v1.0
       - name: Trigger Reminder
         env:
           ISSUE_NUMBER: 1
