@@ -25,14 +25,11 @@
 *.vrb
 *.zip
 *~
+.DS_Store
 .Rproj.user
 00check.log.txt
 desktop.ini
-<<<<<<< HEAD
-.Rproj.user
-
 inst/doc
-=======
 inst/misc/*
 nohup.out
 R/ignore/*
@@ -43,4 +40,3 @@ tmp
 valgrind*
 x.log
 _region*
->>>>>>> c5828d1eb347a25c503fef692f453d762cdf7132

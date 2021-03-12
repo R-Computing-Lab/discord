@@ -1,6 +1,8 @@
 # discord
 
 <!-- badges: start -->
+[![CRAN
+version](https://www.r-pkg.org/badges/version/discord)](https://cran.r-project.org/package=discord)
 <!-- badges: end -->
 
 The goal of discord is to provide functions for discordant kinship
