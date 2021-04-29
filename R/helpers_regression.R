@@ -61,8 +61,8 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
     mean <- base::mean(c(data[[S1]], data[[S2]]))
 
     output <- data.frame(id = data[[id]],
-                         variable_1 = data[[S1]],
-                         variable_2 = data[[S2]],
+                         variable_s1 = data[[S1]],
+                         variable_s2 = data[[S2]],
                          variable_diff = diff,
                          variable_mean = mean)
 
@@ -72,16 +72,16 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
     mean <- base::mean(c(data[[S1]], data[[S2]]))
 
     output <- data.frame(id = data[[id]],
-                         variable_1 = data[[S2]],
-                         variable_2 = data[[S1]],
+                         variable_s1 = data[[S2]],
+                         variable_s2 = data[[S1]],
                          variable_diff = diff,
                          variable_mean = mean)
 
   }
 
   names(output) <- c("id",
-                     paste0(variable, "_1"),
-                     paste0(variable, "_2"),
+                     paste0(variable, "_s1"),
+                     paste0(variable, "_s2"),
                      paste0(variable, "_diff"),
                      paste0(variable, "_mean"))
 
@@ -90,35 +90,35 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
   if (demographics == "race") {
 
     if (data[, "order"] == "s1") {
-      output_demographics <- data.frame(race_1 = data[[raceS1]],
-                                race_2 = data[[raceS2]])
+      output_demographics <- data.frame(race_s1 = data[[raceS1]],
+                                race_s2 = data[[raceS2]])
     } else if (data[, "order"] == "s2") {
-      output_demographics <- data.frame(race_1 = data[[raceS2]],
-                                race_2 = data[[raceS1]])
+      output_demographics <- data.frame(race_s1 = data[[raceS2]],
+                                race_s2 = data[[raceS1]])
     }
 
   } else if (demographics == "sex") {
 
     if (data[, "order"] == "s1") {
-      output_demographics <- data.frame(sex_1 = data[[sexS1]],
-                                sex_2 = data[[sexS2]])
+      output_demographics <- data.frame(sex_s1 = data[[sexS1]],
+                                sex_s2 = data[[sexS2]])
     } else if (data[, "order"] == "s2") {
-      output_demographics <- data.frame(sex_1 = data[[sexS2]],
-                                sex_2 = data[[sexS1]])
+      output_demographics <- data.frame(sex_s1 = data[[sexS2]],
+                                sex_s2 = data[[sexS1]])
     }
 
   } else if (demographics == "both") {
 
     if (data[, "order"] == "s1") {
-      output_demographics <- data.frame(sex_1 = data[[sexS1]],
-                                        sex_2 = data[[sexS2]],
-                                        race_1 = data[[raceS1]],
-                                        race_2 = data[[raceS2]])
+      output_demographics <- data.frame(sex_s1 = data[[sexS1]],
+                                        sex_s2 = data[[sexS2]],
+                                        race_s1 = data[[raceS1]],
+                                        race_s2 = data[[raceS2]])
     } else if (data[, "order"] == "s2") {
-      output_demographics <- data.frame(sex_1 = data[[sexS2]],
-                                        sex_2 = data[[sexS1]],
-                                        race_1 = data[[raceS2]],
-                                        race_2 = data[[raceS1]])
+      output_demographics <- data.frame(sex_s1 = data[[sexS2]],
+                                        sex_s2 = data[[sexS1]],
+                                        race_s1 = data[[raceS2]],
+                                        race_s2 = data[[raceS1]])
     }
 
   }
