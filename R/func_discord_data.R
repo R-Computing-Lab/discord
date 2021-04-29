@@ -53,11 +53,11 @@ discord_data <- function(data, outcome, predictors, id = "extended_id", sex = "s
   if (demographics == "none") {
     output <- out %>% purrr::reduce(dplyr::left_join, by = c("id"))
   } else if (demographics == "race") {
-    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(race, "_1"), paste0(race, "_2")))
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(race, "_s1"), paste0(race, "_s2")))
   } else if (demographics == "sex") {
-    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, "_1"), paste0(sex, "_2")))
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, "_s1"), paste0(sex, "_s2")))
   } else if (demographics == "both") {
-    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, "_1"), paste0(sex, "_2"), paste0(race, "_1"), paste0(race, "_2")))
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, "_s1"), paste0(sex, "_s2"), paste0(race, "_s1"), paste0(race, "_s2")))
   }
 
   return(output)
