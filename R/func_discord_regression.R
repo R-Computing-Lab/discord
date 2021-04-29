@@ -67,13 +67,13 @@ discord_regression <- function(data, outcome, predictors, id = "extended_id", se
   if (demographics == "none") {
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean)
   } else if (demographics == "race") {
-    demographic_controls <- base::paste0(race, "_1")
+    demographic_controls <- base::paste0(race, "_s1")
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean, " + ", demographic_controls)
   } else if (demographics == "sex") {
-    demographic_controls <- base::paste0(sex, "_1 + ", sex, "_2")
+    demographic_controls <- base::paste0(sex, "_s1 + ", sex, "_s2")
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean, " + ", demographic_controls)
   } else if (demographics == "both") {
-    demographic_controls <- base::paste0(sex, "_1 + ", race, "_1 + ", sex, "_2")
+    demographic_controls <- base::paste0(sex, "_s1 + ", race, "_s1 + ", sex, "_s2")
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean, " + ", demographic_controls)
   }
 
