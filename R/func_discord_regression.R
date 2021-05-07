@@ -47,6 +47,7 @@ discord_regression <- function(data,
 								...) {
 							
 if(!legacy){	# non-legacy version
+
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
   if (is.null(sex) & is.null(race)) {
