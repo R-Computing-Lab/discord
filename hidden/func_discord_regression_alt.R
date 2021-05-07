@@ -34,7 +34,7 @@
 #' race = NULL,
 #' abridged_output = FALSE)
 #'
-discord_regression <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers = c("_s1", "_s2"), abridged_output = FALSE) {
+discord_regression <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers = c("_s1", "_s2"), abridged_output = TRUE) {
 
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
