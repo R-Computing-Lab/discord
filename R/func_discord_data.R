@@ -26,13 +26,13 @@
 #' race = NULL,
 #' demographics = "none")
 #'
-discord_data <- function(data, 
-						outcome, 
-						predictors, 
-						id = "extended_id", 
-						sex = "sex", 
-						race = "race", 
-						pair_identifiers= c("_s1", "_s2"), 
+discord_data <- function(data,
+						outcome,
+						predictors,
+						id = "extended_id",
+						sex = "sex",
+						race = "race",
+						pair_identifiers= c("_s1", "_s2"),
 						demographics = "both",
 						legacy=FALSE,
 						...) {
@@ -61,11 +61,17 @@ if(!legacy){	# non-legacy version
   if (demographics == "none") {
     output <- out %>% purrr::reduce(dplyr::left_join, by = c("id"))
   } else if (demographics == "race") {
-    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(race, pair_identifiers[1]), paste0(race, pair_identifiers[2])))
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(race, pair_identifiers[1]),
+                                                             paste0(race, pair_identifiers[2])))
   } else if (demographics == "sex") {
-    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, pair_identifiers[1]), paste0(sex, pair_identifiers[2]))))
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, pair_identifiers[1]),
+                                                             paste0(sex, pair_identifiers[2])))
   } else if (demographics == "both") {
-    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id", paste0(sex, pair_identifiers[1]), paste0(sex, pair_identifiers[2])), paste0(race, pair_identifiers[1]), paste0(race, pair_identifiers[2]))))
+    output <- out %>% purrr::reduce(dplyr::left_join, by = c("id",
+                                                             paste0(sex, pair_identifiers[1]),
+                                                             paste0(sex, pair_identifiers[2]),
+                                                             paste0(race, pair_identifiers[1]),
+                                                             paste0(race, pair_identifiers[2])))
   }
  }else{
    arguments <- as.list(match.call())
