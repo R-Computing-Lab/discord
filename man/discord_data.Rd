@@ -11,8 +11,10 @@ discord_data(
   id = "extended_id",
   sex = "sex",
   race = "race",
-  pair_identifiers,
-  demographics = "both"
+  pair_identifiers = c("_s1", "_s2"),
+  demographics = "both",
+  legacy = FALSE,
+  ...
 )
 }
 \arguments{
@@ -30,12 +32,11 @@ predicting the outcome.}
 
 \item{race}{A character string for the race column name.}
 
-\item{pair_identifiers}{A character vector of length two that contains the
-variable identifier for each kinship p}
+\item{pair_identifiers}{A character vector of length two that contains the variable identifier for each kinship p}
 
-\item{demographics}{Indicator variable for if the data has the sex and race
-demographics. If both are present (default, and recommended), value should
-be "both". Other options include "sex", "race", or "none".}
+\item{demographics}{Indicator variable for if the data has the sex and race demographics. If both are present (default, and recommended), value should be "both". Other options include "sex", "race", or "none".}
+
+\item{legacy}{Logical Logical: FALSE (by default) when true uses legacy code version}
 }
 \value{
 A data frame that

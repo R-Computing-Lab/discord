@@ -9,8 +9,7 @@
 #' @param sex A character string for the sex column name.
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
-#' @param abridged_output Logical: FALSE (by default) and the fit model will be summarized with the \link[broom]{tidy} function. FALSE and the full model object will be returned.
-#' @param legacy Logical Logical: FALSE (by default) when true uses legacy code version
+#' @param abridged_output Logical: TRUE (by default) and the fit model will be summarized with the \link[broom]{tidy} function. FALSE and the full model object will be returned.
 #'
 #' @return Either a tidy data frame containing the model metrics or the full model object will be returned. See examples.
 #'
@@ -35,18 +34,7 @@
 #' race = NULL,
 #' abridged_output = FALSE)
 #'
-discord_regression <- function(data, 
-								outcome, 
-								predictors, 
-								id = "extended_id", 
-								sex = "sex", 
-								race = "race", 
-								pair_identifiers = c("_s1", "_s2"), 
-								abridged_output = FALSE,
-								legacy=FALSE,
-								...) {
-							
-if(!legacy){	# non-legacy version
+discord_regression <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers = c("_s1", "_s2"), abridged_output = TRUE) {
 
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
@@ -95,26 +83,6 @@ if(!legacy){	# non-legacy version
     model <- model %>%
       broom::tidy()
   }
-}else{
-  if(!discord_data){
-   data<- discord_data(outcome=outcome,doubleentered=doubleentered,
-                 sep=sep,
-                 scale=scale,
-                 data=data,
-                 id=id,
-                 full=FALSE,
-				 legacy=TRUE)
-  }
-  arguments <- as.list(match.call())
-  if(is.null(predictors)){
-    predictors<-setdiff(unique(gsub("_1|_2|_diff|_mean|id","",names(data))),paste0(arguments$outcome))
-  }
-  if(is.null(additional_formula)){
-    additional_formula=""
-  }
-  model<-lm(as.formula(paste0(paste0(arguments$outcome,"_diff"," ~ "),paste0(predictors,'_diff+',collapse=""),paste0(predictors,'_mean+',collapse=""),arguments$outcome,"_mean",paste0(additional_formula))),data=data)
-
-}
 
   return(model)
 
