@@ -10,7 +10,7 @@
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
 #' @param abridged_output Logical: FALSE (by default) and the fit model will be summarized with the \link[broom]{tidy} function. FALSE and the full model object will be returned.
-#' @param legacy Logical Logical: FALSE (by default) when true uses legacy code version
+#' @param legacy Logical Logical: TRUE (by default) when true uses legacy code version
 #'
 #' @return Either a tidy data frame containing the model metrics or the full model object will be returned. See examples.
 #'
@@ -43,7 +43,7 @@ discord_regression <- function(data,
 								race = "race", 
 								pair_identifiers = c("_s1", "_s2"), 
 								abridged_output = FALSE,
-								legacy=FALSE,
+								legacy=TRUE,
 								...) {
 							
 if(!legacy){	# non-legacy version
