@@ -10,21 +10,13 @@
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship p
 #' @param demographics Indicator variable for if the data has the sex and race demographics. If both are present (default, and recommended), value should be "both". Other options include "sex", "race", or "none".
-#' @param legacy Logical Logical: FALSE (by default) when true uses legacy code version
+#' @param legacy Logical value. By default is TRUE. The Legacy version is the Rachel Version (ie the one Mason wrote)
+#'   Non-Legacy is the version that Jonathan wrote.
 #'
 #' @return A data frame that
 #'
 #' @export
 #'
-#' @examples
-#'
-#' discord_data(data = sample_data,
-#' outcome = "height",
-#' predictors = "weight",
-#' pair_identifiers = c("_s1", "_s2"),
-#' sex = NULL,
-#' race = NULL,
-#' demographics = "none")
 #'
 discord_data <- function(data,
 						outcome,
@@ -34,9 +26,10 @@ discord_data <- function(data,
 						race = "race",
 						pair_identifiers= c("_s1", "_s2"),
 						demographics = "both",
-						legacy=FALSE,
+						legacy=TRUE,
+
 						...) {
-if(!legacy){	# non-legacy version
+if(!legacy){	# non-legacy version;
   #combine outcome and predictors for manipulating the data
   variables <- c(outcome, predictors)
 
@@ -74,20 +67,42 @@ if(!legacy){	# non-legacy version
                                                              paste0(race, pair_identifiers[2])))
   }
  }else{
-   arguments <- as.list(match.call())
+   # unknown... is probably important for reasons again unknown
+  arguments <- as.list(match.call())
+
+  # mason remembers that this is because when compiling it leads to an error code.
+  # y is probably our outcome variable... it unclear
+  # my guess is that it is a sorted version of the y outcome variable
+
   y <- ysort <- NULL
 
+  #creates new list that is empty
+
   IVlist <- list()
+
+  print(paste0(arguments$outcome, sep, "1"))
+  df=data
   outcome1=subset(df, select=paste0(arguments$outcome,sep,"1"))[,1]
   outcome2=subset(df, select=paste0(arguments$outcome,sep,"2"))[,1]
 
   #create id if not supplied
-  if(is.null(id))
-  {
+  if(is.null(id)){
     id<-rep(1:length(outcome1[,1]))}
   #If no predictors selected, grab all variables not listed as outcome, and contain sep 1 or sep 2
   if(is.null(predictors)){
-    predictors<-setdiff(unique(gsub(paste0(sep,"1|",sep,"2"),"",grep(paste0(sep,"1|",sep,"2"),names(df),value = TRUE))),paste0(arguments$outcome))
+    predictors<-setdiff(
+      unique(
+        gsub(
+          paste0(sep,"1|",sep,"2")
+          ,"",
+          grep(
+            paste0(sep,"1|",sep,"2"),
+            names(df),
+            value = TRUE)
+          )
+        ),
+      paste0(arguments$outcome)
+      )
     #unpaired.predictors=setdiff(grep(paste0(sep,"1|",sep,"2"),names(df),value = TRUE,invert=TRUE),paste0(arguments$id))
   }
 
@@ -163,8 +178,12 @@ if(!legacy){	# non-legacy version
   # randomly select for sorting on identical outcomes
 
   if(length(unique(DV$id[DV$outcome_diff==0]))>0){
+
     select<-sample(c(0,1), replace=TRUE, size=length(unique(DV$id[DV$outcome_diff==0&!is.na(DV$outcome_diff)])))
-    DV$ysort[DV$outcome_diff==0&!is.na(DV$outcome_diff)]<-c(select,abs(select-1))
+
+    #hot mess
+
+      DV$ysort[DV$outcome_diff==0&!is.na(DV$outcome_diff)]<-c(select,abs(select-1))
 
   }
   DV$id<-NULL
