@@ -10,7 +10,7 @@
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
 #' @param abridged_output Logical: FALSE (by default) and the fit model will be summarized with the \link[broom]{tidy} function. FALSE and the full model object will be returned.
-#' @param legacy Logical Logical: TRUE (by default) when true uses legacy code version
+#' @param legacy Logical: TRUE (by default) when true uses legacy code version
 #'
 #' @return Either a tidy data frame containing the model metrics or the full model object will be returned. See examples.
 #'
@@ -35,20 +35,25 @@
 #' race = NULL,
 #' abridged_output = FALSE)
 #'
-discord_regression <- function(data, 
-								outcome, 
-								predictors, 
-								id = "extended_id", 
-								sex = "sex", 
-								race = "race", 
-								pair_identifiers = c("_s1", "_s2"), 
+discord_regression <- function(data,
+								outcome,
+								predictors,
+								id = "extended_id",
+								sex = "sex",
+								race = "race",
+								pair_identifiers = c("_s1", "_s2"),
 								abridged_output = FALSE,
 								legacy=TRUE,
 								...) {
-							
+#if J version
+  #else is R version
 if(!legacy){	# non-legacy version
 
-  check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
+  check_discord_errors(data = data,
+                       id = id,
+                       sex = sex,
+                       race = race,
+                       pair_identifiers = pair_identifiers)
 
   if (is.null(sex) & is.null(race)) {
     demographics <- "none"
@@ -96,6 +101,7 @@ if(!legacy){	# non-legacy version
       broom::tidy()
   }
 }else{
+  #will run discord data function if data frame not  discordant
   if(!discord_data){
    data<- discord_data(outcome=outcome,doubleentered=doubleentered,
                  sep=sep,
@@ -105,14 +111,28 @@ if(!legacy){	# non-legacy version
                  full=FALSE,
 				 legacy=TRUE)
   }
+  #get the function arguments
   arguments <- as.list(match.call())
   if(is.null(predictors)){
-    predictors<-setdiff(unique(gsub("_1|_2|_diff|_mean|id","",names(data))),paste0(arguments$outcome))
+    # will find the predictors if you don't include them; sees what is in the data pattern and spits that back out
+    predictors<-setdiff(
+      unique(gsub("_1|_2|_diff|_mean|id","",names(data))),
+                        paste0(arguments$outcome))
   }
+  # additional_formula check;
   if(is.null(additional_formula)){
     additional_formula=""
   }
-  model<-lm(as.formula(paste0(paste0(arguments$outcome,"_diff"," ~ "),paste0(predictors,'_diff+',collapse=""),paste0(predictors,'_mean+',collapse=""),arguments$outcome,"_mean",paste0(additional_formula))),data=data)
+  model<-lm(
+    as.formula(
+    paste0(
+    paste0(arguments$outcome,"_diff"," ~ "),
+    paste0(predictors,'_diff+',collapse=""),
+    paste0(predictors,'_mean+',collapse=""),
+    arguments$outcome,"_mean",
+    paste0(additional_formula)
+    )
+    ),data=data)
 
 }
 
