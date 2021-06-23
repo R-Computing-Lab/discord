@@ -15,7 +15,7 @@ NLSY/R Lab
 sample_data
 }
 \description{
-A data frame output from \link[NlsyLinks]{CreatePairLinksSingleEntered} that
+A data frame output from the NlsyLinks package that
 contains data for kinship pairs' height and weight.
 }
 \keyword{datasets}

@@ -25,7 +25,6 @@ Imports:
     stats,
     broom,
 Suggests: 
-    NlsyLinks,
     testthat,
     knitr,
     rmarkdown
