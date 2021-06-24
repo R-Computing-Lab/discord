@@ -1,3 +1,4 @@
+
 *.aux
 *.bak
 *.bbl
@@ -42,3 +43,8 @@ x.log
 _region*
 hidden/func_restructure.R
 discord-paper/nul
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
