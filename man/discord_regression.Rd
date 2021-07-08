@@ -13,7 +13,7 @@ discord_regression(
   race = "race",
   pair_identifiers = c("_s1", "_s2"),
   abridged_output = FALSE,
-  legacy = FALSE,
+  legacy = TRUE,
   ...
 )
 }
@@ -36,7 +36,7 @@ predicting the outcome.}
 
 \item{abridged_output}{Logical: FALSE (by default) and the fit model will be summarized with the \link[broom]{tidy} function. FALSE and the full model object will be returned.}
 
-\item{legacy}{Logical Logical: FALSE (by default) when true uses legacy code version}
+\item{legacy}{Logical: TRUE (by default) when true uses legacy code version}
 }
 \value{
 Either a tidy data frame containing the model metrics or the full model object will be returned. See examples.

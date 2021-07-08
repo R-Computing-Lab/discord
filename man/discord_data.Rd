@@ -13,7 +13,7 @@ discord_data(
   race = "race",
   pair_identifiers = c("_s1", "_s2"),
   demographics = "both",
-  legacy = FALSE,
+  legacy = TRUE,
   ...
 )
 }
@@ -36,22 +36,12 @@ predicting the outcome.}
 
 \item{demographics}{Indicator variable for if the data has the sex and race demographics. If both are present (default, and recommended), value should be "both". Other options include "sex", "race", or "none".}
 
-\item{legacy}{Logical Logical: FALSE (by default) when true uses legacy code version}
+\item{legacy}{Logical value. By default is TRUE. The Legacy version is the Rachel Version (ie the one Mason wrote)
+Non-Legacy is the version that Jonathan wrote.}
 }
 \value{
 A data frame that
 }
 \description{
 Restructure Data to Determine Kinship Differences
-}
-\examples{
-
-discord_data(data = sample_data,
-outcome = "height",
-predictors = "weight",
-pair_identifiers = c("_s1", "_s2"),
-sex = NULL,
-race = NULL,
-demographics = "none")
-
 }
