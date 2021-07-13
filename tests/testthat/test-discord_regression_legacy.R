@@ -1,115 +1,112 @@
+
+get_p_value <- function(.results) {
+  results_df <- summary(.results)
+  results_df <- as.data.frame(results_df$coefficients)
+  results_df <- cbind(names = rownames(results_df), results_df)
+  rownames(results_df) <- NULL
+  results_df[which(results_df$names == "y2_diff"), "Pr(>|t|)"]
+}
+
 signif_threshold <- 0.05
 
 test_that("old - monozygotic significant is as expected", {
 
-  results <- old_discord_data(df = mz_signif,
+  set.seed(18)
+  results <- discord_data_legacy(df = mz_signif,
                    outcome = "y1",
                    predictors = "y2",
                    id = "id",
                    sep = "_",
                    doubleentered = TRUE) %>%
-    old_discord_regression(outcome = "y1",
-                           predictors = "y2") %>%
-    broom::tidy()
+    discord_regression_legacy(outcome = "y1",
+                           predictors = "y2")
 
-  p_value <- results[which(results$term == "y2_diff"), "p.value"]$p.value
-
-  expect_lt(object = p_value, expected = signif_threshold)
+  expect_lt(object = get_p_value(results), expected = signif_threshold)
 
 
 })
 
 test_that("old - monozygotic nonsignificant is as expected", {
 
-  results <- old_discord_data(df = mz_nonsignif,
+  set.seed(18)
+  results <- discord_data_legacy(df = mz_nonsignif,
                                  outcome = "y1",
                                  predictors = "y2",
                                  id = "id",
                                  sep = "_",
                                  doubleentered = TRUE) %>%
-    old_discord_regression(outcome = "y1",
-                           predictors = "y2") %>%
-    broom::tidy()
+    discord_regression_legacy(outcome = "y1",
+                           predictors = "y2")
 
-  p_value <- results[which(results$term == "y2_diff"), "p.value"]$p.value
-
-  expect_gt(object = p_value, expected = signif_threshold)
+  expect_gt(object = get_p_value(results), expected = signif_threshold)
 
 })
 
 
 test_that("old - dizygotic significant is as expected", {
 
-  results <- old_discord_data(df = dz_signif,
+  set.seed(18)
+  results <- discord_data_legacy(df = dz_signif,
                               outcome = "y1",
                               predictors = "y2",
                               id = "id",
                               sep = "_",
                               doubleentered = TRUE) %>%
-    old_discord_regression(outcome = "y1",
-                           predictors = "y2") %>%
-    broom::tidy()
+    discord_regression_legacy(outcome = "y1",
+                           predictors = "y2")
 
-  p_value <- results[which(results$term == "y2_diff"), "p.value"]$p.value
-
-  expect_lt(object = p_value, expected = signif_threshold)
+  expect_lt(object = get_p_value(results), expected = signif_threshold)
 
 
 })
 
 test_that("old - dizygotic nonsignificant is as expected", {
 
-  results <- old_discord_data(df = dz_nonsignif,
+  set.seed(18)
+  results <- discord_data_legacy(df = dz_nonsignif,
                               outcome = "y1",
                               predictors = "y2",
                               id = "id",
                               sep = "_",
                               doubleentered = TRUE) %>%
-    old_discord_regression(outcome = "y1",
-                           predictors = "y2") %>%
-    broom::tidy()
+    discord_regression_legacy(outcome = "y1",
+                           predictors = "y2")
 
-  p_value <- results[which(results$term == "y2_diff"), "p.value"]$p.value
-
-  expect_gt(object = p_value, expected = signif_threshold)
+  expect_gt(object = get_p_value(results), expected = signif_threshold)
 
 })
 
 
 test_that("old - half siblings significant is as expected", {
 
-  results <- old_discord_data(df = half_sibs_signif,
+  set.seed(18)
+  results <- discord_data_legacy(df = half_sibs_signif,
                               outcome = "y1",
                               predictors = "y2",
                               id = "id",
                               sep = "_",
                               doubleentered = TRUE) %>%
-    old_discord_regression(outcome = "y1",
-                           predictors = "y2") %>%
-    broom::tidy()
+    discord_regression_legacy(outcome = "y1",
+                           predictors = "y2")
 
-  p_value <- results[which(results$term == "y2_diff"), "p.value"]$p.value
-
-  expect_lt(object = p_value, expected = signif_threshold)
+  expect_lt(object = get_p_value(results), expected = signif_threshold)
 
 
 })
 
 test_that("old - half siblings nonsignificant is as expected", {
 
-  results <- old_discord_data(df = half_sibs_nonsignif,
+  set.seed(18)
+  results <- discord_data_legacy(df = half_sibs_nonsignif,
                               outcome = "y1",
                               predictors = "y2",
                               id = "id",
                               sep = "_",
                               doubleentered = TRUE) %>%
-    old_discord_regression(outcome = "y1",
-                           predictors = "y2") %>%
-    broom::tidy()
+    discord_regression_legacy(outcome = "y1",
+                           predictors = "y2")
 
-  p_value <- results[which(results$term == "y2_diff"), "p.value"]$p.value
-
-  expect_gt(object = p_value, expected = signif_threshold)
+  expect_gt(object = get_p_value(results), expected = signif_threshold)
 
 })
 
