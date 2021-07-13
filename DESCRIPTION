@@ -5,7 +5,7 @@ Version: 2.0.0
 Date: 2021-05-15
 Authors@R: c(person("S. Mason", "Garrison", email = "garrissm@wfu.edu",
                   role = c("aut", "cre")),
-             person("Jonathan", "Trattner", email = "code@jdtrat.com",
+             person("Jonathan", "Trattner", email = "jdt@jdtrat.com",
                   role = "aut"),
              person("Cermet", "Ream", role = c("ctb")))
 Maintainer: S. Mason Garrison <garrissm@wfu.edu>
@@ -21,9 +21,7 @@ Imports:
     purrr,
     magrittr,
     rlang,
-    janitor,
-    stats,
-    broom,
+    stats
 Suggests: 
     testthat,
     knitr,
