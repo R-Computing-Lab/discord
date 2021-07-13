@@ -9,7 +9,6 @@
 #' @param sex A character string for the sex column name.
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
-#' @param abridged_output Logical: TRUE (by default) and the fit model will be summarized with the \link[broom]{tidy} function. FALSE and the full model object will be returned.
 #'
 #' @return Either a tidy data frame containing the model metrics or the full model object will be returned. See examples.
 #'
@@ -17,7 +16,6 @@
 #'
 #' @examples
 #'
-#' # Return an abridged model output using the \link[broom]{package}.
 #' discord_regression(data = sample_data,
 #' outcome = "height",
 #' predictors = "weight",
@@ -25,16 +23,9 @@
 #' sex = NULL,
 #' race = NULL)
 #'
-#' # Return the full model output.
-#' discord_regression(data = sample_data,
-#' outcome = "height",
-#' predictors = "weight",
-#' pair_identifiers = c("_s1", "_s2"),
-#' sex = NULL,
-#' race = NULL,
-#' abridged_output = FALSE)
-#'
-discord_regression <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers = c("_s1", "_s2"), abridged_output = TRUE) {
+discord_regression <- function(data, outcome, predictors,
+                               id = "extended_id", sex = "sex", race = "race",
+                               pair_identifiers = c("_s1", "_s2")) {
 
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
@@ -78,11 +69,6 @@ discord_regression <- function(data, outcome, predictors, id = "extended_id", se
   }
 
   model <- stats::lm(stats::as.formula(paste(realOutcome, preds, sep = " ~ ")), data = preppedData)
-
-  if (abridged_output) {
-    model <- model %>%
-      broom::tidy()
-  }
 
   return(model)
 
