@@ -23,7 +23,7 @@
 #' @author
 #'
 #'  \href{https://www.smasongarrison.com/}{S. Mason Garrison} (Wake Forest University)
-#'  Jonathan Trattner
+#'  \href{https://www.jdtrat.com/}{Jonathan Trattner}
 #'  Cermet Ream
 #'
 #' Maintainer: S. Mason Garrison <garrissm@wfu.edu>
