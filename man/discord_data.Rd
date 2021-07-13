@@ -11,10 +11,8 @@ discord_data(
   id = "extended_id",
   sex = "sex",
   race = "race",
-  pair_identifiers = c("_s1", "_s2"),
-  demographics = "both",
-  legacy = TRUE,
-  ...
+  pair_identifiers,
+  demographics = "both"
 )
 }
 \arguments{
@@ -32,16 +30,27 @@ predicting the outcome.}
 
 \item{race}{A character string for the race column name.}
 
-\item{pair_identifiers}{A character vector of length two that contains the variable identifier for each kinship p}
+\item{pair_identifiers}{A character vector of length two that contains the
+variable identifier for each kinship p}
 
-\item{demographics}{Indicator variable for if the data has the sex and race demographics. If both are present (default, and recommended), value should be "both". Other options include "sex", "race", or "none".}
-
-\item{legacy}{Logical value. By default is TRUE. The Legacy version is the Rachel Version (ie the one Mason wrote)
-Non-Legacy is the version that Jonathan wrote.}
+\item{demographics}{Indicator variable for if the data has the sex and race
+demographics. If both are present (default, and recommended), value should
+be "both". Other options include "sex", "race", or "none".}
 }
 \value{
 A data frame that
 }
 \description{
 Restructure Data to Determine Kinship Differences
+}
+\examples{
+
+discord_data(data = sample_data,
+outcome = "height",
+predictors = "weight",
+pair_identifiers = c("_s1", "_s2"),
+sex = NULL,
+race = NULL,
+demographics = "none")
+
 }
