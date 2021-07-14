@@ -17,9 +17,6 @@ RoxygenNote: 7.1.1.9000
 Encoding: UTF-8
 Depends: R (>= 2.10)
 Imports: 
-    purrr,
-    magrittr,
-    rlang,
     stats
 Suggests: 
     testthat,
