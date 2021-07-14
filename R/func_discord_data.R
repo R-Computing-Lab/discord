@@ -14,7 +14,7 @@
 #'   demographics. If both are present (default, and recommended), value should
 #'   be "both". Other options include "sex", "race", or "none".
 #'
-#' @return A data frame that
+#' @return A data frame that contains analyzable, paired data for performing kinship regressions.
 #'
 #' @export
 #'

@@ -32,7 +32,7 @@ predicting the outcome.}
 \item{pair_identifiers}{A character vector of length two that contains the variable identifier for each kinship pair.}
 }
 \value{
-Either a tidy data frame containing the model metrics or the full model object will be returned. See examples.
+Resulting `lm` object from performing the discordant regression.
 }
 \description{
 Perform a Linear Regression within the Discordant Kinship Framework
