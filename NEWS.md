@@ -1,3 +1,10 @@
+# discord 1.1.0
+
+## Minor improvements and fixes
+
+* Added unit tests ensuring regression results are consistent under multiple conditions (e.g., with and without sex & race arguments)
+* Removed `dplyr`, `rlang`, `purrr`, `magrittr`, `janitor`, and `broom` dependencies
+
 # discord 1.0.0
 
 * Added a `NEWS.md` file to track changes to the package.
