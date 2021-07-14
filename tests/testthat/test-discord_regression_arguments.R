@@ -33,8 +33,8 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race + sex", {
   new <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
     predictors = c("edu_2008", "ses_2008")
-  ) %>%
-    summarize_results()
+  )
+  new <- summarize_results(new)
 
   expect_equal(control, new, tolerance = 0.005)
 })
@@ -67,8 +67,8 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race", {
     outcome = "flu_2008",
     predictors = c("edu_2008", "ses_2008"),
     sex = NULL
-  ) %>%
-    summarize_results()
+  )
+  new <- summarize_results(new)
 
   expect_equal(control, new, tolerance = 0.005)
 })
@@ -100,8 +100,8 @@ test_that("flu_2008 ~ edu_2008 + ses_2008", {
     predictors = c("edu_2008", "ses_2008"),
     sex = NULL,
     race = NULL
-  ) %>%
-    summarize_results()
+  )
+  new <- summarize_results(new)
 
   expect_equal(control, new, tolerance = 0.005)
 })
@@ -135,8 +135,8 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race + sex", {
   new <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
     predictors = "edu_2008"
-  ) %>%
-    summarize_results()
+  )
+  new <- summarize_results(new)
 
   expect_equal(control, new, tolerance = 0.005)
 })

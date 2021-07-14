@@ -17,8 +17,9 @@ test_that("old - monozygotic significant is as expected", {
                    predictors = "y2",
                    id = "id",
                    sep = "_",
-                   doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
+                   doubleentered = TRUE)
+  results <- discord_regression_legacy(df = results,
+                                       outcome = "y1",
                            predictors = "y2")
 
   expect_lt(object = get_p_value(results), expected = signif_threshold)
@@ -34,9 +35,10 @@ test_that("old - monozygotic nonsignificant is as expected", {
                                  predictors = "y2",
                                  id = "id",
                                  sep = "_",
-                                 doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                           predictors = "y2")
+                                 doubleentered = TRUE)
+  results <- discord_regression_legacy(df = results,
+                                       outcome = "y1",
+                                       predictors = "y2")
 
   expect_gt(object = get_p_value(results), expected = signif_threshold)
 
@@ -51,9 +53,10 @@ test_that("old - dizygotic significant is as expected", {
                               predictors = "y2",
                               id = "id",
                               sep = "_",
-                              doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                           predictors = "y2")
+                              doubleentered = TRUE)
+  results <- discord_regression_legacy(df = results,
+                                       outcome = "y1",
+                                       predictors = "y2")
 
   expect_lt(object = get_p_value(results), expected = signif_threshold)
 
@@ -68,9 +71,10 @@ test_that("old - dizygotic nonsignificant is as expected", {
                               predictors = "y2",
                               id = "id",
                               sep = "_",
-                              doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                           predictors = "y2")
+                              doubleentered = TRUE)
+  results <- discord_regression_legacy(df = results,
+                                       outcome = "y1",
+                                       predictors = "y2")
 
   expect_gt(object = get_p_value(results), expected = signif_threshold)
 
@@ -85,9 +89,10 @@ test_that("old - half siblings significant is as expected", {
                               predictors = "y2",
                               id = "id",
                               sep = "_",
-                              doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                           predictors = "y2")
+                              doubleentered = TRUE)
+  results <- discord_regression_legacy(df = results,
+                                       outcome = "y1",
+                                       predictors = "y2")
 
   expect_lt(object = get_p_value(results), expected = signif_threshold)
 
@@ -102,9 +107,10 @@ test_that("old - half siblings nonsignificant is as expected", {
                               predictors = "y2",
                               id = "id",
                               sep = "_",
-                              doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                           predictors = "y2")
+                              doubleentered = TRUE)
+  results <- discord_regression_legacy(df = results,
+                                       outcome = "y1",
+                                       predictors = "y2")
 
   expect_gt(object = get_p_value(results), expected = signif_threshold)
 

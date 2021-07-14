@@ -41,9 +41,10 @@ test_that("monozygotic significant: new & legacy regression code results are equ
                                  predictors = "y2",
                                  id = "id",
                                  sep = "_",
-                                 doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                              predictors = "y2")
+                                 doubleentered = TRUE)
+  old_results <- discord_regression_legacy(df = old_results,
+                                           outcome = "y1",
+                                       predictors = "y2")
 
   expect_equal(summarize_results(new_results), summarize_results(old_results))
 
@@ -94,9 +95,10 @@ test_that("monozygotic nonsignificant: new & legacy regression code results are 
                                      predictors = "y2",
                                      id = "id",
                                      sep = "_",
-                                     doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                              predictors = "y2")
+                                     doubleentered = TRUE)
+  old_results <- discord_regression_legacy(df = old_results,
+                                           outcome = "y1",
+                                       predictors = "y2")
 
   expect_equal(summarize_results(new_results), summarize_results(old_results))
 
@@ -149,9 +151,10 @@ test_that("dizygotic significant: new & legacy regression code results are equal
                                      predictors = "y2",
                                      id = "id",
                                      sep = "_",
-                                     doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                              predictors = "y2")
+                                     doubleentered = TRUE)
+  old_results <- discord_regression_legacy(df = old_results,
+                                           outcome = "y1",
+                                           predictors = "y2")
 
   expect_equal(summarize_results(new_results), summarize_results(old_results))
 
@@ -202,9 +205,10 @@ test_that("dizygotic nonsignificant: new & legacy regression code results are eq
                                      predictors = "y2",
                                      id = "id",
                                      sep = "_",
-                                     doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                              predictors = "y2")
+                                     doubleentered = TRUE)
+  old_results <- discord_regression_legacy(df = old_results,
+                                           outcome = "y1",
+                                           predictors = "y2")
 
   expect_equal(summarize_results(new_results), summarize_results(old_results))
 
@@ -256,9 +260,10 @@ test_that("half-siblings significant: new & legacy regression code results are e
                                      predictors = "y2",
                                      id = "id",
                                      sep = "_",
-                                     doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                              predictors = "y2")
+                                     doubleentered = TRUE)
+  old_results <- discord_regression_legacy(df = old_results,
+                                           outcome = "y1",
+                                           predictors = "y2")
 
   expect_equal(summarize_results(new_results), summarize_results(old_results))
 
@@ -309,9 +314,10 @@ test_that("half-siblings nonsignificant: new & legacy regression code results ar
                                      predictors = "y2",
                                      id = "id",
                                      sep = "_",
-                                     doubleentered = TRUE) %>%
-    discord_regression_legacy(outcome = "y1",
-                              predictors = "y2")
+                                     doubleentered = TRUE)
+  old_results <- discord_regression_legacy(df = old_results,
+                                           outcome = "y1",
+                                           predictors = "y2")
 
   expect_equal(summarize_results(new_results), summarize_results(old_results))
 
