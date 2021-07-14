@@ -1,6 +1,7 @@
 Biometrically
 MZ
 NLSY
+NlsyLinks
 Reliabilities
 biometrically
 customizable
@@ -8,6 +9,8 @@ devtools
 edu
 garrissm
 mathrm
+lm
+rescale
 rmvn
 tidyverse
 wfu
