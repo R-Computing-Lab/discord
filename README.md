@@ -1,6 +1,7 @@
 # discord
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/smasongarrison/discord/workflows/R-CMD-check/badge.svg)](https://github.com/smasongarrison/discord/actions)
 [![CRAN
 version](https://www.r-pkg.org/badges/version/discord)](https://cran.r-project.org/package=discord)
 <!-- badges: end -->
