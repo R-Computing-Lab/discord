@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">discord</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -86,24 +86,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/discord_data.html">Restructuring Data for Kin Comparisons</a>
-    </li>
-    <li>
-      <a href="../articles/discord_regression.html">Performing a Discordant-Kinship Regression</a>
-    </li>
-    <li>
-      <a href="../articles/kinship-simulations.html">Kinship Simulations</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -145,10 +127,7 @@
   id <span class='op'>=</span> <span class='st'>"extended_id"</span>,
   sex <span class='op'>=</span> <span class='st'>"sex"</span>,
   race <span class='op'>=</span> <span class='st'>"race"</span>,
-  pair_identifiers <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_s1"</span>, <span class='st'>"_s2"</span><span class='op'>)</span>,
-  abridged_output <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  legacy <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
+  pair_identifiers <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_s1"</span>, <span class='st'>"_s2"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -184,39 +163,29 @@ predicting the outcome.</p></td>
       <th>pair_identifiers</th>
       <td><p>A character vector of length two that contains the variable identifier for each kinship pair.</p></td>
     </tr>
-    <tr>
-      <th>abridged_output</th>
-      <td><p>Logical: FALSE (by default) and the fit model will be summarized with the <a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a> function. FALSE and the full model object will be returned.</p></td>
-    </tr>
-    <tr>
-      <th>legacy</th>
-      <td><p>Logical Logical: FALSE (by default) when true uses legacy code version</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Either a tidy data frame containing the model metrics or the full model object will be returned. See examples.</p>
+    <p>Resulting `lm` object from performing the discordant regression.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># Return an abridged model output using the \link[broom]{package}.</span>
 <span class='fu'>discord_regression</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>sample_data</span>,
 outcome <span class='op'>=</span> <span class='st'>"height"</span>,
 predictors <span class='op'>=</span> <span class='st'>"weight"</span>,
 pair_identifiers <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_s1"</span>, <span class='st'>"_s2"</span><span class='op'>)</span>,
 sex <span class='op'>=</span> <span class='cn'>NULL</span>,
 race <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in !discord_data: invalid argument type</span></div><div class='input'>
-<span class='co'># Return the full model output.</span>
-<span class='fu'>discord_regression</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>sample_data</span>,
-outcome <span class='op'>=</span> <span class='st'>"height"</span>,
-predictors <span class='op'>=</span> <span class='st'>"weight"</span>,
-pair_identifiers <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"_s1"</span>, <span class='st'>"_s2"</span><span class='op'>)</span>,
-sex <span class='op'>=</span> <span class='cn'>NULL</span>,
-race <span class='op'>=</span> <span class='cn'>NULL</span>,
-abridged_output <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in !discord_data: invalid argument type</span></div><div class='input'>
+</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; stats::lm(formula = stats::as.formula(paste(realOutcome, preds, 
+#&gt;     sep = " ~ ")), data = preppedData)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)  height_mean  weight_diff  weight_mean  
+#&gt;     0.89485      0.08094      0.05062     -0.05818  
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
