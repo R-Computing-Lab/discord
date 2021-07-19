@@ -108,3 +108,5 @@ qnames = function(data) {
 
 
 categories <- qnames(vallabels(new_data))
+
+remove(new_data)
