@@ -28,9 +28,11 @@ journal: JOSS
 
 # Summary
 
-As a field, (human) behavior -- or behavioral -- genetics explores individual differences in psychological traits and characteristics that arise from genetic and environmental factors [@burt2019]. Although considered the "gold standard" for inferring causation [@rubin2008], conducting randomized experiments to tease apart individual traits from differences in genes and environment are not always possible. For both ethical and practical considerations, behavior geneticists often use quasi-experimental designs which control for potential confounds using a variety of statistical approaches [@s.masongarrison2017].
+As a field, (human) behavior genetics explores the sources of individual differences in psychological traits and characteristics (Galton, 1876) -- to understand how much of human behavior is from  genetic and environmental factors. More technically, the field focuses on decomposing the sources of phenotypic variation into genetic (Additive (A)+ Dominance (D)) and environmental (Shared Environment (C) + Non-Shared Environment (E)) variance components, by leveraging twin and family studies . However, these models can do so much more than merely describe sources of variance; they can be used to infer causation [@burt2019].
 
-Here, we present software that optimizes quasi-experimental designs using kinship modeling.  It facilitates discordant-kinship regressions by comparing kin, such as siblings, in a manner that accounts for gene-and-environmental confounds when examining causal links in the realm of ‘nature vs. nurture.’
+Although considered the "gold standard" for inferring causation [@rubin2008], conducting randomized experiments to tease apart individual traits from differences in genes and environment are not always possible. For both ethical and practical considerations, psychologists often use quasi-experimental designs, which control for potential known confounds using a variety of statistical approaches [@s.masongarrison2017].
+
+Here, we present software facilitates a genetically-informed  quasi-experimental design, using kinship modeling.  It facilitates discordant-kinship regressions by comparing kin, such as siblings, in a manner that accounts for gene-and-environmental confounds when examining causal links in the realm of ‘nature vs. nurture.’
 
 # Statement of Need
 
