@@ -112,7 +112,7 @@ flu_ses_data %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position"), position = "center")
 ```
 
-Using the kinship relationships from the {NlsyLinks} package, we can create a data frame that lends itself to discordant analysis. For each kin pair, the function `CreatePairLinksSingleEntered()` takes a data set like the one above, a specification of the NLSY database and the kin's relatedness, and the variables of interest. It returns a data frame where every row is a kin-pair and each column is a variable of interest with a suffix indicating to which individual the value corresponds.
+Using the kinship relationships from the {NlsyLinks} package, we can create a data frame that lends itself to discordant analysis. For each kin pair, the function `CreatePairLinksSingleEntered()` takes a data set like the one above, **[a specification of the NLSY database and the kin's relatedness]**, and the variables of interest. It returns a data frame where every row is a kin-pair and each column is a variable of interest with a suffix indicating to which individual the value corresponds.
 
 For this example, we will examine the relationship between flu vaccinations received between 2006-2016 and SES at age 40 between full siblings. As such, we specify the following variables from the pre-processed data frame previewed above.
 
@@ -137,7 +137,7 @@ df_link <- CreatePairLinksSingleEntered(outcomeDataset = flu_ses_data,
 
 ```
 
-We have saved this data frame as `df_link`. A random subset of this is:
+We have saved this data frame as `df_link`. A random subset of this data is:
 
 ```{r preview-linked-dat, echo = FALSE, eval = knitr::is_html_output()}
 
