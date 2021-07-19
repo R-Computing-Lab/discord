@@ -163,7 +163,7 @@ df_link %>%
 
 Notice that, with the exception of the first column indicating the specific pair, each column name has the suffix "\_S1" and "\_S2". As mentioned above, these indicate to which sibling the column values correspond.
 
-This data is almost ready for analysis, but we want to ensure that the data are representative of actual trends. The `FLU_total` column is simply a sum of the biennial survey responses. So for a given sibling-pair, one or both individuals may not have responded to the survey indicating their vaccination status. If that's the case, we want to exclude those siblings to reduce non-response bias. We can do this by examining the biennial responses and removing any rows that have `NA`.
+This data is almost ready for analysis, but we want to ensure that the data are representative of actual trends. The `FLU_total` column is simply a sum of the biennial survey responses. So for a given sibling-pair, one or both individuals may not have responded to the survey indicating their vaccination status. If that's the case, we want to exclude those siblings to reduce **[non-response bias]**. We can do this by examining the biennial responses and removing any rows that have `NA`.
 
 ```{r consistent-kin-data}
 
@@ -188,7 +188,7 @@ flu_modeling_data <- semi_join(df_link,
   clean_names()
 ```
 
-To be extra safe in our analysis, we specify that the sibling-pairs should be from unique households (i.e. remove households with more than one sibling-pair).
+To avoid violating assumptions of independence, in our analysis we specify that the sibling-pairs should be from unique households (i.e. remove households with more than one sibling-pair). **WAIT are you restricting the analysis to households that only have 1 pair? or removing extra pairs so that each household only has one?**
 
 ```{r finalize-flu-modeling-data}
 
@@ -198,7 +198,7 @@ flu_modeling_data <- flu_modeling_data %>%
   ungroup()
 ```
 
-The data we will use for modeling now contains meta-information for each kin pair, including sex and race of each individual, flu vaccination status for the biennial survey between 2006-2016, and a total flu vaccination count for that period. The total vaccination count ranges from 0 - 5, where 0 indicates that the individual did not get a vaccine in any year between 2006-2016 and 5 indicates that an individual got at least 5 vaccines between 2006-2016. Though our data set has individual years, we are only interested in the total. A subset of the data to use in this regression looks like:
+The data we will use for modeling now contains additional information for each kin pair, including sex and race of each individual, flu vaccination status for the biennial survey between 2006-2016, and a total flu vaccination count for that period. The total vaccination count ranges from 0 - 5, where 0 indicates that the individual did not get a vaccine in any year between 2006-2016 and 5 indicates that an individual got at least 5 vaccines between 2006-2016. Although our data set has individual years, we are only interested in the total. A subset of the data to use in this regression looks like:
 
 ```{r preview-flu-modeling-data, echo = FALSE, eval = knitr::is_html_output()}
 flu_modeling_data %>%
