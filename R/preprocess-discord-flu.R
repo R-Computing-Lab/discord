@@ -27,7 +27,7 @@ nlsy_flu_data <- categories %>%
          FLU_2014 = ifelse(is.na(FLU_M_2014) & is.na(FLU_F_2014), NA, FLU_2014),
          FLU_2016 = ifelse(is.na(FLU_M_2016) & is.na(FLU_F_2016), NA, FLU_2016))
 
-
+remove(categories)
 
 ## ----read-demographic-data----------------------------------------------------------------------------------------------------
 # Read demographic data from internal SES measures
@@ -44,4 +44,7 @@ flu_ses_data <- inner_join(nlsy_flu_data, demographic_data,
          SEX = case_when(SEX == "FEMALE" ~ 0,
                          SEX == "MALE" ~ 1))
 
+# note that RACE is actually racial minority (o if non-black,non-hispanic; 1 if black or hispanic
 
+remove(nlsy_flu_data)
+remove(demographic_data)
