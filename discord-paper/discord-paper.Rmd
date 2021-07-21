@@ -28,7 +28,6 @@ journal: JOSS
 
 # Summary
 
-As a field, (human) behavior genetics explores the sources of individual differences in psychological traits and characteristics (Galton, 1876) -- to understand how much of human behavior is from  genetic and environmental factors. More technically, the field focuses on decomposing the sources of phenotypic variation into genetic (Additive (A)+ Dominance (D)) and environmental (Shared Environment (C) + Non-Shared Environment (E)) variance components, by leveraging twin and family studies . However, these models can do so much more than merely describe sources of variance; they can be used to infer causation [@burt2019].
 
 Although considered the "gold standard" for inferring causation [@rubin2008], conducting randomized experiments to tease apart individual traits from differences in genes and environment are not always possible. For both ethical and practical considerations, psychologists often use quasi-experimental designs, which control for potential known confounds using a variety of statistical approaches [@garrison2021].
 
@@ -219,7 +218,6 @@ flu_modeling_data %>%
 
 ## Modeling and Interpretation
 
-To perform the regression using the {discord} package, we supply the data frame and specify the outcome and predictors. It also requires a kinship pair id, `extended_id` in our case, as well as pair identifiers -- the column name suffixes that identify to which kin a column's values correspond ("\_s1" and "\_s2" in our case).[^discord-2] Optional, though recommended, are columns containing sex and race information to control for as additional covariates. In our case, these columns are prefixed "race" and "sex". Per the [pre-processing script](https://github.com/jdtrat/senior-thesis-discord/blob/main/R/preprocess-discord-flu.R), these columns contain dummy variables where the default race is non-Black, non-Hispanic and the default sex is female.
 
 [^discord-2]: Note these were previously "\_S1" and "\_S2", however, we used the `clean_names()` function which coerced the column names to lowercase.
 
