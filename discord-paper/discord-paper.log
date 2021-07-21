@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.6.24)  24 JUN 2021 13:01
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.6.24)  21 JUL 2021 11:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1086,32 +1086,32 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 (./discord-paper.aux)
 \openout1 = `discord-paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 273.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 274.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
-73.
+74.
 (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 273.
-LaTeX Font Info:    ... okay on input line 273.
-Package hyperref Info: Link coloring ON on input line 273.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+Package hyperref Info: Link coloring ON on input line 274.
 (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -1123,9 +1123,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count487
 )
-LaTeX Info: Redefining \ref on input line 273.
-LaTeX Info: Redefining \pageref on input line 273.
-LaTeX Info: Redefining \nameref on input line 273.
+LaTeX Info: Redefining \ref on input line 274.
+LaTeX Info: Redefining \pageref on input line 274.
+LaTeX Info: Redefining \nameref on input line 274.
 (./discord-paper.out) (./discord-paper.out)
 \@outlinefile=\write6
 \openout6 = `discord-paper.out'.
@@ -1161,8 +1161,8 @@ Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'discord-paper.bbl' not found.
 No file discord-paper.bbl.
-Package biblatex Info: Reference section=0 on input line 273.
-Package biblatex Info: Reference segment=0 on input line 273.
+Package biblatex Info: Reference section=0 on input line 274.
+Package biblatex Info: Reference segment=0 on input line 274.
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -1197,26 +1197,26 @@ Package biblatex Info: Reference segment=0 on input line 273.
 * \@reversemargintrue
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 274
+LaTeX Font Info:    Trying to load font information for U+msa on input line 275
 .
 (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 274
+LaTeX Font Info:    Trying to load font information for U+msb on input line 275
 .
 (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
-Package hyperref Warning: Suppressing link with empty target on input line 300.
+Package hyperref Warning: Suppressing link with empty target on input line 301.
 
 
 
-Package hyperref Warning: Suppressing link with empty target on input line 300.
+Package hyperref Warning: Suppressing link with empty target on input line 301.
 
 
 
-Package hyperref Warning: Suppressing link with empty target on input line 300.
+Package hyperref Warning: Suppressing link with empty target on input line 301.
 
 
 File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
@@ -1232,7 +1232,7 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
 LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <8> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 355.
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 364.
 [1
 
 ]
@@ -1249,9 +1249,9 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
 [2]
-Overfull \hbox (14.36139pt too wide) in paragraph at lines 505--507
-[]\TU/lmr/m/n/10 We now link the subjects by the specified variables using \TU/
-lmtt/m/n/10 CreatePairLinksSingleEntered()\TU/lmr/m/n/10 . 
+Underfull \hbox (badness 1221) in paragraph at lines 490--498
+[]\TU/lmr/m/n/10 Using the kinship relationships from the {NlsyLinks} package, 
+we can create a
  []
 
 File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
@@ -1267,6 +1267,11 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
 [3]
+Overfull \hbox (14.36139pt too wide) in paragraph at lines 513--515
+[]\TU/lmr/m/n/10 We now link the subjects by the specified variables using \TU/
+lmtt/m/n/10 CreatePairLinksSingleEntered()\TU/lmr/m/n/10 . 
+ []
+
 File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
 arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
 </Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
@@ -1296,7 +1301,7 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
 [5]
-Underfull \hbox (badness 2269) in paragraph at lines 698--705
+Underfull \hbox (badness 2269) in paragraph at lines 704--711
 []\TU/lmr/m/n/10 The most important metric from the output, though, is the diff
 erence score,
  []
@@ -1314,19 +1319,19 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
 [6]
-Underfull \hbox (badness 1776) in paragraph at lines 838--844
+Underfull \hbox (badness 1776) in paragraph at lines 839--845
 [][]\TU/lmr/m/n/10 Yang, R., Gui, X., & Xiong, Y. (2020). Comparison of Clinica
 l Character-
  []
 
 
-Underfull \hbox (badness 3690) in paragraph at lines 838--844
+Underfull \hbox (badness 3690) in paragraph at lines 839--845
 \TU/lmr/m/n/10 istics of Patients with Asymptomatic vs Symptomatic Coronavirus 
 Disease
  []
 
 
-Underfull \hbox (badness 2753) in paragraph at lines 838--844
+Underfull \hbox (badness 2753) in paragraph at lines 839--845
 \TU/lmr/m/n/10 2019 in Wuhan, China. \TU/lmr/m/it/10 JAMA Network Open\TU/lmr/m
 /n/10 , \TU/lmr/m/it/10 3\TU/lmr/m/n/10 (5), e2010182–e2010182.
  []
@@ -1343,7 +1348,20 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
-[7] (./discord-paper.aux)
+[7]
+File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
+arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
+</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
+wn/templates/joss/resources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+[8] (./discord-paper.aux)
 Package rerunfilecheck Info: File `discord-paper.out' has not changed.
 (rerunfilecheck)             Checksum: 652D04E6D7D11EFAEA526ACC2ED645D6;1346.
 Package logreq Info: Writing requests to 'discord-paper.run.xml'.
@@ -1359,4 +1377,4 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  87i,13n,95p,746b,806s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on discord-paper.pdf (7 pages).
+Output written on discord-paper.pdf (8 pages).

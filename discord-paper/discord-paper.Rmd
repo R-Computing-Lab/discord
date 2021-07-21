@@ -188,7 +188,7 @@ flu_modeling_data <- semi_join(df_link,
   clean_names()
 ```
 
-To avoid violating assumptions of independence, in our analysis we specify that the sibling-pairs should be from unique households (i.e. remove households with more than one sibling-pair). **WAIT are you restricting the analysis to households that only have 1 pair? or removing extra pairs so that each household only has one?**
+To avoid violating assumptions of independence, in our analysis we specify that the sibling-pairs should be from unique households (i.e. we randomly select one sibling-pair per household).
 
 ```{r finalize-flu-modeling-data}
 
@@ -241,7 +241,13 @@ flu_model_output <- discord_regression(
 
 ```
 
-The default output of `discord_regression()` is a tidy data frame containing the model metrics -- courtesy of the [{broom}](https://broom.tidymodels.org) package [@robinson2021]. In this example, our results are as follows:
+```{r broom-reg, echo = FALSE}
+flu_model_output %<>% 
+  broom::tidy()
+```
+
+
+The default output of `discord_regression()` is an `lm` object. The metrics for our regression can be summarized as follows:
 
 ```{r summarize-model-html, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
 flu_model_output %>%
