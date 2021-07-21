@@ -91,7 +91,7 @@ library(janitor)
 
 After some pre-processing, we have a data frame containing subject identifiers, demographic information such as race and sex, and behavioral measurements like flu vaccination rates and SES at age 40. A random slice of this data looks like:
 
-```{r preview-pre-processed-data, echo = FALSE, eval = knitr::is_html_output()}
+```{r preview-pre-processed-data, echo = FALSE, eval = knitr::is_html_output(),error=TRUE}
 flu_ses_data %>% 
     select(CASEID, RACE, SEX, FLU_total, S00_H40) %>% 
     filter(!is.na(S00_H40)) %>%
@@ -139,7 +139,7 @@ df_link <- CreatePairLinksSingleEntered(outcomeDataset = flu_ses_data,
 
 We have saved this data frame as `df_link`. A random subset of this data is:
 
-```{r preview-linked-dat, echo = FALSE, eval = knitr::is_html_output()}
+```{r preview-linked-dat, echo = FALSE, eval = knitr::is_html_output(),error=TRUE}
 
 df_link %>%
   select(ExtendedID, SubjectTag_S1, SubjectTag_S2, FLU_total_S1, FLU_total_S2, S00_H40_S1, S00_H40_S2) %>%
@@ -243,7 +243,7 @@ flu_model_output <- discord_regression(
 
 The default output of `discord_regression()` is a tidy data frame containing the model metrics -- courtesy of the [{broom}](https://broom.tidymodels.org) package [@robinson2021]. In this example, our results are as follows:
 
-```{r summarize-model-html, echo = FALSE, eval = knitr::is_html_output()}
+```{r summarize-model-html, echo = FALSE, eval = knitr::is_html_output(),error=TRUE}
 flu_model_output %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
          across(.cols = where(is.numeric), ~round(.x, 3))) %>%
@@ -255,7 +255,7 @@ flu_model_output %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-```{r summarize-model-latex, echo = FALSE, eval = knitr::is_latex_output()}
+```{r summarize-model-latex, echo = FALSE, eval = knitr::is_latex_output(),error=TRUE}
 flu_model_output %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
          across(.cols = where(is.numeric), ~round(.x, 3))) %>%
