@@ -38,7 +38,7 @@ Here, we present software facilitates a genetically-informed  quasi-experimental
 
 Kin-comparison designs distinguish "within-family variance" from "between-family variance" [@chamberlain1975]. The former is a measure of how family members differ from one another; the latter reflects sources that make family members similar to one another but distinct from other families [@garrison2021 @garrison2016]. By partitioning these sources of variance, behavioral geneticists may greatly reduce confounds when testing causal hypotheses [@lahey2010]. Our R package, {discord}, has highly customizable, efficient code for generating genetically-informed simulations and provides user-friendly functions to help researchers use sibling-based quasi-experimental designs. 
 
-{discord} integrates seamlessly with the NlsyLinks R package, which provides kinship links for the National Longitudinal Survey of Youth -- a cross-generational, nationally representative survey of over 30,000 participants for up to 35 years [@beasley2016]. It has been used in multiple studies (cite, Mason, cite!).
+{discord} integrates seamlessly with the NlsyLinks R package, which provides kinship links for the National Longitudinal Surveys of Youth -- a series of cross-generational, nationally representative surveys of over 30,000 participants [@beasley2016]. It has been used in multiple studies (cite, Mason, cite!).
 
 # Mathematics
 

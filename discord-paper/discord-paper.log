@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.26)  26 JUL 2021 12:41
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.26)  26 JUL 2021 13:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1439,13 +1439,13 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
 [2]
-Underfull \hbox (badness 1221) in paragraph at lines 496--504
+Underfull \hbox (badness 1221) in paragraph at lines 495--503
 []\TU/lmr/m/n/10 Using the kinship relationships from the {NlsyLinks} package, 
 we can create a
  []
 
 
-Overfull \hbox (14.36139pt too wide) in paragraph at lines 519--521
+Overfull \hbox (14.36139pt too wide) in paragraph at lines 518--520
 []\TU/lmr/m/n/10 We now link the subjects by the specified variables using \TU/
 lmtt/m/n/10 CreatePairLinksSingleEntered()\TU/lmr/m/n/10 ,
  []
@@ -1492,7 +1492,7 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
 [5]
-Underfull \hbox (badness 2269) in paragraph at lines 711--718
+Underfull \hbox (badness 2269) in paragraph at lines 710--717
 []\TU/lmr/m/n/10 The most important metric from the output, though, is the diff
 erence score,
  []
@@ -1510,19 +1510,19 @@ Package fancyhdr Warning: \headheight is too small (62.59596pt):
 (fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
 
 [6]
-Underfull \hbox (badness 1776) in paragraph at lines 846--852
+Underfull \hbox (badness 1776) in paragraph at lines 845--851
 [][]\TU/lmr/m/n/10 Yang, R., Gui, X., & Xiong, Y. (2020). Comparison of Clinica
 l Character-
  []
 
 
-Underfull \hbox (badness 3690) in paragraph at lines 846--852
+Underfull \hbox (badness 3690) in paragraph at lines 845--851
 \TU/lmr/m/n/10 istics of Patients with Asymptomatic vs Symptomatic Coronavirus 
 Disease
  []
 
 
-Underfull \hbox (badness 2753) in paragraph at lines 846--852
+Underfull \hbox (badness 2753) in paragraph at lines 845--851
 \TU/lmr/m/n/10 2019 in Wuhan, China. \TU/lmr/m/it/10 JAMA Network Open\TU/lmr/m
 /n/10 , \TU/lmr/m/it/10 3\TU/lmr/m/n/10 (5), e2010182–e2010182.
  []
@@ -1549,7 +1549,7 @@ Package logreq Info: Writing requests to 'discord-paper.run.xml'.
 Here is how much of TeX's memory you used:
  35190 strings out of 478475
  704312 string characters out of 5857611
- 1503825 words of memory out of 5000000
+ 1504825 words of memory out of 5000000
  54923 multiletter control sequences out of 15000+600000
  410432 words of font info for 79 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
