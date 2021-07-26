@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.26)  26 JUL 2021 12:38
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.26)  26 JUL 2021 12:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1199,26 +1199,360 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
 
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.
+sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box85
+\sift@deathcycles=\count476
+\@vwid@loff=\dimen308
+\@vwid@roff=\dimen309
+)
+\c@taburow=\count477
+\tabu@nbcols=\count478
+\tabu@cnt=\count479
+\tabu@Xcol=\count480
+\tabu@alloc=\count481
+\tabu@nested=\count482
+\tabu@target=\dimen310
+\tabu@spreadtarget=\dimen311
+\tabu@naturalX=\dimen312
+\tabucolX=\dimen313
+\tabu@Xsum=\dimen314
+\extrarowdepth=\dimen315
+\abovetabulinesep=\dimen316
+\belowtabulinesep=\dimen317
+\tabustrutrule=\dimen318
+\tabu@thebody=\toks48
+\tabu@footnotes=\toks49
+\tabu@box=\box86
+\tabu@arstrutbox=\box87
+\tabu@hleads=\box88
+\tabu@vleads=\box89
+\tabu@cellskip=\skip103
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/thr
+eeparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box90
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttablex/th
+reeparttablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+\TPTL@width=\skip104
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box91
+\UL@hyphenbox=\box92
+\UL@skip=\skip105
+\UL@hook=\toks50
+\UL@height=\dimen319
+\UL@pe=\count483
+\UL@pixel=\dimen320
+\ULC@box=\box93
+Package: ulem 2019/11/18
+\ULdepth=\dimen321
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.
+sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen322
+\c@nlinenum=\count484
+\TeXr@lab=\toks51
+)
+\@quotelevel=\count485
+\@quotereset=\count486
+(./discord-paper.aux)
+\openout1 = `discord-paper.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 274.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
+74.
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 274.
+LaTeX Font Info:    ... okay on input line 274.
+Package hyperref Info: Link coloring ON on input line 274.
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.s
+ty
+Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.
+sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/g
+ettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count487
+)
+LaTeX Info: Redefining \ref on input line 274.
+LaTeX Info: Redefining \pageref on input line 274.
+LaTeX Info: Redefining \nameref on input line 274.
+(./discord-paper.out) (./discord-paper.out)
+\@outlinefile=\write6
+\openout6 = `discord-paper.out'.
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: longtable package is loaded.
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.
+sty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+)
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/lbx/engli
+sh.lbx
+File: english.lbx 2020/12/31 v3.16 biblatex localization (PK/MW)
+)
+Package biblatex Info: XeTeX detected.
+(biblatex)             Assuming input encoding 'utf8'.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+Package biblatex Info: Document encoding is UTF8 ....
+Package biblatex Info: ... and expl3
+(biblatex)             2021-07-12 L3 programming layer (loader) 
+(biblatex)             is new enough (at least 2020/04/06),
+(biblatex)             setting 'casechanger=expl3'.
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/blx-case-
+expl3.sty
+Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
+)
+\openout4 = `discord-paper.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'discord-paper.bbl' not found.
+No file discord-paper.bbl.
+Package biblatex Info: Reference section=0 on input line 274.
+Package biblatex Info: Reference segment=0 on input line 274.
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+*geometry* verbose mode - [ preamble ] result:
+* driver: xetex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: includemp 
+* h-part:(L,W,R)=(28.45274pt, 526.376pt, 42.67912pt)
+* v-part:(T,H,B)=(99.58464pt, 660.10394pt, 85.35826pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=387.33861pt
+* \textheight=660.10394pt
+* \oddsidemargin=95.22015pt
+* \evensidemargin=95.22015pt
+* \topmargin=-60.28131pt
+* \headheight=62.59596pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=128.0374pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemargintrue
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 275
+.
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 275
+.
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
-! LaTeX Error: File `tabu.sty' not found.
+Package hyperref Warning: Suppressing link with empty target on input line 301.
 
-Type X to quit or <RETURN> to proceed,
-or enter new name. (Default extension: sty)
 
-Enter file name: 
-! Emergency stop.
-<read *> 
-         
-l.258 \usepackage
-                 {threeparttable}^^M 
+
+Package hyperref Warning: Suppressing link with empty target on input line 301.
+
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 301.
+
+
+File: C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/jo
+ss/resources/JOSS-logo.png Graphic file (type bmp)
+<C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/joss/re
+sources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <8> not available
+(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 364.
+[1
+
+]
+File: C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/jo
+ss/resources/JOSS-logo.png Graphic file (type bmp)
+<C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/joss/re
+sources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+[2]
+Underfull \hbox (badness 1221) in paragraph at lines 496--504
+[]\TU/lmr/m/n/10 Using the kinship relationships from the {NlsyLinks} package, 
+we can create a
+ []
+
+
+Overfull \hbox (14.36139pt too wide) in paragraph at lines 519--521
+[]\TU/lmr/m/n/10 We now link the subjects by the specified variables using \TU/
+lmtt/m/n/10 CreatePairLinksSingleEntered()\TU/lmr/m/n/10 ,
+ []
+
+File: C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/jo
+ss/resources/JOSS-logo.png Graphic file (type bmp)
+<C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/joss/re
+sources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+[3]
+File: C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/jo
+ss/resources/JOSS-logo.png Graphic file (type bmp)
+<C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/joss/re
+sources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+[4]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/jo
+ss/resources/JOSS-logo.png Graphic file (type bmp)
+<C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/joss/re
+sources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+[5]
+Underfull \hbox (badness 2269) in paragraph at lines 711--718
+[]\TU/lmr/m/n/10 The most important metric from the output, though, is the diff
+erence score,
+ []
+
+File: C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/jo
+ss/resources/JOSS-logo.png Graphic file (type bmp)
+<C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/joss/re
+sources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+[6]
+Underfull \hbox (badness 1776) in paragraph at lines 846--852
+[][]\TU/lmr/m/n/10 Yang, R., Gui, X., & Xiong, Y. (2020). Comparison of Clinica
+l Character-
+ []
+
+
+Underfull \hbox (badness 3690) in paragraph at lines 846--852
+\TU/lmr/m/n/10 istics of Patients with Asymptomatic vs Symptomatic Coronavirus 
+Disease
+ []
+
+
+Underfull \hbox (badness 2753) in paragraph at lines 846--852
+\TU/lmr/m/n/10 2019 in Wuhan, China. \TU/lmr/m/it/10 JAMA Network Open\TU/lmr/m
+/n/10 , \TU/lmr/m/it/10 3\TU/lmr/m/n/10 (5), e2010182–e2010182.
+ []
+
+File: C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/jo
+ss/resources/JOSS-logo.png Graphic file (type bmp)
+<C:/Users/smaso/Documents/R/win-library/4.0/rticles/rmarkdown/templates/joss/re
+sources/JOSS-logo.png>
+
+Package fancyhdr Warning: \headheight is too small (62.59596pt): 
+(fancyhdr)                Make it at least 63.55022pt, for example:
+(fancyhdr)                \setlength{\headheight}{63.55022pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
+
+[7] (./discord-paper.aux)
+Package rerunfilecheck Info: File `discord-paper.out' has not changed.
+(rerunfilecheck)             Checksum: 652D04E6D7D11EFAEA526ACC2ED645D6;1346.
+Package logreq Info: Writing requests to 'discord-paper.run.xml'.
+\openout1 = `discord-paper.run.xml'.
+
+ ) 
 Here is how much of TeX's memory you used:
- 32796 strings out of 478475
- 660768 string characters out of 5857611
- 1168318 words of memory out of 5000000
- 52657 multiletter control sequences out of 15000+600000
- 403806 words of font info for 30 fonts, out of 8000000 for 9000
+ 35190 strings out of 478475
+ 704312 string characters out of 5857611
+ 1503825 words of memory out of 5000000
+ 54923 multiletter control sequences out of 15000+600000
+ 410432 words of font info for 79 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,0n,95p,566b,269s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,13n,95p,1202b,806s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-No pages of output.
+Output written on discord-paper.pdf (7 pages).
