@@ -1,14 +1,14 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.6.24)  21 JUL 2021 11:32
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/W32TeX) (preloaded format=xelatex 2021.7.26)  26 JUL 2021 12:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **discord-paper.tex
 (./discord-paper.tex
 LaTeX2e <2021-06-01> patch level 1
-L3 programming layer <2021-06-18> (/Users/jt/Library/TinyTeX/texmf-dist/tex/lat
-ex/base/article.cls
+L3 programming layer <2021-07-12> (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf
+-dist/tex/latex/base/article.cls
 Document Class: article 2021/02/12 v1.4n Standard LaTeX document class
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/base/size10.clo
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2021/02/12 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count178
@@ -22,30 +22,45 @@ File: size10.clo 2021/02/12 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/marginnote/marginnote.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/marginnote/marginn
+ote.sty
 Package: marginnote 2018/08/09 v1.4b non floating margin notes for LaTeX
 \c@mn@abspage=\count186
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.
+sty
 Package: graphicx 2020/12/05 v1.2c Enhanced LaTeX Graphics (DPC,SPQR)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.st
+y
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphics.
+sty
 Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graph
+ics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: xetex.def on input line 107.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/graphics-def/xetex.def
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/xetex
+.def
 File: xetex.def 2021/03/18 v5.0k Graphics/color driver for xetex
 ))
 \Gin@req@height=\dimen139
 \Gin@req@width=\dimen140
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.st
+y
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color
+.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: xetex.def on input line 225.
@@ -57,18 +72,24 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/preprint/authblk.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/preprint/authblk.s
+ty
 Package: authblk 2001/02/27 1.3 (PWD)
 \affilsep=\skip49
 \@affilsep=\skip50
 \c@Maxaffil=\count187
 \c@authors=\count188
 \c@affil=\count189
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.
+sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count190
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/titlesec/titlesec.sty
-Package: titlesec 2019/10/16 v2.13 Sectioning titles
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/titlesec/titlesec.
+sty
+Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \ttl@box=\box50
 \beforetitleunit=\skip51
 \aftertitleunit=\skip52
@@ -78,7 +99,7 @@ Package: titlesec 2019/10/16 v2.13 Sectioning titles
 \titlewidth=\dimen143
 \titlewidthlast=\dimen144
 \titlewidthfirst=\dimen145
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count191
 \calc@Bcount=\count192
@@ -90,39 +111,48 @@ LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count193
 \calc@Cskip=\skip55
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/
-Users/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/Users/jt
-/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.
-tex
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/
+tikz.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf
+.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfr
+cs.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pg
+futil-common.tex
 \pgfutil@everybye=\toks18
 \pgfutil@tempdima=\dimen148
 \pgfutil@tempdimb=\dimen149
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-
-lists.tex))
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.d
-ef
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pg
+futil-common-lists.tex))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pg
+futil-latex.def
 \pgfutil@abb=\box51
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pg
+frcs.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision
+.tex)
 Package: pgfrcs 2021/05/15 v3.1.9a (3.1.9a)
 ))
 Package: pgf 2021/05/15 v3.1.9a (3.1.9a)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/Us
-ers/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.t
-ex
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf
+core.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pg
+fsys.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/
+pgfsys.code.tex
 Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.te
-x
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pg
+fkeys.code.tex
 \pgfkeys@pathtoks=\toks19
 \pgfkeys@temptoks=\toks20
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered
-.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pg
+fkeysfiltered.code.tex
 \pgfkeys@tmptoks=\toks21
 ))
 \pgf@x=\dimen150
@@ -145,45 +175,49 @@ x
 \t@pgf@tokb=\toks23
 \t@pgf@tokc=\toks24
 \pgf@sys@id@count=\count198
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/
+pgf.cfg
 File: pgf.cfg 2021/05/15 v3.1.9a (3.1.9a)
 )
 Driver file for pgf: pgfsys-xetex.def
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.
-def
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/
+pgfsys-xetex.def
 File: pgfsys-xetex.def 2021/05/15 v3.1.9a (3.1.9a)
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdf
-mx.def
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/
+pgfsys-dvipdfmx.def
 File: pgfsys-dvipdfmx.def 2021/05/15 v3.1.9a (3.1.9a)
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common
--pdf.def
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/
+pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2021/05/15 v3.1.9a (3.1.9a)
 )
 \pgfsys@objnum=\count199
 )))
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpat
-h.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/
+pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfsyssoftpath@smallbuffer@items=\count266
 \pgfsyssoftpath@bigbuffer@items=\count267
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotoco
-l.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/
+pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ))
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.t
-ex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcore.code.tex
 Package: pgfcore 2021/05/15 v3.1.9a (3.1.9a)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex
-)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.t
-ex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+calc.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+util.code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+parser.code.tex
 \pgfmath@dimen=\dimen160
 \pgfmath@count=\count268
 \pgfmath@box=\box52
@@ -191,30 +225,32 @@ ex
 \pgfmath@stack@operand=\toks26
 \pgfmath@stack@operation=\toks27
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.cod
-e.tex
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.bas
-ic.code.tex)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.tri
-gonometric.code.tex)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.ran
-dom.code.tex)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.com
-parison.code.tex)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.bas
-e.code.tex)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rou
-nd.code.tex)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.mis
-c.code.tex)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.int
-egerarithmetics.code.tex)))
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.te
-x
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.basic.code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.trigonometric.code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.random.code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.comparison.code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.base.code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.round.code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.misc.code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+functions.integerarithmetics.code.tex)))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+float.code.tex
 \c@pgfmathroundto@lastzeros=\count269
-)) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.
-code.tex
+))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.
+code.tex)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@picminx=\dimen161
 \pgf@picmaxx=\dimen162
@@ -231,124 +267,133 @@ File: pgfcorepoints.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@zx=\dimen173
 \pgf@zy=\dimen174
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathcon
-struct.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@path@lastx=\dimen175
 \pgf@path@lasty=\dimen176
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusa
-ge.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@shorten@end@additional=\dimen177
 \pgf@shorten@start@additional=\dimen178
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.
-code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfpic=\box53
 \pgf@hbox=\box54
 \pgf@layerbox@main=\box55
 \pgf@picture@serial@count=\count270
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphic
-state.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgflinewidth=\dimen179
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransfo
-rmations.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@pt@x=\dimen180
 \pgf@pt@y=\dimen181
 \pgf@pt@temp=\dimen182
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.c
-ode.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorequick.code.tex
 File: pgfcorequick.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects
-.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcoreobjects.code.tex
 File: pgfcoreobjects.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathpro
-cessing.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorepathprocessing.code.tex
 File: pgfcorepathprocessing.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.
-code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfarrowsep=\dimen183
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.c
-ode.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@max=\dimen184
 \pgf@sys@shading@range@num=\count271
 \pgf@shadingcount=\count272
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.c
-ode.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexterna
-l.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfexternal@startupbox=\box56
 ))
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.
-code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretranspa
-rency.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcoretransparency.code.tex
 File: pgfcoretransparency.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepattern
-s.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorepatterns.code.tex
 File: pgfcorepatterns.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.cod
-e.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/p
+gfcorerdf.code.tex
 File: pgfcorerdf.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )))
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.c
-ode.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfm
+oduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfnodeparttextbox=\box57
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.cod
-e.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfm
+oduleplot.code.tex
 File: pgfmoduleplot.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-versi
-on-0-65.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/
+pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@nodesepstart=\dimen185
 \pgf@nodesepend=\dimen186
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-versi
-on-1-18.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/
+pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2021/05/15 v3.1.9a (3.1.9a)
-)) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/U
-sers/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.te
-x)) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/User
-s/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgff
+or.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfk
+eys.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pg
+fkeys.code.tex))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.s
+ty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+.code.tex))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pg
+ffor.code.tex
 Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath
+.code.tex)
 \pgffor@iter=\dimen187
 \pgffor@skip=\dimen188
 \pgffor@stack=\toks28
 \pgffor@toks=\toks29
 ))
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.c
-ode.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/frontendlaye
+r/tikz/tikz.code.tex
 Package: tikz 2021/05/15 v3.1.9a (3.1.9a)
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryploth
-andlers.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pg
+flibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@plot@mark@count=\count273
 \pgfplotmarksize=\dimen189
@@ -370,8 +415,8 @@ File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \tikznumberofcurrentchild=\count276
 \tikz@fig@count=\count277
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.c
-ode.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfm
+odulematrix.code.tex
 File: pgfmodulematrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfmatrixcurrentrow=\count278
 \pgfmatrixcurrentcolumn=\count279
@@ -379,57 +424,86 @@ File: pgfmodulematrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
 \tikz@expandcount=\count281
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librar
-ies/tikzlibrarytopaths.code.tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/frontendlaye
+r/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-))) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+)))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.
+sty
 Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.
+sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.st
+y
 Package: iftex 2020/03/06 v1.0d TeX engine tests
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdfte
+xcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwar
+err.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode not found.
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetk
+eys.sty
 Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvd
+efinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfesc
+ape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.st
+y
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/letltxmacro/letltx
+macro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.st
+y
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoption
+s.sty
 Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 )
 \@linkdim=\dimen198
 \Hy@linkcounter=\count282
 \Hy@pagecounter=\count283
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.de
+f
 File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref-langpatches.d
-ef
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref-
+langpatches.def
 File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel la
 nguages
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.
+sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmd
+s.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count284
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
 )
 Package hyperref Info: Hyper figures OFF on input line 4192.
@@ -440,15 +514,19 @@ Package hyperref Info: Backreferencing OFF on input line 4212.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4445.
 \c@Hy@tempcnt=\count285
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/url/url.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4804.
 \XeTeXLinkMargin=\dimen199
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.st
+y
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigin
+tcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
@@ -464,7 +542,9 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6101.
 Package hyperref Info: PDF/A mode OFF on input line 6106.
 LaTeX Info: Redefining \ref on input line 6146.
 LaTeX Info: Redefining \pageref on input line 6150.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.
+sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
@@ -473,9 +553,13 @@ package with kernel methods
 \c@Hfootnote=\count289
 )
 Package hyperref Info: Driver (autodetected): hxetex.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hxetex.def
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hxetex.de
+f
 File: hxetex.def 2021-06-07 v7.00m Hyperref driver for XeTeX
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/stringenc/string
+enc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
@@ -485,16 +569,18 @@ Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 \Fld@listcount=\count292
 \c@bookmark@seq@number=\count293
 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.s
-ty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rer
+unfilecheck.sty
 Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx
+.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
 e
 with kernel methods
 )
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.s
-ty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/un
+iquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
@@ -504,9 +590,13 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 12.
 Package hyperref Info: Option `breaklinks' set `true' on input line 12.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption.st
+y
 Package: caption 2020/10/26 v3.5g Customizing captions (AR)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.s
+ty
 Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
 \captionmargin=\dimen258
 \captionmargin@=\dimen259
@@ -520,16 +610,23 @@ Package caption Info: Standard document class detected.
 \c@caption@flags=\count294
 \c@continuedfloat=\count295
 Package caption Info: hyperref package is loaded.
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tcolorbox/tcolorbo
+x.sty
 Package: tcolorbox 2021/06/14 version 4.51 text color boxes
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/tools/verbatim.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2020-07-07 v1.5u LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks30
 \verbatim@line=\toks31
 \verbatim@in@stream=\read3
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/environ/environ.st
+y
 Package: environ 2014/05/04 v0.3 A new way to define environments
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspa
+ces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 )
 \@envbody=\toks32
@@ -545,9 +642,13 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 \tcb@temp=\box68
 \tcb@temp=\box69
 \tcb@temp=\box70
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.s
+ty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.
+sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \@emptytoks=\toks33
 \symAMSa=\mathgroup4
@@ -555,20 +656,27 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.st
+y
 Package: amsmath 2021/04/20 v2.17j AMS math features
 \@mathmargin=\skip57
 For additional information on amsmath, use the `?' option.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.st
+y
 Package: amstext 2000/06/29 v2.01 AMS text
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks34
 \ex@=\dimen265
-)) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen266
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
 \inf@bad=\count299
@@ -608,14 +716,21 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 \mathdisplay@stack=\toks38
 LaTeX Info: Redefining \[ on input line 2923.
 LaTeX Info: Redefining \] on input line 2924.
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.st
+y
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.s
+ty
 Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/seqsplit/seqsplit.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/seqsplit/seqsplit.
+sty
 Package: seqsplit 2006/08/07 v0.1 Splitting long sequences (DNA, RNA, proteins,
  etc.) 
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/base/fixltx2e.sty
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fixltx2e.st
+y
 Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
 Applying: [2015/01/01] Old fixltx2e package on input line 46.
 
@@ -624,14 +739,16 @@ Package fixltx2e Warning: fixltx2e is not required with releases after 2015
 (fixltx2e)                See the latexrelease package for details.
 
 Already applied: [0000/00/00] Old fixltx2e package on input line 53.
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/biblatex.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/biblatex.
+sty
 Package: biblatex 2020/12/31 v3.16 programmable bibliographies (PK/MW)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/logreq/logreq.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
 \lrq@indent=\count311
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/logreq/logreq.def
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
-)) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
+)) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \c@tabx@nest=\count312
@@ -692,7 +809,9 @@ Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
 \c@mincompwidth=\count356
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/blx-dm.def
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/blx-dm.de
+f
 File: blx-dm.def 2020/12/31 v3.16 biblatex localization (PK/MW)
 )
 Package biblatex Info: Trying to load biblatex custom data model...
@@ -781,15 +900,21 @@ Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
 \localshorteditorwidth=\skip81
 Package biblatex Info: Trying to load enhanced support for Unicode engines...
 Package biblatex Info: ... file 'blx-unicode.def' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/blx-unicode.def)
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/blx-unico
+de.def)
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/blx-compat.def
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/blx-compa
+t.def
 File: blx-compat.def 2020/12/31 v3.16 biblatex compatibility (PK/MW)
 )
 Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/biblatex.def
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/biblatex.
+def
 File: biblatex.def 2020/12/31 v3.16 biblatex compatibility (PK/MW)
 \c@textcitecount=\count425
 \c@textcitetotal=\count426
@@ -807,18 +932,24 @@ File: biblatex.def 2020/12/31 v3.16 biblatex compatibility (PK/MW)
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/bbx/numer
+ic.bbx
 File: numeric.bbx 2020/12/31 v3.16 biblatex bibliography style (PK/MW)
 Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/bbx/stand
+ard.bbx
 File: standard.bbx 2020/12/31 v3.16 biblatex bibliography style (PK/MW)
 \c@bbx:relatedcount=\count434
 \c@bbx:relatedtotal=\count435
 ))
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/cbx/numeric.cbx
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/cbx/numer
+ic.cbx
 File: numeric.cbx 2020/12/31 v3.16 biblatex citation style (PK/MW)
 Package biblatex Info: Redefining '\cite'.
 Package biblatex Info: Redefining '\parencite'.
@@ -834,11 +965,16 @@ Package biblatex Info: Redefining '\smartcites'.
 )
 Package biblatex Info: Trying to load configuration file...
 Package biblatex Info: ... file 'biblatex.cfg' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/biblatex.cfg
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/biblatex/biblatex.
+cfg
 File: biblatex.cfg 
-)) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
+))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/geometry/geometry.
+sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
 \Gm@cnth=\count436
@@ -853,7 +989,9 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layouthoffset=\dimen280
 \Gm@layoutvoffset=\dimen281
 \Gm@dimlist=\toks39
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.
+sty
 Package: fancyhdr 2021/01/28 v4.0.1 Extensive control of page headers and foote
 rs
 \f@nch@headwidth=\skip82
@@ -865,15 +1003,22 @@ rs
 \f@nch@O@erf=\skip88
 \f@nch@O@olf=\skip89
 \f@nch@O@orf=\skip90
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/xelatex/mathspec/mathspec.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/xelatex/mathspec/mathspe
+c.sty
 Package: mathspec 2016/12/22 v0.2b LaTeX Package (Mathematics font selection fo
 r XeLaTeX)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec.sty (/Users/j
-t/Library/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (/Users/jt/
-Library/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2021-06-18 L3 programming layer (loader) 
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
-File: l3backend-xetex.def 2021-05-07 L3 backend support: XeTeX
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec.
+sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/
+xparse.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2021-07-12 L3 programming layer (loader) 
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backen
+d-xetex.def
+File: l3backend-xetex.def 2021-07-12 L3 backend support: XeTeX
 (|extractbb --version)
 \c__kernel_sys_dvipdfmx_version_int=\count439
 \l__color_backend_stack_int=\count440
@@ -887,7 +1032,9 @@ File: l3backend-xetex.def 2021-05-07 L3 backend support: XeTeX
 Package: xparse 2021-06-18 L3 Experimental document command parser
 )
 Package: fontspec 2020/02/21 v2.7i Font selection for XeLaTeX and LuaLaTeX
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec-
+xetex.sty
 Package: fontspec-xetex 2020/02/21 v2.7i Font selection for XeLaTeX and LuaLaTe
 X
 \l__fontspec_script_int=\count446
@@ -904,13 +1051,19 @@ X
 \l__fontspec_tmpa_dim=\dimen282
 \l__fontspec_tmpb_dim=\dimen283
 \l__fontspec_tmpc_dim=\dimen284
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec.cfg))) (/Us
-ers/jt/Library/TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec.
+cfg)))
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.st
+y
 Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/Users/j
-t/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.
+tex
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils
+.tex
 \XKV@toks=\toks40
 \XKV@tempa@toks=\toks41
 )
@@ -923,7 +1076,9 @@ File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )
 Package hyperref Info: Option `unicode' set `true' on input line 151.
 Package hyperref Info: Option `breaklinks' set `true' on input line 151.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.
+sty
 Package: fancyvrb 2021/01/20 v3.7 verbatim text (tvz,hv)
 \FV@CodeLineNo=\count461
 \FV@InFile=\read5
@@ -931,22 +1086,31 @@ Package: fancyvrb 2021/01/20 v3.7 verbatim text (tvz,hv)
 \c@FancyVerbLine=\count462
 \FV@StepNumber=\count463
 \FV@OutFile=\write5
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/framed/framed.sty
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/framed/framed.st
+y
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \OuterFrameSep=\skip91
 \fb@frw=\dimen285
 \fb@frh=\dimen286
 \FrameRule=\dimen287
 \FrameSep=\dimen288
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/grffile/grffile.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/grffile/grffile.st
+y
 Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legac
 y)
 Package grffile Info: This package is an empty stub for compatibility on input 
 line 40.
 )
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/parskip/parskip.st
+y
+Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
+)
 \csllabelwidth=\skip92
 \cslhangindent=\skip93
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.
+sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen289
 \lightrulewidth=\dimen290
@@ -965,7 +1129,9 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count466
 \@lastruleclass=\count467
 \@thisrulewidth=\dimen301
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.st
+y
 Package: longtable 2021-05-07 v4.16 Multi-page Table package (DPC)
 \LTleft=\skip94
 \LTright=\skip95
@@ -983,7 +1149,7 @@ Package: longtable 2021-05-07 v4.16 Multi-page Table package (DPC)
 \c@LT@tables=\count471
 \c@LT@chunks=\count472
 \LT@p@ftn=\toks42
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2021/04/20 v2.5e Tabular extension package (FMi)
 \col@sep=\dimen303
 \ar@mcellbox=\box80
@@ -992,389 +1158,67 @@ Package: array 2021/04/20 v2.5e Tabular extension package (FMi)
 \extratabsurround=\skip98
 \backup@length=\skip99
 \ar@cellbox=\box81
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.
+sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip100
 \multirow@cntb=\count473
 \multirow@dima=\skip101
 \bigstrutjot=\dimen305
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.st
+y
 \wrapoverhang=\dimen306
 \WF@size=\dimen307
 \c@WF@wrappedlines=\count474
 \WF@box=\box82
 \WF@everypar=\toks44
 Package: wrapfig 2003/01/31  v 3.6
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
+) (c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count475
 \float@exts=\toks45
 \float@box=\box83
 \@float@everytoks=\toks46
 \@floatcapt=\box84
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.
+sty
 Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
 \everycr=\toks47
 \minrowclearance=\skip102
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+)
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscap
+e.sty
 Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
+
+(c:/Users/smaso/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/lscape.st
+y
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
 
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
-Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
-Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box85
-\sift@deathcycles=\count476
-\@vwid@loff=\dimen308
-\@vwid@roff=\dimen309
-)
-\c@taburow=\count477
-\tabu@nbcols=\count478
-\tabu@cnt=\count479
-\tabu@Xcol=\count480
-\tabu@alloc=\count481
-\tabu@nested=\count482
-\tabu@target=\dimen310
-\tabu@spreadtarget=\dimen311
-\tabu@naturalX=\dimen312
-\tabucolX=\dimen313
-\tabu@Xsum=\dimen314
-\extrarowdepth=\dimen315
-\abovetabulinesep=\dimen316
-\belowtabulinesep=\dimen317
-\tabustrutrule=\dimen318
-\tabu@thebody=\toks48
-\tabu@footnotes=\toks49
-\tabu@box=\box86
-\tabu@arstrutbox=\box87
-\tabu@hleads=\box88
-\tabu@vleads=\box89
-\tabu@cellskip=\skip103
-)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.s
-ty
-Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box90
-)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex
-.sty
-Package: threeparttablex 2013/07/23 v0.3 by daleif
-\TPTL@width=\skip104
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
-\UL@box=\box91
-\UL@hyphenbox=\box92
-\UL@skip=\skip105
-\UL@hook=\toks50
-\UL@height=\dimen319
-\UL@pe=\count483
-\UL@pixel=\dimen320
-\ULC@box=\box93
-Package: ulem 2019/11/18
-\ULdepth=\dimen321
-) (/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
-Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen322
-\c@nlinenum=\count484
-\TeXr@lab=\toks51
-)
-\@quotelevel=\count485
-\@quotereset=\count486
-(./discord-paper.aux)
-\openout1 = `discord-paper.aux'.
-
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 274.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
-74.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/base/ts1cmr.fd
-File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 274.
-LaTeX Font Info:    ... okay on input line 274.
-Package hyperref Info: Link coloring ON on input line 274.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
-Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-)
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring
-.sty
-Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-)
-\c@section@level=\count487
-)
-LaTeX Info: Redefining \ref on input line 274.
-LaTeX Info: Redefining \pageref on input line 274.
-LaTeX Info: Redefining \nameref on input line 274.
-(./discord-paper.out) (./discord-paper.out)
-\@outlinefile=\write6
-\openout6 = `discord-paper.out'.
-
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: float package is loaded.
-Package caption Info: longtable package is loaded.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
-Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
-)
-Package caption Info: threeparttable package is loaded.
-Package caption Info: wrapfig package is loaded.
-Package caption Info: End \AtBeginDocument code.
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/lbx/english.lbx
-File: english.lbx 2020/12/31 v3.16 biblatex localization (PK/MW)
-)
-Package biblatex Info: XeTeX detected.
-(biblatex)             Assuming input encoding 'utf8'.
-Package biblatex Info: Automatic encoding selection.
-(biblatex)             Assuming data encoding 'utf8'.
-Package biblatex Info: Document encoding is UTF8 ....
-Package biblatex Info: ... and expl3
-(biblatex)             2021-06-18 L3 programming layer (loader) 
-(biblatex)             is new enough (at least 2020/04/06),
-(biblatex)             setting 'casechanger=expl3'.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
-Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
-)
-\openout4 = `discord-paper.bcf'.
-
-Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'discord-paper.bbl' not found.
-No file discord-paper.bbl.
-Package biblatex Info: Reference section=0 on input line 274.
-Package biblatex Info: Reference segment=0 on input line 274.
-*geometry* driver: auto-detecting
-*geometry* detected driver: xetex
-*geometry* verbose mode - [ preamble ] result:
-* driver: xetex
-* paper: a4paper
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: includemp 
-* h-part:(L,W,R)=(28.45274pt, 526.376pt, 42.67912pt)
-* v-part:(T,H,B)=(99.58464pt, 660.10394pt, 85.35826pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=387.33861pt
-* \textheight=660.10394pt
-* \oddsidemargin=95.22015pt
-* \evensidemargin=95.22015pt
-* \topmargin=-60.28131pt
-* \headheight=62.59596pt
-* \headsep=25.0pt
-* \topskip=10.0pt
-* \footskip=30.0pt
-* \marginparwidth=128.0374pt
-* \marginparsep=11.0pt
-* \columnsep=10.0pt
-* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemargintrue
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-LaTeX Font Info:    Trying to load font information for U+msa on input line 275
-.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 275
-.
-(/Users/jt/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
-Package hyperref Warning: Suppressing link with empty target on input line 301.
+! LaTeX Error: File `tabu.sty' not found.
 
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
 
-
-Package hyperref Warning: Suppressing link with empty target on input line 301.
-
-
-
-Package hyperref Warning: Suppressing link with empty target on input line 301.
-
-
-File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
-arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
-</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
-wn/templates/joss/resources/JOSS-logo.png>
-
-Package fancyhdr Warning: \headheight is too small (62.59596pt): 
-(fancyhdr)                Make it at least 63.55022pt, for example:
-(fancyhdr)                \setlength{\headheight}{63.55022pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
-
-LaTeX Font Info:    Font shape `TU/lmss/m/it' in size <8> not available
-(Font)              Font shape `TU/lmss/m/sl' tried instead on input line 364.
-[1
-
-]
-File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
-arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
-</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
-wn/templates/joss/resources/JOSS-logo.png>
-
-Package fancyhdr Warning: \headheight is too small (62.59596pt): 
-(fancyhdr)                Make it at least 63.55022pt, for example:
-(fancyhdr)                \setlength{\headheight}{63.55022pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
-
-[2]
-Underfull \hbox (badness 1221) in paragraph at lines 490--498
-[]\TU/lmr/m/n/10 Using the kinship relationships from the {NlsyLinks} package, 
-we can create a
- []
-
-File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
-arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
-</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
-wn/templates/joss/resources/JOSS-logo.png>
-
-Package fancyhdr Warning: \headheight is too small (62.59596pt): 
-(fancyhdr)                Make it at least 63.55022pt, for example:
-(fancyhdr)                \setlength{\headheight}{63.55022pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
-
-[3]
-Overfull \hbox (14.36139pt too wide) in paragraph at lines 513--515
-[]\TU/lmr/m/n/10 We now link the subjects by the specified variables using \TU/
-lmtt/m/n/10 CreatePairLinksSingleEntered()\TU/lmr/m/n/10 . 
- []
-
-File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
-arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
-</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
-wn/templates/joss/resources/JOSS-logo.png>
-
-Package fancyhdr Warning: \headheight is too small (62.59596pt): 
-(fancyhdr)                Make it at least 63.55022pt, for example:
-(fancyhdr)                \setlength{\headheight}{63.55022pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
-
-[4]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
-arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
-</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
-wn/templates/joss/resources/JOSS-logo.png>
-
-Package fancyhdr Warning: \headheight is too small (62.59596pt): 
-(fancyhdr)                Make it at least 63.55022pt, for example:
-(fancyhdr)                \setlength{\headheight}{63.55022pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
-
-[5]
-Underfull \hbox (badness 2269) in paragraph at lines 704--711
-[]\TU/lmr/m/n/10 The most important metric from the output, though, is the diff
-erence score,
- []
-
-File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
-arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
-</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
-wn/templates/joss/resources/JOSS-logo.png>
-
-Package fancyhdr Warning: \headheight is too small (62.59596pt): 
-(fancyhdr)                Make it at least 63.55022pt, for example:
-(fancyhdr)                \setlength{\headheight}{63.55022pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
-
-[6]
-Underfull \hbox (badness 1776) in paragraph at lines 839--845
-[][]\TU/lmr/m/n/10 Yang, R., Gui, X., & Xiong, Y. (2020). Comparison of Clinica
-l Character-
- []
-
-
-Underfull \hbox (badness 3690) in paragraph at lines 839--845
-\TU/lmr/m/n/10 istics of Patients with Asymptomatic vs Symptomatic Coronavirus 
-Disease
- []
-
-
-Underfull \hbox (badness 2753) in paragraph at lines 839--845
-\TU/lmr/m/n/10 2019 in Wuhan, China. \TU/lmr/m/it/10 JAMA Network Open\TU/lmr/m
-/n/10 , \TU/lmr/m/it/10 3\TU/lmr/m/n/10 (5), e2010182–e2010182.
- []
-
-File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
-arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
-</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
-wn/templates/joss/resources/JOSS-logo.png>
-
-Package fancyhdr Warning: \headheight is too small (62.59596pt): 
-(fancyhdr)                Make it at least 63.55022pt, for example:
-(fancyhdr)                \setlength{\headheight}{63.55022pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
-
-[7]
-File: /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rm
-arkdown/templates/joss/resources/JOSS-logo.png Graphic file (type bmp)
-</Library/Frameworks/R.framework/Versions/4.0/Resources/library/rticles/rmarkdo
-wn/templates/joss/resources/JOSS-logo.png>
-
-Package fancyhdr Warning: \headheight is too small (62.59596pt): 
-(fancyhdr)                Make it at least 63.55022pt, for example:
-(fancyhdr)                \setlength{\headheight}{63.55022pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-0.95425pt}.
-
-[8] (./discord-paper.aux)
-Package rerunfilecheck Info: File `discord-paper.out' has not changed.
-(rerunfilecheck)             Checksum: 652D04E6D7D11EFAEA526ACC2ED645D6;1346.
-Package logreq Info: Writing requests to 'discord-paper.run.xml'.
-\openout1 = `discord-paper.run.xml'.
-
- ) 
+Enter file name: 
+! Emergency stop.
+<read *> 
+         
+l.258 \usepackage
+                 {threeparttable}^^M 
 Here is how much of TeX's memory you used:
- 35162 strings out of 478442
- 698031 string characters out of 5857836
- 1505868 words of memory out of 5000000
- 54932 multiletter control sequences out of 15000+600000
- 410432 words of font info for 79 fonts, out of 8000000 for 9000
+ 32796 strings out of 478475
+ 660768 string characters out of 5857611
+ 1168318 words of memory out of 5000000
+ 52657 multiletter control sequences out of 15000+600000
+ 403806 words of font info for 30 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,13n,95p,746b,806s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,0n,95p,566b,269s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on discord-paper.pdf (8 pages).
+No pages of output.
