@@ -100,13 +100,13 @@ After some pre-processing, we have a data frame containing subject identifiers, 
 \toprule
 CASEID & RACE & SEX & FLU\_total & S00\_H40\\
 \midrule
-\cellcolor{gray!6}{338} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{58.23253}\\
-189 & 0 & 1 & 5 & 78.36368\\
-\cellcolor{gray!6}{550} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{46.92163}\\
-195 & 0 & 1 & 5 & 91.45988\\
-\cellcolor{gray!6}{137} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{81.06099}\\
+\cellcolor{gray!6}{121} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{5} & \cellcolor{gray!6}{95.61269}\\
+483 & 0 & 1 & 0 & 35.09636\\
+\cellcolor{gray!6}{604} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{73.74622}\\
+544 & 0 & 0 & 4 & 46.69992\\
+\cellcolor{gray!6}{388} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{64.58649}\\
 \addlinespace
-94 & 0 & 1 & 1 & 23.72701\\
+571 & 0 & 1 & 4 & 54.61115\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -147,13 +147,13 @@ We have saved this data frame as `df_link`. A random subset of this data is:
 \toprule
 ExtendedID & SubjectTag\_S1 & SubjectTag\_S2 & FLU\_total\_S1 & FLU\_total\_S2 & S00\_H40\_S1 & S00\_H40\_S2\\
 \midrule
-\cellcolor{gray!6}{1656} & \cellcolor{gray!6}{165800} & \cellcolor{gray!6}{165900} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{63.82145} & \cellcolor{gray!6}{34.58046}\\
-300 & 30200 & 30400 & 4 & 1 & 27.93347 & 54.49603\\
-\cellcolor{gray!6}{715} & \cellcolor{gray!6}{71500} & \cellcolor{gray!6}{71600} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{2} & \cellcolor{gray!6}{25.13217} & \cellcolor{gray!6}{27.32157}\\
-658 & 65900 & 66200 & 3 & 0 & 64.38859 & 33.61153\\
-\cellcolor{gray!6}{165} & \cellcolor{gray!6}{16500} & \cellcolor{gray!6}{16600} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{22.98542} & \cellcolor{gray!6}{66.09123}\\
+\cellcolor{gray!6}{449} & \cellcolor{gray!6}{44900} & \cellcolor{gray!6}{45000} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{54.72614} & \cellcolor{gray!6}{61.63341}\\
+611 & 61100 & 61200 & 4 & 2 & 76.82272 & 68.29637\\
+\cellcolor{gray!6}{1514} & \cellcolor{gray!6}{151400} & \cellcolor{gray!6}{151500} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{62.32863} & \cellcolor{gray!6}{45.49521}\\
+1520 & 152100 & 152200 & 2 & 1 & 48.54822 & 80.93289\\
+\cellcolor{gray!6}{1037} & \cellcolor{gray!6}{103700} & \cellcolor{gray!6}{103800} & \cellcolor{gray!6}{5} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{34.29309} & \cellcolor{gray!6}{66.36608}\\
 \addlinespace
-1266 & 126600 & 126700 & 0 & 5 & 69.95464 & 30.29405\\
+421 & 42200 & 42300 & 0 & 4 & 87.92104 & 88.13844\\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -216,7 +216,7 @@ extended\_id & subject\_tag\_s1 & subject\_tag\_s2 & flu\_total\_s1 & flu\_total
 \cellcolor{gray!6}{67} & \cellcolor{gray!6}{6700} & \cellcolor{gray!6}{6800} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{89.67767} & \cellcolor{gray!6}{82.68649}\\
 74 & 7500 & 7600 & 0 & 0 & 0 & 0 & 0 & 1 & 88.15524 & 61.54234\\
 \cellcolor{gray!6}{83} & \cellcolor{gray!6}{8300} & \cellcolor{gray!6}{8400} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{46.41507} & \cellcolor{gray!6}{64.12765}\\
-85 & 8600 & 8700 & 0 & 4 & 1 & 1 & 0 & 1 & 45.06552 & 64.14045\\
+85 & 8500 & 8700 & 0 & 4 & 1 & 1 & 1 & 1 & 40.12748 & 64.14045\\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -257,21 +257,21 @@ The default output of `discord_regression()` is an `lm` object. The metrics for 
 \toprule
 Term & Estimate & Standard Error & T Statistic & P Value\\
 \midrule
-\cellcolor{gray!6}{(Intercept)} & \cellcolor{gray!6}{1.365} & \cellcolor{gray!6}{0.191} & \cellcolor{gray!6}{7.136} & \cellcolor{gray!6}{p<0.001}\\
-flu\_total\_mean & 0.190 & 0.034 & 5.643 & p<0.001\\
-\cellcolor{gray!6}{s00\_h40\_diff} & \cellcolor{gray!6}{0.006} & \cellcolor{gray!6}{0.002} & \cellcolor{gray!6}{3.132} & \cellcolor{gray!6}{p=0.002}\\
-s00\_h40\_mean & 0.003 & 0.003 & 1.225 & p=0.221\\
-\cellcolor{gray!6}{sex\_1} & \cellcolor{gray!6}{-0.017} & \cellcolor{gray!6}{0.099} & \cellcolor{gray!6}{-0.176} & \cellcolor{gray!6}{p=0.861}\\
+\cellcolor{gray!6}{(Intercept)} & \cellcolor{gray!6}{1.458} & \cellcolor{gray!6}{0.195} & \cellcolor{gray!6}{7.493} & \cellcolor{gray!6}{p<0.001}\\
+flu\_total\_mean & 0.176 & 0.033 & 5.301 & p<0.001\\
+\cellcolor{gray!6}{s00\_h40\_diff} & \cellcolor{gray!6}{0.004} & \cellcolor{gray!6}{0.002} & \cellcolor{gray!6}{2.219} & \cellcolor{gray!6}{p=0.027}\\
+s00\_h40\_mean & 0.002 & 0.003 & 0.720 & p=0.472\\
+\cellcolor{gray!6}{sex\_1} & \cellcolor{gray!6}{-0.202} & \cellcolor{gray!6}{0.098} & \cellcolor{gray!6}{-2.070} & \cellcolor{gray!6}{p=0.039}\\
 \addlinespace
-race\_1 & 0.004 & 0.102 & 0.042 & p=0.967\\
-\cellcolor{gray!6}{sex\_2} & \cellcolor{gray!6}{-0.075} & \cellcolor{gray!6}{0.098} & \cellcolor{gray!6}{-0.766} & \cellcolor{gray!6}{p=0.444}\\
+race\_1 & -0.037 & 0.102 & -0.357 & p=0.721\\
+\cellcolor{gray!6}{sex\_2} & \cellcolor{gray!6}{0.099} & \cellcolor{gray!6}{0.098} & \cellcolor{gray!6}{1.010} & \cellcolor{gray!6}{p=0.313}\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Looking at this output, the intercept can be thought of as the average difference in outcomes between siblings, controlling for all other variables. That is, it looks like the average difference for two sisters of a non-minority ethnic background (the reference groups for sex and race) is approximately 1.4. The term `flu_total_mean` is essentially an extra component of the intercept that captures some non-linear trends and allows the difference score to change as a function of the average predictors. Here, this is the mean socioeconomic status for the siblings, `s00_h40_mean`. We also accounted for sex and race, neither of which have a statistically significant effect on the differences in flu vaccine shots between siblings (different families) or within a sibling pair (same family).
+Looking at this output, the intercept can be thought of as the average difference in outcomes between siblings, controlling for all other variables. That is, it looks like the average difference for two sisters of a non-minority ethnic background (the reference groups for sex and race) is approximately 1.5. The term `flu_total_mean` is essentially an extra component of the intercept that captures some non-linear trends and allows the difference score to change as a function of the average predictors. Here, this is the mean socioeconomic status for the siblings, `s00_h40_mean`. We also accounted for sex and race, neither of which have a statistically significant effect on the differences in flu vaccine shots between siblings (different families) or within a sibling pair (same family).
 
-The most important metric from the output, though, is the difference score, `s00_h40_diff`. Here, it is statistically significant. An interpretation of this might be, "the difference in socioeconomic status between siblings at age 40 is positively associated with the difference in the number of flu vaccinations received between 2006-2016." This means that a sibling with 10% higher SES is expected to have 0.0638441 more flu shots.
+The most important metric from the output, though, is the difference score, `s00_h40_diff`. Here, it is statistically significant. An interpretation of this might be, "the difference in socioeconomic status between siblings at age 40 is positively associated with the difference in the number of flu vaccinations received between 2006-2016." This means that a sibling with 10% higher SES is expected to have 0.0447467 more flu shots.
 
 The goal of performing a discordant-kinship regression is to see whether there is a significant difference in some behavioral measure while controlling for as much gene-and-environmental variance as possible. In this section, we walked through an analysis showing a statistically significant difference in the number of flu shots a sibling received and their socioeconomic status. From this, we *could not* claim the relationship is causal. However, we cannot eliminate causality because there are statistically significant within- and between-family differences in our predictors and outcomes.
 
