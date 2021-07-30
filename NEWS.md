@@ -1,3 +1,5 @@
+# discord (development version)
+
 # discord 1.1.0
 
 ## Minor improvements and fixes
