@@ -1,5 +1,13 @@
 # discord (development version)
 
+## Bug Fixes
+
+* Fixed error when prepping discordant data as a result of mismatched column names between user-supplied data and internally-manipulated data. See [commit 4def5e7](https://github.com/R-Computing-Lab/discord/commit/4def5e79fe0c3059ab4a790a9f053942f8d35099) for more details.
+
+## Minor improvements and fixes
+
+* Added error message for missing data passed to `discord_data()` for more easy debugging.
+
 # discord 1.1.0
 
 ## Minor improvements and fixes
