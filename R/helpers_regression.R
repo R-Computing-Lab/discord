@@ -20,6 +20,10 @@ check_sibling_order <- function(data, outcome, pair_identifiers, row) {
   outcome1 <- data[, base::paste0(outcome, pair_identifiers[1])]
   outcome2 <- data[, base::paste0(outcome, pair_identifiers[2])]
 
+  if (is.na(outcome1) | is.na(outcome2)) {
+    stop(paste0("There are missing data, encoded as `NA`, for at least one kinship pair in the '", outcome, "' variable and data cannot be prepped properly.\n Please remove or impute missing data."))
+  }
+
   if (outcome1 > outcome2) {
 
     data$order <- "s1"
