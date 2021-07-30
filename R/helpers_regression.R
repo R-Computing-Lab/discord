@@ -101,6 +101,7 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
                                         race_2 = data[[raceS1]])
     }
 
+    names(output_demographics) <- paste0(race, c("_1", "_2"))
   } else if (demographics == "sex") {
 
     if (data[, "order"] == "s1") {
@@ -110,6 +111,8 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
       output_demographics <- data.frame(sex_1 = data[[sexS2]],
                                         sex_2 = data[[sexS1]])
     }
+
+    names(output_demographics) <- paste0(sex, c("_1", "_2"))
 
   } else if (demographics == "both") {
 
@@ -125,6 +128,7 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
                                         race_2 = data[[raceS1]])
     }
 
+    names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
   }
 
   if (exists("output_demographics")) {
