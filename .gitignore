@@ -50,3 +50,5 @@ discord-paper/nul
 data/.DS_Store
 discord-paper/nul
 discord-paper/discord-paper.knit.md
+discord-paper/discord-paper_cache/*
+discord-paper/discord-paper.tex
