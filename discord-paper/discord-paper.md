@@ -28,17 +28,14 @@ journal: JOSS
 
 # Summary
 
-As a field, (human) behavior genetics explores the sources of individual differences in psychological traits and characteristics (Galton, 1876) -- to understand how much of human behavior is from genetic and environmental factors. More technically, the field focuses on decomposing the sources of phenotypic variation into genetic (Additive (A)+ Dominance (D)) and environmental (Shared Environment (C) + Non-Shared Environment (E)) variance components, by leveraging twin and family studies . However, these models can do so much more than merely describe sources of variance; they can be used to infer causation [@burt2019].
-
-Although considered the "gold standard" for inferring causation [@rubin2008], conducting randomized experiments to tease apart individual traits from differences in genes and environment are not always possible. For both ethical and practical considerations, psychologists often use quasi-experimental designs, which control for potential known confounds using a variety of statistical approaches [@garrison2021].
-
-Here, we present software facilitates a genetically-informed  quasi-experimental design, using kinship modeling.  It facilitates discordant-kinship regressions by comparing kin, such as siblings, in a manner that accounts for gene-and-environmental confounds when examining causal links in the realm of ‘nature vs. nurture.’
+As a field, behavior genetics studies the genetic and environmental sources of individual differences in psychological traits and characteristics. More technically, the field focuses on decomposing the sources of phenotypic variation into genetic (Additive (A)+ Dominance (D)) and environmental (Shared Environment (C) + Non-Shared Environment (E)) variance components, by leveraging twin and family studies. These models can do more than merely describe sources of variance; they can be used to infer causation [@burt2019].
+Here, we present software to facilitate genetically-informed quasi-experimental designs primarily for kinship modeling.  Specifically, it facilitates discordant-kinship regressions by comparing kin, such as siblings. These designs account for genetic-and-environmental variance when examining causal links in the realm of 'nature vs. nurture.'
 
 # Statement of Need
 
-Kin-comparison designs distinguish "within-family variance" from "between-family variance" [@chamberlain1975]. Within-family variance indicates how individuals of a specific family differ from one another; the between-family variance reflects sources that make family members more similar to one another [@garrison2021 @garrison2016]. By partitioning these sources of variance, scholars may greatly reduce confounds when testing hypotheses [@lahey2010]. Our R package, {discord}, has highly customizable, efficient code for generating genetically-informed simulations and provides user-friendly functions to help researchers use sibling-based quasi-experimental designs. 
+Kin-comparison designs distinguish "within-family variance" from "between-family variance" [@chamberlain1975]. Within-family variance indicates how individuals of a specific family differ from one another; the between-family variance reflects sources that make family members more similar to one another [@garrison2021 @garrison2016]. By partitioning these sources of variance, scholars may greatly reduce confounds when testing hypotheses [@lahey2010]. Our R package, {discord}, has customizable, efficient code for generating genetically-informed simulations and provides user-friendly functions to help researchers use kin-based quasi-experimental designs. 
 
-{discord} augments the NlsyLinks R package, which provides kinship links for the National Longitudinal Surveys of Youth -- a series of cross-generational, nationally representative surveys of over 30,000 participants [@beasley2016]. It has been used in multiple studies (cite, Mason, cite!).
+{discord} augments the NlsyLinks R package, which provides kinship links for the National Longitudinal Surveys of Youth -- a series of cross-generational, nationally representative surveys of over 30,000 participants [@beasley2016; @rodgers2016]. It has been used in multiple studies (cite, Mason, cite!).
 
 # Mathematics
 
@@ -54,7 +51,7 @@ A non-significant association between $Y_\Delta$ and $X_\Delta$ suggests that th
 
 Following [@garrison2021], we recommend interpreting significant associations as *not disproving a causal relationship*. Although this design controls for much (sibling) if not all (monozygotic twins) background heterogeneity, it is possible that a significant relationship between a phenotype and plausible covariates is possible due to non-shared environmental influences.
 
-The next section illustrates two examples of discordant-kinship regressions with the {discord} package.
+The next section illustrates two (HOW MANY?) examples of discordant-kinship regressions with the {discord} package.
 
 # Vaccine willingness and socioeconomic status
 
@@ -62,7 +59,7 @@ The next section illustrates two examples of discordant-kinship regressions with
 
 The following analysis is a simple case based on work presented elsewhere [@jonathantrattner2020]. The original project was inspired by reports detailing health disparities among ethnic minorities during the COVID-19 pandemic [@hooper2020]. Data came from the 1979 National Longitudinal Survey of Youth (NLSY79), a nationally representative household probability sample jointly sponsored by the U.S. Bureau of Labor Statistics and Department of Defense. Participants were surveyed annually from 1979 until 1994 at which point surveys occurred biennially. The data are publicly available at <https://www.nlsinfo.org/> and include responses from a biennial flu vaccine survey administered between 2006 and 2016. Our work originally examined whether SES at age 40 is a significant predictor for vaccination rates using the discordant-kinship model.
 
-The data for this analysis was downloaded with the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/flu_shot.dat). The SES at age 40 data can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/nlsy-ses.csv). For clarity, and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/jdtrat/senior-thesis-discord/blob/main/R/preprocess-discord-flu.R). This discordant-kinship analysis is possible thanks to recent work that estimated relatedness for approximately 95% of the NLSY79 kin pairs [@rodgers2016]. These kinship links are included in the [{NlsyLinks}](http://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016] and are easily utilized with the {discord} package.
+The data for this analysis was downloaded with the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/flu_shot.dat). The SES at age 40 data can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/nlsy-ses.csv). For clarity and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/jdtrat/senior-thesis-discord/blob/main/R/preprocess-discord-flu.R). This discordant-kinship analysis is possible thanks to recent work that estimated relatedness for approximately 95% of the NLSY79 kin pairs [@rodgers2016]. These kinship links are included in the [{NlsyLinks}](http://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016] and are easily utilized with the {discord} package.
 
 
 
@@ -96,13 +93,13 @@ After some pre-processing, we have a data frame containing subject identifiers, 
 \toprule
 CASEID & RACE & SEX & FLU\_total & S00\_H40\\
 \midrule
-\cellcolor{gray!6}{195} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{5} & \cellcolor{gray!6}{91.45988}\\
-393 & 0 & 1 & 5 & 63.74557\\
-\cellcolor{gray!6}{552} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{80.31418}\\
-57 & 0 & 0 & 3 & 71.27856\\
-\cellcolor{gray!6}{231} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{57.79234}\\
+\cellcolor{gray!6}{381} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{2} & \cellcolor{gray!6}{58.16532}\\
+572 & 0 & 0 & 0 & 39.13405\\
+\cellcolor{gray!6}{562} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{80.17893}\\
+577 & 0 & 0 & 2 & 91.86056\\
+\cellcolor{gray!6}{382} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{38.82502}\\
 \addlinespace
-273 & 0 & 1 & 3 & 62.60165\\
+331 & 1 & 1 & 1 & 18.91381\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -143,13 +140,13 @@ We have saved this data frame as `df_link`. A random subset of this data is:[^di
 \toprule
 ExtendedID & SubjectTag\_S1 & SubjectTag\_S2 & FLU\_total\_S1 & FLU\_total\_S2 & S00\_H40\_S1 & S00\_H40\_S2\\
 \midrule
-\cellcolor{gray!6}{1628} & \cellcolor{gray!6}{162900} & \cellcolor{gray!6}{163000} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{2} & \cellcolor{gray!6}{52.70917} & \cellcolor{gray!6}{57.47634}\\
-1691 & 169100 & 169300 & 0 & 0 & 19.98593 & 34.84907\\
-\cellcolor{gray!6}{231} & \cellcolor{gray!6}{23200} & \cellcolor{gray!6}{23300} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{49.41406} & \cellcolor{gray!6}{35.83669}\\
-1575 & 157500 & 157700 & 1 & 0 & 82.47228 & 50.07675\\
-\cellcolor{gray!6}{671} & \cellcolor{gray!6}{67100} & \cellcolor{gray!6}{67200} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{82.68649} & \cellcolor{gray!6}{52.68397}\\
+\cellcolor{gray!6}{281} & \cellcolor{gray!6}{28100} & \cellcolor{gray!6}{28200} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{81.25000} & \cellcolor{gray!6}{78.51113}\\
+949 & 94900 & 95000 & 0 & 0 & 55.66002 & 46.23236\\
+\cellcolor{gray!6}{137} & \cellcolor{gray!6}{13700} & \cellcolor{gray!6}{13800} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{81.06099} & \cellcolor{gray!6}{76.36864}\\
+1184 & 118400 & 118500 & 3 & 4 & 85.50907 & 92.97715\\
+\cellcolor{gray!6}{272} & \cellcolor{gray!6}{27200} & \cellcolor{gray!6}{27300} & \cellcolor{gray!6}{5} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{83.25019} & \cellcolor{gray!6}{62.60165}\\
 \addlinespace
-1685 & 168500 & 168700 & 0 & 3 & 62.47548 & 49.64088\\
+1042 & 104200 & 104300 & 4 & 1 & 24.42666 & 19.51865\\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -212,7 +209,7 @@ extended\_id & subject\_tag\_s1 & subject\_tag\_s2 & flu\_total\_s1 & flu\_total
 \cellcolor{gray!6}{67} & \cellcolor{gray!6}{6700} & \cellcolor{gray!6}{6800} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{89.67767} & \cellcolor{gray!6}{82.68649}\\
 74 & 7500 & 7600 & 0 & 0 & 0 & 0 & 0 & 1 & 88.15524 & 61.54234\\
 \cellcolor{gray!6}{83} & \cellcolor{gray!6}{8300} & \cellcolor{gray!6}{8400} & \cellcolor{gray!6}{0} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{46.41507} & \cellcolor{gray!6}{64.12765}\\
-85 & 8500 & 8600 & 0 & 0 & 1 & 1 & 1 & 0 & 40.12748 & 45.06552\\
+85 & 8500 & 8700 & 0 & 4 & 1 & 1 & 1 & 1 & 40.12748 & 64.14045\\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -252,21 +249,21 @@ The default output of `discord_regression()` is an `lm` object. The metrics for 
 \toprule
 Term & Estimate & Standard Error & T Statistic & P Value\\
 \midrule
-\cellcolor{gray!6}{(Intercept)} & \cellcolor{gray!6}{1.558} & \cellcolor{gray!6}{0.191} & \cellcolor{gray!6}{8.171} & \cellcolor{gray!6}{p<0.001}\\
-flu\_total\_mean & 0.189 & 0.033 & 5.711 & p<0.001\\
-\cellcolor{gray!6}{s00\_h40\_diff} & \cellcolor{gray!6}{0.005} & \cellcolor{gray!6}{0.002} & \cellcolor{gray!6}{2.651} & \cellcolor{gray!6}{p=0.008}\\
-s00\_h40\_mean & 0.000 & 0.003 & 0.125 & p=0.900\\
-\cellcolor{gray!6}{sex\_1} & \cellcolor{gray!6}{-0.177} & \cellcolor{gray!6}{0.098} & \cellcolor{gray!6}{-1.814} & \cellcolor{gray!6}{p=0.070}\\
+\cellcolor{gray!6}{(Intercept)} & \cellcolor{gray!6}{1.374} & \cellcolor{gray!6}{0.195} & \cellcolor{gray!6}{7.059} & \cellcolor{gray!6}{p<0.001}\\
+flu\_total\_mean & 0.187 & 0.034 & 5.522 & p<0.001\\
+\cellcolor{gray!6}{s00\_h40\_diff} & \cellcolor{gray!6}{0.005} & \cellcolor{gray!6}{0.002} & \cellcolor{gray!6}{2.421} & \cellcolor{gray!6}{p=0.016}\\
+s00\_h40\_mean & 0.003 & 0.003 & 1.102 & p=0.271\\
+\cellcolor{gray!6}{sex\_1} & \cellcolor{gray!6}{-0.147} & \cellcolor{gray!6}{0.098} & \cellcolor{gray!6}{-1.491} & \cellcolor{gray!6}{p=0.136}\\
 \addlinespace
-race\_1 & -0.043 & 0.102 & -0.420 & p=0.675\\
-\cellcolor{gray!6}{sex\_2} & \cellcolor{gray!6}{0.002} & \cellcolor{gray!6}{0.098} & \cellcolor{gray!6}{0.024} & \cellcolor{gray!6}{p=0.980}\\
+race\_1 & -0.029 & 0.103 & -0.281 & p=0.779\\
+\cellcolor{gray!6}{sex\_2} & \cellcolor{gray!6}{0.095} & \cellcolor{gray!6}{0.098} & \cellcolor{gray!6}{0.965} & \cellcolor{gray!6}{p=0.335}\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Looking at this output, the intercept can be thought of as the average difference in outcomes between siblings, controlling for all other variables. That is, it looks like the average difference for two sisters of a non-minority ethnic background (the reference groups for sex and race) is approximately 1.6. The term `flu_total_mean` is essentially an extra component of the intercept that captures some non-linear trends and allows the difference score to change as a function of the average predictors. Here, this is the mean socioeconomic status for the siblings, `s00_h40_mean`. We also accounted for sex and race, neither of which have a statistically significant effect on the differences in flu vaccine shots between siblings (different families) or within a sibling pair (same family).
+Looking at this output, the intercept can be thought of as the average difference in outcomes between siblings, controlling for all other variables. That is, it looks like the average difference for two sisters of a non-minority ethnic background (the reference groups for sex and race) is approximately 1.4. The term `flu_total_mean` is essentially an extra component of the intercept that captures some non-linear trends and allows the difference score to change as a function of the average predictors. Here, this is the mean socioeconomic status for the siblings, `s00_h40_mean`. We also accounted for sex and race, neither of which have a statistically significant effect on the differences in flu vaccine shots between siblings (different families) or within a sibling pair (same family).
 
-The most important metric from the output, though, is the difference score, `s00_h40_diff`. Here, it is statistically significant. An interpretation of this might be, "the difference in socioeconomic status between siblings at age 40 is positively associated with the difference in the number of flu vaccinations received between 2006-2016." This means that a sibling with 10% higher SES is expected to have 0.053302 more flu shots.
+The most important metric from the output, though, is the difference score, `s00_h40_diff`. Here, it is statistically significant. An interpretation of this might be, "the difference in socioeconomic status between siblings at age 40 is positively associated with the difference in the number of flu vaccinations received between 2006-2016." This means that a sibling with 10% higher SES is expected to have 0.0491088 more flu shots.
 
 The goal of performing a discordant-kinship regression is to see whether there is a significant difference in some behavioral measure while controlling for as much gene-and-environmental variance as possible. In this section, we walked through an analysis showing a statistically significant difference in the number of flu shots a sibling received and their socioeconomic status. From this, we *could not* claim the relationship is causal. However, we cannot eliminate causality because there are statistically significant within- and between-family differences in our predictors and outcomes.
 

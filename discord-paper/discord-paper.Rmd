@@ -28,17 +28,14 @@ journal: JOSS
 
 # Summary
 
-As a field, (human) behavior genetics explores the sources of individual differences in psychological traits and characteristics (Galton, 1876) -- to understand how much of human behavior is from genetic and environmental factors. More technically, the field focuses on decomposing the sources of phenotypic variation into genetic (Additive (A)+ Dominance (D)) and environmental (Shared Environment (C) + Non-Shared Environment (E)) variance components, by leveraging twin and family studies . However, these models can do so much more than merely describe sources of variance; they can be used to infer causation [@burt2019].
-
-Although considered the "gold standard" for inferring causation [@rubin2008], conducting randomized experiments to tease apart individual traits from differences in genes and environment are not always possible. For both ethical and practical considerations, psychologists often use quasi-experimental designs, which control for potential known confounds using a variety of statistical approaches [@garrison2021].
-
-Here, we present software facilitates a genetically-informed  quasi-experimental design, using kinship modeling.  It facilitates discordant-kinship regressions by comparing kin, such as siblings, in a manner that accounts for gene-and-environmental confounds when examining causal links in the realm of ‘nature vs. nurture.’
+As a field, behavior genetics studies the genetic and environmental sources of individual differences in psychological traits and characteristics. More technically, the field focuses on decomposing the sources of phenotypic variation into genetic (Additive (A)+ Dominance (D)) and environmental (Shared Environment (C) + Non-Shared Environment (E)) variance components, by leveraging twin and family studies. These models can do more than merely describe sources of variance; they can be used to infer causation [@burt2019].
+Here, we present software to facilitate genetically-informed quasi-experimental designs primarily for kinship modeling.  Specifically, it facilitates discordant-kinship regressions by comparing kin, such as siblings. These designs account for genetic-and-environmental variance when examining causal links in the realm of 'nature vs. nurture.'
 
 # Statement of Need
 
-Kin-comparison designs distinguish "within-family variance" from "between-family variance" [@chamberlain1975]. Within-family variance indicates how individuals of a specific family differ from one another; the between-family variance reflects sources that make family members more similar to one another [@garrison2021 @garrison2016]. By partitioning these sources of variance, scholars may greatly reduce confounds when testing hypotheses [@lahey2010]. Our R package, {discord}, has highly customizable, efficient code for generating genetically-informed simulations and provides user-friendly functions to help researchers use sibling-based quasi-experimental designs. 
+Kin-comparison designs distinguish "within-family variance" from "between-family variance" [@chamberlain1975]. Within-family variance indicates how individuals of a specific family differ from one another; the between-family variance reflects sources that make family members more similar to one another [@garrison2021 @garrison2016]. By partitioning these sources of variance, scholars may greatly reduce confounds when testing hypotheses [@lahey2010]. Our R package, {discord}, has customizable, efficient code for generating genetically-informed simulations and provides user-friendly functions to help researchers use kin-based quasi-experimental designs. 
 
-{discord} augments the NlsyLinks R package, which provides kinship links for the National Longitudinal Surveys of Youth -- a series of cross-generational, nationally representative surveys of over 30,000 participants [@beasley2016]. It has been used in multiple studies (cite, Mason, cite!).
+{discord} augments the NlsyLinks R package, which provides kinship links for the National Longitudinal Surveys of Youth -- a series of cross-generational, nationally representative surveys of over 30,000 participants [@beasley2016; @rodgers2016]. It has been used in multiple studies (cite, Mason, cite!).
 
 # Mathematics
 
@@ -54,7 +51,7 @@ A non-significant association between $Y_\Delta$ and $X_\Delta$ suggests that th
 
 Following [@garrison2021], we recommend interpreting significant associations as *not disproving a causal relationship*. Although this design controls for much (sibling) if not all (monozygotic twins) background heterogeneity, it is possible that a significant relationship between a phenotype and plausible covariates is possible due to non-shared environmental influences.
 
-The next section illustrates two examples of discordant-kinship regressions with the {discord} package.
+The next section illustrates two (HOW MANY?) examples of discordant-kinship regressions with the {discord} package.
 
 # Vaccine willingness and socioeconomic status
 
@@ -62,7 +59,7 @@ The next section illustrates two examples of discordant-kinship regressions with
 
 The following analysis is a simple case based on work presented elsewhere [@jonathantrattner2020]. The original project was inspired by reports detailing health disparities among ethnic minorities during the COVID-19 pandemic [@hooper2020]. Data came from the 1979 National Longitudinal Survey of Youth (NLSY79), a nationally representative household probability sample jointly sponsored by the U.S. Bureau of Labor Statistics and Department of Defense. Participants were surveyed annually from 1979 until 1994 at which point surveys occurred biennially. The data are publicly available at <https://www.nlsinfo.org/> and include responses from a biennial flu vaccine survey administered between 2006 and 2016. Our work originally examined whether SES at age 40 is a significant predictor for vaccination rates using the discordant-kinship model.
 
-The data for this analysis was downloaded with the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/flu_shot.dat). The SES at age 40 data can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/nlsy-ses.csv). For clarity, and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/jdtrat/senior-thesis-discord/blob/main/R/preprocess-discord-flu.R). This discordant-kinship analysis is possible thanks to recent work that estimated relatedness for approximately 95% of the NLSY79 kin pairs [@rodgers2016]. These kinship links are included in the [{NlsyLinks}](http://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016] and are easily utilized with the {discord} package.
+The data for this analysis was downloaded with the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/flu_shot.dat). The SES at age 40 data can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/nlsy-ses.csv). For clarity and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/jdtrat/senior-thesis-discord/blob/main/R/preprocess-discord-flu.R). This discordant-kinship analysis is possible thanks to recent work that estimated relatedness for approximately 95% of the NLSY79 kin pairs [@rodgers2016]. These kinship links are included in the [{NlsyLinks}](http://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016] and are easily utilized with the {discord} package.
 
 ```{r setup-discord-data, include = FALSE, cache = TRUE}
 source(file = here::here("R/preprocess-discord-flu.R"), local = knitr::knit_global())
