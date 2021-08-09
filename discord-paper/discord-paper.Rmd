@@ -47,11 +47,11 @@ $$
 
 This model partitions variance in line with the above discussion to support causal inference. Specifically, the within-family variance is described by $Y_{\Delta}$ and $X_{\Delta}$; between-family variance is captured by $\bar{Y}$ and $\bar{X}$ [@garrison2021].
 
-A non-significant association between $Y_\Delta$ and $X_\Delta$ suggests that the variables are not causally related and are not apparent within a family where gene and shared-environmental factors are controlled. In contrast, a significant association may provide support for a causal relationship between variables depending on the relatedness of each kin pair. That is, the discordant-kinship model is applicable for any set of kin: monozygotic twins who share 100% of their DNA; full-siblings who share 50%; half-siblings who share 25%; cousins who share 12.5%; etc. Thus, a significant relationship found with monozygotic twins would provide stronger support for a causal claim than the same relationship between cousins.
+A non-significant association between $Y_\Delta$ and $X_\Delta$ suggests that the relationship is not directly causal. Specifically, it means that kin differences in the outcome, after controlling for gene and shared-environmental factors, are not associated with kin differences in the outcome. In contrast, a significant association may provide support for a causal relationship between variables depending on the relatedness of each kin pair. That is, the discordant-kinship model is applicable for any set of kin: monozygotic twins who share 100% of their DNA; full-siblings who share 50%; half-siblings who share 25%; cousins who share 12.5%; etc. Thus, a significant relationship found with monozygotic twins would provide more compelling support for a causal claim than the same relationship between cousins.
 
 Following [@garrison2021], we recommend interpreting significant associations as *not disproving a causal relationship*. Although this design controls for much (sibling) if not all (monozygotic twins) background heterogeneity, it is possible that a significant relationship between a phenotype and plausible covariates is possible due to non-shared environmental influences.
 
-The next section illustrates two (HOW MANY?) examples of discordant-kinship regressions with the {discord} package.
+The next section illustrates one example of discordant-kinship regressions with the {discord} package.
 
 # Vaccine willingness and socioeconomic status
 
@@ -108,7 +108,7 @@ flu_ses_data %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position"), position = "center")
 ```
 
-Using the kinship relationships from the {NlsyLinks} package, we can create a data frame that lends itself to discordant analysis. For each kin pair, the function `CreatePairLinksSingleEntered()` takes a data set like the one above, **[a specification of the NLSY database and the kin's relatedness]**, and the variables of interest. It returns a data frame where every row is a kin-pair and each column is a variable of interest with a suffix indicating to which individual the value corresponds.
+Using the kinship relationships from the {NlsyLinks} package, we restructure the data to better lend itself to discordant kinship analysis. For each kin pair, the function `CreatePairLinksSingleEntered()` takes a data set like the one above, **[a specification of the NLSY database and the kin's relatedness]**, and the variables of interest. It returns a data frame where every row is a kin-pair and each column is a variable of interest with a suffix indicating to which individual the value corresponds.
 
 For this example, we will examine the relationship between flu vaccinations received between 2006-2016 and SES at age 40 between full siblings. As such, we specify the following variables from the pre-processed data frame previewed above.
 
@@ -165,7 +165,7 @@ df_link %>%
 
 [^discord-2]: Notice that, with the exception of the first column indicating the specific pair, each column name has the suffix "\_S1" and "\_S2". As mentioned above, these suffices identify which sibling the column values correspond.
 
-This data is almost ready for analysis, but we want to ensure that the data are representative of actual trends. The `FLU_total` column is simply a sum of the biennial survey responses. So for a given sibling-pair, one or both individuals may not have responded to the survey indicating their vaccination status. If that's the case, we want to exclude those siblings to reduce **[non-response bias]**. We can do this by examining the biennial responses and removing any rows with missingness.
+This data is almost ready for analysis, but we want to ensure that the data are representative of actual trends. The `FLU_total` column is simply a sum of the biennial survey responses. So for a given sibling-pair, one or both individuals may not have responded to the survey indicating their vaccination status. If that's the case, we want to exclude those siblings to reduce **[non-response bias]**, by examining the biennial responses and removing any rows with missingness.
 
 ```{r consistent-kin-data}
 
@@ -190,7 +190,7 @@ flu_modeling_data <- semi_join(df_link,
   clean_names()
 ```
 
-To avoid violating assumptions of independence, in our analysis we specify that the sibling-pairs should be from unique households (i.e. we randomly select one sibling pair per household).
+To avoid violating assumptions of independence, in our analysis we specify that the kin-pairs should be from unique households (i.e. we randomly select one sibling pair per household).
 
 ```{r finalize-flu-modeling-data, cache = TRUE}
 
@@ -200,7 +200,7 @@ flu_modeling_data <- flu_modeling_data %>%
   ungroup()
 ```
 
-The data we will use for modeling now contains additional information for each kin pair, including sex and race of each individual, flu vaccination status for the biennial survey between 2006-2016, and a total flu vaccination count for that period. The total vaccination count ranges from 0 - 5, where 0 indicates that the individual did not get a vaccine in any year between 2006-2016 and 5 indicates that an individual got at least 5 vaccines between 2006-2016. Although our data set has individual years, we were only interested in the aggregate as we felt that was a measure of general tendency. A subset of the data to use in this regression looks like:
+The data we will use for modeling now contains additional information for each member of the kin pair, including sex and race of each individual, flu vaccination status for the biennial survey between 2006-2016, and a total flu vaccination count for that period. The total vaccination count ranges from 0 - 5, where 0 indicates that the individual did not get a vaccine in any year between 2006-2016 and 5 indicates that an individual got at least 5 vaccines between 2006-2016. Although our data set has individual years, we focused on the aggregate as we felt that was a measure of general tendency. A subset of the data to use in this regression looks like:
 
 ```{r preview-flu-modeling-data, echo = FALSE, eval = knitr::is_html_output()}
 flu_modeling_data %>%
@@ -225,7 +225,7 @@ flu_modeling_data %>%
 
 ## Modeling and Interpretation
 
-To perform the regression using the {discord} package, we supply the data frame and specify the outcome and predictors. It also requires a kinship pair id, `extended_id` in our case, as well as pair identifiers -- the column name suffixes that identify to which kin a column's values correspond ("\_s1" and "\_s2" in our case).[^discord-3] Optional, though recommended, are columns containing sex and race information to control for as additional covariates. In our case, these columns are prefixed "race" and "sex". Per the [pre-processing script](https://github.com/jdtrat/senior-thesis-discord/blob/main/R/preprocess-discord-flu.R), these columns contain dummy variables where the reference group for race is "non-Black, non-Hispanic" and the reference group for sex is female.
+To perform the regression using the {discord} package, we supply the data frame and specify the outcome and predictors. It also requires a kinship pair id, `extended_id` in our case, as well as pair identifiers -- the column name suffixes that identify to which kin a column's values correspond ("\_s1" and "\_s2" in our case).[^discord-3] Optional, although recommended, are columns containing sex and race information to control for as additional covariates. In our case, these columns are prefixed "race" and "sex". Per the [pre-processing script](https://github.com/jdtrat/senior-thesis-discord/blob/main/R/preprocess-discord-flu.R), these columns contain dummy variables where the reference group for race is "non-Black, non-Hispanic" and the reference group for sex is female. This 
 
 [^discord-3]: Note these ids were previously "\_S1" and "\_S2", however, we used the `clean_names()` function which coerced the column names to lowercase.
 
@@ -277,15 +277,15 @@ flu_model_output %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position"), position = "center")
 ```
 
-Looking at this output, the intercept can be thought of as the average difference in outcomes between siblings, controlling for all other variables. That is, it looks like the average difference for two sisters of a non-minority ethnic background (the reference groups for sex and race) is approximately `r round(flu_model_output$estimate[1], 1)`. The term `flu_total_mean` is essentially an extra component of the intercept that captures some non-linear trends and allows the difference score to change as a function of the average predictors. Here, this is the mean socioeconomic status for the siblings, `s00_h40_mean`. We also accounted for sex and race, neither of which have a statistically significant effect on the differences in flu vaccine shots between siblings (different families) or within a sibling pair (same family).
+Looking at this output, the intercept can be thought of as the average difference in outcomes between siblings, controlling for all other variables. That is, it looks like the average difference for two sisters of a non-minority ethnic background (the reference groups for sex and race) is approximately `r round(flu_model_output$estimate[1], 1)`. The term `flu_total_mean` is essentially an extra component of the intercept that captures some non-linear trends and allows the difference score to change as a function of the average predictors. Here, this is the mean socioeconomic status for the siblings, `s00_h40_mean`. We also accounted for sex and race, neither of which have a statistically significant effect on the differences in flu vaccine shots between siblings (different families)**check this please** or within a sibling pair (same family).
 
-The most important metric from the output, though, is the difference score, `s00_h40_diff`. Here, it is statistically significant. An interpretation of this might be, "the difference in socioeconomic status between siblings at age 40 is positively associated with the difference in the number of flu vaccinations received between 2006-2016." This means that a sibling with 10% higher SES is expected to have `r flu_model_output %>% filter(term == "s00_h40_diff") %>% pull(estimate) * 10 %>% round(3)` more flu shots.
+The most important metric from the output, though, is the difference score, `s00_h40_diff`. Here, it is statistically significant. An interpretation of this result might be, "the difference in socioeconomic status between siblings at age 40 is positively associated with the difference in the number of flu vaccinations received between 2006-2016." This finding means that a sibling with 10% higher SES is expected to have `r flu_model_output %>% filter(term == "s00_h40_diff") %>% pull(estimate) * 10 %>% round(3)` average in flu shots.
 
-The goal of performing a discordant-kinship regression is to see whether there is a significant difference in some behavioral measure while controlling for as much gene-and-environmental variance as possible. In this section, we walked through an analysis showing a statistically significant difference in the number of flu shots a sibling received and their socioeconomic status. From this, we *could not* claim the relationship is causal. However, we cannot eliminate causality because there are statistically significant within- and between-family differences in our predictors and outcomes.
+The goal of performing a discordant-kinship regression is to see whether there is a significant difference in some behavioral measure while controlling for as much gene-and-environmental variance as possible. In this section, we walked through an analysis showing a statistically significant difference in the number of flu shots a sibling received and their socioeconomic status. From this finding, we *could not* claim the relationship is causal. However, we cannot eliminate causality because there are statistically significant within- and between-family differences in our predictors and outcomes.
 
 # Conclusion
 
-In its current implementation, the {discord} package encourages best practices for performing discordant-kinship regressions. For example, the main function has the default expectation that sex and race indicators will be supplied. These measures are both important covariates when testing for causality between familial background and psychological characteristics.
+In its current implementation, the {discord} package encourages best practices for performing discordant-kinship regressions. For example, the main function has the default expectation that sex and race indicators will be supplied. These measures are both important covariates **when testing for causality between familial background and psychological characteristics.**
 
 This, and other design choices, are crucial to facilitating transparent and reproducible results. Software ever-evolves, however, and to further support reproducible research we plan to provide improved documentation and allow for easier inspection of the underlying model implementation and results.
 
