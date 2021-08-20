@@ -5,7 +5,8 @@
 #'   interest.
 #' @param predictors A character vector containing the column names for
 #'   predicting the outcome.
-#' @param id A unique kinship pair identifier.
+#' @param id Default's to NULL. If supplied, must specify the column name
+#'   corresponding to unique kinship pair identifiers.
 #' @param sex A character string for the sex column name.
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the
@@ -14,7 +15,8 @@
 #'   demographics. If both are present (default, and recommended), value should
 #'   be "both". Other options include "sex", "race", or "none".
 #'
-#' @return A data frame that contains analyzable, paired data for performing kinship regressions.
+#' @return A data frame that contains analyzable, paired data for performing
+#'   kinship regressions.
 #'
 #' @export
 #'
@@ -28,17 +30,24 @@
 #' race = NULL,
 #' demographics = "none")
 #'
-discord_data <- function(data, outcome, predictors, id = "extended_id", sex = "sex", race = "race", pair_identifiers, demographics = "both") {
+discord_data <- function(data, outcome, predictors, id = NULL, sex = "sex", race = "race", pair_identifiers, demographics = "both") {
   #combine outcome and predictors for manipulating the data
   variables <- c(outcome, predictors)
 
   #order the data on outcome
-  orderedOnOutcome <- do.call(rbind, lapply(X = 1:nrow(data),
-                                            FUN = check_sibling_order,
-                                            data = data, outcome = outcome,
-                                            pair_identifiers = pair_identifiers)
-  )
+  orderedOnOutcome <- do.call(rbind,
+                              lapply(
+                                X = 1:nrow(data),
+                                FUN = check_sibling_order,
+                                data = data, outcome = outcome,
+                                pair_identifiers = pair_identifiers
+                                )
+                              )
 
+  if (!valid_ids(orderedOnOutcome, id = id)) {
+    id <- "rowwise_id"
+    orderedOnOutcome <- cbind(orderedOnOutcome, rowwise_id = 1:nrow(data))
+  }
 
   out <- vector(mode = "list", length = length(variables))
 

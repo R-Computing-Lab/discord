@@ -5,7 +5,8 @@
 #'   interest.
 #' @param predictors A character vector containing the column names for
 #'   predicting the outcome.
-#' @param id A unique kinship pair identifier.
+#' @param id Default's to NULL. If supplied, must specify the column name
+#'   corresponding to unique kinship pair identifiers.
 #' @param sex A character string for the sex column name.
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
@@ -24,7 +25,7 @@
 #' race = NULL)
 #'
 discord_regression <- function(data, outcome, predictors,
-                               id = "extended_id", sex = "sex", race = "race",
+                               id = NULL, sex = "sex", race = "race",
                                pair_identifiers = c("_s1", "_s2")) {
 
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)

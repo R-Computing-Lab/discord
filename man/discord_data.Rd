@@ -8,7 +8,7 @@ discord_data(
   data,
   outcome,
   predictors,
-  id = "extended_id",
+  id = NULL,
   sex = "sex",
   race = "race",
   pair_identifiers,
@@ -24,7 +24,8 @@ interest.}
 \item{predictors}{A character vector containing the column names for
 predicting the outcome.}
 
-\item{id}{A unique kinship pair identifier.}
+\item{id}{Default's to NULL. If supplied, must specify the column name
+corresponding to unique kinship pair identifiers.}
 
 \item{sex}{A character string for the sex column name.}
 
@@ -38,7 +39,8 @@ demographics. If both are present (default, and recommended), value should
 be "both". Other options include "sex", "race", or "none".}
 }
 \value{
-A data frame that contains analyzable, paired data for performing kinship regressions.
+A data frame that contains analyzable, paired data for performing
+  kinship regressions.
 }
 \description{
 Restructure Data to Determine Kinship Differences
