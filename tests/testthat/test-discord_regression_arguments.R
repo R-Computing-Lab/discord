@@ -26,7 +26,7 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race + sex", {
   )), class = "data.frame", row.names = c(
     "(Intercept)",
     "flu_2008_mean", "edu_2008_diff", "ses_2008_diff", "edu_2008_mean",
-    "ses_2008_mean", "sex_s1FEMALE", "race_s1BLACK", "sex_s2FEMALE"
+    "ses_2008_mean", "sex_1FEMALE", "race_1BLACK", "sex_2FEMALE"
   ))
 
   set.seed(18)
@@ -60,7 +60,7 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race", {
   )), class = "data.frame", row.names = c(
     "(Intercept)",
     "flu_2008_mean", "edu_2008_diff", "ses_2008_diff", "edu_2008_mean",
-    "ses_2008_mean", "race_s1BLACK"
+    "ses_2008_mean", "race_1BLACK"
   ))
   set.seed(18)
   new <- discord_regression(uniqueExtendedIDs,
@@ -130,8 +130,8 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race + sex", {
     0.352201974997601, 0.441209408596208
   )), class = "data.frame", row.names = c(
     "(Intercept)",
-    "flu_2008_mean", "edu_2008_diff", "edu_2008_mean", "sex_s1FEMALE",
-    "race_s1BLACK", "sex_s2FEMALE"
+    "flu_2008_mean", "edu_2008_diff", "edu_2008_mean", "sex_1FEMALE",
+    "race_1BLACK", "sex_2FEMALE"
   ))
   set.seed(18)
   new <- discord_regression(uniqueExtendedIDs,
