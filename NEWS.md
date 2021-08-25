@@ -3,6 +3,7 @@
 ## Bug Fixes
 
 * Fixed error when prepping discordant data as a result of mismatched column names between user-supplied data and internally-manipulated data. See [commit fc1ed9f](https://github.com/R-Computing-Lab/discord/commit/fc1ed9f01d813cbb7f64545003bcada621a623e8) for more details.
+* Fixed error where `discord_data()` returned multiple rows per kin-pair when the 'id' column had non-unique values. As a result, the new default for 'id' is NULL. See [commit 87d5b3b6](https://github.com/R-Computing-Lab/discord/commit/87d5b3b678826232beccb3ec8fea0e4d00abc0e4) for more details.
 
 ## Minor improvements and fixes
 

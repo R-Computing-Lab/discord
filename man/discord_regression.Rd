@@ -8,7 +8,7 @@ discord_regression(
   data,
   outcome,
   predictors,
-  id = "extended_id",
+  id = NULL,
   sex = "sex",
   race = "race",
   pair_identifiers = c("_s1", "_s2")
@@ -23,7 +23,8 @@ interest.}
 \item{predictors}{A character vector containing the column names for
 predicting the outcome.}
 
-\item{id}{A unique kinship pair identifier.}
+\item{id}{Default's to NULL. If supplied, must specify the column name
+corresponding to unique kinship pair identifiers.}
 
 \item{sex}{A character string for the sex column name.}
 

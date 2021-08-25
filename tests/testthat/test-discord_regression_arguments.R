@@ -65,6 +65,7 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race", {
   set.seed(18)
   new <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
+    id = "extended_id",
     predictors = c("edu_2008", "ses_2008"),
     sex = NULL
   )
@@ -97,6 +98,7 @@ test_that("flu_2008 ~ edu_2008 + ses_2008", {
   set.seed(18)
   new <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
+    id = "extended_id",
     predictors = c("edu_2008", "ses_2008"),
     sex = NULL,
     race = NULL

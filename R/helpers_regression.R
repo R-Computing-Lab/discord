@@ -153,9 +153,12 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
 #'
 check_discord_errors <- function(data, id, sex, race, pair_identifiers) {
 
-  if (!id %in% base::names(data)) {
-    stop(paste0("The kinship pair ID \"", id, "\" is not valid. Please check that you have the correct column name."))
+  if (!is.null(id)) {
+    if (!id %in% base::names(data)) {
+      stop(paste0("The kinship pair ID \"", id, "\" is not valid. Please check that you have the correct column name."))
+    }
   }
+
   if (!base::is.null(sex) && base::sum(base::grepl(sex, base::names(data))) == 0) {
     stop(paste0("The kinship pair sex identifier \"", sex, "\" is not appropriately defined. Please check that you have the correct column name."))
   }
@@ -169,4 +172,27 @@ check_discord_errors <- function(data, id, sex, race, pair_identifiers) {
     stop("Please check that your sex and race variables are not equal.")
   }
 
+}
+
+
+#' Check if the ids for the supplied data are unique
+#'
+#' @return Logical: TRUE/FALSE
+#'
+#' @noRd
+#'
+valid_ids <- function(data, id) {
+  if (!is.null(id)) {
+    id_length <- length(unique(data[[id]]))
+    if (id_length != nrow(data)) {
+      dwarn("Specified id column does not contain unique values for each kin-pair.
+Adding row-wise ID for restructuring data into paired format for analysis.
+For more details, see <https://github.com/R-Computing-Lab/discord/issues/6>.")
+      return(FALSE)
+    } else if (id_length == nrow(data)) {
+      return(TRUE)
+    }
+  } else if (is.null(id)) {
+    return(FALSE)
+  }
 }
