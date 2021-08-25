@@ -78,8 +78,8 @@ discord_data <- function(data, outcome, predictors, id = NULL, sex = "sex", race
     mrg <- function(x, y) {
       merge(x = x,
             y = y,
-            by = c("id", paste0(race, "_1"),
-                   paste0(race, "_2")),
+            by = c("id", paste0(race, pair_identifiers[1]),
+                   paste0(race, pair_identifiers[2])),
             all.x = TRUE)
     }
 
@@ -90,8 +90,8 @@ discord_data <- function(data, outcome, predictors, id = NULL, sex = "sex", race
     mrg <- function(x, y) {
       merge(x = x,
             y = y,
-            by = c("id", paste0(sex, "_1"),
-                   paste0(sex, "_2")),
+            by = c("id", paste0(sex, pair_identifiers[1]),
+                   paste0(sex,pair_identifiers[2])),
             all.x = TRUE)
     }
 
@@ -102,8 +102,8 @@ discord_data <- function(data, outcome, predictors, id = NULL, sex = "sex", race
     mrg <- function(x, y) {
       merge(x = x,
             y = y,
-            by = c("id", paste0(sex, "_1"), paste0(sex, "_2"),
-                   paste0(race, "_1"), paste0(race, "_2")),
+            by = c("id", paste0(sex, pair_identifiers[1]), paste0(sex, pair_identifiers[2]),
+                   paste0(race,pair_identifiers[1]), paste0(race,pair_identifiers[2])),
             all.x = TRUE)
     }
 
