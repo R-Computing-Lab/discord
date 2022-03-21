@@ -39,9 +39,9 @@ kinsim <- function(
   r_vector=NULL, # alternative specification, give vector of rs
   ace_all=c(1,1,1), # variance default
   ace_list=matrix(rep(ace_all,variables),byrow=TRUE,nrow=variables),
-  cov_a=0, #default shared variance for genetics
-  cov_c=0, #default shared variance for c
-  cov_e=0, #default shared variance for e
+  cov_a=0, #default shared covariance for genetics across variables
+  cov_c=0, #default shared variance for c across variables
+  cov_e=0, #default shared variance for e across variables
   ...){
   mu <- NULL
   sA <- ace_list[,1]^0.5
@@ -111,9 +111,9 @@ kinsim <- function(
       # Shared E Covariance
       sigma_e <- diag(4)+S2*0
       sigma_e[1,3] <- cov_e
-      sigma_e[3,1]<-cov_e
-      sigma_e[2,4]<-cov_e
-      igma_e[4,2]<-cov_e
+      sigma_e[3,1] <- cov_e
+      sigma_e[2,4] <- cov_e
+      sigma_e[4,2] <- cov_e
       E.r <- rmvn(n,
                   sigma = sigma_e)
       E.r[,1:2]<- E.r[,1:2]*sE[1]
@@ -152,13 +152,13 @@ kinsim <- function(
                                          length(id)*4),
                                      nrow=length(id),
                                      ncol=4))
-    
+
     names(data_vector) <- c("id","r",
                             "A1_1","A1_2",
                             "A2_1","A2_2")
-    
+
     unique_r= matrix(unique(r_vector))
-    
+
     for(i in 1:length(unique_r)){
       n <- length(r_vector[r_vector==unique_r[i]])
 
