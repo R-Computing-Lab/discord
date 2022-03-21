@@ -30,7 +30,14 @@
 #' race = NULL,
 #' demographics = "none")
 #'
-discord_data <- function(data, outcome, predictors, id = NULL, sex = "sex", race = "race", pair_identifiers, demographics = "both") {
+discord_data <- function(data,
+                         outcome,
+                         predictors,
+                         id = NULL,
+                         sex = "sex",
+                         race = "race",
+                         pair_identifiers,
+                         demographics = "both") {
   #combine outcome and predictors for manipulating the data
   variables <- c(outcome, predictors)
 
@@ -44,7 +51,8 @@ discord_data <- function(data, outcome, predictors, id = NULL, sex = "sex", race
                                 )
                               )
 
-  if (!valid_ids(orderedOnOutcome, id = id)) {
+  if (!valid_ids(orderedOnOutcome,
+                 id = id)) {
     id <- "rowwise_id"
     orderedOnOutcome <- cbind(orderedOnOutcome, rowwise_id = 1:nrow(data))
   }

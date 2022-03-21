@@ -6,8 +6,10 @@
 
 
 rmvn <- function(n,sigma) {
-  Sh <- with(svd(sigma), v%*%diag(sqrt(d))%*%t(u))
-  matrix(stats::rnorm(ncol(sigma)*n),ncol=ncol(sigma))%*%Sh
+  Sh <- with(svd(sigma),
+             v%*%diag(sqrt(d))%*%t(u))
+  matrix(stats::rnorm(ncol(sigma)*n),
+         ncol = ncol(sigma))%*%Sh
 }
 
 #' Simulate Biometrically informed Univariate Data
@@ -43,8 +45,8 @@ kinsim_internal <- function(
   r_vector=NULL,
   ...){
 
-  sA <- ace[1]^0.5;
-  sC <- ace[2]^0.5;
+  sA <- ace[1]^0.5
+  sC <- ace[2]^0.5
   sE <- ace[3]^0.5
 
   S2 <- matrix(c(0,1,
@@ -52,26 +54,36 @@ kinsim_internal <- function(
   datalist <- list()
 
   if(is.null(r_vector)){
-    id=1:sum(npergroup)
+
+    id <- 1:sum(npergroup)
+
     for(i in 1:length(r)){
+
       n = npergroup[i]
 
-      A.r <- sA*rmvn(n,sigma=diag(2)+S2*r[i])
-      C.r <- stats::rnorm(n,sd=sC);	C.r <- cbind(C.r,C.r)
-      E.r <- cbind(stats::rnorm(n,sd=sE),stats::rnorm(n,sd=sE))
+      A.r <- sA*rmvn(n,
+                     sigma = diag(2) + S2*r[i])
+      C.r <- stats::rnorm(n,
+                          sd = sC)
+      C.r <- cbind(C.r,
+                   C.r)
+      E.r <- cbind(stats::rnorm(n,
+                                sd = sE),
+                   stats::rnorm(n,
+                                sd = sE))
 
       y.r <- mu + A.r + C.r + E.r
 
 
       r_ <- rep(r[i],n)
 
-      data.r<-data.frame(A.r,C.r,E.r,y.r,r_)
-      names(data.r)<-c("A1","A2","C1","C2","E1","E2","y1","y2","r")
+      data.r <- data.frame(A.r,C.r,E.r,y.r,r_)
+      names(data.r) <- c("A1","A2","C1","C2","E1","E2","y1","y2","r")
       datalist[[i]] <- data.r
-      names(datalist)[i]<-paste0("datar",r[i])
+      names(datalist)[i] <- paste0("datar",r[i])
     }
-    merged.data.frame = Reduce(function(...) merge(..., all=T), datalist)
-    merged.data.frame$id<-id
+    merged.data.frame <- Reduce(function(...) merge(..., all=T), datalist)
+    merged.data.frame$id <- id
   }else{
     id=1:length(r_vector)
     data_vector=data.frame(id,r_vector)
@@ -79,24 +91,30 @@ kinsim_internal <- function(
     data_vector$A.r2<-as.numeric(NA)
     unique_r= matrix(unique(r_vector))
     for(i in 1:length(unique_r)){
-      n=length(r_vector[r_vector==unique_r[i]])
-      A.rz <- sA*rmvn(n,sigma=diag(2)+S2*unique_r[i])
+      n <- length(r_vector[r_vector==unique_r[i]])
+      A.rz <- sA*rmvn(n,
+                      sigma=diag(2)+S2*unique_r[i])
       data_vector$A.r1[data_vector$r_vector==unique_r[i]] <- A.rz[,1]
       data_vector$A.r2[data_vector$r_vector==unique_r[i]] <- A.rz[,2]
     }
     n=length(r_vector)
-    A.r<-matrix(c(data_vector$A.r1,data_vector$A.r2),ncol=2)
-    C.r <- stats::rnorm(n,sd=sC);	C.r <- cbind(C.r,C.r)
-    E.r <- cbind(stats::rnorm(n,sd=sE),stats::rnorm(n,sd=sE))
+    A.r <- matrix(c(data_vector$A.r1,
+                    data_vector$A.r2),ncol=2)
+    C.r <- stats::rnorm(n,sd=sC)
+    C.r <- cbind(C.r,C.r)
+    E.r <- cbind(stats::rnorm(n,
+                              sd = sE),
+                 stats::rnorm(n,
+                              sd = sE))
 
     y.r <- mu + A.r + C.r + E.r
 
-    data.r<-data.frame(id,A.r,C.r,E.r,y.r,r_vector)
-    names(data.r)<-c("id","A1","A2","C1","C2","E1","E2","y1","y2","r")
+    data.r <- data.frame(id,A.r,C.r,E.r,y.r,r_vector)
+    names(data.r) <- c("id","A1","A2","C1","C2","E1","E2","y1","y2","r")
     datalist[[i]] <- data.r
-    names(datalist)[i]<-paste0("datar",r[i])
+    names(datalist)[i]<- paste0("datar",r[i])
 
-    merged.data.frame = data.r
+    merged.data.frame <- data.r
   }
 
   return(merged.data.frame)
