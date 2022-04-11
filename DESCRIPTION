@@ -12,7 +12,7 @@ Description: Functions for discordant kinship modeling (and other sibling-based 
 URL: https://github.com/R-Computing-Lab/discord
 License: GPL-3
 LazyData: TRUE
-RoxygenNote: 7.1.2
+RoxygenNote: 7.1.2.9000
 Encoding: UTF-8
 Depends: R (>= 2.10)
 Imports: 
