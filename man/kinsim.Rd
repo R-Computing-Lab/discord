@@ -11,7 +11,6 @@ kinsim(
   mu_all = 0,
   variables = 2,
   mu_list = rep(mu_all, variables),
-  reliability_list = NULL,
   r_vector = NULL,
   ace_all = c(1, 1, 1),
   ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
@@ -33,8 +32,6 @@ kinsim(
 \item{variables}{Number of variables to generate; default is 2. Currently, limited to max of two variables.}
 
 \item{mu_list}{List of means by variable; default repeats \code{mu_all} for all variables}
-
-\item{reliability_list}{Vector of Reliabilities for each generated variable; default is to repeat \code{reliability_all} for each variable}
 
 \item{r_vector}{Alternative, give vector of r coefficients for entire sample.}
 
