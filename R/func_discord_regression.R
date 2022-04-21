@@ -24,8 +24,12 @@
 #' sex = NULL,
 #' race = NULL)
 #'
-discord_regression <- function(data, outcome, predictors,
-                               id = NULL, sex = "sex", race = "race",
+discord_regression <- function(data,
+                               outcome,
+                               predictors,
+                               id = NULL,
+                               sex = "sex",
+                               race = "race",
                                pair_identifiers = c("_s1", "_s2")) {
 
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
