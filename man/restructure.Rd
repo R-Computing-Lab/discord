@@ -8,15 +8,15 @@ restructure(
   data,
   pid,
   num_con = 1,
-  con1_1,
-  con1_2,
-  con2_1 = NULL,
-  con2_2 = NULL,
+  continuous_var1_1,
+  continuous_var1_2,
+  continuous_var2_1 = NULL,
+  continuous_var2_2 = NULL,
   num_cat = 1,
-  cat1_1,
-  cat1_2,
-  cat2_1 = NULL,
-  cat2_2 = NULL,
+  categorical_var1_1,
+  categorical_var1_2,
+  categorical_var2_1 = NULL,
+  categorical_var2_2 = NULL,
   y_1,
   y_2
 )
@@ -28,23 +28,23 @@ restructure(
 
 \item{num_con}{The number of continuous variable(s) (independent variable); default is 1. At present, it is limited to max of two variables.}
 
-\item{con1_1}{A numeric vector containing the independent variable of the member 1.}
+\item{continuous_var1_1}{A numeric vector containing the independent variable of the member 1.}
 
-\item{con1_2}{A numeric vector containing the independent variable of the member 2.}
+\item{continuous_var1_2}{A numeric vector containing the independent variable of the member 2.}
 
-\item{con2_1}{A numeric vector containing the other independent variable of the member 1; default is NULL.}
+\item{continuous_var2_1}{A numeric vector containing the other independent variable of the member 1; default is NULL.}
 
-\item{con2_2}{A numeric vector containing the other independent variable of the member 2; default is NULL.}
+\item{continuous_var2_2}{A numeric vector containing the other independent variable of the member 2; default is NULL.}
 
 \item{num_cat}{The number of categorical variable(s) (independent variable); default is 1. At present, it is limited to max of two variables.}
 
-\item{cat1_1}{A categorical vector containing the independent variable of the member 1.}
+\item{categorical_var1_1}{A categorical vector containing the independent variable of the member 1.}
 
-\item{cat1_2}{A categorical vector containing the independent variable of the member 2.}
+\item{categorical_var1_2}{A categorical vector containing the independent variable of the member 2.}
 
-\item{cat2_1}{A categorical vector containing the other independent variable of the member 1; default is NULL.}
+\item{categorical_var2_1}{A categorical vector containing the other independent variable of the member 1; default is NULL.}
 
-\item{cat2_2}{A categorical vector containing the other independent variable of the member 2; default is NULL.}
+\item{categorical_var2_2}{A categorical vector containing the other independent variable of the member 2; default is NULL.}
 
 \item{y_1}{The dependent variable of the member 1.}
 
@@ -59,19 +59,19 @@ Restructure dyadic-structured data for discordant kinship modeling. This functio
 }
 \examples{
 
-restructure<-function(data = data,
-                      pid=pid,
-                      num_con=1
-                      con1_1=continuous_1,
-                      con1_2=continuous_2,
-                      con2_1=NULL,
-                      con2_2=NULL,
-                      num_cat=1,
-                      cat1_1=categorical_1,
-                      cat1_2=categorical_2,
-                      cat2_1=NULL,
-                      cat2_2=NULL,
-                      y_1=dv_1,
-                      y_2=dv_2
+restructure<-function(data = sample_data2,
+                      pid = pairID,
+                      num_con = 1,
+                      continuous_var1_1 = 'height_1',
+                      continuous_var1_2 = 'height_2',
+                      continuous_var2_1 = NULL,
+                      continuous_var2_2 = NULL,
+                      num_cat = 1,
+                      categorical_var1_1 = 'marriage_1',
+                      categorical_var1_2 = 'marriage_2',
+                      categorical_var2_1=NULL,
+                      categorical_var2_2=NULL,
+                      y_1 = 'DV_1',
+                      y_2 = 'DV_2'
                       )
 }
