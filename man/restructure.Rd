@@ -59,19 +59,18 @@ Restructure dyadic-structured data for discordant kinship modeling. This functio
 }
 \examples{
 
-restructure<-function(data = sample_data2,
-                      pid = pairID,
-                      num_con = 1,
-                      continuous_var1_1 = 'height_1',
-                      continuous_var1_2 = 'height_2',
-                      continuous_var2_1 = NULL,
-                      continuous_var2_2 = NULL,
-                      num_cat = 1,
-                      categorical_var1_1 = 'marriage_1',
-                      categorical_var1_2 = 'marriage_2',
-                      categorical_var2_1=NULL,
-                      categorical_var2_2=NULL,
-                      y_1 = 'DV_1',
-                      y_2 = 'DV_2'
-                      )
+restructure(data = sample_data2,
+pid = 'pairID',
+num_con = 1,
+continuous_var1_1 = 'height_1',
+continuous_var1_2 = 'height_2',
+continuous_var2_1 = NULL,
+continuous_var2_2 = NULL,
+num_cat = 1,
+categorical_var1_1 = 'marriage_1',
+categorical_var1_2 = 'marriage_2',
+categorical_var2_1 = NULL,
+categorical_var2_2 = NULL,
+y_1 = 'DV_1',
+y_2 = 'DV_2')
 }

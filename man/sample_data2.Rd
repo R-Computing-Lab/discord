@@ -3,7 +3,7 @@
 \docType{data}
 \name{sample_data2}
 \alias{sample_data2}
-\title{Sample Data from analysis}
+\title{Sample Data for analysis}
 \format{
 A data frame. \describe{pairs and their height,
   weight, marriage status, test results, and dependent variable (DV) information.}
