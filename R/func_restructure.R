@@ -116,8 +116,8 @@ restructure <- function(data,
 
   if(num_con==1 && num_cat==1){
 
-    # this is a default setting. it will return a data that made by codes above.
-    # this empty part is for else() function in the below
+    # this is a default setting. it will return a data made by codes above.
+    # this empty part is for else() part below
 
   }
 
@@ -153,7 +153,7 @@ restructure <- function(data,
   }
   else if(num_con==2 && num_cat==2) {
 
-    # generate the mean score/ different score for continuous_var2
+    # generate the mean score/ different scores for continuous_var2
 
     continuous_var2_mean <- paste0(continuous_var2_1,continuous_var2_2,"_mean")
     continuous_var2_diff <- paste0(continuous_var2_1,continuous_var2_2,"_diff")
