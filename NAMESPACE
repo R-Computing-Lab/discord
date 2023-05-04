@@ -2,7 +2,6 @@
 
 export(discord_data)
 export(discord_regression)
-export(restructure)
 importFrom(stats,formula)
 importFrom(stats,lm)
 importFrom(stats,rnorm)
