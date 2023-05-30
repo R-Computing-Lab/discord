@@ -1,25 +1,25 @@
-#' Check which sibling has more of the outcome
+#' @title Check Sibling Order
 #'
-#' This function dds a column \code{order} by comparing which familial member
-#' has more of the outcome. This is done per pair (i.e. row).
-#'
-#' @param data The data set with kinship pairs.
-#' @param outcome A character string containing the outcome variable of
-#'   interest.
+#' @description This function determines the order of sibling pairs based on an outcome variable.
+#' It function checks which of the two kinship pairs has more of a specified outcome variable.
+#' It adds a new column named `order` to the dataset, indicating which sibling (identified as "s1" or "s2") has more of the outcome.
+#' If the two siblings have the same amount of the outcome, it randomly assigns one as having more.
+#
+#' @inheritParams discord_data
 #' @param row The row number of the data frame
-#' @param pair_identifiers A character vector of length two that contains the
-#'   variable identifier for each kinship pair.
 #'
 #' @return A character string signifying which familial member (1, 2, or
 #'   neither) has more of the outcome.
 #'
 check_sibling_order <- function(data, outcome, pair_identifiers, row) {
-
+  # Select the row of interest from the data frame
   data <- data[row,]
 
+ # Get the value of the outcome variable for each sibling
   outcome1 <- data[, base::paste0(outcome, pair_identifiers[1])]
   outcome2 <- data[, base::paste0(outcome, pair_identifiers[2])]
 
+  # Check if either sibling has missing (NA) outcome data
   if (is.na(outcome1) | is.na(outcome2)) {
     stop(paste0("There are missing data, encoded as `NA`, for at least one kinship pair in the '", outcome, "' variable and data cannot be prepped properly.\n Please remove or impute missing data."))
   }
@@ -44,8 +44,18 @@ check_sibling_order <- function(data, outcome, pair_identifiers, row) {
   return(data)
 
 }
-
-make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_identifiers, row) {
+#' @title Make Mean Differences
+#'
+#' @description This function calculates differences and means of a given variable for each kinship pair. The order of subtraction and the variables' names in the output dataframe depend on the order column set by check_sibling_order().
+#' If the demographics parameter is set to "race", "sex", or "both", it also prepares demographic information accordingly,
+#' swapping the order of demographics as per the order column.
+#' @inheritParams discord_data
+#' @inheritParams check_sibling_order
+#' @param variable outcomes and predictors for manipulating the data
+#'
+make_mean_diffs <- function(data, id, sex, race, demographics,
+                            variable, pair_identifiers, row,
+                            added_coding= "none" ) {
 
   S1 <- base::paste0(variable, pair_identifiers[1])
   S2 <- base::paste0(variable, pair_identifiers[2])
@@ -60,9 +70,9 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
   # write the core of the of the make_mean_diffs
   # This always runs -- ignoring sex or race variables
   if (data[, "order"] == "s1") {
-
-    diff <- data[[S1]] - data[[S2]]
-    mean <- base::mean(c(data[[S1]], data[[S2]]))
+    # no need to be yelled at by r for subtracting strings)
+    diff <- suppressWarnings(data[[S1]] - data[[S2]])
+    mean <- suppressWarnings(base::mean(c(data[[S1]], data[[S2]])))
 
     output <- data.frame(id = data[[id]],
                          variable_1 = data[[S1]],
@@ -71,9 +81,9 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
                          variable_mean = mean)
 
   } else if (data[, "order"] == "s2") {
-
-    diff <- data[[S2]] - data[[S1]]
-    mean <- base::mean(c(data[[S1]], data[[S2]]))
+# no need to be yelled at by r for subtracting strings)
+    diff <- suppressWarnings(data[[S2]] - data[[S1]])
+    mean <- suppressWarnings(base::mean(c(data[[S1]], data[[S2]])))
 
     output <- data.frame(id = data[[id]],
                          variable_1 = data[[S2]],
@@ -130,18 +140,37 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
 
     names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
   }
-
+  if(added_coding == "added_coding") {
+  # New logic to handle race and sex as categorical variables
+  if (demographics == "both" || demographics == "race") {
+    race_1_name <- paste0(race, "_1")
+    race_2_name <- paste0(race, "_2")
+    output_demographics[[paste0(race, "_binarymatch")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
+                                                          1, 0)
+    output_demographics[[paste0(race, "_multimatch")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
+                                                            as.character(output_demographics[[race_2_name]]), "mixed")
+  }
+  if (demographics == "both" || demographics == "sex") {
+    sex_1_name <- paste0(sex, "_1")
+    sex_2_name <- paste0(sex, "_2")
+    output_demographics[[paste0(sex, "_binarymatch")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]],
+                                                         1, 0)
+    output_demographics[[paste0(sex, "_multimatch")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]], as.character(output_demographics[[sex_2_name]]), "mixed")
+  }
+  }
   if (exists("output_demographics")) {
     output <- base::cbind(output, output_demographics)
   }
+
 
   return(output)
 
 }
 
-#' Check for common errors in the discord regression function
+#' @title Check Discord Errors
 #'
-#' Check for common errors in specifying id, sex, and race columns for discord regressions.
+#' @description This function checks for common errors in the provided data, including the correct specification of identifiers (ID, sex, race) and their existence in the data.
+#'
 #
 #' @param data The data to perform a discord regression on.
 #' @param id A unique kinship pair identifier.
@@ -174,10 +203,14 @@ check_discord_errors <- function(data, id, sex, race, pair_identifiers) {
 
 }
 
-
-#' Check if the ids for the supplied data are unique
+#' @title Validate IDs
 #'
-#' @return Logical: TRUE/FALSE
+#' @description This function checks if the provided kinship pair IDs are unique.
+#'
+#' @param data The data frame to be checked.
+#' @param id A string representing the column name for kinship pair IDs.
+#'
+#' @return A logical value. If TRUE, the IDs are unique for each kin-pair. If FALSE, there is at least one duplicate ID.
 #'
 #' @noRd
 #'

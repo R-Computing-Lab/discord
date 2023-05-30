@@ -31,10 +31,16 @@
 #'   return_class(dmess("message-class"))
 #'
 #' }
-#'
-#'
-discord_cond <- function(type, msg, class = paste0("discord-", type), call = NULL, ...) {
+#' 
 
+discord_cond <- function(type, msg, class = paste0("discord-", type), call = NULL, ...) {
+  
+  # Checking if the 'type' is one of the allowed values
+  if (!type %in% c("error", "warning", "message")) {
+    stop("Invalid type. Type must be one of 'error', 'warning' or 'message'.")
+  }
+  
+  # Defining a condition with the specified type and message
   cond <- structure(
     list(
       message = msg,
@@ -43,7 +49,8 @@ discord_cond <- function(type, msg, class = paste0("discord-", type), call = NUL
     ),
     class = c(class, type, "condition")
   )
-
+  
+  # Use 'switch' to handle different types of conditions
   switch(type,
          "error" = stop(cond),
          "warning" = warning(cond),

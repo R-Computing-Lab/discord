@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers_regression.R
 \name{check_discord_errors}
 \alias{check_discord_errors}
-\title{Check for common errors in the discord regression function}
+\title{Check Discord Errors}
 \usage{
 check_discord_errors(data, id, sex, race, pair_identifiers)
 }
@@ -21,5 +21,5 @@ check_discord_errors(data, id, sex, race, pair_identifiers)
 An error message if one of the conditions are met.
 }
 \description{
-Check for common errors in specifying id, sex, and race columns for discord regressions.
+This function checks for common errors in the provided data, including the correct specification of identifiers (ID, sex, race) and their existence in the data.
 }

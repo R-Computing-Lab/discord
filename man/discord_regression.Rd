@@ -11,11 +11,13 @@ discord_regression(
   id = NULL,
   sex = "sex",
   race = "race",
-  pair_identifiers = c("_s1", "_s2")
+  pair_identifiers = c("_s1", "_s2"),
+  data_processed = FALSE,
+  added_coding = "none"
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{The data set with kinship pairs}
 
 \item{outcome}{A character string containing the outcome variable of
 interest.}
@@ -30,7 +32,13 @@ corresponding to unique kinship pair identifiers.}
 
 \item{race}{A character string for the race column name.}
 
-\item{pair_identifiers}{A character vector of length two that contains the variable identifier for each kinship pair.}
+\item{pair_identifiers}{A character vector of length two that contains the
+variable identifier for each kinship pair}
+
+\item{data_processed}{Logical operator if data are already preprocessed by discord_data , default is FALSE}
+
+\item{added_coding}{A character string that indicates what kind of
+additional coding schemes should be used. Default is none}
 }
 \value{
 Resulting `lm` object from performing the discordant regression.
