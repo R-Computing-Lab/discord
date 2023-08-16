@@ -12,7 +12,7 @@
 #' @param categorical_var1_2 A categorical vector containing the independent variable of the member 2.
 #' @param categorical_var2_1 A categorical vector containing the other independent variable of the member 1; default is NULL.
 #' @param categorical_var2_2 A categorical vector containing the other independent variable of the member 2; default is NULL.
-#' @param y_1 The dependent variable of the member 1.
+#' @param y_1 The dependent variable of the member 1. 
 #' @param y_2 The dependent variable of the member 2.
 #'
 #' @return A data frame that contains analyzable, dyadic-structured data for performing
