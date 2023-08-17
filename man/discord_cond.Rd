@@ -47,5 +47,4 @@ Custom Conditions for the discord package
 
 }
 
-
 }
