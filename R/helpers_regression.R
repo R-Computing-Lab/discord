@@ -53,7 +53,9 @@ check_sibling_order <- function(data, outcome, pair_identifiers, row) {
 #' @inheritParams check_sibling_order
 #' @param variable outcomes and predictors for manipulating the data
 #'
-make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_identifiers, row) {
+make_mean_diffs <- function(data, id, sex, race, demographics,
+                            variable, pair_identifiers, row,
+                            added_coding= "none" ) {
 
   S1 <- base::paste0(variable, pair_identifiers[1])
   S2 <- base::paste0(variable, pair_identifiers[2])
@@ -68,9 +70,9 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
   # write the core of the of the make_mean_diffs
   # This always runs -- ignoring sex or race variables
   if (data[, "order"] == "s1") {
-
-    diff <- data[[S1]] - data[[S2]]
-    mean <- base::mean(c(data[[S1]], data[[S2]]))
+    # no need to be yelled at by r for subtracting strings)
+    diff <- suppressWarnings(data[[S1]] - data[[S2]])
+    mean <- suppressWarnings(base::mean(c(data[[S1]], data[[S2]])))
 
     output <- data.frame(id = data[[id]],
                          variable_1 = data[[S1]],
@@ -79,9 +81,9 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
                          variable_mean = mean)
 
   } else if (data[, "order"] == "s2") {
-
-    diff <- data[[S2]] - data[[S1]]
-    mean <- base::mean(c(data[[S1]], data[[S2]]))
+# no need to be yelled at by r for subtracting strings)
+    diff <- suppressWarnings(data[[S2]] - data[[S1]])
+    mean <- suppressWarnings(base::mean(c(data[[S1]], data[[S2]])))
 
     output <- data.frame(id = data[[id]],
                          variable_1 = data[[S2]],
@@ -138,10 +140,28 @@ make_mean_diffs <- function(data, id, sex, race, demographics, variable, pair_id
 
     names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
   }
-
+  if(added_coding == "added_coding") {
+  # New logic to handle race and sex as categorical variables
+  if (demographics == "both" || demographics == "race") {
+    race_1_name <- paste0(race, "_1")
+    race_2_name <- paste0(race, "_2")
+    output_demographics[[paste0(race, "_same")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
+                                                          1, 0)
+    output_demographics[[paste0(race, "_three")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
+                                                            as.character(output_demographics[[race_2_name]]), "mixed")
+  }
+  if (demographics == "both" || demographics == "sex") {
+    sex_1_name <- paste0(sex, "_1")
+    sex_2_name <- paste0(sex, "_2")
+    output_demographics[[paste0(sex, "_same")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]],
+                                                         1, 0)
+    output_demographics[[paste0(sex, "_three")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]], as.character(output_demographics[[sex_2_name]]), "mixed")
+  }
+  }
   if (exists("output_demographics")) {
     output <- base::cbind(output, output_demographics)
   }
+
 
   return(output)
 

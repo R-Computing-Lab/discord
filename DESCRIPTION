@@ -1,8 +1,8 @@
 Package: discord
 Type: Package
 Title: Functions for Discordant Kinship Modeling
-Version: 1.1.0.9000
-Date: 2022-04-11
+Version: 1.2.0.9000
+Date: 2023-08-17
 Authors@R: c(person("S. Mason", "Garrison", email = "garrissm@wfu.edu",
                   role = c("aut", "cre", "cph")),
              person("Jonathan", "Trattner", email = "jdt@jdtrat.com",

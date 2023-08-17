@@ -12,7 +12,8 @@ discord_data(
   sex = "sex",
   race = "race",
   pair_identifiers,
-  demographics = "both"
+  demographics = "both",
+  added_coding = "none"
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ variable identifier for each kinship pair}
 \item{demographics}{Indicator variable for if the data has the sex and race
 demographics. If both are present (default, and recommended), value should
 be "both". Other options include "sex", "race", or "none".}
+
+\item{added_coding}{A character string that indicates what kind of
+additional coding schemes should be used. Default is none}
 }
 \value{
 A data frame that contains analyzable, paired data for performing

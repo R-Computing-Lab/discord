@@ -12,7 +12,8 @@ discord_regression(
   sex = "sex",
   race = "race",
   pair_identifiers = c("_s1", "_s2"),
-  data_processed = FALSE
+  data_processed = FALSE,
+  added_coding = "none"
 )
 }
 \arguments{
@@ -35,6 +36,9 @@ corresponding to unique kinship pair identifiers.}
 variable identifier for each kinship pair}
 
 \item{data_processed}{Logical operator if data are already preprocessed by discord_data , default is FALSE}
+
+\item{added_coding}{A character string that indicates what kind of
+additional coding schemes should be used. Default is none}
 }
 \value{
 Resulting `lm` object from performing the discordant regression.

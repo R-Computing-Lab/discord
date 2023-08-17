@@ -22,7 +22,8 @@ discord_regression <- function(data,
                                sex = "sex",
                                race = "race",
                                pair_identifiers = c("_s1", "_s2"),
-                               data_processed = FALSE) {
+                               data_processed = FALSE,
+                               added_coding= "none" ) {
 
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
@@ -43,7 +44,8 @@ if (!data_processed) {
                               sex = sex,
                               race = race,
                               pair_identifiers = pair_identifiers,
-                              demographics = demographics)
+                              demographics = demographics,
+                              added_coding = added_coding)
 } else{
   preppedData <- data
   }
