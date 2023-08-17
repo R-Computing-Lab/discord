@@ -11,7 +11,8 @@ discord_regression(
   id = NULL,
   sex = "sex",
   race = "race",
-  pair_identifiers = c("_s1", "_s2")
+  pair_identifiers = c("_s1", "_s2"),
+  data_processed = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ corresponding to unique kinship pair identifiers.}
 
 \item{pair_identifiers}{A character vector of length two that contains the
 variable identifier for each kinship pair}
+
+\item{data_processed}{Logical operator if data are already preprocessed by discord_data , default is FALSE}
 }
 \value{
 Resulting `lm` object from performing the discordant regression.
