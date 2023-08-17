@@ -1,6 +1,6 @@
 #' Restructure Data to Determine Kinship Differences
 #'
-#' @param data A data frame.
+#' @param data The data set with kinship pairs
 #' @param outcome A character string containing the outcome variable of
 #'   interest.
 #' @param predictors A character vector containing the column names for
@@ -10,7 +10,7 @@
 #' @param sex A character string for the sex column name.
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the
-#'   variable identifier for each kinship p
+#'   variable identifier for each kinship pair
 #' @param demographics Indicator variable for if the data has the sex and race
 #'   demographics. If both are present (default, and recommended), value should
 #'   be "both". Other options include "sex", "race", or "none".

@@ -7,13 +7,13 @@
 check_sibling_order(data, outcome, pair_identifiers, row)
 }
 \arguments{
-\item{data}{The data set with kinship pairs.}
+\item{data}{The data set with kinship pairs}
 
 \item{outcome}{A character string containing the outcome variable of
 interest.}
 
 \item{pair_identifiers}{A character vector of length two that contains the
-variable identifier for each kinship pair.}
+variable identifier for each kinship pair}
 
 \item{row}{The row number of the data frame}
 }
@@ -22,8 +22,8 @@ A character string signifying which familial member (1, 2, or
   neither) has more of the outcome.
 }
 \description{
-This function determines the order of sibling pairs based on an outcome variable. 
-It function checks which of the two kinship pairs has more of a specified outcome variable. 
-It adds a new column named `order` to the dataset, indicating which sibling (identified as "s1" or "s2") has more of the outcome. 
+This function determines the order of sibling pairs based on an outcome variable.
+It function checks which of the two kinship pairs has more of a specified outcome variable.
+It adds a new column named `order` to the dataset, indicating which sibling (identified as "s1" or "s2") has more of the outcome.
 If the two siblings have the same amount of the outcome, it randomly assigns one as having more.
 }

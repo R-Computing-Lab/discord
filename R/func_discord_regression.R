@@ -1,16 +1,7 @@
 #' Perform a Linear Regression within the Discordant Kinship Framework
 #'
-#' @param data A data frame.
-#' @param outcome A character string containing the outcome variable of
-#'   interest.
-#' @param predictors A character vector containing the column names for
-#'   predicting the outcome.
-#' @param id Default's to NULL. If supplied, must specify the column name
-#'   corresponding to unique kinship pair identifiers.
-#' @param sex A character string for the sex column name.
-#' @param race A character string for the race column name.
-#' @param pair_identifiers A character vector of length two that contains the variable identifier for each kinship pair.
-#'
+#' @inheritParams discord_data
+
 #' @return Resulting `lm` object from performing the discordant regression.
 #'
 #' @export

@@ -15,7 +15,7 @@ discord_regression(
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{The data set with kinship pairs}
 
 \item{outcome}{A character string containing the outcome variable of
 interest.}
@@ -30,7 +30,8 @@ corresponding to unique kinship pair identifiers.}
 
 \item{race}{A character string for the race column name.}
 
-\item{pair_identifiers}{A character vector of length two that contains the variable identifier for each kinship pair.}
+\item{pair_identifiers}{A character vector of length two that contains the
+variable identifier for each kinship pair}
 }
 \value{
 Resulting `lm` object from performing the discordant regression.
