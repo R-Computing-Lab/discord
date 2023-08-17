@@ -145,17 +145,17 @@ make_mean_diffs <- function(data, id, sex, race, demographics,
   if (demographics == "both" || demographics == "race") {
     race_1_name <- paste0(race, "_1")
     race_2_name <- paste0(race, "_2")
-    output_demographics[[paste0(race, "_same")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
+    output_demographics[[paste0(race, "_binarymatch")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
                                                           1, 0)
-    output_demographics[[paste0(race, "_three")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
+    output_demographics[[paste0(race, "_multimatch")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
                                                             as.character(output_demographics[[race_2_name]]), "mixed")
   }
   if (demographics == "both" || demographics == "sex") {
     sex_1_name <- paste0(sex, "_1")
     sex_2_name <- paste0(sex, "_2")
-    output_demographics[[paste0(sex, "_same")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]],
+    output_demographics[[paste0(sex, "_binarymatch")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]],
                                                          1, 0)
-    output_demographics[[paste0(sex, "_three")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]], as.character(output_demographics[[sex_2_name]]), "mixed")
+    output_demographics[[paste0(sex, "_multimatch")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]], as.character(output_demographics[[sex_2_name]]), "mixed")
   }
   }
   if (exists("output_demographics")) {
