@@ -31,14 +31,14 @@
 #' @keywords "behavior genetics"
 #' @examples
 #'
-#' library(discord) #Load the package into the current R session.
+#' library(discord) # Load the package into the current R session.
 #'
 #' \dontrun{
 #' # Install/update discord with the release version from CRAN.
-#' install.packages('discord')
+#' install.packages("discord")
 #'
 #' # Install/update discord with the development version from GitHub
-#' #install.packages('devtools') #Uncomment if `devtools` isn't installed already.
-#' devtools::install_github('R-Computing-Lab/discord')
+#' # install.packages('devtools') #Uncomment if `devtools` isn't installed already.
+#' devtools::install_github("R-Computing-Lab/discord")
 #' }
 NULL

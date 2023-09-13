@@ -23,13 +23,15 @@
 #'
 #' @examples
 #'
-#' discord_data(data = sample_data,
-#' outcome = "height",
-#' predictors = "weight",
-#' pair_identifiers = c("_s1", "_s2"),
-#' sex = NULL,
-#' race = NULL,
-#' demographics = "none")
+#' discord_data(
+#'   data = sample_data,
+#'   outcome = "height",
+#'   predictors = "weight",
+#'   pair_identifiers = c("_s1", "_s2"),
+#'   sex = NULL,
+#'   race = NULL,
+#'   demographics = "none"
+#' )
 #'
 discord_data <- function(data,
                          outcome,
@@ -39,22 +41,24 @@ discord_data <- function(data,
                          race = "race",
                          pair_identifiers,
                          demographics = "both",
-                         added_coding= "none" ) {
-  #combine outcome and predictors for manipulating the data
+                         added_coding = "none") {
+  # combine outcome and predictors for manipulating the data
   variables <- c(outcome, predictors)
 
-  #order the data on outcome
-  orderedOnOutcome <- do.call(rbind,
-                              lapply(
-                                X = 1:nrow(data),
-                                FUN = check_sibling_order,
-                                data = data, outcome = outcome,
-                                pair_identifiers = pair_identifiers
-                                )
-                              )
+  # order the data on outcome
+  orderedOnOutcome <- do.call(
+    rbind,
+    lapply(
+      X = 1:nrow(data),
+      FUN = check_sibling_order,
+      data = data, outcome = outcome,
+      pair_identifiers = pair_identifiers
+    )
+  )
 
   if (!valid_ids(orderedOnOutcome,
-                 id = id)) {
+    id = id
+  )) {
     id <- "rowwise_id"
     orderedOnOutcome <- cbind(orderedOnOutcome, rowwise_id = 1:nrow(data))
   }
@@ -62,66 +66,72 @@ discord_data <- function(data,
   out <- vector(mode = "list", length = length(variables))
 
   for (i in 1:length(variables)) {
-    out[[i]] <- do.call(rbind, lapply(X = 1:nrow(orderedOnOutcome),
-                                      FUN = make_mean_diffs,
-                                      data = orderedOnOutcome, id = id,
-                                      sex = sex, race = race,
-                                      pair_identifiers = pair_identifiers,
-                                      demographics = demographics,
-                                      variable = variables[i],
-                                      added_coding = added_coding)
-    )
+    out[[i]] <- do.call(rbind, lapply(
+      X = 1:nrow(orderedOnOutcome),
+      FUN = make_mean_diffs,
+      data = orderedOnOutcome, id = id,
+      sex = sex, race = race,
+      pair_identifiers = pair_identifiers,
+      demographics = demographics,
+      variable = variables[i],
+      added_coding = added_coding
+    ))
   }
 
   if (demographics == "none") {
-
     mrg <- function(x, y) {
-      merge(x = x,
-            y = y,
-            by = c("id"),
-            all.x = TRUE)
+      merge(
+        x = x,
+        y = y,
+        by = c("id"),
+        all.x = TRUE
+      )
     }
 
     output <- Reduce(mrg, out)
-
   } else if (demographics == "race") {
-
     mrg <- function(x, y) {
-      merge(x = x,
-            y = y,
-            by = c("id", paste0(race, "_1"),
-                   paste0(race, "_2")),
-            all.x = TRUE)
+      merge(
+        x = x,
+        y = y,
+        by = c(
+          "id", paste0(race, "_1"),
+          paste0(race, "_2")
+        ),
+        all.x = TRUE
+      )
     }
 
     output <- Reduce(mrg, out)
-
   } else if (demographics == "sex") {
-
     mrg <- function(x, y) {
-      merge(x = x,
-            y = y,
-            by = c("id", paste0(sex, "_1"),
-                   paste0(sex, "_2")),
-            all.x = TRUE)
+      merge(
+        x = x,
+        y = y,
+        by = c(
+          "id", paste0(sex, "_1"),
+          paste0(sex, "_2")
+        ),
+        all.x = TRUE
+      )
     }
 
     output <- Reduce(mrg, out)
-
   } else if (demographics == "both") {
-
     mrg <- function(x, y) {
-      merge(x = x,
-            y = y,
-            by = c("id", paste0(sex, "_1"), paste0(sex, "_2"),
-                   paste0(race, "_1"), paste0(race, "_2")),
-            all.x = TRUE)
+      merge(
+        x = x,
+        y = y,
+        by = c(
+          "id", paste0(sex, "_1"), paste0(sex, "_2"),
+          paste0(race, "_1"), paste0(race, "_2")
+        ),
+        all.x = TRUE
+      )
     }
 
     output <- Reduce(mrg, out)
-
   }
 
   return(output)
-
 }

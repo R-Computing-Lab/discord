@@ -8,12 +8,14 @@
 #'
 #' @examples
 #'
-#' discord_regression(data = sample_data,
-#' outcome = "height",
-#' predictors = "weight",
-#' pair_identifiers = c("_s1", "_s2"),
-#' sex = NULL,
-#' race = NULL)
+#' discord_regression(
+#'   data = sample_data,
+#'   outcome = "height",
+#'   predictors = "weight",
+#'   pair_identifiers = c("_s1", "_s2"),
+#'   sex = NULL,
+#'   race = NULL
+#' )
 #'
 discord_regression <- function(data,
                                outcome,
@@ -23,8 +25,7 @@ discord_regression <- function(data,
                                race = "race",
                                pair_identifiers = c("_s1", "_s2"),
                                data_processed = FALSE,
-                               added_coding= "none" ) {
-
+                               added_coding = "none") {
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
   if (is.null(sex) & is.null(race)) {
@@ -36,18 +37,20 @@ discord_regression <- function(data,
   } else if (!is.null(sex) & !is.null(race)) {
     demographics <- "both"
   }
-if (!data_processed) {
-  preppedData <- discord_data(data = data,
-                              outcome = outcome,
-                              predictors = predictors,
-                              id = id,
-                              sex = sex,
-                              race = race,
-                              pair_identifiers = pair_identifiers,
-                              demographics = demographics,
-                              added_coding = added_coding)
-} else{
-  preppedData <- data
+  if (!data_processed) {
+    preppedData <- discord_data(
+      data = data,
+      outcome = outcome,
+      predictors = predictors,
+      id = id,
+      sex = sex,
+      race = race,
+      pair_identifiers = pair_identifiers,
+      demographics = demographics,
+      added_coding = added_coding
+    )
+  } else {
+    preppedData <- data
   }
   # Run the discord regression
   realOutcome <- base::paste0(outcome, "_diff")
@@ -73,5 +76,4 @@ if (!data_processed) {
   model <- stats::lm(stats::as.formula(paste(realOutcome, preds, sep = " ~ ")), data = preppedData)
 
   return(model)
-
 }

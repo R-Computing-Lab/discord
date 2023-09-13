@@ -51,12 +51,14 @@ Restructure Data to Determine Kinship Differences
 }
 \examples{
 
-discord_data(data = sample_data,
-outcome = "height",
-predictors = "weight",
-pair_identifiers = c("_s1", "_s2"),
-sex = NULL,
-race = NULL,
-demographics = "none")
+discord_data(
+  data = sample_data,
+  outcome = "height",
+  predictors = "weight",
+  pair_identifiers = c("_s1", "_s2"),
+  sex = NULL,
+  race = NULL,
+  demographics = "none"
+)
 
 }

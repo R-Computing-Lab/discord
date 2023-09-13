@@ -48,11 +48,13 @@ Perform a Linear Regression within the Discordant Kinship Framework
 }
 \examples{
 
-discord_regression(data = sample_data,
-outcome = "height",
-predictors = "weight",
-pair_identifiers = c("_s1", "_s2"),
-sex = NULL,
-race = NULL)
+discord_regression(
+  data = sample_data,
+  outcome = "height",
+  predictors = "weight",
+  pair_identifiers = c("_s1", "_s2"),
+  sex = NULL,
+  race = NULL
+)
 
 }

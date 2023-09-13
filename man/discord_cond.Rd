@@ -24,27 +24,23 @@ A condition for discord.
 Custom Conditions for the discord package
 }
 \examples{
-
 \dontrun{
 
-  derr <- function(x) discord_cond("error", x)
-  dwarn <- function(x) discord_cond("warning", x)
-  dmess <- function(x) discord_cond("message", x)
+derr <- function(x) discord_cond("error", x)
+dwarn <- function(x) discord_cond("warning", x)
+dmess <- function(x) discord_cond("message", x)
 
-  return_class <- function(func) {
+return_class <- function(func) {
+  tryCatch(func,
+    error = function(cond) class(cond),
+    warning = function(cond) class(cond),
+    message = function(cond) class(cond)
+  )
+}
 
-    tryCatch(func,
-             error = function(cond) class(cond),
-             warning = function(cond) class(cond),
-             message = function(cond) class(cond)
-    )
-
-  }
-
-  return_class(derr("error-class"))
-  return_class(dwarn("warning-class"))
-  return_class(dmess("message-class"))
-
+return_class(derr("error-class"))
+return_class(dwarn("warning-class"))
+return_class(dmess("message-class"))
 }
 
 }
