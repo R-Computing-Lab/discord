@@ -1,0 +1,41 @@
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: "0 18 15 * *"
+  
+name: Add Comment Reminder
+
+jobs:
+  Comment-Reminder:
+    runs-on: macOS-latest
+    env:
+      MY_GITHUB_REPO: ${{ github.repository }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: main
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Checkout Reminders Repo
+        uses: actions/checkout@v2
+        with:
+          repository: jdtrat/actions
+          path: custom_actions
+          ref: v1.1
+      - name: Trigger Reminder
+        env:
+          ISSUE_NUMBER: 1
+          REMINDEE: smasongarrison
+          ACTION: publish this paper!
+        run: |
+          source("custom_actions/reminders/R/remind_collaborator.R")
+        shell: Rscript {0}
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('R-version') }}-1-${{ hashFiles('depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('R-version') }}-1-
