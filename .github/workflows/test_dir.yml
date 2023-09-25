@@ -1,0 +1,30 @@
+on: 
+  workflow_dispatch:
+
+name: Testing Directory
+
+jobs:
+  Directory:
+    runs-on: macOS-latest
+    env:
+      MY_GITHUB_REPO: ${{ github.repository }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: main
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Checkout Reminders Repo
+        uses: actions/checkout@v2
+        with:
+          repository: jdtrat/actions
+          path: reminders
+      - name: List env
+        run: |
+          ls
+          cd reminders
+          ls
+          echo "This is the current workspace: $GITHUB_WORKSPACE"
+          echo "There is this inside of a the event path: $GITHUB_EVENT_PATH"
