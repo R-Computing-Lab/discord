@@ -42,6 +42,7 @@ valgrind*
 x.log
 _region*
 hidden/func_restructure.R
+discord-paper/nul
 .Rproj.user
 .Rhistory
 .RData
@@ -51,4 +52,3 @@ discord-paper/nul
 discord-paper/discord-paper.knit.md
 discord-paper/discord-paper_cache/*
 discord-paper/discord-paper.tex
-
