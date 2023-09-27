@@ -20,5 +20,13 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    broom,
+    kableExtra,
+    scales,
+    snakecase,
+    NlsyLinks,
+    dplyr,
+    janitor,
+    magrittr
 VignetteBuilder: knitr
