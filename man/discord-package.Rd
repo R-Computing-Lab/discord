@@ -35,7 +35,7 @@ devtools::install_github("R-Computing-Lab/discord")
 }
 }
 \references{
-test
+Garrison et al. (2019)
 }
 \author{
 \href{https://www.smasongarrison.com/}{S. Mason Garrison} (Wake Forest University)

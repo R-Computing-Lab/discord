@@ -5,7 +5,7 @@ library(readr)
 library(here)
 # Source the data processing file,
 # lightly modified from the NLSY Investigator
-source(here("R/nls-process-data.R"))
+source(here("nls-process-data.R"))
 
 ## ----manipulate-nlsy-data----------------------------------------------------------------------------------------------------------------------
 # Restructure NLSY data with flu information to
@@ -25,13 +25,15 @@ nlsy_flu_data <- categories %>%
          FLU_2010 = ifelse(is.na(FLU_M_2010) & is.na(FLU_F_2010), NA, FLU_2010),
          FLU_2012 = ifelse(is.na(FLU_M_2012) & is.na(FLU_F_2012), NA, FLU_2012),
          FLU_2014 = ifelse(is.na(FLU_M_2014) & is.na(FLU_F_2014), NA, FLU_2014),
-         FLU_2016 = ifelse(is.na(FLU_M_2016) & is.na(FLU_F_2016), NA, FLU_2016))
+         FLU_2016 = ifelse(is.na(FLU_M_2016) & is.na(FLU_F_2016), NA, FLU_2016),
+         FLU_total = ifelse(is.na(FLU_2016) & is.na(FLU_2014) & is.na(FLU_2012) & is.na(FLU_2010) & is.na(FLU_2008),
+                            NA, FLU_total))
 
 remove(categories)
 
 ## ----read-demographic-data----------------------------------------------------------------------------------------------------
 # Read demographic data from internal SES measures
-demographic_data <- read_csv(here("data/nlsy-ses.csv"))
+demographic_data <- read_csv(here("data-raw/nlsy-ses.csv"))
 
 
 ## ----merge-nlsy-demographic-data---------------------------------------------------------------------------------------------------------------

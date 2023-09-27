@@ -19,18 +19,17 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 # Introduction
 
 
-The next section illustrates one example of discordant-kinship regressions with the {discord} package.
+The next section illustrates one example of discordant-kinship regressions with the `discord` package. 
 
-# Vaccine willingness and socioeconomic status
-
-## Introduction
 
 The following analysis is a simple case based on work presented elsewhere [@jonathantrattner2020]. The original project was inspired by reports detailing health disparities among ethnic minorities during the COVID-19 pandemic [@hooper2020]. Data came from the 1979 National Longitudinal Survey of Youth (NLSY79), a nationally representative household probability sample jointly sponsored by the U.S. Bureau of Labor Statistics and Department of Defense. Participants were surveyed annually from 1979 until 1994 at which point surveys occurred biennially. The data are publicly available at <https://www.nlsinfo.org/> and include responses from a biennial flu vaccine survey administered between 2006 and 2016. Our work originally examined whether SES at age 40 is a significant predictor for vaccination rates using the discordant-kinship model.
 
 The data for this analysis was downloaded with the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/flu_shot.dat). The SES at age 40 data can be found [here](https://github.com/jdtrat/senior-thesis-discord/blob/main/data/nlsy-ses.csv). For clarity and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/jdtrat/senior-thesis-discord/blob/main/R/preprocess-discord-flu.R). This discordant-kinship analysis is possible thanks to recent work that estimated relatedness for approximately 95% of the NLSY79 kin pairs [@rodgers2016]. These kinship links are included in the [{NlsyLinks}](http://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016] and are easily utilized with the {discord} package.
 
-```{r setup-discord-data, include = FALSE, cache = TRUE}
+```{r setup-discord-data, include = FALSE, cache = TRUE, eval=FALSE}
 source(file = here::here("R/preprocess-discord-flu.R"), local = knitr::knit_global())
+
+
 ```
 
 ## Data Cleaning
@@ -56,6 +55,9 @@ library(magrittr)
 After some pre-processing, we have a data frame containing subject identifiers, demographic information such as race and sex, and behavioral measurements like flu vaccination rates and SES at age 40. A random slice of this data looks like:
 
 ```{r preview-pre-processed-data, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
+
+data(nlsy_flu_data)
+
 flu_ses_data %>% 
     select(CASEID, RACE, SEX, FLU_total, S00_H40) %>% 
     filter(!is.na(S00_H40)) %>%
@@ -76,7 +78,7 @@ flu_ses_data %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position"), position = "center")
 ```
 
-Using the kinship relationships from the {NlsyLinks} package, we restructure the data to better lend itself to discordant kinship analysis. For each kin pair, the function `CreatePairLinksSingleEntered()` takes a data set like the one above, **[a specification of the NLSY database and the kin's relatedness]**, and the variables of interest. It returns a data frame where every row is a kin-pair and each column is a variable of interest with a suffix indicating to which individual the value corresponds.
+Using the kinship relationships from the `NlsyLinks` package, we restructure the data to better lend itself to discordant kinship analysis. For each kin pair, the function `CreatePairLinksSingleEntered()` takes a data set like the one above, **[a specification of the NLSY database and the kin's relatedness]**, and the variables of interest. It returns a data frame where every row is a kin-pair and each column is a variable of interest with a suffix indicating to which individual the value corresponds.
 
 For this example, we will examine the relationship between flu vaccinations received between 2006-2016 and SES at age 40 between full siblings. As such, we specify the following variables from the pre-processed data frame previewed above.
 

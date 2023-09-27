@@ -27,7 +27,7 @@
 #'  Cermet Ream
 #'
 #' Maintainer: S. Mason Garrison <garrissm@wfu.edu>
-#' @references test
+#' @references Garrison et al. (2019)
 #' @keywords "behavior genetics"
 #' @examples
 #'

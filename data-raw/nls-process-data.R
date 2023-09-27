@@ -2,7 +2,7 @@
 # Load here package for relative file paths
 library(here)
 
-new_data <- read.table(here('data/flu_shot.dat'), sep=' ')
+new_data <- read.table(here('data-raw/flu_shot.dat'), sep=' ')
 names(new_data) <- c('R0000100',
                      'R0000149',
                      'R0173600',
