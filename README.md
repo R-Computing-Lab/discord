@@ -48,7 +48,7 @@ GitHub issues page.
 
 ## License
 
-BGmisc is licensed under the GNU General Public License v3.0. For more
+`discord` is licensed under the GNU General Public License v3.0. For more
 details, see the
 [LICENSE.md](https://github.com/R-Computing-Lab/BGmisc/blob/main/LICENSE.md)
 file.
