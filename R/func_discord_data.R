@@ -133,5 +133,6 @@ discord_data <- function(data,
     output <- Reduce(mrg, out)
   }
 
+
   return(output)
 }

@@ -1,11 +1,11 @@
 Package: discord
 Type: Package
 Title: Functions for Discordant Kinship Modeling
-Version: 1.2.0.9000
-Date: 2023-08-17
+Version: 1.2.1
+Date: 2023-09-27
 Authors@R: c(person("S. Mason", "Garrison", email = "garrissm@wfu.edu",
                   role = c("aut", "cre", "cph")),
-             person("Jonathan", "Trattner", email = "jdt@jdtrat.com",
+             person("Jonathan", "Trattner", email = "code@jdtrat.com",
                   role = "aut"),
              person("Cermet", "Ream", role = c("ctb")))
 Description: Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Currently, the package contains data restructuring functions and functions for generating biometrically informed data for kin pairs.
@@ -14,8 +14,11 @@ License: GPL-3
 LazyData: TRUE
 RoxygenNote: 7.2.3
 Encoding: UTF-8
-Depends: R (>= 2.10)
+Depends: R (>= 3.50)
 Imports: 
     stats
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat
+VignetteBuilder: knitr
