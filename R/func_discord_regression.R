@@ -9,7 +9,7 @@
 #' @examples
 #'
 #' discord_regression(
-#'   data = sample_data,
+#'   data = data_sample,
 #'   outcome = "height",
 #'   predictors = "weight",
 #'   pair_identifiers = c("_s1", "_s2"),
