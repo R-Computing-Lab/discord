@@ -1,5 +1,6 @@
 ---
 title: "Regression demonstration"
+author: Jonathan Trattner
 output: rmarkdown::html_vignette
 bibliography: references.bib
 vignette: >
@@ -51,13 +52,15 @@ library(janitor)
 library(broom)
 # pipe
 library(magrittr)
+
+data(data_flu_ses)
 ```
 
 After some pre-processing, we have a data frame containing subject identifiers, demographic information such as race and sex, and behavioral measurements like flu vaccination rates and SES at age 40. A random slice of this data looks like:
 
 ```{r preview-pre-processed-data, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
 
-data(data_flu_ses)
+
 
 data_flu_ses %>% 
     select(CASEID, RACE, SEX, FLU_total, S00_H40) %>% 
