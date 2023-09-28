@@ -13,7 +13,7 @@ authors:
   - name: Jonathan D. Trattner
     orcid: 0000-0002-1097-7603
     affiliation: 1 # Maybe?  - name: Yoo Ri Hwang    orcid: 0000-0000-0000-0000    affiliation: 2
-  - name: S. Mason Garrison
+  - name: S. Mason Garrison^[corresponding author]
     orcid: 0000-0002-4804-6003
     affiliation: 2
 affiliations:
