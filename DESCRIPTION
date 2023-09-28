@@ -7,6 +7,8 @@ Authors@R: c(person("S. Mason", "Garrison", email = "garrissm@wfu.edu",
                   role = c("aut", "cre", "cph")),
              person("Jonathan", "Trattner", email = "code@jdtrat.com",
                   role = "aut"),
+             person("Hwang", "Yoo Ri", email = "yrhwang89@gmail.com",
+                  role = "aut"),
              person("Cermet", "Ream", role = c("ctb")))
 Description: Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Currently, the package contains data restructuring functions and functions for generating biometrically informed data for kin pairs.
 URL: https://github.com/R-Computing-Lab/discord
@@ -18,15 +20,15 @@ Depends: R (>= 3.50)
 Imports: 
     stats
 Suggests: 
-    knitr,
-    rmarkdown,
-    testthat,
-    broom,
-    kableExtra,
-    scales,
-    snakecase,
     NlsyLinks,
+    broom,
     dplyr,
     janitor,
-    magrittr
+    kableExtra,
+    knitr,
+    magrittr,
+    rmarkdown,
+    scales,
+    snakecase,
+    testthat
 VignetteBuilder: knitr
