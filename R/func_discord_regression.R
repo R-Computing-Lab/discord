@@ -77,7 +77,9 @@ if (added_coding == "none" ) {
   } else { print("You should not be seeing this")
   }
 } else if (added_coding != "none" & !is.null(added_coding)) {
-preds <- base::paste0(preds," + ",added_coding)
+  
+preds <- base::paste0(preds," + ", added_coding)
+
 }
 
   model <- stats::lm(stats::as.formula(paste(realOutcome, preds, sep = " ~ ")), data = preppedData)
