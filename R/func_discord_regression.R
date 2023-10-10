@@ -1,7 +1,8 @@
 #' Perform a Linear Regression within the Discordant Kinship Framework
 #'
 #' @inheritParams discord_data
-#' @param data_processed Logical operator if data are already preprocessed by discord_data , default is FALSE
+#' @param data_processed Logical operator if data are already preprocessed by discord_data, default is FALSE
+#' @param override_checks Logical operator to over-ride data checks, default is FALSE
 #' @return Resulting `lm` object from performing the discordant regression.
 #'
 #' @export
@@ -25,9 +26,11 @@ discord_regression <- function(data,
                                race = "race",
                                pair_identifiers = c("_s1", "_s2"),
                                data_processed = FALSE,
-                               added_coding = "none") {
+                               added_coding = "none",
+							   override_checks=FALSE) {
+  if(!override_checks){
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
-
+}
   if (is.null(sex) & is.null(race)) {
     demographics <- "none"
   } else if (is.null(sex) & !is.null(race)) {
@@ -36,6 +39,7 @@ discord_regression <- function(data,
     demographics <- "sex"
   } else if (!is.null(sex) & !is.null(race)) {
     demographics <- "both"
+  } else { print("You should not be seeing this")
   }
   if (!data_processed) {
     preppedData <- discord_data(
@@ -58,7 +62,7 @@ discord_regression <- function(data,
   pred_diff <- base::paste0(predictors, "_diff", collapse = " + ")
   pred_mean <- base::paste0(predictors, "_mean", collapse = " + ")
 
-
+if (added_coding == "none" ) {
   if (demographics == "none") {
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean)
   } else if (demographics == "race") {
@@ -70,8 +74,13 @@ discord_regression <- function(data,
   } else if (demographics == "both") {
     demographic_controls <- base::paste0(sex, "_1 + ", race, "_1 + ", sex, "_2")
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean, " + ", demographic_controls)
+  } else { print("You should not be seeing this")
   }
+} else if (added_coding != "none" & !is.null(added_coding)) {
+  
+preds <- base::paste0(preds," + ", added_coding)
 
+}
 
   model <- stats::lm(stats::as.formula(paste(realOutcome, preds, sep = " ~ ")), data = preppedData)
 

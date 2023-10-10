@@ -24,7 +24,8 @@ This vignette provides a comprehensive guide to incorporating categorical predic
 
 ## Data and Research Question
 
-We will be using a subset of the 1979 National Longitudinal Survey of Youth (NLSY79) to explore whether sex and race are significant significant predictors for SES at age 40.
+We will be using a subset of the 1979 National Longitudinal Survey of Youth (NLSY79) to explore whether sex is significant significant predictor for SES at age 40, using different categorical variable coding schemes.
+
 
 
 # Data cleaning
@@ -51,9 +52,9 @@ For explanation of basic logic for this, please refer to the [regression demonst
 
 ```{r set-df-link}
 
-link_vars <- c("FLU_total", "FLU_2008", "FLU_2010", 
-               "FLU_2012", "FLU_2014", "FLU_2016", 
-               "S00_H40", "RACE", "SEX")
+
+link_vars <- c("S00_H40", "RACE", "SEX")
+
 
 # Specify NLSY database and kin relatedness 
 
@@ -64,23 +65,15 @@ df_link <- CreatePairLinksSingleEntered(outcomeDataset = data_flu_ses,
                                         linksPairDataset = link_pairs,
                                         outcomeNames = link_vars)
 
-consistent_kin <- df_link %>% 
-  group_by(SubjectTag_S1, SubjectTag_S2) %>% 
-  count(FLU_2008_S1, FLU_2010_S1, 
-        FLU_2012_S1, FLU_2014_S1, 
-        FLU_2016_S1, FLU_2008_S2, 
-        FLU_2010_S2, FLU_2012_S2, 
-        FLU_2014_S2, FLU_2016_S2) %>% 
-  na.omit()
 
 df_link <- semi_join(df_link,
           consistent_kin, 
           by = c("SubjectTag_S1", "SubjectTag_S2"))
 
-# We removed the pair when DV is missing. 
+# We removed the pair when the Dependent Variable is missing. 
 
 df_link <- df_link %>%
-           filter(!is.na(FLU_total_S1) & !is.na(FLU_total_S2))
+           filter(!is.na(S00_H40_S1) & !is.na(S00_H40_S2))
 
 # We only pick one pair per one household so that we don't violate independence assumption.
 
@@ -92,9 +85,14 @@ df_link<-df_link%>%
 
 ```
 
-The data is almost ready.   
 
-# Categorical predictor
+# Handling Categorical Predictors
+
+## Mixed Variables: Gender as an Example
+
+In kinship regression, a variable can be at the within dyad level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. Gender is a prototypical example of a mixed variable <confirm>. To prepare the data for analysis, we use the discord_data() function.
+
+
 
 The 'discord_data()' function restructures the paired data. 
 In the pair, the one with the higher DV is assigned to be "_1" and the other one is assigned to be "_2".
@@ -112,8 +110,7 @@ By using the 'discord_data()' function, we can prepare data for the analysis as 
 
 cat_sex <- discord_data(
             data = df_link,
-            outcome = "FLU_total",
-            predictors = "S00_H40",
+            outcome = "S00_H40",
             sex="SEX",
             race="RACE",
             demographics = "sex",
