@@ -1,6 +1,6 @@
 ---
 title: "Categorical predictors demonstartion "
-author: Yoo Ri Hwang, Jonathan Trattner, & S.Mason Garrison
+author: Yoo Ri Hwang, Jonathan Trattner, & S. Mason Garrison
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{categorical_predictors}
