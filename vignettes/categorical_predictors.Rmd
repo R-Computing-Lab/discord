@@ -24,7 +24,7 @@ This vignette provides a comprehensive guide to incorporating categorical predic
 
 ## Data and Research Question
 
-We will be using a subset of the 1979 National Longitudinal Survey of Youth (NLSY79) to explore whether sex and race are significant significant predictors for flu vaccination rates among . This data set contains demographic variables such as race and sex, and behavioral measurements like flu vaccination rates and SES at age 40.
+We will be using a subset of the 1979 National Longitudinal Survey of Youth (NLSY79) to explore whether sex and race are significant significant predictors for SES at age 40.
 
 
 # Data cleaning
