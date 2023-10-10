@@ -1,6 +1,7 @@
 ---
-title: "Categorical predictors demonstartion "
-author: Yoo Ri Hwang, Jonathan Trattner, & S. Mason Garrison
+title: "Demonstrating Categorical Predictors in Discordant-Kinship Regressions"
+author: Yoo Ri Hwang, Jonathan Trattner, and S. Mason Garrison
+
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{categorical_predictors}
@@ -17,17 +18,19 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-This vignette aims to introduce the ways to address categorical predictors in the discordant-kinship regressions with the 'discord' package. 
 
-For the general demonstration of discordant-kinship regression with the 'discord' package, please refer to Regression demonstration vignette in this package. 
 
-The data, the research question, the much of the codes are from the [regression demonstration vignette](https://github.com/R-Computing-Lab/discord/blob/main/vignettes/regression.Rmd).
+This vignette provides a comprehensive guide to incorporating categorical predictors in discordant-kinship regression analyses using the 'discord' package. The focus will be on the handling of different types of categorical variables—mixed variables and between-dyad variables—within the discordant-kinship framework.
 
-It is highly recommended to read the [regression demonstration vignette](https://github.com/R-Computing-Lab/discord/blob/main/vignettes/regression.Rmd) before reading this vignette to get informed of basic logic of the discordant-kinship regressions, data information, and codes.
+## Data and Research Question
+
+We will be using a subset of the 1979 National Longitudinal Survey of Youth (NLSY79) to explore whether sex and race are significant significant predictors for flu vaccination rates among . This data set contains demographic variables such as race and sex, and behavioral measurements like flu vaccination rates and SES at age 40.
+
 
 # Data cleaning
 
-First, we load the package and the data. 
+First, we load the package and the data.
+ 
 ```{r setup, message = FALSE}
 
 # For easy data manipulation
