@@ -62,7 +62,7 @@ discord_regression <- function(data,
   pred_diff <- base::paste0(predictors, "_diff", collapse = " + ")
   pred_mean <- base::paste0(predictors, "_mean", collapse = " + ")
 
-
+if (added_coding == "none" ) {
   if (demographics == "none") {
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean)
   } else if (demographics == "race") {
@@ -74,9 +74,9 @@ discord_regression <- function(data,
   } else if (demographics == "both") {
     demographic_controls <- base::paste0(sex, "_1 + ", race, "_1 + ", sex, "_2")
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean, " + ", demographic_controls)
+  } else { print("You should not be seeing this")
   }
-
-if (added_coding != "none" & !is.null(added_coding)) {
+} else if (added_coding != "none" & !is.null(added_coding)) {
 preds <- base::paste0(preds," + ",added_coding)
 }
 

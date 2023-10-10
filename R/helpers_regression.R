@@ -147,6 +147,9 @@ make_mean_diffs <- function(data, id, sex, race, demographics,
 
     names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
   }
+
+
+
   if (added_coding == "added_coding") {
     # New logic to handle race and sex as categorical variables
     if (demographics == "both" || demographics == "race") {
