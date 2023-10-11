@@ -66,9 +66,6 @@ df_link <- CreatePairLinksSingleEntered(outcomeDataset = data_flu_ses,
                                         outcomeNames = link_vars)
 
 
-df_link <- semi_join(df_link,
-          consistent_kin, 
-          by = c("SubjectTag_S1", "SubjectTag_S2"))
 
 # We removed the pair when the Dependent Variable is missing. 
 
