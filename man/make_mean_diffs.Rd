@@ -38,7 +38,7 @@ variable identifier for each kinship pair}
 \item{row}{The row number of the data frame}
 
 \item{added_coding}{A character string that indicates what kind of
-additional coding schemes should be used. Default is none}
+additional coding schemes should be used. Default is none. Other options include "binary" and "multi".}
 }
 \description{
 This function calculates differences and means of a given variable for each kinship pair. The order of subtraction and the variables' names in the output dataframe depend on the order column set by check_sibling_order().

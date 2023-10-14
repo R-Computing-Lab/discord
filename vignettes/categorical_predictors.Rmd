@@ -19,13 +19,11 @@ knitr::opts_chunk$set(
 # Introduction
 
 
-
 This vignette provides a comprehensive guide to incorporating categorical predictors in discordant-kinship regression analyses using the 'discord' package. The focus will be on the handling of different types of categorical variables—mixed variables and between-dyad variables—within the discordant-kinship framework.
 
 ## Data and Research Question
 
 We will be using a subset of the 1979 National Longitudinal Survey of Youth (NLSY79) to explore whether sex is significant significant predictor for SES at age 40, using different categorical variable coding schemes.
-
 
 
 # Data cleaning
@@ -53,7 +51,10 @@ For explanation of basic logic for this, please refer to the [regression demonst
 ```{r set-df-link}
 
 
-link_vars <- c("S00_H40", "RACE", "SEX")
+# for reproducibility 
+set.seed(2023)
+
+link_vars <- c("S00_H40", "RACE", "SEX","FLU_total")
 
 
 # Specify NLSY database and kin relatedness 
@@ -85,25 +86,29 @@ df_link<-df_link%>%
 
 # Handling Categorical Predictors
 
+
+
+## The general logic of discordant-kinship regressions
+
+If the predictor is a continuous variable, the DV (the difference score of outcome variable) is regressed on the mean score of outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for the demonstrating purpose. We referred to Kenney et al.,(2006) for idea about how to handle categorical predictors in dyadic analysis, and Hwang (2022) for the ways corporate that idea into discordant-kinship regression.
+
+
 ## Mixed Variables: Gender as an Example
 
-In kinship regression, a variable can be at the within dyad level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. Gender is a prototypical example of a mixed variable <confirm>. To prepare the data for analysis, we use the discord_data() function.
+In kinship regression, a variable can be at the within dyad level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. Gender is a prototypical example of a mixed variable <confirm>.
 
+The categorical predictor is a mixed variable when variances exists within- and between-dyads. 
+For example, the sex is a mixed variable in that individuals in the pair can be male or female, regardless of their dyad. 
+
+
+To prepare the data for analysis, we use the discord_data() function.
 
 
 The 'discord_data()' function restructures the paired data. 
 In the pair, the one with the higher DV is assigned to be "_1" and the other one is assigned to be "_2".
 
-In this example, we are going to use sex and race as categorical variables for the demonstrating purpose. We referred to Kenney et al.,(2006) for idea about how to handle categorical predictors.
-
-## When the categorical predictor is a mixed variable
-
-The categorical predictor is a mixed variable when variances exists within- and between-dyads. 
-For example, the sex is a mix variable in this example.
-
-By using the 'discord_data()' function, we can prepare data for the analysis as following:
-
 ```{r}
+
 
 cat_sex <- discord_data(
             data = df_link,
@@ -111,6 +116,7 @@ cat_sex <- discord_data(
             sex="SEX",
             race="RACE",
             demographics = "sex",
+            predictors=NULL,
             pair_identifiers = c("_S1","_S2"),
             added_coding="added_coding")
 ```
@@ -126,13 +132,14 @@ slice(1:500) %>%
     kableExtra::kable_styling(full_width = FALSE)
 ```
 
+
 The sex compositions in the data are as following:
 
 ```{r preview-sex, echo = FALSE, eval = knitr::is_html_output()}
 
 cat_sex %>%
-  group_by(SEX_1, SEX_2)%>%
-  summarize( n(),.groups = 'drop')%>%
+  group_by(SEX_1, SEX_2) %>%
+  summarize( n(),.groups = 'drop') %>%
   kableExtra::kbl('html', align = "c",col.names=c("SEX_1","SEX_2","sample_size"))%>%
   kableExtra::kable_styling(full_width = FALSE) 
 
@@ -141,22 +148,34 @@ cat_sex %>%
 
 Considering the DV (the difference score of outcome variable in the pair) is a between-dyad variable, we can make the sex variable as a between-dyad variable as well. 
 
-The 'discord_data()' function automatically generated binary match and multi match for sex. 
+The 'discord_data()' function automatically generated binary match and multi match for the sex variable. 
 
 The binary-match variable indicates whether the pair is the same-sex pair (coded as "1") or mixed-sex pair (coded as "0").
 
 The multi-match variable indicates whether the sex of the two people in the same pair is "1" (coded as "1") or "0" (coded as "0") or the pair is mixed-sex pair (coded as "mixed"). 
 
-By doing so, the sex variable (which was initially a mixed variable) becomes between-dyad variable. 
+By doing so, the sex variable (which was initially a mixed variable) becomes between-dyad variable as following:
 
-Researchers can choose between two options based on their research question.
+
+```{r sex-compositions, echo = FALSE, eval = knitr::is_html_output()}
+
+cat_sex %>%
+  group_by(SEX_binarymatch,SEX_multimatch, SEX_1, SEX_2) %>%
+  summarize( n(),.groups = 'drop') %>%
+  kableExtra::kbl('html', align = "c",col.names=c("binary","multi", "SEX_1","SEX_2","sample_size"))%>%
+  kableExtra::kable_styling(full_width = FALSE) 
+```
+
+Researchers can choose between two options based on their research question. 
+
+For example, if research question focuses on the difference between same-sex pairs and mixed-sex pairs, binary-match variable can be a good option. If research question focuses on the difference between male-male pairs, female-female pairs, and mixed-sex pairs, multi-match can be a good option. 
 
 The regression model with the binary match sex variable can be conducted as such:
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
 
- lm(FLU_total_diff ~ FLU_total_mean + S00_H40_diff +  S00_H40_mean + SEX_binarymatch.x,
-    data = cat_sex) %>%
+ lm(S00_H40_diff ~  S00_H40_mean + SEX_binarymatch,
+    data = cat_sex)%>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
          across(.cols = where(is.numeric), ~round(.x, 3))) %>%
@@ -169,17 +188,13 @@ The regression model with the binary match sex variable can be conducted as such
 
 ```
 
-The Sex variable were not significant control variable, meaning that the difference between same-sex pairs and mixed-sex pairs did not significantly predict the DV (FLU_total_diff). 
-
-
-For more detailed results interpretation, please refer to the [regression demonstration vignette](https://github.com/R-Computing-Lab/discord/blob/main/vignettes/regression.Rmd)
-
+The mean score of SES at 40 was a significant control variable (p <.001). The SEX_binary match was not a significant predictor (p = 0.886). This means that the difference between same-sex pairs and mixed-sex pairs were not significantly predicts the difference score of SES at 40 (DV) in the pair after controlling for the mean score of SEX at 40. There was not significant differences between same-sex pairs and mixed-sex pairs in the DV. 
 
 The regression model with the multi match sex variable can be conducted as such:
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
 
- lm(FLU_total_diff ~ FLU_total_mean + S00_H40_diff +  S00_H40_mean + SEX_multimatch.x,
+ lm(S00_H40_diff ~ S00_H40_mean + SEX_multimatch,
     data = cat_sex) %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
@@ -193,17 +208,12 @@ The regression model with the multi match sex variable can be conducted as such:
 
 ```
 
-The Sex variables were not significant control variables.
-The difference between the pairs that both have sex as "0" and the pairs that both have sex as "1" were not significantly predicts the DV (FLU_total_diff).
-The difference between the pairs that both have sex as "0" and the mixed-sex pairs were not significantly predicts the DV as well. 
-
-For more detailed results interpretation, please refer to the [regression demonstration vignette](https://github.com/R-Computing-Lab/discord/blob/main/vignettes/regression.Rmd)
+The mean score of SES at 40 was a significant control variable (p <.001). There was no significant difference between "00" pairs (the pairs that two people are both 0 ) and "11" pairs (the pairs that two people are both 1) (p = 0.705) to predict the DV. Similarly, there was no significant differences between mixed-sex pairs and "00" pairs (p = 0.916).
 
 
-## When the categorical predictor is a between-dyad variable
+## Between-dyad variable: Race
 
-The categorical predictor is a between-dyad variable when the two people in the same dyad share the same score (or same response).
-
+The categorical predictor is a between-dyad variable when the two people in the same dyad share the same score (or same response). For example, the length of the marriage is a between-dyad variable if the study consists of married-couple samples. Race can be a between-dyad variable if the study consists of same-race sibling pairs.  
 
 For demonstration purpose, we force the race variable to be between-dyad variable, meaning that we only include the same-race pairs in the data. 
 
@@ -211,10 +221,14 @@ By using 'discord_data()' function, we can prepare data for the analysis as foll
 
 ```{r}
 
+# for reproducibility 
+
+set.seed(2023)
+
 cat_race <- discord_data(
             data = df_link,
-            outcome = "FLU_total",
-            predictors = "S00_H40",
+            outcome = "S00_H40",
+            predictors = NULL,
             sex="SEX",
             race="RACE",
             demographics = "race",
@@ -229,36 +243,22 @@ The race compositions in the data set are:
 
 ```{r preview-race, echo = FALSE, eval = knitr::is_html_output()}
 cat_race %>%
-  group_by(RACE_1, RACE_2)%>%
+  group_by(RACE_binarymatch, RACE_multimatch, RACE_1, RACE_2)%>%
   summarize( n(),.groups = 'drop')%>%
-  kableExtra::kbl('html', align = "c",col.names=c("RACE_1","RACE_2","sample_size"))%>%
+  kableExtra::kbl('html', align = "c",col.names=c("RACE_binarymatch", "RACE_multimatch", "RACE_1","RACE_2","sample_size"))%>%
   kableExtra::kable_styling(full_width = FALSE) 
   
 ```
 
-
-A random slice of this data looks as following:
-
-```{r race, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
-
-cat_race %>%
-slice(1:500) %>%
-    slice_sample(n = 6) %>%
-    kableExtra::kbl('html', align = "c") %>%
-    kableExtra::kable_styling(full_width = FALSE)
-```
-
-
-
 The binary-match variable indicates whether the pair is the same-race pair (coded as "1") or mixed-race pair (coded as "0"). Because the race variable is a between-dyad variable, all the pairs have a value of "1" in this example. 
 
-The multi-match variable indicates whether the race of the two people in the same pair is "1" (coded as "1") or "0" (coded as "0") or mixed (coded as "mixed"). No pair have "mixed" value because race is a between-dyad variable in this example. 
+The multi-match variable indicates whether the race of the two people in the same pair is both "1" (coded as "1") or "0" (coded as "0") or mixed (coded as "mixed"). No pair have "mixed" value because race is a between-dyad variable in this example. 
 
-The regression model with multi-match race variable as a one of the predictor can be conducted  as such:
+The regression model with multi-match race variable as a  predictor can be conducted  as such:
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
 
- lm(FLU_total_diff ~ FLU_total_mean + S00_H40_diff +  S00_H40_mean + RACE_multimatch.x,
+ lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch,
     data = cat_race) %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
@@ -272,10 +272,7 @@ The regression model with multi-match race variable as a one of the predictor ca
 
 ```
 
-The difference between the pairs with the race as "0" and "1" were not a significant predictor, meaning that it did not significantly predict DV. 
-
-For the results interpretation, please refer to the [regression demonstration vignette](https://github.com/R-Computing-Lab/discord/blob/main/vignettes/regression.Rmd)
-
+The mean score of SES at 40 was significant control variable (p < .001). The RACE_multimatch variable was significant predictor of DV (the difference score of SES at 40; p = .004) after controlling for the mean score of SES at 40. This means that the difference between the "00" pairs and "11" pairs significantly predicts the DV. 
 
 ## When we have two categorical predictors
 
@@ -285,10 +282,12 @@ First, we restructure the data for the kinship-discordant regression using the '
 
 ```{r}
 
+
+
 cat_both <- discord_data(
             data = df_link,
-            outcome = "FLU_total",
-            predictors = "S00_H40",
+            outcome = "S00_H40",
+            predictors = NULL ,
             sex="SEX",
             race="RACE",
             demographics = "both",
@@ -300,22 +299,11 @@ cat_both <- discord_data(
 ```
 
 
-A random slice of this data looks as following:
-
-```{r echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
-
-cat_both %>%
-slice(1:500) %>%
-    slice_sample(n = 6) %>%
-    kableExtra::kbl('html', align = "c")%>%
-    kableExtra::kable_styling(full_width = FALSE) 
-```
-
  We can perform a regression using the binary-match sex variable and multi-match race variable as such:
  
 ```{r echo = FALSE, eval = knitr::is_html_output()}
  
- lm(FLU_total_diff ~ FLU_total_mean + S00_H40_diff +  S00_H40_mean + RACE_multimatch.x + SEX_binarymatch.x,
+ lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch + SEX_binarymatch,
     data = cat_both) %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
@@ -328,13 +316,18 @@ slice(1:500) %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 
 ```
+
+The mean score of SES at 40 were significant control variable (p <.001 ). Although SEX_binary was not significant predictor ( p = .938), the RACE_multi match was significant predictor (p = .004). This means that there is a significant difference between "00" race pairs and "11" race pairs in the DV when controlling for model covariates. 
+
+
+
 
 we can perform a regression analysis using multi-match sex and race variables as well:
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
 
 
- lm(FLU_total_diff ~ FLU_total_mean + S00_H40_diff +  S00_H40_mean + RACE_multimatch.x + SEX_multimatch.x,
+ lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch + SEX_multimatch,
     data = cat_both) %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
@@ -347,9 +340,8 @@ we can perform a regression analysis using multi-match sex and race variables as
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 
 ```
- 
- 
-For the results interpretation, please refer to the [regression demonstration vignette](https://github.com/R-Computing-Lab/discord/blob/main/vignettes/regression.Rmd)
+ The mean score of SES at 40 were significant control variable (p <.001). Although SEX variables were not significant predictors (ps > .05), the RACE_multi match was a significant predictor (p = .004). This means that there is a significant difference between "00" race pairs and "11" race pairs to predict the DV when controlling for model covariates. 
+
 
 # Conclusion
 
@@ -359,3 +351,5 @@ In this vignette, we demonstrated how to include categorical predictors in disco
 
 Kenny, D. A., Kashy, D. A., & Cook, W. L. (2006). Dyadic data analysis. New York, NY:
 Guilford
+
+Y., Hwang. (2022). Dueling Dyads: Regression versus MLM Analysis with a Categorical Predictor. Master's thesis. Wake Forest University 

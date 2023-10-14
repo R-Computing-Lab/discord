@@ -40,7 +40,7 @@ demographics. If both are present (default, and recommended), value should
 be "both". Other options include "sex", "race", or "none".}
 
 \item{added_coding}{A character string that indicates what kind of
-additional coding schemes should be used. Default is none}
+additional coding schemes should be used. Default is none. Other options include "binary" and "multi".}
 }
 \value{
 A data frame that contains analyzable, paired data for performing
