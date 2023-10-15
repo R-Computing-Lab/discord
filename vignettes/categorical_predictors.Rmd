@@ -93,6 +93,8 @@ df_link<-df_link%>%
 If the predictor is a continuous variable, the DV (the difference score of outcome variable) is regressed on the mean score of outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for the demonstrating purpose. We referred to Kenney et al.,(2006) for idea about how to handle categorical predictors in dyadic analysis, and Hwang (2022) for the ways corporate that idea into discordant-kinship regression.
 
 
+
+
 ## Mixed Variables: Gender as an Example
 
 In kinship regression, a variable can be at the within dyad level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. Gender is a prototypical example of a mixed variable <confirm>.
@@ -146,7 +148,11 @@ cat_sex %>%
 ```
 
 
-Considering the DV (the difference score of outcome variable in the pair) is a between-dyad variable, we can make the sex variable as a between-dyad variable as well. 
+
+Considering the DV (the difference score of outcome variable in the pair) is a between-dyad variable, we can make the sex variable as a between-dyad variable as well.
+
+This means that rather than using individual's sex as a predictor in the regressions, using sex-composition of the pair in the regressions can be yield more meaningful results. If we put the individuals sex in the pair as a predictor, that is individual level's predictor while DV is not individual level variable. However, by forcing sex variable to be between-dyad variable (by using gender-composition variable), results can be more interpretable and meaningful. 
+
 
 The 'discord_data()' function automatically generated binary match and multi match for the sex variable. 
 
