@@ -28,6 +28,10 @@ csl: apa.csl
 journal: JOSS
 ---
 
+```{r setup, echo=FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
 # Summary
 
 As a field, behavior genetics studies the genetic and environmental sources of individual differences in psychological traits and characteristics. More technically, the field focuses on decomposing the sources of phenotypic variation into genetic (Additive (A)+ Dominance (D)) and environmental (Shared Environment (C) + Non-Shared Environment (E)) variance components, by leveraging twin and family studies. These models can do more than merely describe sources of variance; they can be used to infer causation [@burt2019].
