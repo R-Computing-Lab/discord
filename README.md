@@ -42,13 +42,13 @@ devtools::install_github('R-Computing-Lab/discord')
 
 ## Contributing
 
-Contributions to the BGmisc project are welcome. Please submit issues
+Contributions to the discord project are welcome. Please submit issues
 and pull requests on the GitHub repository. For support, please use the
 GitHub issues page.
 
 ## License
 
-`discord` is licensed under the GNU General Public License v3.0. For more
-details, see the
-[LICENSE.md](https://github.com/R-Computing-Lab/BGmisc/blob/main/LICENSE.md)
+`discord` is licensed under the GNU General Public License v3.0. For
+more details, see the
+[LICENSE.md](https://github.com/R-Computing-Lab/discord/blob/main/LICENSE.md)
 file.

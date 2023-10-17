@@ -1,7 +1,7 @@
 ---
 title: "Demonstrating Categorical Predictors in Discordant-Kinship Regressions"
 author: Yoo Ri Hwang, Jonathan Trattner, and S. Mason Garrison
-
+bibliography: references.bib
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{categorical_predictors}
@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 # Introduction
@@ -90,7 +91,7 @@ df_link<-df_link%>%
 
 ## The general logic of discordant-kinship regressions
 
-If the predictor is a continuous variable, the DV (the difference score of outcome variable) is regressed on the mean score of outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for the demonstrating purpose. We referred to Kenney et al.,(2006) for idea about how to handle categorical predictors in dyadic analysis, and Hwang (2022) for the ways corporate that idea into discordant-kinship regression.
+If the predictor is a continuous variable, the DV (the difference score of outcome variable) is regressed on the mean score of outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for the demonstrating purpose. We referred to  @kenny2006  for idea about how to handle categorical predictors in dyadic analysis, and @Hwang2022 for the ways corporate that idea into discordant-kinship regression.
 
 
 
@@ -103,7 +104,7 @@ The categorical predictor is a mixed variable when variances exists within- and 
 For example, the sex is a mixed variable in that individuals in the pair can be male or female, regardless of their dyad. 
 
 
-To prepare the data for analysis, we use the discord_data() function.
+To prepare the data for analysis, we use the `discord_data()` function.
 
 
 The 'discord_data()' function restructures the paired data. 
@@ -328,7 +329,7 @@ The mean score of SES at 40 were significant control variable (p <.001 ). Althou
 
 
 
-we can perform a regression analysis using multi-match sex and race variables as well:
+We can perform a regression analysis using multi-match sex and race variables as well:
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
 
@@ -346,7 +347,8 @@ we can perform a regression analysis using multi-match sex and race variables as
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 
 ```
- The mean score of SES at 40 were significant control variable (p <.001). Although SEX variables were not significant predictors (ps > .05), the RACE_multi match was a significant predictor (p = .004). This means that there is a significant difference between "00" race pairs and "11" race pairs to predict the DV when controlling for model covariates. 
+
+The mean score of SES at 40 were significant control variable (p <.001). Although SEX variables were not significant predictors (ps > .05), the RACE_multi match was a significant predictor (p = .004). This means that there is a significant difference between "00" race pairs and "11" race pairs to predict the DV when controlling for model covariates. 
 
 
 # Conclusion
@@ -355,7 +357,4 @@ In this vignette, we demonstrated how to include categorical predictors in disco
 
 # References
 
-Kenny, D. A., Kashy, D. A., & Cook, W. L. (2006). Dyadic data analysis. New York, NY:
-Guilford
 
-Y., Hwang. (2022). Dueling Dyads: Regression versus MLM Analysis with a Categorical Predictor. Master's thesis. Wake Forest University 
