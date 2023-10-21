@@ -1,6 +1,6 @@
 ---
 title: "Demonstrating Categorical Predictors in Discordant-Kinship Regressions"
-author: Yoo Ri Hwang, Jonathan Trattner, and S. Mason Garrison
+author: Yoo Ri Hwang and S. Mason Garrison
 bibliography: references.bib
 output: rmarkdown::html_vignette
 vignette: >
@@ -19,20 +19,27 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
+## Objective
 
-This vignette provides a comprehensive guide to incorporating categorical predictors in discordant-kinship regression analyses using the 'discord' package. The focus will be on the handling of different types of categorical variables—mixed variables and between-dyad variables—within the discordant-kinship framework.
+The aim of this vignette is to provide a comprehensive guide for incorporating categorical predictors in discordant-kinship regression analyses using the `discord` package.
 
-## Data and Research Question
+This vignette provides a comprehensive guide to incorporating categorical predictors in discordant-kinship regression analyses using the `discord` package. The focus will be on handling different types of categorical variables—mixed variables and between-dyad variables—within the discordant-kinship framework.
 
-We will be using a subset of the 1979 National Longitudinal Survey of Youth (NLSY79) to explore whether sex is significant significant predictor for SES at age 40, using different categorical variable coding schemes.
+## Research Question
+
+We explore whether sex significantly predicts SES at age 40 using different coding schemes for categorical variables.
+
+## Data Source
+
+We use a subset of the 1979 National Longitudinal Survey of Youth (NLSY79).
 
 
-# Data cleaning
+# Data Preparation
 
-First, we load the package and the data.
+## Package and Data Loading
  
 ```{r setup, message = FALSE}
-
+# Loading necessary packages and data
 # For easy data manipulation
 library(dplyr)
 # For kinship linkages
@@ -46,17 +53,14 @@ library(magrittr)
 data(data_flu_ses)
 ```
 
-The code chunk below is from Regression demonstration vignette in this package.
-For explanation of basic logic for this, please refer to the [regression demonstration vignette](https://github.com/R-Computing-Lab/discord/blob/main/vignettes/regression.Rmd).
+## Data Cleaning and Preprocessing
 
 ```{r set-df-link}
-
 
 # for reproducibility 
 set.seed(2023)
 
-link_vars <- c("S00_H40", "RACE", "SEX","FLU_total")
-
+link_vars <- c("S00_H40", "RACE", "SEX", "FLU_total")
 
 # Specify NLSY database and kin relatedness 
 
@@ -68,13 +72,12 @@ df_link <- CreatePairLinksSingleEntered(outcomeDataset = data_flu_ses,
                                         outcomeNames = link_vars)
 
 
-
 # We removed the pair when the Dependent Variable is missing. 
 
 df_link <- df_link %>%
            filter(!is.na(S00_H40_S1) & !is.na(S00_H40_S2))
 
-# We only pick one pair per one household so that we don't violate independence assumption.
+# We only pick one pair per household so we don't violate the independence assumption.
 
 
 df_link<-df_link%>%
@@ -85,46 +88,44 @@ df_link<-df_link%>%
 ```
 
 
-# Handling Categorical Predictors
+# Methodology
+
+## Discordant-Kinship Regression: General Logic
+
+
+If the predictor is a continuous variable, the DV (the difference score of the outcome variable) is regressed on the mean score of the outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of the categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for demonstration. We referred to  @kenny2006  for idea about handling categorical predictors in dyadic analysis, and @Hwang2022 for incorporating that idea into discordant-kinship regression.
 
 
 
-## The general logic of discordant-kinship regressions
-
-If the predictor is a continuous variable, the DV (the difference score of outcome variable) is regressed on the mean score of outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for the demonstrating purpose. We referred to  @kenny2006  for idea about how to handle categorical predictors in dyadic analysis, and @Hwang2022 for the ways corporate that idea into discordant-kinship regression.
-
-
-
+## Handling Categorical Predictors
 
 ## Mixed Variables: Gender as an Example
 
-In kinship regression, a variable can be at the within dyad level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. Gender is a prototypical example of a mixed variable <confirm>.
+In kinship regression, a variable can be at the within-dyad level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. Gender is a prototypical example of a mixed variable <confirm>.
 
 The categorical predictor is a mixed variable when variances exists within- and between-dyads. 
 For example, the sex is a mixed variable in that individuals in the pair can be male or female, regardless of their dyad. 
 
 
-To prepare the data for analysis, we use the `discord_data()` function.
+We use the `discord_data()` function to prepare the data for analysis.
 
 
 The 'discord_data()' function restructures the paired data. 
 In the pair, the one with the higher DV is assigned to be "_1" and the other one is assigned to be "_2".
 
 ```{r}
-
-
 cat_sex <- discord_data(
             data = df_link,
             outcome = "S00_H40",
-            sex="SEX",
-            race="RACE",
+            sex= "SEX",
+            race= "RACE",
             demographics = "sex",
             predictors=NULL,
             pair_identifiers = c("_S1","_S2"),
             added_coding="added_coding")
 ```
 
-A random slice of this data looks as following:
+A random slice of this data looks as follows:
 
 ```{r sex, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
 
@@ -136,7 +137,7 @@ slice(1:500) %>%
 ```
 
 
-The sex compositions in the data are as following:
+The sex compositions in the data are as follows:
 
 ```{r preview-sex, echo = FALSE, eval = knitr::is_html_output()}
 
@@ -152,20 +153,20 @@ cat_sex %>%
 
 Considering the DV (the difference score of outcome variable in the pair) is a between-dyad variable, we can make the sex variable as a between-dyad variable as well. 
 
-This means that rather than using individual's sex as a predictor in the regressions, using sex-composition of the pair in the regressions can be yield more meaningful results. If we put the individuals sex in the pair as a predictor, that is individual level's predictor while DV is not individual level variable. However, by forcing sex variable to be between-dyad variable (by using gender-composition variable), results can be more interpretable and meaningful. 
+This means that rather than using an individual's sex as a predictor in the regressions, using the sex composition of the pair in the regressions can yield more meaningful results. If we put the individuals sex in the pair as a predictor, that is individual level's predictor while DV is not individual level variable. However, by forcing sex variable to be between-dyad variable (by using gender-composition variable), results can be more interpretable and meaningful. 
 
-So, how to force sex variable to be sex-composition variable? The above table shows all the possible combination of sex composition variable: 1) 00, 2) 01, 3) 10, and 4) 11. However, it is hard to believe that "01" and "10" distinction is meaningful unless there are strong theoretical reasons behind, because the "_S1" and "_S2" was assigned by DV value of the participants. Thus "01" pairs means that the one with higher DV in the pair was "0" and the other one was "1", and "10" pairs means that the one with higher DV in the pair was "1" and the other one was "0". 
+So, how to force sex variable to be sex-composition variable? The above table shows all the possible combinations of sex composition variables: 1) 00, 2) 01, 3) 10, and 4) 11. However, it is hard to believe that "01" and "10" distinction is meaningful unless there are strong theoretical reasons behind, because the "_S1" and "_S2" was assigned by DV value of the participants. Thus "01" pairs means that the one with higher DV in the pair was "0" and the other one was "1", and "10" pairs means that the one with higher DV in the pair was "1" and the other one was "0". 
 
 Thus, we can utilize the following sex-composition variables. First, we can use sex-composition variable that have three factors: 1) "00",2) "10" and "01", and 3) "11". Or, we can also use sex-composition variable that have two factors: 1) "00" and "11", 2) "01" and "10". The former option can be named as "multi-match" and the latter option can be named as "binary-match". 
 
 
-The 'discord_data()' function automatically generated binary match and multi match for the sex variable. 
+The 'discord_data()' function automatically generated binary match and multi-match for the sex variable. 
 
 The binary-match variable indicates whether the pair is the same-sex pair (coded as "1") or mixed-sex pair (coded as "0").
 
 The multi-match variable indicates whether the sex of the two people in the same pair is "1" (coded as "1") or "0" (coded as "0") or the pair is mixed-sex pair (coded as "mixed"). 
 
-By doing so, the sex variable (which was initially a mixed variable) becomes between-dyad variable as following:
+By doing so, the sex variable (which was initially a mixed variable) becomes a between-dyad variable as follows:
 
 
 ```{r sex-compositions, echo = FALSE, eval = knitr::is_html_output()}
@@ -207,7 +208,7 @@ The SEX_binary match was not a significant predictor (p = 0.886) when controllin
 It is estimated that, compared to the reference group (the mixed-sex pairs), the "1" group (the same-sex pairs) would have approximately 0.107 higher difference score of SES at 40 (DV), when controlling for the mean score of SES at 40. However, this coefficient is not significant, so it is not advisable to interpret the coefficient. 
 
 
-The regression model with the multi match sex variable can be conducted as such:
+The regression model with the multi-match sex variable can be conducted as such:
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
 
@@ -239,9 +240,9 @@ The coefficient 0.097 is the difference between the expected DV (the difference 
 
 The categorical predictor is a between-dyad variable when the two people in the same dyad share the same score (or same response). For example, the length of the marriage is a between-dyad variable if the study consists of married-couple samples. Race can be a between-dyad variable if the study consists of same-race sibling pairs.  
 
-For demonstration purpose, we force the race variable to be between-dyad variable, meaning that we only include the same-race pairs in the data. 
+For demonstration purposes, we force the race variable to be a between-dyad variable, meaning that we only include the same-race pairs in the data. 
 
-By using 'discord_data()' function, we can prepare data for the analysis as following:
+By using the 'discord_data()' function, we can prepare data for the analysis as follows:
 
 ```{r}
 
@@ -253,8 +254,8 @@ cat_race <- discord_data(
             data = df_link,
             outcome = "S00_H40",
             predictors = NULL,
-            sex="SEX",
-            race="RACE",
+            sex= "SEX",
+            race= "RACE",
             demographics = "race",
             pair_identifiers = c("_S1","_S2"),
             added_coding="added_coding") %>%
@@ -276,6 +277,13 @@ cat_race %>%
 
 The binary-match variable indicates whether the pair is the same-race pair (coded as "1") or mixed-race pair (coded as "0"). Because the race variable is a between-dyad variable, all the pairs have a value of "1" in this example. 
 
+
+
+# Results and Interpretation
+
+## Regression Analysis: Gender
+
+## Regression Analysis: Race
 The multi-match variable indicates whether the race of the two people in the same pair is both "1" (coded as "1") or "0" (coded as "0") or mixed (coded as "mixed"). No pair have "mixed" value because race is a between-dyad variable in this example. 
 
 The regression model with multi-match race variable as a  predictor can be conducted  as such:
@@ -296,16 +304,18 @@ The regression model with multi-match race variable as a  predictor can be condu
 
 ```
 
-The mean score of SES at 40 was significant control variable (p < .001). The mean score of SES of the pairs at 40 is negatively associated with the difference score of SES between the pairs, controlling for other variable (in this case, the Sex-composition variable). It is estimated that for one unit increase of the mean score of SES at 40, DV (the difference score of SES at 40) is expected to decrease approximately 0.074.
+The mean score of SES at 40 was a significant control variable (p < .001). The mean score of SES of the pairs at 40 is negatively associated with the difference score of SES between the pairs, controlling for other variable (in this case, the Sex-composition variable). It is estimated that for one unit increase of the mean score of SES at 40, DV (the difference score of SES at 40) is expected to decrease approximately 0.074.
 
 
-The RACE_multimatch variable was significant predictor of DV (the difference score of SES at 40; p = .004) after controlling for the mean score of SES at 40. This means that the difference between the "00" pairs and "11" pairs significantly predicts the DV. Specifically, compared to the reference group (the "00"pairs), "11" pairs are expected to have have approximately 2.22 higher difference score of SES at 40 (DV).  
+The RACE_multimatch variable was significant predictor of DV (the difference score of SES at 40; p = .004) after controlling for the mean score of SES at 40. This means that the difference between the "00" pairs and "11" pairs significantly predicts the DV. Specifically, compared to the reference group (the "00" pairs), "11" pairs are expected to have have approximately 2.22 higher difference score of SES at 40 (DV).  
 
-## When we have two categorical predictors
+
+
+## Regression Analysis: Gender and Race
 
 We can include both sex and race as predictors as well. 
 
-First, we restructure the data for the kinship-discordant regression using the 'discord_data()'function.
+First, we restructure the data for the kinship-discordant regression using the 'discord_data()' function.
 
 ```{r}
 
@@ -315,8 +325,8 @@ cat_both <- discord_data(
             data = df_link,
             outcome = "S00_H40",
             predictors = NULL ,
-            sex="SEX",
-            race="RACE",
+            sex= "SEX",
+            race= "RACE",
             demographics = "both",
             pair_identifiers = c("_S1","_S2"),
             added_coding="added_coding") %>%
@@ -376,15 +386,16 @@ We can perform a regression analysis using multi-match sex and race variables as
 
 The mean score of SES at 40 was a significant control variable (p <.001). The mean score of SES of the pairs at 40 is negatively associated with the difference score of SES between the pairs, controlling for other variable (in this case, the Sex-composition and race-composition variable). It is estimated that for one unit increase of the mean score of SES at 40, DV (the difference score of SES at 40) is expected to decrease approximately 0.074. 
 
-The SEX-composition variables were not significant predictors (ps > .05) when controlling for other variable (i.e., the mean score of SES at 40 and the race-composition variable). The coefficient 0.432 is the difference between the expected DV (the difference score of SES at 40) for the reference group (in this case, the “00” pairs) and the “11” pairs. The coefficient 0.163 is the difference between the expected DV (the difference score of SES at 40) for the reference group (in this case, the “00” pairs) and the mixed-sex pairs. However, these coefficients were not significant, so it is not advisable to interpret the coefficients.
+The SEX-composition variables were not significant predictors (ps > .05) when controlling for other variable (i.e., the mean score of SES at 40 and the race-composition variable). The coefficient 0.432 is the difference between the expected DV (the difference score of SES at 40) for the reference group (in this case, the "00" pairs) and the "11" pairs. The coefficient 0.163 is the difference between the expected DV (the difference score of SES at 40) for the reference group (in this case, the "00" pairs) and the mixed-sex pairs. However, these coefficients were not significant, so it is not advisable to interpret the coefficients.
  
 The RACE_multi match was a significant predictor (p = .004) when controlling for other variables (i.e., the mean score of SES at 40 and the sex-composition variables). This means that there is a significant difference between "00" race pairs and "11" race pairs in the difference score of SES at 40 (DV) when controlling for the model covariates (i.e., Sex composition variables and the mean score of SES at 40). Specifically, compared to the reference group ("00" race pair), the "11" race pairs were expected to have approximately 2.226 higher difference score of SES at 40 (DV). 
 
 
+
+
 # Conclusion
 
-In this vignette, we demonstrated how to include categorical predictors in discordant-kinship regressions using the 'discord' package. 
+This vignette demonstrates how to effectively include categorical predictors in discordant-kinship regressions using the discord package. Depending on the research question, one can choose to use either mixed variables or between-dyad variables as predictors, as exemplified by gender and race.
 
 # References
-
 
