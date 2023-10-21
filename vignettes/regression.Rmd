@@ -60,8 +60,6 @@ After some pre-processing, we have a data frame containing subject identifiers, 
 
 ```{r preview-pre-processed-data, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
 
-
-
 data_flu_ses %>% 
     select(CASEID, RACE, SEX, FLU_total, S00_H40) %>% 
     filter(!is.na(S00_H40)) %>%

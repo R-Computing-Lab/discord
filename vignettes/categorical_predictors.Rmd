@@ -21,9 +21,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ## Objective
 
-The aim of this vignette is to provide a comprehensive guide for incorporating categorical predictors in discordant-kinship regression analyses using the `discord` package.
-
-This vignette provides a comprehensive guide to incorporating categorical predictors in discordant-kinship regression analyses using the `discord` package. The focus will be on handling different types of categorical variables—mixed variables and between-dyad variables—within the discordant-kinship framework.
+The aim of this vignette is to provide a comprehensive guide for incorporating categorical predictors in discordant-kinship regression analyses using the `discord` package. Furthermore, we will demonstrate how to interpret there different types of categorical variables—mixed variables and between-dyad variables—within the discordant-kinship framework.
 
 ## Research Question
 
@@ -88,6 +86,7 @@ df_link<-df_link%>%
 ```
 
 
+
 # Methodology
 
 ## Discordant-Kinship Regression: General Logic
@@ -95,13 +94,11 @@ df_link<-df_link%>%
 
 If the predictor is a continuous variable, the DV (the difference score of the outcome variable) is regressed on the mean score of the outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of the categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for demonstration. We referred to  @kenny2006  for idea about handling categorical predictors in dyadic analysis, and @Hwang2022 for incorporating that idea into discordant-kinship regression.
 
-
-
 ## Handling Categorical Predictors
 
 ## Mixed Variables: Gender as an Example
 
-In kinship regression, a variable can be at the within-dyad level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. Gender is a prototypical example of a mixed variable <confirm>.
+In kinship regression, a variable can be at the within-dyad level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. Gender is a prototypical example of a mixed variable.
 
 The categorical predictor is a mixed variable when variances exists within- and between-dyads. 
 For example, the sex is a mixed variable in that individuals in the pair can be male or female, regardless of their dyad. 
