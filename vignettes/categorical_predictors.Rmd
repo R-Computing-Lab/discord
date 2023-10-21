@@ -274,8 +274,6 @@ cat_race %>%
 
 The binary-match variable indicates whether the pair is the same-race pair (coded as "1") or mixed-race pair (coded as "0"). Because the race variable is a between-dyad variable, all the pairs have a value of "1" in this example. 
 
-
-
 # Results and Interpretation
 
 ## Regression Analysis: Gender
@@ -285,10 +283,18 @@ The multi-match variable indicates whether the race of the two people in the sam
 
 The regression model with multi-match race variable as a  predictor can be conducted  as such:
 
-```{r echo = FALSE, eval = knitr::is_html_output()}
+```{r echo = FALSE}
 
- lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch,
-    data = cat_race) %>%
+discord_cat_mean <- lm( S00_H40_mean ~ RACE_multimatch,
+    data = cat_race) 
+
+discord_cat_diff <- lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch,
+    data = cat_race) 
+```
+
+
+```{r echo = FALSE, eval = knitr::is_html_output()}
+discord_cat_diff %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
          across(.cols = where(is.numeric), ~round(.x, 3))) %>%
@@ -315,9 +321,6 @@ We can include both sex and race as predictors as well.
 First, we restructure the data for the kinship-discordant regression using the 'discord_data()' function.
 
 ```{r}
-
-
-
 cat_both <- discord_data(
             data = df_link,
             outcome = "S00_H40",
@@ -335,6 +338,15 @@ cat_both <- discord_data(
 
  We can perform a regression using the binary-match sex variable and multi-match race variable as such:
  
+```{r}
+
+discord_cat_mean <- lm( S00_H40_mean ~ RACE_multimatch + SEX_binarymatch,
+    data = cat_both) 
+
+discord_cat_diff <- lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch + SEX_binarymatch,
+    data = cat_both) 
+ 
+``` 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
  
  lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch + SEX_binarymatch,
@@ -362,12 +374,20 @@ The RACE_multi match was significant predictor (p = .004). This means that there
 
 
 We can perform a regression analysis using multi-match sex and race variables as well:
+```{r}
+
+discord_cat_mean <- lm( S00_H40_mean ~ RACE_multimatch + SEX_multimatch,
+    data = cat_both) 
+
+discord_cat_diff <- lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch + SEX_multimatch,
+    data = cat_both) 
+ 
+``` 
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
 
 
- lm(S00_H40_diff ~  S00_H40_mean + RACE_multimatch + SEX_multimatch,
-    data = cat_both) %>%
+discord_cat_diff %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
          across(.cols = where(is.numeric), ~round(.x, 3))) %>%
