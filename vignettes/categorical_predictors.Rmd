@@ -150,9 +150,13 @@ cat_sex %>%
 
 
 
-Considering the DV (the difference score of outcome variable in the pair) is a between-dyad variable, we can make the sex variable as a between-dyad variable as well.
+Considering the DV (the difference score of outcome variable in the pair) is a between-dyad variable, we can make the sex variable as a between-dyad variable as well. 
 
 This means that rather than using individual's sex as a predictor in the regressions, using sex-composition of the pair in the regressions can be yield more meaningful results. If we put the individuals sex in the pair as a predictor, that is individual level's predictor while DV is not individual level variable. However, by forcing sex variable to be between-dyad variable (by using gender-composition variable), results can be more interpretable and meaningful. 
+
+So, how to force sex variable to be sex-composition variable? The above table shows all the possible combination of sex composition variable: 1) 00, 2) 01, 3) 10, and 4) 11. However, it is hard to believe that "01" and "10" distinction is meaningful unless there are strong theoretical reasons behind, because the "_S1" and "_S2" was assigned by DV value of the participants. Thus "01" pairs means that the one with higher DV in the pair was "0" and the other one was "1", and "10" pairs means that the one with higher DV in the pair was "1" and the other one was "0". 
+
+Thus, we can utilize the following sex-composition variables. First, we can use sex-composition variable that have three factors: 1) "00",2) "10" and "01", and 3) "11". Or, we can also use sex-composition variable that have two factors: 1) "00" and "11", 2) "01" and "10". The former option can be named as "multi-match" and the latter option can be named as "binary-match". 
 
 
 The 'discord_data()' function automatically generated binary match and multi match for the sex variable. 
@@ -195,7 +199,13 @@ The regression model with the binary match sex variable can be conducted as such
 
 ```
 
-The mean score of SES at 40 was a significant control variable (p <.001). The SEX_binary match was not a significant predictor (p = 0.886). This means that the difference between same-sex pairs and mixed-sex pairs were not significantly predicts the difference score of SES at 40 (DV) in the pair after controlling for the mean score of SEX at 40. There was not significant differences between same-sex pairs and mixed-sex pairs in the DV. 
+The mean score of SES at 40 was a significant control variable (p <.001). The mean score of SES of the pairs at 40 is negatively associated with the difference score of SES between the pairs, controlling for other variable (in this case, the Sex-composition variable). It is estimated that for one unit increase of the mean score of SES at 40, DV (the difference score of SES at 40) is expected to decrease approximately 0.088. 
+
+
+The SEX_binary match was not a significant predictor (p = 0.886) when controlling for the mean score of SES at 40. There was not significant differences between same-sex pairs and mixed-sex pairs in the difference score of SES at 40 (DV). This means that the difference between same-sex pairs and mixed-sex pairs were not significantly predicts the difference score of SES at 40 (DV) in the pair when controlling for the mean score of SEX at 40. 
+
+It is estimated that, compared to the reference group (the mixed-sex pairs), the "1" group (the same-sex pairs) would have approximately 0.107 higher difference score of SES at 40 (DV), when controlling for the mean score of SES at 40. However, this coefficient is not significant, so it is not advisable to interpret the coefficient. 
+
 
 The regression model with the multi match sex variable can be conducted as such:
 
@@ -215,10 +225,17 @@ The regression model with the multi match sex variable can be conducted as such:
 
 ```
 
-The mean score of SES at 40 was a significant control variable (p <.001). There was no significant difference between "00" pairs (the pairs that two people are both 0 ) and "11" pairs (the pairs that two people are both 1) (p = 0.705) to predict the DV. Similarly, there was no significant differences between mixed-sex pairs and "00" pairs (p = 0.916).
+The mean score of SES at 40 was a significant control variable (p <.001). The mean score of SES of the pairs at 40 is negatively associated with the difference score of SES between the pairs, controlling for other variable (in this case, the Sex-composition variables). It is estimated that for one unit increase of the mean score of SES at 40, DV (the difference score of SES at 40) is expected to decrease approximately 0.087. 
 
 
-## Between-dyad variable: Race
+There was no significant difference between "00" pairs (the pairs that two people's sex are both 0 ) and "11" pairs (the pairs that two people's sex are both 1) (p = 0.705) to predict the DV. Similarly, there was no significant differences between mixed-sex pairs and "00" pairs (p = 0.916).
+
+The coefficient 0.399 is the difference between the expected DV (the difference score of SES at 40) for the reference group (in this case, the "00" pairs) and the "11" pairs. 
+The coefficient 0.097 is the difference between the expected DV (the difference score of SES at 40) for the reference group (in this case, the "00" pairs) and the mixed-sex pairs. However, these coefficients were not significant, so it is not advisable to interpret the coefficients. 
+
+
+
+## Between-dyad variable: Race as an Example
 
 The categorical predictor is a between-dyad variable when the two people in the same dyad share the same score (or same response). For example, the length of the marriage is a between-dyad variable if the study consists of married-couple samples. Race can be a between-dyad variable if the study consists of same-race sibling pairs.  
 
@@ -279,7 +296,10 @@ The regression model with multi-match race variable as a  predictor can be condu
 
 ```
 
-The mean score of SES at 40 was significant control variable (p < .001). The RACE_multimatch variable was significant predictor of DV (the difference score of SES at 40; p = .004) after controlling for the mean score of SES at 40. This means that the difference between the "00" pairs and "11" pairs significantly predicts the DV. 
+The mean score of SES at 40 was significant control variable (p < .001). The mean score of SES of the pairs at 40 is negatively associated with the difference score of SES between the pairs, controlling for other variable (in this case, the Sex-composition variable). It is estimated that for one unit increase of the mean score of SES at 40, DV (the difference score of SES at 40) is expected to decrease approximately 0.074.
+
+
+The RACE_multimatch variable was significant predictor of DV (the difference score of SES at 40; p = .004) after controlling for the mean score of SES at 40. This means that the difference between the "00" pairs and "11" pairs significantly predicts the DV. Specifically, compared to the reference group (the "00"pairs), "11" pairs are expected to have have approximately 2.22 higher difference score of SES at 40 (DV).  
 
 ## When we have two categorical predictors
 
@@ -324,7 +344,12 @@ cat_both <- discord_data(
 
 ```
 
-The mean score of SES at 40 were significant control variable (p <.001 ). Although SEX_binary was not significant predictor ( p = .938), the RACE_multi match was significant predictor (p = .004). This means that there is a significant difference between "00" race pairs and "11" race pairs in the DV when controlling for model covariates. 
+
+The mean score of SES at 40 was a significant control variable (p <.001). The mean score of SES of the pairs at 40 is negatively associated with the difference score of SES between the pairs, controlling for other variable (in this case, the Sex-composition and race-composition variable). It is estimated that for one unit increase of the mean score of SES at 40, DV (the difference score of SES at 40) is expected to decrease approximately 0.074. 
+
+The SEX_binary match was not a significant predictor (p = 0.938) when controlling for other variable (i.e., the mean score of SES at 40 and the race-composition variable). This means that the difference between same-sex pairs and mixed-sex pairs were not significantly predicts the difference score of SES at 40 (DV) in the pair when controlling for the mean score of SEX at 40. Compared to the reference group (mixed-sex pairs), it is estimated that the the same-sex pairs to have approximately 0.058 higher difference score of SES at 40 (DV), when controlling for the mean score of SES at 40 and race. However, this variable was not significant, so it is not advisable to interpret the coefficient. 
+
+The RACE_multi match was significant predictor (p = .004). This means that there is a significant difference between "00" race pairs and "11" race pairs in the DV when controlling for the model covariates (i.e., Sex composition variable and the mean score of SES at 40). Specifically, compared to the reference group ("00" race pair), "11" race pairs were expected to have approximately 2.22 higher difference score of SES at 40 (DV). 
 
 
 
@@ -348,7 +373,12 @@ We can perform a regression analysis using multi-match sex and race variables as
 
 ```
 
-The mean score of SES at 40 were significant control variable (p <.001). Although SEX variables were not significant predictors (ps > .05), the RACE_multi match was a significant predictor (p = .004). This means that there is a significant difference between "00" race pairs and "11" race pairs to predict the DV when controlling for model covariates. 
+
+The mean score of SES at 40 was a significant control variable (p <.001). The mean score of SES of the pairs at 40 is negatively associated with the difference score of SES between the pairs, controlling for other variable (in this case, the Sex-composition and race-composition variable). It is estimated that for one unit increase of the mean score of SES at 40, DV (the difference score of SES at 40) is expected to decrease approximately 0.074. 
+
+The SEX-composition variables were not significant predictors (ps > .05) when controlling for other variable (i.e., the mean score of SES at 40 and the race-composition variable). The coefficient 0.432 is the difference between the expected DV (the difference score of SES at 40) for the reference group (in this case, the “00” pairs) and the “11” pairs. The coefficient 0.163 is the difference between the expected DV (the difference score of SES at 40) for the reference group (in this case, the “00” pairs) and the mixed-sex pairs. However, these coefficients were not significant, so it is not advisable to interpret the coefficients.
+ 
+The RACE_multi match was a significant predictor (p = .004) when controlling for other variables (i.e., the mean score of SES at 40 and the sex-composition variables). This means that there is a significant difference between "00" race pairs and "11" race pairs in the difference score of SES at 40 (DV) when controlling for the model covariates (i.e., Sex composition variables and the mean score of SES at 40). Specifically, compared to the reference group ("00" race pair), the "11" race pairs were expected to have approximately 2.226 higher difference score of SES at 40 (DV). 
 
 
 # Conclusion
