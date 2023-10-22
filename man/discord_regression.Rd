@@ -8,12 +8,13 @@ discord_regression(
   data,
   outcome,
   predictors,
+  demographics = NULL,
   id = NULL,
   sex = "sex",
   race = "race",
   pair_identifiers = c("_s1", "_s2"),
   data_processed = FALSE,
-  added_coding = "none"
+  coding_method = "none"
 )
 }
 \arguments{
@@ -24,6 +25,10 @@ interest.}
 
 \item{predictors}{A character vector containing the column names for
 predicting the outcome.}
+
+\item{demographics}{Indicator variable for if the data has the sex and race
+demographics. If both are present (default, and recommended), value should
+be "both". Other options include "sex", "race", or "none".}
 
 \item{id}{Default's to NULL. If supplied, must specify the column name
 corresponding to unique kinship pair identifiers.}
@@ -37,7 +42,7 @@ variable identifier for each kinship pair}
 
 \item{data_processed}{Logical operator if data are already preprocessed by discord_data , default is FALSE}
 
-\item{added_coding}{A character string that indicates what kind of
+\item{coding_method}{A character string that indicates what kind of
 additional coding schemes should be used. Default is none. Other options include "binary" and "multi".}
 }
 \value{

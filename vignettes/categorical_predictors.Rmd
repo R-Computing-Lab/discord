@@ -73,7 +73,16 @@ df_link <- CreatePairLinksSingleEntered(outcomeDataset = data_flu_ses,
 # We removed the pair when the Dependent Variable is missing. 
 
 df_link <- df_link %>%
-           filter(!is.na(S00_H40_S1) & !is.na(S00_H40_S2))
+           filter(!is.na(S00_H40_S1) & !is.na(S00_H40_S2)) %>%
+  mutate(SEX_S1 = case_when(SEX_S1 == 0 ~ "MALE", 
+                            SEX_S1 == 1 ~ "FEMALE"),
+         SEX_S2 = case_when(SEX_S2 == 0 ~ "MALE", 
+                            SEX_S2 == 1 ~ "FEMALE"),
+         RACE_S1 = case_when(RACE_S1 == 0 ~ "NONMINORITY", 
+                            RACE_S1 == 1 ~ "MINORITY"),
+         RACE_S2 = case_when(RACE_S2 == 0 ~ "NONMINORITY", 
+                            RACE_S2 == 1 ~ "MINORITY"))
+  
 
 # We only pick one pair per household so we don't violate the independence assumption.
 
@@ -119,7 +128,7 @@ cat_sex <- discord_data(
             demographics = "sex",
             predictors=NULL,
             pair_identifiers = c("_S1","_S2"),
-            added_coding="added_coding")
+            coding_method = "both")
 ```
 
 A random slice of this data looks as follows:
@@ -182,9 +191,15 @@ For example, if research question focuses on the difference between same-sex pai
 The regression model with the binary match sex variable can be conducted as such:
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
-
- lm(S00_H40_diff ~  S00_H40_mean + SEX_binarymatch,
-    data = cat_sex)%>%
+discord_sex_binary <- discord_regression(
+     data = df_link,
+     outcome = "S00_H40",
+     sex= "SEX",
+     race= "RACE",
+     demographics = "sex",
+     predictors=NULL,
+     pair_identifiers = c("_S1","_S2"),
+     coding_method ="binary") %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
          across(.cols = where(is.numeric), ~round(.x, 3))) %>%
@@ -255,7 +270,7 @@ cat_race <- discord_data(
             race= "RACE",
             demographics = "race",
             pair_identifiers = c("_S1","_S2"),
-            added_coding="added_coding") %>%
+            coding_method= "both") %>%
 # forcing race to be a between-dyad variable for the demonstration purpose
             filter(RACE_1==RACE_2)
 
@@ -329,7 +344,7 @@ cat_both <- discord_data(
             race= "RACE",
             demographics = "both",
             pair_identifiers = c("_S1","_S2"),
-            added_coding="added_coding") %>%
+            coding_method="both") %>%
 # forcing race to be between-dyad variable for demonstration purpose
             filter(RACE_1==RACE_2)
 

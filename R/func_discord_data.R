@@ -14,7 +14,7 @@
 #' @param demographics Indicator variable for if the data has the sex and race
 #'   demographics. If both are present (default, and recommended), value should
 #'   be "both". Other options include "sex", "race", or "none".
-#' @param added_coding A character string that indicates what kind of
+#' @param coding_method A character string that indicates what kind of
 #'   additional coding schemes should be used. Default is none. Other options include "binary" and "multi".
 #' @return A data frame that contains analyzable, paired data for performing
 #'   kinship regressions.
@@ -41,7 +41,7 @@ discord_data <- function(data,
                          race = "race",
                          pair_identifiers,
                          demographics = "both",
-                         added_coding = "none") {
+                         coding_method = "none") {
   # combine outcome and predictors for manipulating the data
   variables <- c(outcome, predictors)
 
@@ -74,7 +74,7 @@ discord_data <- function(data,
       pair_identifiers = pair_identifiers,
       demographics = demographics,
       variable = variables[i],
-      added_coding = added_coding
+      coding_method = coding_method
     ))
   }
 
