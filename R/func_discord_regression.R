@@ -20,14 +20,18 @@
 discord_regression <- function(data,
                                outcome,
                                predictors,
+                               demographics = NULL,
                                id = NULL,
                                sex = "sex",
                                race = "race",
                                pair_identifiers = c("_s1", "_s2"),
                                data_processed = FALSE,
-                               added_coding = "none") {
+                               added_coding = "none"
+                               ) {
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
+  # if no demographics provided
+  if (is.null(demographics)){
   if (is.null(sex) & is.null(race)) {
     demographics <- "none"
   } else if (is.null(sex) & !is.null(race)) {
@@ -37,6 +41,8 @@ discord_regression <- function(data,
   } else if (!is.null(sex) & !is.null(race)) {
     demographics <- "both"
   }
+  }
+  # if data already processe
   if (!data_processed) {
     preppedData <- discord_data(
       data = data,
@@ -55,10 +61,15 @@ discord_regression <- function(data,
   # Run the discord regression
   realOutcome <- base::paste0(outcome, "_diff")
   predOutcome <- base::paste0(outcome, "_mean")
+
+  # predictors provided
+  if (!is.null(predictors)){
   pred_diff <- base::paste0(predictors, "_diff", collapse = " + ")
   pred_mean <- base::paste0(predictors, "_mean", collapse = " + ")
-
-
+  } else {
+  pred_diff <- NULL
+  pred_mean <- NULL
+  }
   if (demographics == "none") {
     preds <- base::paste0(predOutcome, " + ", pred_diff, " + ", pred_mean)
   } else if (demographics == "race") {
