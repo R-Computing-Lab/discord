@@ -82,7 +82,12 @@ df_link <- df_link %>%
                             RACE_S1 == 1 ~ "MINORITY"),
          RACE_S2 = case_when(RACE_S2 == 0 ~ "NONMINORITY", 
                             RACE_S2 == 1 ~ "MINORITY"))
-  
+
+# we only include same-race pairs in this example for demonstration purpose
+df_link <- df_link %>%
+  dplyr::filter(RACE_S1==RACE_S2)
+
+```
 
 # We only pick one pair per household to avoid the independence assumption violation.
 
@@ -199,11 +204,11 @@ For demonstration purposes, we force the race variable to be a between-dyad vari
 
 By using the `discord_data()` function, we can prepare data for the analysis as follows:
 
+
 ```{r}
 
-# for reproducibility 
 
-set.seed(2023)
+set.seed(2023) # for reproducibility 
 
 cat_race <- discord_data(
             data = df_link,
@@ -213,9 +218,7 @@ cat_race <- discord_data(
             race= "RACE",
             demographics = "race",
             pair_identifiers = c("_S1","_S2"),
-            coding_method= "both") %>%
-# forcing race to be a between-dyads variable for demonstration
-            filter(RACE_1==RACE_2)
+            coding_method= "both") 
 
 ```
 
@@ -238,6 +241,7 @@ cat_race %>%
 
 The `RACE_binarymatch` variable indicates whether the pair is the same-race pair or mixed-race pair. Because the race variable is a between-dyads variable, all the pairs in this example are same-race pairs. The `RACE_multimatch` variable indicates whether the pair is minority-minority, nonminority-nonminority, or mixed-race.
 
+
  By using the `discord_data()` function, users can prepare data that contains both race- and sex-composition variables.
  
 ```{r}
@@ -254,9 +258,7 @@ cat_both <- discord_data(
             race= "RACE",
             demographics = "both",
             pair_identifiers = c("_S1","_S2"),
-            coding_method= "both") %>%
-# forcing race to be a between-dyads variable for demonstration
-            filter(RACE_1==RACE_2)
+            coding_method= "both") 
 
 ```
 
@@ -283,9 +285,10 @@ cat_both %>%
 ## Regression Analysis: Gender
 
 ### SEX binary match
+
 The regression model with the binary-match sex variable can be conducted as such:
 
-```{r echo = FALSE, eval = knitr::is_html_output()}
+```{r }
 discord_sex_binary <- discord_regression(
      data = df_link,
      outcome = "S00_H40",
@@ -295,7 +298,9 @@ discord_sex_binary <- discord_regression(
      predictors=NULL,
      pair_identifiers = c("_S1","_S2"),
      coding_method ="binary") 
+```
 
+```{r, echo = FALSE, eval = knitr::is_html_output()}
 discord_sex_binary%>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
@@ -308,6 +313,7 @@ discord_sex_binary%>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 
 ```
+
 Looking at the results, the mean SES score for the siblings (`S00_H40_diff`) is a significant control variable (p =`r round(summary(discord_sex_binary)[["coefficients"]]["S00_H40_mean", "Pr(>|t|)"],3)`).  `S00_H40_mean` is negatively associated with the difference in SES score between siblings at age 40, `S00_H40_diff`, controlling for another variable (in this case, `SEX_binarymatch`). It is estimated that for one unit increase of `S00_H40_mean`,
 `S00_H40_diff`is expected to decrease approximately `r round(discord_sex_binary[["coefficients"]][["S00_H40_mean"]],3)`.
 
@@ -321,7 +327,7 @@ It is estimated that, compared to the reference group (the mixed-sex pairs), the
 
 The regression model with the multi-match sex variable can be conducted as such:
 
-```{r echo = FALSE, eval = knitr::is_html_output()}
+```{r }
 discord_sex_multi <- discord_regression(
      data = df_link,
      outcome = "S00_H40",
@@ -331,6 +337,9 @@ discord_sex_multi <- discord_regression(
      predictors=NULL,
      pair_identifiers = c("_S1","_S2"),
      coding_method ="multi")
+```
+
+```{r, echo = FALSE, eval = knitr::is_html_output()}
 
 discord_sex_multi%>%
   broom::tidy() %>%
@@ -362,10 +371,12 @@ The coefficient `r abs(round(discord_sex_multi[["coefficients"]][["SEX_multimatc
 if users are interested in predicting the mean SES score for the sibling pairs
 with predictors, regression analyses can be carried out as such::
 
-```{r echo = FALSE, eval = knitr::is_html_output()}
+```{r}
 
 discord_cat_mean <- lm(S00_H40_mean ~ SEX_binarymatch,
     data = cat_sex)
+```
+```{r, echo = FALSE, eval = knitr::is_html_output()}
 
 discord_cat_mean %>%
 # for nicer regression output   
@@ -387,11 +398,14 @@ There is no significant difference between same-sex pairs and mixed-sex pairs in
 
 It is estimated that compared to the mixed-sex pairs, the same-sex pairs would have approximately `r abs(round(discord_cat_mean[["coefficients"]][["SEX_binarymatchsame-sex"]],3))` higher `S00_H40_mean`. However, this coefficient is not significant, so it is not advisable to interpret the coefficient. 
 
-```{r echo = FALSE, eval = knitr::is_html_output()}
+```{r}
 
 
 discord_cat_mean2 <- lm( S00_H40_mean ~ SEX_multimatch,
     data = cat_sex) 
+
+```
+```{r echo = FALSE, eval = knitr::is_html_output()}
 
 discord_cat_mean2%>%
 # for nicer regression output   
@@ -423,16 +437,12 @@ The regression model with a multi-match race variable as a  predictor can be con
 
 ### RACE multi match 
 
-```{r echo = FALSE, eval = knitr::is_html_output()}
 
-# we only include same-race pairs in this example for demonstration purpose
 
-df_link2 <- df_link %>%
-  dplyr::filter(RACE_S1==RACE_S2)
-
+```{r}
 # perform kinship regressions 
 cat_race_reg <-  discord_regression(
-     data = df_link2,
+     data = df_link,
      outcome = "S00_H40",
      sex= "SEX",
      race= "RACE",
@@ -440,6 +450,10 @@ cat_race_reg <-  discord_regression(
      predictors=NULL,
      pair_identifiers = c("_S1","_S2"),
      coding_method ="multi") 
+```
+
+
+```{r echo = FALSE, eval = knitr::is_html_output()}
 
 cat_race_reg%>%
 # for nicer regression output   
@@ -463,10 +477,13 @@ The term `RACE_multimatchNONMINORITY` was a significant predictor of `S00_H40_di
 
 
 ### Mean model 
-```{r echo = FALSE, eval = knitr::is_html_output()}
 
+```{r}
 discord_cat_mean <- lm(S00_H40_mean ~ RACE_multimatch,
     data = cat_race)
+
+```
+```{r echo = FALSE, eval = knitr::is_html_output()}
 
 discord_cat_mean%>%
 # for nicer regression output   
@@ -481,6 +498,7 @@ discord_cat_mean%>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 
 ``` 
+
 There is significant difference between "minority" pairs and "nonminority" pairs in `S00_H40_mean` (p =`r round(summary(discord_cat_mean)[["coefficients"]]["RACE_multimatchNONMINORITY","Pr(>|t|)"],3)`). 
 It is estimated that, compared to the reference group (minority pairs), the nonminority pairs would have approximately 
 `r abs(round(discord_cat_mean[["coefficients"]][["RACE_multimatchNONMINORITY"]],3))` lower `S00_H40_mean`.  
@@ -493,11 +511,10 @@ We can include both sex and race as predictors as well.
 First, we restructure the data for the kinship-discordant regression using the `discord_data()` function.
 
 ### Sex and Race (Multi-match)
-```{r echo = FALSE, eval = knitr::is_html_output()}
 
-
- both_multi<-discord_regression(
-     data = df_link2,
+```{r}
+ both_multi <-discord_regression(
+     data = df_link,
      outcome = "S00_H40",
      sex= "SEX",
      race= "RACE",
@@ -505,6 +522,8 @@ First, we restructure the data for the kinship-discordant regression using the `
      predictors=NULL,
      pair_identifiers = c("_S1","_S2"),
      coding_method ="multi")
+```
+```{r echo = FALSE, eval = knitr::is_html_output()}
 
 both_multi%>%
 # for nicer regression output   
@@ -518,6 +537,7 @@ both_multi%>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
+
 The mean SES score for the siblings (`S00_H40_mean`) is a significant control variable (p = `r round(summary(both_multi)[["coefficients"]]["S00_H40_mean","Pr(>|t|)"],3)` ). `S00_H40_mean` is negatively associated with the difference score of SES between the siblings (`S00_H40_diff`), controlling for other variables (in this case, the `SEX_multimatchMALE`, `SEX_multimatchmixed` and `RACE_multimatchNONMINORITY`). It is estimated that for one unit increase of the mean SES score for the sibling pairs( `S00_H40_mean`), the difference score of SES between siblings(`S00_H40_diff`) is expected to decrease approximately `r round(both_multi[["coefficients"]][["S00_H40_mean"]],3)`.
 
 The `SEX_multimatchmixed` and `SEX_multimatchMALE` are not significant predictors when controlling for other variables (i.e., `S00_H40_mean` and `RACE_multimatchNONMINORITY`). The coefficient `r round(both_multi[["coefficients"]][["SEX_multimatchMALE"]],3)` is the difference between the expected DV (`S00_H40_diff`) for the reference group (in this case, the "female-female" pairs) and the "male-male" pairs. The coefficient `r round(both_multi[["coefficients"]][["SEX_multimatchmixed"]],3)` is the difference between the expected DV (`S00_H40_diff`) for the female-female pairs and the mixed-sex pairs. However, these coefficients are not significant, so it is not advisable to interpret the coefficients.
@@ -532,10 +552,13 @@ Thus, if user wants to use the binarymatch sex variable and multimatch variable,
 
  We can perform regression using the binary-match sex variable and multi-match race variable as such:
  
-```{r echo = FALSE, eval = knitr::is_html_output()}
+```{r}
 
 discord_cat_diff <- lm( S00_H40_diff ~ S00_H40_mean + RACE_multimatch + SEX_binarymatch,
     data = cat_both)  
+
+```
+```{r echo = FALSE, eval = knitr::is_html_output()}
 # for nicer regression output   
   
 discord_cat_diff %>%
@@ -565,11 +588,13 @@ The term `RACE_multimatchNONMINORITY`is a significant predictor (p = `r round(su
 
 The mean SES score for the sibling pairs can be regressed on SEX-composition and race-composition variables as follows:
 
-```{r echo = FALSE, eval = knitr::is_html_output()}
+```{r}
 
 discord_cat_mean <- lm( S00_H40_mean ~ RACE_multimatch + SEX_multimatch,
     data = cat_both) 
 
+```
+```{r echo = FALSE, eval = knitr::is_html_output()}
 discord_cat_mean%>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
@@ -596,11 +621,13 @@ The term `SEX_multimatchmixed` was not a significant predictor (p = `r round(sum
 The term `RACE_multimatchNONMINORITY` is a significant predictor (p = `r round(summary(discord_cat_mean)[["coefficients"]]["RACE_multimatchNONMINORITY","Pr(>|t|)"],3)`). This means that there is a significant difference between minority race pairs and nonminority race pairs in the mean SES score for the sibling pairs (`S00_H40_mean`) when controlling for the other variables (i.e., `SEX_multimatchmixed` and `SEX_multimatchMALE`). Specifically, compared to the minority race pairs, nonminority race pairs were expected to have approximately `r abs(round(discord_cat_mean[["coefficients"]][["RACE_multimatchNONMINORITY"]],3))` higher mean SES score for siblings 
 
 
-```{r echo = FALSE, eval = knitr::is_html_output()}
+```{r}
 
 discord_cat_mean2 <- lm( S00_H40_mean ~ RACE_multimatch + SEX_binarymatch,
     data = cat_both)  
+```
 
+```{r echo = FALSE, eval = knitr::is_html_output()}
 discord_cat_mean2 %>%
   broom::tidy() %>%
   mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
