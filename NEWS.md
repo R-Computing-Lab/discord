@@ -1,4 +1,4 @@
-# discord 1.2.0
+# discord 1.2.1
 
 * Enhanced categorical variable handling
 
