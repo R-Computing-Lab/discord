@@ -51,7 +51,7 @@ check_sibling_order <- function(data, outcome, pair_identifiers, row) {
 #'
 make_mean_diffs <- function(data, id, sex, race, demographics,
                             variable, pair_identifiers, row,
-                            added_coding = "none") {
+                            coding_method = "none") {
   S1 <- base::paste0(variable, pair_identifiers[1])
   S2 <- base::paste0(variable, pair_identifiers[2])
   sexS1 <- base::paste0(sex, pair_identifiers[1])
@@ -147,7 +147,7 @@ make_mean_diffs <- function(data, id, sex, race, demographics,
 
     names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
   }
-  if (added_coding == "added_coding") {
+  if (coding_method != "none") {
     # New logic to handle race and sex as categorical variables
     if (demographics == "both" || demographics == "race") {
       race_1_name <- paste0(race, "_1")
