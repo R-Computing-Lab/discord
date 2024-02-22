@@ -54,7 +54,6 @@ citation(package = "discord")
 
 
 ## Contributing
-
 Contributions to the `discord` project are welcome. For guidelines on how to contribute, please refer to the [Contributing Guidelines](https://github.com/R-Computing-Lab/discord/blob/main/CONTRIBUTING.md). Issues and pull requests should be submitted on the GitHub repository. For support, please use the GitHub issues page.
 
 ## License
