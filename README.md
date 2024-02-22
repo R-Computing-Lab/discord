@@ -40,11 +40,37 @@ discord from [GitHub](https://github.com/) with:
 devtools::install_github('R-Computing-Lab/discord')
 ```
 
+## Citation
+
+If you use `discord` in your research or wish to refer to it, please
+cite the following paper:
+
+``` r
+citation(package = "discord")
+To cite package 'discord' in publications use:
+
+  Garrison S, Trattner J (2021). _discord: Functions for Discordant
+  Kinship Modeling_. R package version 1.1.0,
+  <https://CRAN.R-project.org/package=discord>.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {discord: Functions for Discordant Kinship Modeling},
+    author = {S. Mason Garrison and Jonathan Trattner},
+    year = {2021},
+    note = {R package version 1.1.0},
+    url = {https://CRAN.R-project.org/package=discord},
+  }
+```
+
 ## Contributing
 
-Contributions to the discord project are welcome. Please submit issues
-and pull requests on the GitHub repository. For support, please use the
-GitHub issues page.
+Contributions to the `discord` project are welcome. For guidelines on
+how to contribute, please refer to the [Contributing
+Guidelines](https://github.com/R-Computing-Lab/discord/blob/main/CONTRIBUTING.md).
+Issues and pull requests should be submitted on the GitHub repository.
+For support, please use the GitHub issues page.
 
 ## License
 

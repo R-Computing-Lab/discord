@@ -45,8 +45,17 @@ You can also install/update discord with the development version of discord from
 devtools::install_github('R-Computing-Lab/discord')
 ```
 
+## Citation
+If you use `discord` in your research or wish to refer to it, please cite the following paper:
+
+```{r eval=TRUE, comment=NA}
+citation(package = "discord")
+```
+
+
 ## Contributing
-Contributions to the discord project are welcome. Please submit issues and pull requests on the GitHub repository. For support, please use the GitHub issues page.
+
+Contributions to the `discord` project are welcome. For guidelines on how to contribute, please refer to the [Contributing Guidelines](https://github.com/R-Computing-Lab/discord/blob/main/CONTRIBUTING.md). Issues and pull requests should be submitted on the GitHub repository. For support, please use the GitHub issues page.
 
 ## License
 `discord`  is licensed under the GNU General Public License v3.0. For more details, see the [LICENSE.md](https://github.com/R-Computing-Lab/discord/blob/main/LICENSE.md) file.
