@@ -23,7 +23,7 @@ rmvn <- function(n, sigma) {
 #' @param npergroup List of sample sizes by group; default repeats \code{npg} for all groups.
 #' @param mu Mean for generated variable; default is 0.
 #' @param ace Vector of variance components, ordered by c(a, c, e); default is c(1,1,1).
-#' @param r_vector Alternative, give vector of relatedness coefficients for entire sample.
+#' @param rVector Alternative, give vector of relatedness coefficients for entire sample.
 #' @param ... Optional pass on additional inputs.
 
 #' @return Returns \code{data.frame} with the following:
@@ -45,7 +45,7 @@ kinsim_internal <- function(
     npergroup = rep(npg, length(r)),
     mu = 0,
     ace = c(1, 1, 1),
-    r_vector = NULL,
+    rVector = NULL,
     ...) {
   sA <- ace[1]^0.5
   sC <- ace[2]^0.5
@@ -55,25 +55,25 @@ kinsim_internal <- function(
     0, 1,
     1, 0
   ), 2)
-  datalist <- list()
+  dataList <- list()
 
-  if (is.null(r_vector)) {
+  if (is.null(rVector)) {
     id <- 1:sum(npergroup)
 
-    for (i in 1:length(r)) {
+    for (i in seq_along(r)) {
       n <- npergroup[i]
 
-      A.r <- sA * rmvn(n,
+      aR <- sA * rmvn(n,
         sigma = diag(2) + S2 * r[i]
       )
-      C.r <- stats::rnorm(n,
+      cR <- stats::rnorm(n,
         sd = sC
       )
-      C.r <- cbind(
-        C.r,
-        C.r
+      cR <- cbind(
+        cR,
+        cR
       )
-      E.r <- cbind(
+      eR <- cbind(
         stats::rnorm(n,
           sd = sE
         ),
@@ -82,40 +82,40 @@ kinsim_internal <- function(
         )
       )
 
-      y.r <- mu + A.r + C.r + E.r
+      yR <- mu + aR + cR + eR
 
 
       r_ <- rep(r[i], n)
 
-      data.r <- data.frame(A.r, C.r, E.r, y.r, r_)
-      names(data.r) <- c("A1", "A2", "C1", "C2", "E1", "E2", "y1", "y2", "r")
-      datalist[[i]] <- data.r
-      names(datalist)[i] <- paste0("datar", r[i])
+      dataR <- data.frame(aR, cR, eR, yR, r_)
+      names(dataR) <- c("A1", "A2", "C1", "C2", "E1", "E2", "y1", "y2", "r")
+      dataList[[i]] <- dataR
+      names(dataList)[i] <- paste0("datar", r[i])
     }
-    merged.data.frame <- Reduce(function(...) merge(..., all = T), datalist)
-    merged.data.frame$id <- id
+    mergedDF <- Reduce(function(...) merge(..., all = T), dataList)
+    mergedDF$id <- id
   } else {
-    id <- 1:length(r_vector)
-    data_vector <- data.frame(id, r_vector)
-    data_vector$A.r1 <- as.numeric(NA)
-    data_vector$A.r2 <- as.numeric(NA)
-    unique_r <- matrix(unique(r_vector))
-    for (i in 1:length(unique_r)) {
-      n <- length(r_vector[r_vector == unique_r[i]])
-      A.rz <- sA * rmvn(n,
-        sigma = diag(2) + S2 * unique_r[i]
+    id <- seq_along(rVector)
+    dataVector <- data.frame(id, rVector)
+    dataVector$aR1 <- as.numeric(NA)
+    dataVector$aR2 <- as.numeric(NA)
+    uniqueR <- matrix(unique(rVector))
+    for (i in seq_along(uniqueR)) {
+      n <- length(rVector[rVector == uniqueR[i]])
+      aRz <- sA * rmvn(n,
+        sigma = diag(2) + S2 * uniqueR[i]
       )
-      data_vector$A.r1[data_vector$r_vector == unique_r[i]] <- A.rz[, 1]
-      data_vector$A.r2[data_vector$r_vector == unique_r[i]] <- A.rz[, 2]
+      dataVector$aR1[dataVector$rVector == uniqueR[i]] <- aRz[, 1]
+      dataVector$aR2[dataVector$rVector == uniqueR[i]] <- aRz[, 2]
     }
-    n <- length(r_vector)
-    A.r <- matrix(c(
-      data_vector$A.r1,
-      data_vector$A.r2
+    n <- length(rVector)
+    aR <- matrix(c(
+      dataVector$aR1,
+      dataVector$aR2
     ), ncol = 2)
-    C.r <- stats::rnorm(n, sd = sC)
-    C.r <- cbind(C.r, C.r)
-    E.r <- cbind(
+    cR <- stats::rnorm(n, sd = sC)
+    cR <- cbind(cR, cR)
+    eR <- cbind(
       stats::rnorm(n,
         sd = sE
       ),
@@ -124,15 +124,15 @@ kinsim_internal <- function(
       )
     )
 
-    y.r <- mu + A.r + C.r + E.r
+    yR <- mu + aR + cR + eR
 
-    data.r <- data.frame(id, A.r, C.r, E.r, y.r, r_vector)
-    names(data.r) <- c("id", "A1", "A2", "C1", "C2", "E1", "E2", "y1", "y2", "r")
-    datalist[[i]] <- data.r
-    names(datalist)[i] <- paste0("datar", r[i])
+    dataR <- data.frame(id, aR, cR, eR, yR, rVector)
+    names(dataR) <- c("id", "A1", "A2", "C1", "C2", "E1", "E2", "y1", "y2", "r")
+    dataList[[i]] <- dataR
+    names(dataList)[i] <- paste0("datar", r[i])
 
-    merged.data.frame <- data.r
+    mergedDF <- dataR
   }
 
-  return(merged.data.frame)
+  return(mergedDF)
 }

@@ -5,23 +5,23 @@
 \title{Simulate Biometrically informed Multivariate Data}
 \usage{
 kinsim(
-  r_all = c(1, 0.5),
+  rTotall = c(1, 0.5),
   npg_all = 500,
-  npergroup_all = rep(npg_all, length(r_all)),
+  npergroup_all = rep(npg_all, length(rTotall)),
   mu_all = 0,
   variables = 2,
-  mu_list = rep(mu_all, variables),
-  r_vector = NULL,
+  muList = rep(mu_all, variables),
+  rVector = NULL,
   ace_all = c(1, 1, 1),
-  ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
-  cov_a = 0,
+  aceList = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
+  covA = 0,
   cov_c = 0,
-  cov_e = 0,
+  covE = 0,
   ...
 )
 }
 \arguments{
-\item{r_all}{Levels of relatedness; default is MZ and DZ twins c(1,.5).}
+\item{rTotall}{Levels of relatedness; default is MZ and DZ twins c(1,.5).}
 
 \item{npg_all}{Sample size per group; default is 500.}
 
@@ -31,19 +31,19 @@ kinsim(
 
 \item{variables}{Number of variables to generate; default is 2. Currently, limited to max of two variables.}
 
-\item{mu_list}{List of means by variable; default repeats \code{mu_all} for all variables}
+\item{muList}{List of means by variable; default repeats \code{mu_all} for all variables}
 
-\item{r_vector}{Alternative, give vector of r coefficients for entire sample.}
+\item{rVector}{Alternative, give vector of r coefficients for entire sample.}
 
 \item{ace_all}{Vector of variance components for each generated variable; default is c(1,1,1).}
 
-\item{ace_list}{Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.}
+\item{aceList}{Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.}
 
-\item{cov_a}{Shared variance for additive genetics (a); default is 0.}
+\item{covA}{Shared variance for additive genetics (a); default is 0.}
 
 \item{cov_c}{Shared variance for shared-environment (c); default is 0.}
 
-\item{cov_e}{shared variance for non-shared-environment (e); default is 0.}
+\item{covE}{shared variance for non-shared-environment (e); default is 0.}
 
 \item{...}{Optional pass on additional inputs.}
 }

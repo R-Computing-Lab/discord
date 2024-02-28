@@ -75,7 +75,7 @@ discord_data_legacy <- function(
     remove(outcome2x)
     remove(outcome2)
 
-    for (i in 1:length(predictors)) {
+    for (i in seq_along(predictors)) {
       predictor1x <- predictor1 <- subset(df, select = paste0(predictors[i], sep, "1"))[, 1]
       predictor2 <- subset(df, select = paste0(predictors[i], sep, "2"))[, 1]
       predictor1 <- c(predictor1[, 1], predictor2[, 1])
@@ -105,7 +105,7 @@ discord_data_legacy <- function(
 
     remove(outcome1)
     remove(outcome2)
-    for (i in 1:length(predictors)) {
+    for (i in seq_along(predictors)) {
       predictor1 <- subset(df, select = paste0(predictors[i], sep, "1"))[, 1]
       predictor2 <- subset(df, select = paste0(predictors[i], sep, "2"))[, 1]
       if (scale & is.numeric(predictor1)) {
@@ -135,20 +135,20 @@ discord_data_legacy <- function(
   DV$id <- NULL
   names(DV) <- c(paste0(arguments$outcome, "_1"), paste0(arguments$outcome, "_2"), paste0(arguments$outcome, "_diff"), paste0(arguments$outcome, "_mean"), "ysort")
 
-  merged.data.frame <- data.frame(id, DV, IVlist)
+  mergedDF <- data.frame(id, DV, IVlist)
 
   id <- ysort <- NULL # appeases R CMD check
 
-  merged.data.frame <- subset(merged.data.frame, ysort == 1)
-  merged.data.frame$ysort <- NULL
-  merged.data.frame <- merged.data.frame[order(merged.data.frame$id), ]
+  mergedDF <- subset(mergedDF, ysort == 1)
+  mergedDF$ysort <- NULL
+  mergedDF <- mergedDF[order(mergedDF$id), ]
   if (!full) {
     varskeep <- c("id", paste0(arguments$outcome, "_diff"), paste0(arguments$outcome, "_mean"), paste0(predictors, "_diff"), paste0(predictors, "_mean"))
 
-    merged.data.frame <- merged.data.frame[varskeep]
+    mergedDF <- mergedDF[varskeep]
   }
 
-  return(merged.data.frame)
+  return(mergedDF)
 }
 
 
