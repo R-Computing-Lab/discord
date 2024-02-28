@@ -5,7 +5,7 @@ Version: 1.2.1
 Date: 2023-09-27
 Authors@R: c(person("S. Mason", "Garrison", email = "garrissm@wfu.edu",
                   role = c("aut", "cre", "cph")),
-             person("Jonathan", "Trattner", email = "code@jdtrat.com",
+             person("Jonathan", "Trattner", email = "code@jdtrat.com", url = "https://www.jdtrat.com/",
                   role = "aut"),
              person("Hwang", "Yoo Ri", email = "yrhwang89@gmail.com",
                   role = "aut"),
@@ -14,7 +14,7 @@ Description: Functions for discordant kinship modeling (and other sibling-based 
 URL: https://github.com/R-Computing-Lab/discord, https://r-computing-lab.github.io/discord/
 License: GPL-3 + file LICENSE
 LazyData: TRUE
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Encoding: UTF-8
 Depends: R (>= 3.50)
 Imports: 

@@ -37,6 +37,14 @@ devtools::install_github("R-Computing-Lab/discord")
 \references{
 Garrison et al. (2019)
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/R-Computing-Lab/discord}
+  \item \url{https://r-computing-lab.github.io/discord/}
+}
+
+}
 \author{
 \href{https://www.smasongarrison.com/}{S. Mason Garrison} (Wake Forest University)
  \href{https://www.jdtrat.com/}{Jonathan Trattner}

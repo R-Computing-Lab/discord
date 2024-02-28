@@ -135,20 +135,20 @@ discord_data_legacy <- function(
   DV$id <- NULL
   names(DV) <- c(paste0(arguments$outcome, "_1"), paste0(arguments$outcome, "_2"), paste0(arguments$outcome, "_diff"), paste0(arguments$outcome, "_mean"), "ysort")
 
-  mergedDF <- data.frame(id, DV, IVlist)
+  merged.data.frame <- data.frame(id, DV, IVlist)
 
   id <- ysort <- NULL # appeases R CMD check
 
-  mergedDF <- subset(mergedDF, ysort == 1)
-  mergedDF$ysort <- NULL
-  mergedDF <- mergedDF[order(mergedDF$id), ]
+  merged.data.frame <- subset(merged.data.frame, ysort == 1)
+  merged.data.frame$ysort <- NULL
+  merged.data.frame <- merged.data.frame[order(merged.data.frame$id), ]
   if (!full) {
     varskeep <- c("id", paste0(arguments$outcome, "_diff"), paste0(arguments$outcome, "_mean"), paste0(predictors, "_diff"), paste0(predictors, "_mean"))
 
-    mergedDF <- mergedDF[varskeep]
+    merged.data.frame <- merged.data.frame[varskeep]
   }
 
-  return(mergedDF)
+  return(merged.data.frame)
 }
 
 

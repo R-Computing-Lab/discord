@@ -5,23 +5,23 @@
 \title{Simulate Biometrically informed Multivariate Data}
 \usage{
 kinsim(
-  rTotall = c(1, 0.5),
+  r_all = c(1, 0.5),
   npg_all = 500,
-  npergroup_all = rep(npg_all, length(rTotall)),
+  npergroup_all = rep(npg_all, length(r_all)),
   mu_all = 0,
   variables = 2,
   muList = rep(mu_all, variables),
   rVector = NULL,
   ace_all = c(1, 1, 1),
-  aceList = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
-  covA = 0,
+  ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
+  cov_a = 0,
   cov_c = 0,
-  covE = 0,
+  cov_e = 0,
   ...
 )
 }
 \arguments{
-\item{rTotall}{Levels of relatedness; default is MZ and DZ twins c(1,.5).}
+\item{r_all}{Levels of relatedness; default is MZ and DZ twins c(1,.5).}
 
 \item{npg_all}{Sample size per group; default is 500.}
 
@@ -37,13 +37,13 @@ kinsim(
 
 \item{ace_all}{Vector of variance components for each generated variable; default is c(1,1,1).}
 
-\item{aceList}{Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.}
+\item{ace_list}{Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.}
 
-\item{covA}{Shared variance for additive genetics (a); default is 0.}
+\item{cov_a}{Shared variance for additive genetics (a); default is 0.}
 
 \item{cov_c}{Shared variance for shared-environment (c); default is 0.}
 
-\item{covE}{shared variance for non-shared-environment (e); default is 0.}
+\item{cov_e}{shared variance for non-shared-environment (e); default is 0.}
 
 \item{...}{Optional pass on additional inputs.}
 }
