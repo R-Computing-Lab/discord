@@ -11,14 +11,14 @@ source(here("data-raw/nls-process-data.R"))
 # Restructure NLSY data with flu information to
 # include a total across years, irrespective of encoded genders.
 nlsy_flu_data <- categories %>%
-  rowwise() %>%
-  mutate(FLU_total = sum(across(starts_with("FLU_")), na.rm = TRUE),
-         FLU_2008 = sum(across(ends_with("2008")), na.rm = TRUE),
-         FLU_2010 = sum(across(ends_with("2010")), na.rm = TRUE),
-         FLU_2012 = sum(across(ends_with("2012")), na.rm = TRUE),
-         FLU_2014 = sum(across(ends_with("2014")), na.rm = TRUE),
-         FLU_2016 = sum(across(ends_with("2016")), na.rm = TRUE)) %>%
-  ungroup() %>%
+  mutate(
+    FLU_total = rowSums(select(., starts_with("FLU_")), na.rm = TRUE),
+    FLU_2008 = rowSums(select(., ends_with("2008")), na.rm = TRUE),
+    FLU_2010 = rowSums(select(., ends_with("2010")), na.rm = TRUE),
+    FLU_2012 = rowSums(select(., ends_with("2012")), na.rm = TRUE),
+    FLU_2014 = rowSums(select(., ends_with("2014")), na.rm = TRUE),
+    FLU_2016 = rowSums(select(., ends_with("2016")), na.rm = TRUE)
+  ) %>%
   # If both encoded genders did not get a flu shot, set the entry in the year total equal to NA
   # This is necessary since we removed NAs from our sum calculation above
   mutate(FLU_2008 = ifelse(is.na(FLU_M_2008) & is.na(FLU_F_2008), NA, FLU_2008),
@@ -44,7 +44,7 @@ data_flu_ses <- inner_join(nlsy_flu_data, demographic_data,
   mutate(RACE = case_when(RACE == "NON-BLACK, NON-HISPANIC" ~ 0,
                           RACE == "HISPANIC" | RACE == "BLACK" ~ 1),
          SEX = case_when(SEX == "FEMALE" ~ 0,
-                         SEX == "MALE" ~ 1))
+                         SEX == "MALE" ~ 1)) %>% select(-"...1")
 
 # note that RACE is actually racial minority (o if non-black,non-hispanic; 1 if black or hispanic
 

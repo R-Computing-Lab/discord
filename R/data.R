@@ -10,10 +10,10 @@
 
 #' Flu Vaccination and SES Data
 #'
-#' A data frame that accompanies the regression vignette. 
+#' A data frame that accompanies the regression vignette.
 #' It contains data on SES and flu vaccination.
 #'
-#' @format A data frame. \describe{Kinship pairs and their relatedness, 
+#' @format A data frame. \describe{Kinship pairs and their relatedness,
 #' SES, and flu vaccination information.}
 #' @source NLSY/R Lab
 "data_flu_ses"
