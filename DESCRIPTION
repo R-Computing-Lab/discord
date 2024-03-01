@@ -5,7 +5,7 @@ Version: 1.2.1
 Date: 2023-09-27
 Authors@R: c(person("S. Mason", "Garrison", email = "garrissm@wfu.edu",
                   role = c("aut", "cre", "cph")),
-             person("Jonathan", "Trattner", email = "code@jdtrat.com", url = "https://www.jdtrat.com/",
+             person("Jonathan", "Trattner", email = "code@jdtrat.com", comment = (url = "https://www.jdtrat.com/"),
                   role = "aut"),
              person("Hwang", "Yoo Ri", email = "yrhwang89@gmail.com",
                   role = "aut"),

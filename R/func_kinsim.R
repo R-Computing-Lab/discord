@@ -67,8 +67,8 @@ kinsim <- function(
     data_v$y1_u <- data_v$y1
     data_v$y2_u <- data_v$y2
 
-    merged.data.frame <- data_v
-    names(merged.data.frame)[c(1, 10)] <- c("id", "r")
+    merged_df <- data_v
+    names(merged_df)[c(1, 10)] <- c("id", "r")
   }
   if (variables > 2) {
     stop("You have tried to generate data beyond the current limitations of this program. Maximum variables 2.")
@@ -150,10 +150,10 @@ kinsim <- function(
       datalist[[i]] <- data.r
       names(datalist)[i] <- paste0("datar", r_all[i])
     }
-    merged.data.frame <- Reduce(function(...) merge(..., all = T), datalist)
-    merged.data.frame$id <- id
+    merged_df <- Reduce(function(...) merge(..., all = T), datalist)
+    merged_df$id <- id
   } else {
-    id <- seq_along(rVector)
+    id <- seq_along(r_vector)
         data_vector <- data.frame(
       id,
       r_vector,
@@ -198,7 +198,7 @@ kinsim <- function(
       A.r[, 1:2] <- A.r[, 1:2]
       A.r[, 3:4] <- A.r[, 3:4] * sA[2]
     }
-    n <- length(rVector)
+    n <- length(r_vector)
     aR <- matrix(
       c(
         data_vector$A1_1,
@@ -246,7 +246,7 @@ kinsim <- function(
 
     datalist[[i]] <- data.r
     names(datalist)[i] <- paste0("datar", r_all[i])
-    merged.data.frame <- data.r
+    merged_df <- data.r
   }
-  return(merged.data.frame)
+  return(merged_df)
 }

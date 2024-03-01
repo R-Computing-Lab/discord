@@ -23,7 +23,7 @@ rmvn <- function(n, sigma) {
 #' @param npergroup List of sample sizes by group; default repeats \code{npg} for all groups.
 #' @param mu Mean for generated variable; default is 0.
 #' @param ace Vector of variance components, ordered by c(a, c, e); default is c(1,1,1).
-#' @param rVector Alternative, give vector of relatedness coefficients for entire sample.
+#' @param r_vector Alternative, give vector of relatedness coefficients for entire sample.
 #' @param ... Optional pass on additional inputs.
 
 #' @return Returns \code{data.frame} with the following:
@@ -92,10 +92,10 @@ kinsim_internal <- function(
       datalist[[i]] <- data.r
       names(datalist)[i] <- paste0("datar", r[i])
     }
-    merged.data.frame <- Reduce(function(...) merge(..., all = T), datalist)
-    merged.data.frame$id <- id
+    merged_df <- Reduce(function(...) merge(..., all = T), datalist)
+    merged_df$id <- id
   } else {
-    id <- seq_along(rVector)
+    id <- seq_along(r_vector)
     data_vector <- data.frame(id, r_vector)
     data_vector$A.r1 <- as.numeric(NA)
     data_vector$A.r2 <- as.numeric(NA)
@@ -131,8 +131,8 @@ kinsim_internal <- function(
     datalist[[i]] <- data.r
     names(datalist)[i] <- paste0("datar", r[i])
 
-    merged.data.frame <- data.r
+    merged_df <- data.r
   }
 
-  return(merged.data.frame)
+  return(merged_df)
 }

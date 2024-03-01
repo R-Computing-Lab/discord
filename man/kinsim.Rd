@@ -10,8 +10,8 @@ kinsim(
   npergroup_all = rep(npg_all, length(r_all)),
   mu_all = 0,
   variables = 2,
-  muList = rep(mu_all, variables),
-  rVector = NULL,
+  mu_list = rep(mu_all, variables),
+  r_vector = NULL,
   ace_all = c(1, 1, 1),
   ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
   cov_a = 0,
@@ -31,9 +31,9 @@ kinsim(
 
 \item{variables}{Number of variables to generate; default is 2. Currently, limited to max of two variables.}
 
-\item{muList}{List of means by variable; default repeats \code{mu_all} for all variables}
+\item{mu_list}{List of means by variable; default repeats \code{mu_all} for all variables}
 
-\item{rVector}{Alternative, give vector of r coefficients for entire sample.}
+\item{r_vector}{Alternative, give vector of r coefficients for entire sample.}
 
 \item{ace_all}{Vector of variance components for each generated variable; default is c(1,1,1).}
 
