@@ -78,7 +78,7 @@ discord_data <- function(data,
     ))
   }
 
-  if (demographics == "none") {
+  if (demographics == "none" | is.null(demographics)) {
     mrg <- function(x, y) {
       merge(
         x = x,

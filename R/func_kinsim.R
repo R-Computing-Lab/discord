@@ -154,7 +154,7 @@ kinsim <- function(
     merged_df$id <- id
   } else {
     id <- seq_along(r_vector)
-        data_vector <- data.frame(
+    data_vector <- data.frame(
       id,
       r_vector,
       matrix(

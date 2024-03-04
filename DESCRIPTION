@@ -2,17 +2,22 @@ Package: discord
 Type: Package
 Title: Functions for Discordant Kinship Modeling
 Version: 1.2.1
-Date: 2023-09-27
 Authors@R: c(person("S. Mason", "Garrison", email = "garrissm@wfu.edu",
-                  role = c("aut", "cre", "cph")),
-             person("Jonathan", "Trattner", email = "code@jdtrat.com", comment = (url = "https://www.jdtrat.com/"),
-                  role = "aut"),
+                  role = c("aut", "cre", "cph"),
+                  comment = c(ORCID = "0000-0002-4804-6003")),
+             person("Jonathan", "Trattner", email = "code@jdtrat.com", 
+              role = "aut",
+              comment = c(ORCID = "0000-0002-1097-7603",
+                       url = "https://www.jdtrat.com/")),
              person("Hwang", "Yoo Ri", email = "yrhwang89@gmail.com",
                   role = "aut"),
              person("Cermet", "Ream", role = c("ctb")))
-Description: Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Currently, the package contains data restructuring functions and functions for generating biometrically informed data for kin pairs.
+Description: The discord R package offers a comprehensive suite of
+    functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). 
+    Currently, the package contains data restructuring functions and functions for generating biometrically informed data for kin pairs.
 URL: https://github.com/R-Computing-Lab/discord, https://r-computing-lab.github.io/discord/
 License: GPL-3 + file LICENSE
+BugReports: https://github.com/R-Computing-Lab/discord/issues
 LazyData: TRUE
 RoxygenNote: 7.3.1
 Encoding: UTF-8
@@ -32,3 +37,4 @@ Suggests:
     snakecase,
     testthat
 VignetteBuilder: knitr
+Config/testthat/edition: 3

@@ -6,22 +6,23 @@
 \alias{discord-package}
 \title{discord: Functions for Discordant Kinship Modeling}
 \description{
-Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Currently, the package contains data restructuring functions and functions for generating biometrically informed data for kin pairs.
+The discord R package offers a comprehensive suite of functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Currently, the package contains data restructuring functions and functions for generating biometrically informed data for kin pairs.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/R-Computing-Lab/discord}
   \item \url{https://r-computing-lab.github.io/discord/}
+  \item Report bugs at \url{https://github.com/R-Computing-Lab/discord/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: S. Mason Garrison \email{garrissm@wfu.edu} [copyright holder]
+\strong{Maintainer}: S. Mason Garrison \email{garrissm@wfu.edu} (\href{https://orcid.org/0000-0002-4804-6003}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Jonathan Trattner \email{code@jdtrat.com} (https://www.jdtrat.com/)
+  \item Jonathan Trattner \email{code@jdtrat.com} (\href{https://orcid.org/0000-0002-1097-7603}{ORCID}) (https://www.jdtrat.com/)
   \item Hwang Yoo Ri \email{yrhwang89@gmail.com}
 }
 

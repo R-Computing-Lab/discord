@@ -47,46 +47,56 @@ library(discord)
 # pipe
 library(magrittr)
 
-#data
+# data
 data(data_flu_ses)
 ```
 
 ## Data Cleaning and Preprocessing
 
 ```{r set-df-link}
-
-# for reproducibility 
+# for reproducibility
 set.seed(2023)
 
 link_vars <- c("S00_H40", "RACE", "SEX")
 
-# Specify NLSY database and kin relatedness 
+# Specify NLSY database and kin relatedness
 
 link_pairs <- Links79PairExpanded %>%
   filter(RelationshipPath == "Gen1Housemates" & RFull == 0.5)
 
-df_link <- CreatePairLinksSingleEntered(outcomeDataset = data_flu_ses,
-                                        linksPairDataset = link_pairs,
-                                        outcomeNames = link_vars)
+df_link <- CreatePairLinksSingleEntered(
+  outcomeDataset = data_flu_ses,
+  linksPairDataset = link_pairs,
+  outcomeNames = link_vars
+)
 
 
-# We removed the pair when the Dependent Variable is missing. 
+# We removed the pair when the Dependent Variable is missing.
 
 df_link <- df_link %>%
-           filter(!is.na(S00_H40_S1) & !is.na(S00_H40_S2)) %>%
-  mutate(SEX_S1 = case_when(SEX_S1 == 0 ~ "MALE", 
-                            SEX_S1 == 1 ~ "FEMALE"),
-         SEX_S2 = case_when(SEX_S2 == 0 ~ "MALE", 
-                            SEX_S2 == 1 ~ "FEMALE"),
-         RACE_S1 = case_when(RACE_S1 == 0 ~ "NONMINORITY", 
-                            RACE_S1 == 1 ~ "MINORITY"),
-         RACE_S2 = case_when(RACE_S2 == 0 ~ "NONMINORITY", 
-                            RACE_S2 == 1 ~ "MINORITY"))
+  filter(!is.na(S00_H40_S1) & !is.na(S00_H40_S2)) %>%
+  mutate(
+    SEX_S1 = case_when(
+      SEX_S1 == 0 ~ "MALE",
+      SEX_S1 == 1 ~ "FEMALE"
+    ),
+    SEX_S2 = case_when(
+      SEX_S2 == 0 ~ "MALE",
+      SEX_S2 == 1 ~ "FEMALE"
+    ),
+    RACE_S1 = case_when(
+      RACE_S1 == 0 ~ "NONMINORITY",
+      RACE_S1 == 1 ~ "MINORITY"
+    ),
+    RACE_S2 = case_when(
+      RACE_S2 == 0 ~ "NONMINORITY",
+      RACE_S2 == 1 ~ "MINORITY"
+    )
+  )
 
 # we only include same-race pairs in this example for demonstration purpose
 df_link <- df_link %>%
-  dplyr::filter(RACE_S1==RACE_S2)
-
+  dplyr::filter(RACE_S1 == RACE_S2)
 ```
 
 # We only pick one pair per household to avoid the independence assumption violation.
@@ -133,42 +143,42 @@ In the pair, the one with the higher DV is assigned to be "_1" and the other one
 
 ```{r}
 cat_sex <- discord_data(
-            data = df_link,
-            outcome = "S00_H40",
-            sex= "SEX",
-            race= "RACE",
-            demographics = "sex",
-            predictors=NULL,
-            pair_identifiers = c("_S1","_S2"),
-            coding_method = "both")
+  data = df_link,
+  outcome = "S00_H40",
+  sex = "SEX",
+  race = "RACE",
+  demographics = "sex",
+  predictors = NULL,
+  pair_identifiers = c("_S1", "_S2"),
+  coding_method = "both"
+)
 ```
 
 A random slice of this data looks as follows:
 
 ```{r sex, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
-
 cat_sex <- cat_sex %>%
-  dplyr::mutate(SEX_binarymatch = case_when(SEX_binarymatch == 0 ~ "mixed-sex", 
-                                            SEX_binarymatch == 1 ~ "same-sex"))
-    
+  dplyr::mutate(SEX_binarymatch = case_when(
+    SEX_binarymatch == 0 ~ "mixed-sex",
+    SEX_binarymatch == 1 ~ "same-sex"
+  ))
+
 cat_sex %>%
-slice(1:500) %>%
-    slice_sample(n = 6) %>%
-    kableExtra::kbl('html', align = "c")%>%
-    kableExtra::kable_styling(full_width = FALSE)
+  slice(1:500) %>%
+  slice_sample(n = 6) %>%
+  kableExtra::kbl("html", align = "c") %>%
+  kableExtra::kable_styling(full_width = FALSE)
 ```
 
 
 The sex compositions of the pairs in the data are as follows:
 
 ```{r preview-sex, echo = FALSE, eval = knitr::is_html_output()}
-
 cat_sex %>%
   group_by(SEX_1, SEX_2) %>%
-  summarize( n(),.groups = 'drop') %>%
-  kableExtra::kbl('html', align = "c",col.names=c("SEX_1","SEX_2","sample_size"))%>%
-  kableExtra::kable_styling(full_width = FALSE) 
-
+  summarize(n(), .groups = "drop") %>%
+  kableExtra::kbl("html", align = "c", col.names = c("SEX_1", "SEX_2", "sample_size")) %>%
+  kableExtra::kable_styling(full_width = FALSE)
 ```
 The `SEX_1` variable indicates the sex of the individual who has the higher DV in the pairs, and the `SEX_2` variable indicates the sex of the other one in the pair. 
 
@@ -184,12 +194,11 @@ Thus, we can utilize the following sex-composition variables. First, we can use 
 As shown above, the `discord_data()` function generates `SEX_binarymatch` and `SEX_multimatch` for the sex variable. By doing so, the sex variable (which was initially a mixed variable) becomes a between-dyad variable as follows:
 
 ```{r sex-compositions, echo = FALSE, eval = knitr::is_html_output()}
-
 cat_sex %>%
-  group_by(SEX_binarymatch,SEX_multimatch, SEX_1, SEX_2) %>%
-  summarize( n(),.groups = 'drop') %>%
-  kableExtra::kbl('html', align = "c",col.names=c("binary","multi", "SEX_1","SEX_2","sample_size"))%>%
-  kableExtra::kable_styling(full_width = FALSE) 
+  group_by(SEX_binarymatch, SEX_multimatch, SEX_1, SEX_2) %>%
+  summarize(n(), .groups = "drop") %>%
+  kableExtra::kbl("html", align = "c", col.names = c("binary", "multi", "SEX_1", "SEX_2", "sample_size")) %>%
+  kableExtra::kable_styling(full_width = FALSE)
 ```
  
 Researchers can choose between two options based on their research question. For example, if the research question focuses on the difference between same-sex pairs and mixed-sex pairs, `SEX_binarymatch` can be a good option. If the research question focuses on the difference between male-male pairs, female-female pairs, and mixed-sex pairs, `SEX_multimatch` can be a good option. 
@@ -206,37 +215,34 @@ By using the `discord_data()` function, we can prepare data for the analysis as 
 
 
 ```{r}
-
-
-set.seed(2023) # for reproducibility 
+set.seed(2023) # for reproducibility
 
 cat_race <- discord_data(
-            data = df_link,
-            outcome = "S00_H40",
-            predictors = NULL,
-            sex= "SEX",
-            race= "RACE",
-            demographics = "race",
-            pair_identifiers = c("_S1","_S2"),
-            coding_method= "both") 
-
+  data = df_link,
+  outcome = "S00_H40",
+  predictors = NULL,
+  sex = "SEX",
+  race = "RACE",
+  demographics = "race",
+  pair_identifiers = c("_S1", "_S2"),
+  coding_method = "both"
+)
 ```
 
 The race compositions in the data set are:
 
 ```{r preview-race, echo = FALSE, eval = knitr::is_html_output()}
-
-
 cat_race <- cat_race %>%
-  dplyr::mutate(RACE_binarymatch = case_when(RACE_binarymatch == 0 ~ "mixed-race", 
-                                             RACE_binarymatch == 1 ~ "same-race"))
-               
+  dplyr::mutate(RACE_binarymatch = case_when(
+    RACE_binarymatch == 0 ~ "mixed-race",
+    RACE_binarymatch == 1 ~ "same-race"
+  ))
+
 cat_race %>%
-  group_by(RACE_binarymatch, RACE_multimatch, RACE_1, RACE_2)%>%
-  summarize( n(),.groups = 'drop')%>%
-  kableExtra::kbl('html', align = "c",col.names=c("RACE_binarymatch", "RACE_multimatch", "RACE_1","RACE_2","sample_size"))%>%
-  kableExtra::kable_styling(full_width = FALSE) 
-  
+  group_by(RACE_binarymatch, RACE_multimatch, RACE_1, RACE_2) %>%
+  summarize(n(), .groups = "drop") %>%
+  kableExtra::kbl("html", align = "c", col.names = c("RACE_binarymatch", "RACE_multimatch", "RACE_1", "RACE_2", "sample_size")) %>%
+  kableExtra::kable_styling(full_width = FALSE)
 ```
 
 The `RACE_binarymatch` variable indicates whether the pair is the same-race pair or mixed-race pair. Because the race variable is a between-dyads variable, all the pairs in this example are same-race pairs. The `RACE_multimatch` variable indicates whether the pair is minority-minority, nonminority-nonminority, or mixed-race.
@@ -245,38 +251,43 @@ The `RACE_binarymatch` variable indicates whether the pair is the same-race pair
  By using the `discord_data()` function, users can prepare data that contains both race- and sex-composition variables.
  
 ```{r}
-
-# for reproducibility 
+# for reproducibility
 
 set.seed(2023)
 
 cat_both <- discord_data(
-            data = df_link,
-            outcome = "S00_H40",
-            predictors = NULL,
-            sex= "SEX",
-            race= "RACE",
-            demographics = "both",
-            pair_identifiers = c("_S1","_S2"),
-            coding_method= "both") 
-
+  data = df_link,
+  outcome = "S00_H40",
+  predictors = NULL,
+  sex = "SEX",
+  race = "RACE",
+  demographics = "both",
+  pair_identifiers = c("_S1", "_S2"),
+  coding_method = "both"
+)
 ```
 
 The race composition and sex composition of the pairs in the dataset are as such:
 ```{r preview-both, echo = FALSE, eval = knitr::is_html_output()}
-
 cat_both <- cat_both %>%
-  dplyr::mutate(RACE_binarymatch = case_when(RACE_binarymatch == 0 ~ "mixed-race", 
-                                             RACE_binarymatch == 1 ~ "same-race"),
-                SEX_binarymatch = case_when(SEX_binarymatch == 0 ~ "mixed-sex", 
-                                            SEX_binarymatch == 1 ~ "same-sex"))
+  dplyr::mutate(
+    RACE_binarymatch = case_when(
+      RACE_binarymatch == 0 ~ "mixed-race",
+      RACE_binarymatch == 1 ~ "same-race"
+    ),
+    SEX_binarymatch = case_when(
+      SEX_binarymatch == 0 ~ "mixed-sex",
+      SEX_binarymatch == 1 ~ "same-sex"
+    )
+  )
 cat_both %>%
-  group_by(RACE_multimatch, RACE_1, RACE_2,SEX_binarymatch,SEX_multimatch,SEX_1,SEX_2)%>%
-  summarize( n(),.groups = 'drop')%>%
-  kableExtra::kbl('html', align = "c",col.names=c("RACE_multi", "RACE_1","RACE_2","SEX_binary","SEX_multi","SEX_1","SEX_2",
-  "sample_size"))%>%
-  kableExtra::kable_styling(full_width = FALSE) 
-  
+  group_by(RACE_multimatch, RACE_1, RACE_2, SEX_binarymatch, SEX_multimatch, SEX_1, SEX_2) %>%
+  summarize(n(), .groups = "drop") %>%
+  kableExtra::kbl("html", align = "c", col.names = c(
+    "RACE_multi", "RACE_1", "RACE_2", "SEX_binary", "SEX_multi", "SEX_1", "SEX_2",
+    "sample_size"
+  )) %>%
+  kableExtra::kable_styling(full_width = FALSE)
 ```
 
 
@@ -290,28 +301,32 @@ The regression model with the binary-match sex variable can be conducted as such
 
 ```{r }
 discord_sex_binary <- discord_regression(
-     data = df_link,
-     outcome = "S00_H40",
-     sex= "SEX",
-     race= "RACE",
-     demographics = "sex",
-     predictors=NULL,
-     pair_identifiers = c("_S1","_S2"),
-     coding_method ="binary") 
+  data = df_link,
+  outcome = "S00_H40",
+  sex = "SEX",
+  race = "RACE",
+  demographics = "sex",
+  predictors = NULL,
+  pair_identifiers = c("_S1", "_S2"),
+  coding_method = "binary"
+)
 ```
 
 ```{r, echo = FALSE, eval = knitr::is_html_output()}
-discord_sex_binary%>%
+discord_sex_binary %>%
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
-
 ```
 
 Looking at the results, the mean SES score for the siblings (`S00_H40_diff`) is a significant control variable (p =`r round(summary(discord_sex_binary)[["coefficients"]]["S00_H40_mean", "Pr(>|t|)"],3)`).  `S00_H40_mean` is negatively associated with the difference in SES score between siblings at age 40, `S00_H40_diff`, controlling for another variable (in this case, `SEX_binarymatch`). It is estimated that for one unit increase of `S00_H40_mean`,
@@ -329,30 +344,32 @@ The regression model with the multi-match sex variable can be conducted as such:
 
 ```{r }
 discord_sex_multi <- discord_regression(
-     data = df_link,
-     outcome = "S00_H40",
-     sex= "SEX",
-     race= "RACE",
-     demographics = "sex",
-     predictors=NULL,
-     pair_identifiers = c("_S1","_S2"),
-     coding_method ="multi")
+  data = df_link,
+  outcome = "S00_H40",
+  sex = "SEX",
+  race = "RACE",
+  demographics = "sex",
+  predictors = NULL,
+  pair_identifiers = c("_S1", "_S2"),
+  coding_method = "multi"
+)
 ```
 
 ```{r, echo = FALSE, eval = knitr::is_html_output()}
-
-discord_sex_multi%>%
+discord_sex_multi %>%
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
-
-
 ```
 
 
@@ -372,25 +389,26 @@ if users are interested in predicting the mean SES score for the sibling pairs
 with predictors, regression analyses can be carried out as such::
 
 ```{r}
-
 discord_cat_mean <- lm(S00_H40_mean ~ SEX_binarymatch,
-    data = cat_sex)
+  data = cat_sex
+)
 ```
 ```{r, echo = FALSE, eval = knitr::is_html_output()}
-
 discord_cat_mean %>%
-# for nicer regression output   
+  # for nicer regression output
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
-
-
 ```
 In this regression model, the mean SES score for the siblings (`S00_H40_mean`) was regressed on the SEX-composition variable (`SEX_binarymatch`). 
 
@@ -399,27 +417,26 @@ There is no significant difference between same-sex pairs and mixed-sex pairs in
 It is estimated that compared to the mixed-sex pairs, the same-sex pairs would have approximately `r abs(round(discord_cat_mean[["coefficients"]][["SEX_binarymatchsame-sex"]],3))` higher `S00_H40_mean`. However, this coefficient is not significant, so it is not advisable to interpret the coefficient. 
 
 ```{r}
-
-
-discord_cat_mean2 <- lm( S00_H40_mean ~ SEX_multimatch,
-    data = cat_sex) 
-
+discord_cat_mean2 <- lm(S00_H40_mean ~ SEX_multimatch,
+  data = cat_sex
+)
 ```
 ```{r echo = FALSE, eval = knitr::is_html_output()}
-
-discord_cat_mean2%>%
-# for nicer regression output   
+discord_cat_mean2 %>%
+  # for nicer regression output
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
-
-
 ```
 
 There is a significant difference between female-female pairs and male-male pairs (`r round(summary(discord_cat_mean2)[["coefficients"]]["SEX_multimatchMALE", "Pr(>|t|)"],3)`) to predict the `S00_H40_mean`. However, there is  no significant difference between mixed-sex pairs and female-female pairs (p = `r round(summary(discord_cat_mean2)[["coefficients"]]["SEX_multimatchmixed", "Pr(>|t|)"],3)`).
@@ -440,35 +457,36 @@ The regression model with a multi-match race variable as a  predictor can be con
 
 
 ```{r}
-# perform kinship regressions 
-cat_race_reg <-  discord_regression(
-     data = df_link,
-     outcome = "S00_H40",
-     sex= "SEX",
-     race= "RACE",
-     demographics = "race",
-     predictors=NULL,
-     pair_identifiers = c("_S1","_S2"),
-     coding_method ="multi") 
+# perform kinship regressions
+cat_race_reg <- discord_regression(
+  data = df_link,
+  outcome = "S00_H40",
+  sex = "SEX",
+  race = "RACE",
+  demographics = "race",
+  predictors = NULL,
+  pair_identifiers = c("_S1", "_S2"),
+  coding_method = "multi"
+)
 ```
 
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
-
-cat_race_reg%>%
-# for nicer regression output   
+cat_race_reg %>%
+  # for nicer regression output
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
-
-
-
 ```
 The mean SES score for the siblings (`S00_H40_mean`) is a significant control variable (p =`r round(summary(cat_race_reg)[["coefficients"]]["S00_H40_mean","Pr(>|t|)"],3)`. The term `S00_H40_mean` is negatively associated with the difference score of SES between siblings (`S00_H40_diff`), controlling for another variable (in this case, `RACE_multimatchNONMINORITY`). It is estimated that for one unit increase of `S00_H40_mean`, the DV (`S00_H40_diff`) is expected to decrease by approximately 
 `r abs(round(cat_race_reg[["coefficients"]][["S00_H40_mean"]],3))`.
@@ -480,23 +498,25 @@ The term `RACE_multimatchNONMINORITY` was a significant predictor of `S00_H40_di
 
 ```{r}
 discord_cat_mean <- lm(S00_H40_mean ~ RACE_multimatch,
-    data = cat_race)
-
+  data = cat_race
+)
 ```
 ```{r echo = FALSE, eval = knitr::is_html_output()}
-
-discord_cat_mean%>%
-# for nicer regression output   
+discord_cat_mean %>%
+  # for nicer regression output
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
-
 ``` 
 
 There is significant difference between "minority" pairs and "nonminority" pairs in `S00_H40_mean` (p =`r round(summary(discord_cat_mean)[["coefficients"]]["RACE_multimatchNONMINORITY","Pr(>|t|)"],3)`). 
@@ -513,27 +533,31 @@ First, we restructure the data for the kinship-discordant regression using the `
 ### Sex and Race (Multi-match)
 
 ```{r}
- both_multi <-discord_regression(
-     data = df_link,
-     outcome = "S00_H40",
-     sex= "SEX",
-     race= "RACE",
-     demographics = "both",
-     predictors=NULL,
-     pair_identifiers = c("_S1","_S2"),
-     coding_method ="multi")
+both_multi <- discord_regression(
+  data = df_link,
+  outcome = "S00_H40",
+  sex = "SEX",
+  race = "RACE",
+  demographics = "both",
+  predictors = NULL,
+  pair_identifiers = c("_S1", "_S2"),
+  coding_method = "multi"
+)
 ```
 ```{r echo = FALSE, eval = knitr::is_html_output()}
-
-both_multi%>%
-# for nicer regression output   
+both_multi %>%
+  # for nicer regression output
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
@@ -553,25 +577,27 @@ Thus, if user wants to use the binarymatch sex variable and multimatch variable,
  We can perform regression using the binary-match sex variable and multi-match race variable as such:
  
 ```{r}
-
-discord_cat_diff <- lm( S00_H40_diff ~ S00_H40_mean + RACE_multimatch + SEX_binarymatch,
-    data = cat_both)  
-
+discord_cat_diff <- lm(S00_H40_diff ~ S00_H40_mean + RACE_multimatch + SEX_binarymatch,
+  data = cat_both
+)
 ```
 ```{r echo = FALSE, eval = knitr::is_html_output()}
-# for nicer regression output   
-  
+# for nicer regression output
+
 discord_cat_diff %>%
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
- 
 ```
 
  
@@ -589,24 +615,25 @@ The term `RACE_multimatchNONMINORITY`is a significant predictor (p = `r round(su
 The mean SES score for the sibling pairs can be regressed on SEX-composition and race-composition variables as follows:
 
 ```{r}
-
-discord_cat_mean <- lm( S00_H40_mean ~ RACE_multimatch + SEX_multimatch,
-    data = cat_both) 
-
+discord_cat_mean <- lm(S00_H40_mean ~ RACE_multimatch + SEX_multimatch,
+  data = cat_both
+)
 ```
 ```{r echo = FALSE, eval = knitr::is_html_output()}
-discord_cat_mean%>%
+discord_cat_mean %>%
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
-
- 
 ``` 
 
  
@@ -622,24 +649,26 @@ The term `RACE_multimatchNONMINORITY` is a significant predictor (p = `r round(s
 
 
 ```{r}
-
-discord_cat_mean2 <- lm( S00_H40_mean ~ RACE_multimatch + SEX_binarymatch,
-    data = cat_both)  
+discord_cat_mean2 <- lm(S00_H40_mean ~ RACE_multimatch + SEX_binarymatch,
+  data = cat_both
+)
 ```
 
 ```{r echo = FALSE, eval = knitr::is_html_output()}
 discord_cat_mean2 %>%
   broom::tidy() %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
-
- 
 ``` 
 
 

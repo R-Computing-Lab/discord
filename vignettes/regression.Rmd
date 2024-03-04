@@ -31,7 +31,6 @@ The following analysis is a simple case based on work presented elsewhere [@jona
 The data for this analysis was downloaded with the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and can be found [here](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/flu_shot.dat). The SES at age 40 data can be found [here](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/nlsy-ses.csv). For clarity and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/preprocess-discord-flu.R). This discordant-kinship analysis is possible thanks to recent work that estimated relatedness for approximately 95% of the NLSY79 kin pairs [@rodgers2016]. These kinship links are included in the [{NlsyLinks}](http://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016] and are easily utilized with the {discord} package.
 
 ```{r setup-discord-data, include = FALSE, cache = FALSE, eval=FALSE}
-
 ```
 
 ## Data Cleaning
@@ -39,7 +38,6 @@ The data for this analysis was downloaded with the [NLS Investigator](https://ww
 For this example, we will load the following packages.
 
 ```{r discord-setup, message = FALSE}
-
 # For easy data manipulation
 library(dplyr)
 # For kinship linkages
@@ -59,14 +57,13 @@ data(data_flu_ses)
 After some pre-processing, we have a data frame containing subject identifiers, demographic information such as race and sex, and behavioral measurements like flu vaccination rates and SES at age 40. A random slice of this data looks like:
 
 ```{r preview-pre-processed-data, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
-
-data_flu_ses %>% 
-    select(CASEID, RACE, SEX, FLU_total, S00_H40) %>% 
-    filter(!is.na(S00_H40)) %>%
-    slice(1:500) %>%
-    slice_sample(n = 6) %>%
-    kableExtra::kbl('html', align = "c") %>%
-    kableExtra::kable_styling(full_width = FALSE)# %>%
+data_flu_ses %>%
+  select(CASEID, RACE, SEX, FLU_total, S00_H40) %>%
+  filter(!is.na(S00_H40)) %>%
+  slice(1:500) %>%
+  slice_sample(n = 6) %>%
+  kableExtra::kbl("html", align = "c") %>%
+  kableExtra::kable_styling(full_width = FALSE) # %>%
 #    kableExtra::column_spec(1:11, extra_css = "text-align: center;")
 ```
 
@@ -76,7 +73,7 @@ data_flu_ses %>%
   filter(!is.na(S00_H40)) %>%
   slice(1:500) %>%
   slice_sample(n = 6) %>%
-  kableExtra::kbl(format = 'latex', booktabs = TRUE, align = "c") %>%
+  kableExtra::kbl(format = "latex", booktabs = TRUE, align = "c") %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position"), position = "center")
 ```
 
@@ -86,52 +83,57 @@ For this example, we will examine the relationship between flu vaccinations rece
 
 ```{r set-kinship-link-vars}
 # Get kinship links for individuals with the following variables:
-link_vars <- c("FLU_total", "FLU_2008", "FLU_2010", 
-               "FLU_2012", "FLU_2014", "FLU_2016", 
-               "S00_H40", "RACE", "SEX")
+link_vars <- c(
+  "FLU_total", "FLU_2008", "FLU_2010",
+  "FLU_2012", "FLU_2014", "FLU_2016",
+  "S00_H40", "RACE", "SEX"
+)
 ```
 
 We now link the subjects by the specified variables using `CreatePairLinksSingleEntered()`, from the {NlsyLinks} package.
 
 ```{r create-linked-data}
-
-# Specify NLSY database and kin relatedness 
+# Specify NLSY database and kin relatedness
 link_pairs <- Links79PairExpanded %>%
   filter(RelationshipPath == "Gen1Housemates" & RFull == 0.5)
 
-df_link <- CreatePairLinksSingleEntered(outcomeDataset = data_flu_ses,
-                                        linksPairDataset = link_pairs,
-                                        outcomeNames = link_vars)
-
+df_link <- CreatePairLinksSingleEntered(
+  outcomeDataset = data_flu_ses,
+  linksPairDataset = link_pairs,
+  outcomeNames = link_vars
+)
 ```
 
 We have saved this data frame as `df_link`. A random subset of this data is:[^discord-2]
 
 ```{r preview-linked-dat, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
-
 df_link %>%
-  select(ExtendedID, 
-         SubjectTag_S1, SubjectTag_S2, 
-         FLU_total_S1, FLU_total_S2, 
-         S00_H40_S1, S00_H40_S2) %>%
+  select(
+    ExtendedID,
+    SubjectTag_S1, SubjectTag_S2,
+    FLU_total_S1, FLU_total_S2,
+    S00_H40_S1, S00_H40_S2
+  ) %>%
   filter(!is.na(S00_H40_S1) & !is.na(S00_H40_S2)) %>%
   slice(1:500) %>%
   slice_sample(n = 6) %>%
-  kableExtra::kbl('html', align = "c") %>%
-  kableExtra::kable_styling(full_width = FALSE) #%>%
+  kableExtra::kbl("html", align = "c") %>%
+  kableExtra::kable_styling(full_width = FALSE) # %>%
 #  kableExtra::column_spec(1:11, extra_css = "text-align: center;")
 ```
 
 ```{r preview-linked-dat-latex, echo = FALSE, eval = knitr::is_latex_output()}
 df_link %>%
-  select(ExtendedID, 
-         SubjectTag_S1, SubjectTag_S2, 
-         FLU_total_S1, FLU_total_S2, 
-         S00_H40_S1, S00_H40_S2) %>%
+  select(
+    ExtendedID,
+    SubjectTag_S1, SubjectTag_S2,
+    FLU_total_S1, FLU_total_S2,
+    S00_H40_S1, S00_H40_S2
+  ) %>%
   filter(!is.na(S00_H40_S1) & !is.na(S00_H40_S2)) %>%
   slice(1:500) %>%
   slice_sample(n = 6) %>%
-  kableExtra::kbl(format = 'latex', booktabs = TRUE, align = "c") %>%
+  kableExtra::kbl(format = "latex", booktabs = TRUE, align = "c") %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position", "scale_down"))
 ```
 
@@ -140,32 +142,35 @@ df_link %>%
 This data is almost ready for analysis, but we want to ensure that the data are representative of actual trends. The `FLU_total` column is simply a sum of the biennial survey responses. So for a given sibling-pair, one or both individuals may not have responded to the survey indicating their vaccination status. If that's the case, we want to exclude those siblings to reduce **[non-response bias]**, by examining the biennial responses and removing any rows with missingness.
 
 ```{r consistent-kin-data}
-
 # Take the linked data, group by the sibling pairs and
-# count the number of responses for flu each year. If there is an NA, 
+# count the number of responses for flu each year. If there is an NA,
 # then data is missing for one of the years, and we omit it.
-consistent_kin <- df_link %>% 
-  group_by(SubjectTag_S1, SubjectTag_S2) %>% 
-  count(FLU_2008_S1, FLU_2010_S1, 
-        FLU_2012_S1, FLU_2014_S1, 
-        FLU_2016_S1, FLU_2008_S2, 
-        FLU_2010_S2, FLU_2012_S2, 
-        FLU_2014_S2, FLU_2016_S2) %>% 
+consistent_kin <- df_link %>%
+  group_by(SubjectTag_S1, SubjectTag_S2) %>%
+  count(
+    FLU_2008_S1, FLU_2010_S1,
+    FLU_2012_S1, FLU_2014_S1,
+    FLU_2016_S1, FLU_2008_S2,
+    FLU_2010_S2, FLU_2012_S2,
+    FLU_2014_S2, FLU_2016_S2
+  ) %>%
   na.omit()
 
 # Create the flu_modeling_data object with only consistent responders.
 # Clean the column names with the {janitor} package.
-flu_modeling_data <- semi_join(df_link, 
-                               consistent_kin, 
-                               by = c("SubjectTag_S1", 
-                                      "SubjectTag_S2")) %>%
+flu_modeling_data <- semi_join(df_link,
+  consistent_kin,
+  by = c(
+    "SubjectTag_S1",
+    "SubjectTag_S2"
+  )
+) %>%
   clean_names()
 ```
 
 To avoid violating assumptions of independence, in our analysis we specify that the kin-pairs should be from unique households (i.e. we randomly select one sibling pair per household).
 
 ```{r finalize-flu-modeling-data, cache = FALSE}
-
 flu_modeling_data <- flu_modeling_data %>%
   group_by(extended_id) %>%
   slice_sample() %>%
@@ -177,23 +182,26 @@ The data we will use for modeling now contains additional information for each m
 ```{r preview-flu-modeling-data, echo = FALSE, eval = knitr::is_html_output()}
 flu_modeling_data %>%
   select(contains(c("extended_id", "subject_tag", "flu_total", "race", "sex", "s00_h40"))) %>%
-  rename(ses_age_40_s1 = s00_h40_s1,
-         ses_age_40_s2 = s00_h40_s2) %>%
+  rename(
+    ses_age_40_s1 = s00_h40_s1,
+    ses_age_40_s2 = s00_h40_s2
+  ) %>%
   slice(1:10) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:11, extra_css = "text-align: center;")
-  
 ```
 
 ```{r preview-flu-modeling-data-latex, eval = knitr::is_latex_output(), echo = FALSE}
 flu_modeling_data %>%
   select(contains(c("extended_id", "subject_tag", "flu_total", "race", "sex", "s00_h40"))) %>%
-  rename(ses_age_40_s1 = s00_h40_s1,
-         ses_age_40_s2 = s00_h40_s2) %>%
+  rename(
+    ses_age_40_s1 = s00_h40_s1,
+    ses_age_40_s2 = s00_h40_s2
+  ) %>%
   slice(1:10) %>%
-  kableExtra::kbl(format = 'latex', booktabs = TRUE, align = "c") %>%
-   kableExtra::kable_styling(latex_options = c("striped", "hold_position", "scale_down"))
+  kableExtra::kbl(format = "latex", booktabs = TRUE, align = "c") %>%
+  kableExtra::kable_styling(latex_options = c("striped", "hold_position", "scale_down"))
 ```
 
 ## Modeling and Interpretation
@@ -205,23 +213,21 @@ To perform the regression using the {discord} package, we supply the data frame 
 By entering this information into the `discord_regression()` function, we can run the model as such:
 
 ```{r run-regression, cache = FALSE}
-
 # Setting a seed for reproducibility
 set.seed(18)
 flu_model_output <- discord_regression(
-                          data = flu_modeling_data,
-                          outcome = "flu_total",
-                          predictors = "s00_h40",
-                          id = "extended_id",
-                          sex = "sex",
-                          race = "race",
-                          pair_identifiers = c("_s1", "_s2")
-                          )
-
+  data = flu_modeling_data,
+  outcome = "flu_total",
+  predictors = "s00_h40",
+  id = "extended_id",
+  sex = "sex",
+  race = "race",
+  pair_identifiers = c("_s1", "_s2")
+)
 ```
 
 ```{r broom-reg, echo = FALSE}
-flu_model_output %<>% 
+flu_model_output %<>%
   broom::tidy()
 ```
 
@@ -229,24 +235,32 @@ The default output of `discord_regression()` is an `lm` object. The metrics for 
 
 ```{r summarize-model-html, echo = FALSE, eval = knitr::is_html_output(), error=FALSE}
 flu_model_output %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl('html', align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c") %>%
   kableExtra::kable_styling() %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
 ```{r summarize-model-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
 flu_model_output %>%
-  mutate(p.value = scales::pvalue(p.value, add_p = TRUE),
-         across(.cols = where(is.numeric), ~round(.x, 3))) %>%
-  rename("Standard Error" = std.error,
-         "T Statistic" = statistic) %>%
-  rename_with(~snakecase::to_title_case(.x)) %>%
-  kableExtra::kbl(format = 'latex', booktabs = TRUE, align = "c") %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl(format = "latex", booktabs = TRUE, align = "c") %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position"), position = "center")
 ```
 
