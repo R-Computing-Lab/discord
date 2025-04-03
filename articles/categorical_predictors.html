@@ -34,6 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/categorical_predictors.html">Demonstrating Categorical Predictors in Discordant-Kinship Regressions</a></li>
+    <li><a class="dropdown-item" href="../articles/links.html">Kinship Links</a></li>
     <li><a class="dropdown-item" href="../articles/regression.html">Regression demonstration</a></li>
   </ul>
 </li>
@@ -74,32 +75,28 @@ and S. Mason Garrison</h4>
 <div class="section level3">
 <h3 id="objective">Objective<a class="anchor" aria-label="anchor" href="#objective"></a>
 </h3>
-<p>The aim of this vignette is to provide a comprehensive guide for
-incorporating categorical predictors in discordant-kinship regression
-analyses using the <code>discord</code> package. Furthermore, we will
-demonstrate how to interpret there different types of categorical
-variables—mixed variables and between-dyad variables—within the
-discordant-kinship framework.</p>
-</div>
-<div class="section level3">
-<h3 id="research-question">Research Question<a class="anchor" aria-label="anchor" href="#research-question"></a>
-</h3>
-<p>We explore whether sex significantly predicts SES at age 40 using
-different coding schemes for categorical variables.</p>
-</div>
-<div class="section level3">
-<h3 id="data-source">Data Source<a class="anchor" aria-label="anchor" href="#data-source"></a>
-</h3>
-<p>We use a subset of the 1979 National Longitudinal Survey of Youth
-(NLSY79).</p>
+<p>This vignette provides a detailed guide for incorporating categorical
+predictors into discordant-kinship regression analyses using the
+<code>discord</code> package. We demonstrate how to structure, code, and
+interpret categorical variables that operate at either the dyad level
+(between-dyads) or vary across and within dyads (mixed variables).</p>
+<p>To illustrate, we examine whether sex predicts SES at age 40, using
+different categorical coding schemes. The data come from a subset of the
+1979 National Longitudinal Survey of Youth (NLSY79).</p>
+<p>This vignette addresses that challenge by demonstrating how to apply
+discordant-kinship regression models using categorical predictors —
+specifically, sex and race. The approach draws on dyadic modeling
+strategies described in <span class="citation">(Kenny, Kashy, and Cook
+2006)</span> and incorporates their extension to the kinship setting
+following <span class="citation">(Hwang 2022)</span>.</p>
+<p>We now walk through the full analytic process, beginning with data
+preparation.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h2>
-<div class="section level3">
-<h3 id="package-and-data-loading">Package and Data Loading<a class="anchor" aria-label="anchor" href="#package-and-data-loading"></a>
-</h3>
+<p>We load the necessary packages and data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Loading necessary packages and data</span></span>
 <span><span class="co"># For easy data manipulation</span></span>
@@ -113,10 +110,9 @@ different coding schemes for categorical variables.</p>
 <span></span>
 <span><span class="co">#data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_flu_ses</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="data-cleaning-and-preprocessing">Data Cleaning and Preprocessing<a class="anchor" aria-label="anchor" href="#data-cleaning-and-preprocessing"></a>
-</h3>
+<p>We begin by filtering and cleaning the dataset, creating kinship
+links, and recoding categorical variables. In this example, we use full
+siblings (R = 0.5) from the Gen1 cohort.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># for reproducibility </span></span>
@@ -127,14 +123,22 @@ different coding schemes for categorical variables.</p>
 <span><span class="co"># Specify NLSY database and kin relatedness </span></span>
 <span></span>
 <span><span class="va">link_pairs</span> <span class="op">&lt;-</span> <span class="va">Links79PairExpanded</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RelationshipPath</span> <span class="op">==</span> <span class="st">"Gen1Housemates"</span> <span class="op">&amp;</span> <span class="va">RFull</span> <span class="op">==</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RelationshipPath</span> <span class="op">==</span> <span class="st">"Gen1Housemates"</span> <span class="op">&amp;</span> <span class="va">RFull</span> <span class="op">==</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+<p>We then use <code><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered()</a></code> from the
+<code>NlsyLinks</code> package to merge kinship links with the target
+variables. This gives us a sibling-pair dataset in “wide” format, with
+suffixes distinguishing the two individuals in each pair.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered</a></span><span class="op">(</span>outcomeDataset <span class="op">=</span> <span class="va">data_flu_ses</span>,</span>
 <span>                                        linksPairDataset <span class="op">=</span> <span class="va">link_pairs</span>,</span>
-<span>                                        outcomeNames <span class="op">=</span> <span class="va">link_vars</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># We removed the pair when the Dependent Variable is missing. </span></span>
+<span>                                        outcomeNames <span class="op">=</span> <span class="va">link_vars</span><span class="op">)</span></span></code></pre></div>
+<p>To ensure that the dependent variable (SES at age 40) is available
+for both members of the pair, we filter out missing values. We also
+recode sex and race into string labels and retain only same-race pairs
+to make race a between-dyads variable.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># We removed the pair when the Dependent Variable is missing. </span></span>
 <span></span>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>           <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">S00_H40_S1</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">S00_H40_S2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -150,58 +154,82 @@ different coding schemes for categorical variables.</p>
 <span><span class="co"># we only include same-race pairs in this example for demonstration purpose</span></span>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RACE_S1</span><span class="op">==</span><span class="va">RACE_S2</span><span class="op">)</span></span></code></pre></div>
-</div>
+<p>To avoid violating independence assumptions, we retain only one
+sibling pair per household. This ensures each dyad is independent in the
+regression model.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_link</span><span class="op">&lt;-</span><span class="va">df_link</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">ExtendedID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="we-only-pick-one-pair-per-household-to-avoid-the-independence-assumption-violation-">We only pick one pair per household to avoid the independence
-assumption violation.<a class="anchor" aria-label="anchor" href="#we-only-pick-one-pair-per-household-to-avoid-the-independence-assumption-violation-"></a>
+<h2 id="handling-categorical-predictors">Handling Categorical Predictors<a class="anchor" aria-label="anchor" href="#handling-categorical-predictors"></a>
 </h2>
-<p>df_link&lt;-df_link%&gt;% group_by(ExtendedID) %&gt;% slice_sample()
-%&gt;% ungroup()</p>
-<pre><code>
-
-
-# Methodology
-
-## Discordant-Kinship Regression: General Logic
-
-
-If the predictor is a continuous variable, the DV (the difference score of the outcome variable) is regressed on the mean score of the outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of the categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for demonstration. We referred to  @kenny2006  for an idea about handling categorical predictors in dyadic analysis, and @Hwang2022 for incorporating that idea into discordant-kinship regression.
-
-## Handling Categorical Predictors
-
-
-### Breif explanation for types of variable in dyadic analysis
-
-In dyadic analysis, a variable can be at the within-dyads level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. 
-
-Between-dyads variable refers to a variable that members in the same pair have the same score. For example, the length of the marriage is a between-dyads variable if the study consists of married-couple samples. Race can be a between-dyads variable if the study consists of same-race sibling pairs. 
-
-Within-dyads variable refers to a variable where variance exists within dyads, but variance does not exist across dyads. For example, if two same-sex roommates report their division of house chores, which adds up to 100% for all pairs, that is a within-dyads variable. 
-
-A mixed variable refers to a variable that variances exist both within- and between-dyads. For example, gender is a prototypical example of a mixed variable in that individuals in the pair can be male or female, regardless of their dyad. 
-
-## Mixed Variables: Gender as an Example
-
-As discussed above, sex is a mixed variable in this example.
-
-We use the `discord_data()` function to prepare the data for analysis.
-
-
-The `discord_data()` function restructures the paired data. 
-In the pair, the one with the higher DV is assigned to be "_1" and the other one is assigned to be "_2".
-
-
-``` r
-cat_sex &lt;- discord_data(
-            data = df_link,
-            outcome = "S00_H40",
-            sex= "SEX",
-            race= "RACE",
-            demographics = "sex",
-            predictors=NULL,
-            pair_identifiers = c("_S1","_S2"),
-            coding_method = "both")</code></pre>
+<p>In dyadic analysis, categorical predictors can fall into three
+types:</p>
+<ul>
+<li><p>Between-dyad variables: constant within dyads (e.g., same
+race)</p></li>
+<li><p>Within-dyad variables: vary within dyads but constant across
+(rare for categories)</p></li>
+<li><p>Mixed variables: vary both within and across dyads (e.g.,
+sex</p></li>
+</ul>
+<p>If the predictor is a continuous variable, the DV (the difference
+score of the outcome variable) is regressed on the mean score of the
+outcome variable, the mean score of the predictor, and the difference
+score of the predictor. However, it is impossible to calculate the mean
+score and difference score of the categorical variable. This vignette
+introduces how to deal with categorical predictors in discordant-kinship
+regressions. In this example, we use sex and race as categorical
+variables for demonstration. We referred to <span class="citation">Kenny, Kashy, and Cook (2006)</span> for an idea about
+handling categorical predictors in dyadic analysis, and <span class="citation">Hwang (2022)</span> for incorporating that idea into
+discordant-kinship regression.</p>
+<div class="section level3">
+<h3 id="handling-categorical-predictors-1">Handling Categorical Predictors<a class="anchor" aria-label="anchor" href="#handling-categorical-predictors-1"></a>
+</h3>
+<div class="section level4">
+<h4 id="brief-explanation-for-types-of-variable-in-dyadic-analysis">Brief explanation for types of variable in dyadic analysis<a class="anchor" aria-label="anchor" href="#brief-explanation-for-types-of-variable-in-dyadic-analysis"></a>
+</h4>
+<p>In dyadic analysis, a variable can be at the within-dyads level, the
+between-dyad level, or a combination. This combination is called a
+“mixed variable”, meaning that it varies both within and between
+dyads.</p>
+<p>Between-dyads variable refers to a variable that members in the same
+pair have the same score. For example, the length of the marriage is a
+between-dyads variable if the study consists of married-couple samples.
+Race can be a between-dyads variable if the study consists of same-race
+sibling pairs.</p>
+<p>Within-dyads variable refers to a variable where variance exists
+within dyads, but variance does not exist across dyads. For example, if
+two same-sex roommates report their division of house chores, which adds
+up to 100% for all pairs, that is a within-dyads variable.</p>
+<p>A mixed variable refers to a variable that variances exist both
+within- and between-dyads. For example, gender is a prototypical example
+of a mixed variable in that individuals in the pair can be male or
+female, regardless of their dyad.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="mixed-variables-gender-as-an-example">Mixed Variables: Gender as an Example<a class="anchor" aria-label="anchor" href="#mixed-variables-gender-as-an-example"></a>
+</h3>
+<p>As discussed above, sex is a mixed variable in this example.</p>
+<p>We use the <code><a href="../reference/discord_data.html">discord_data()</a></code> function to prepare the data
+for analysis.</p>
+<p>The <code><a href="../reference/discord_data.html">discord_data()</a></code> function restructures the paired
+data. In the pair, the one with the higher DV is assigned to be “_1” and
+the other one is assigned to be “_2”.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cat_sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_data.html">discord_data</a></span><span class="op">(</span></span>
+<span>            data <span class="op">=</span> <span class="va">df_link</span>,</span>
+<span>            outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
+<span>            sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>            race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>            demographics <span class="op">=</span> <span class="st">"sex"</span>,</span>
+<span>            predictors<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span>            pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
+<span>            coding_method <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span></span></code></pre></div>
 <p>A random slice of this data looks as follows:</p>
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
@@ -236,77 +264,19 @@ SEX_multimatch
 <tbody>
 <tr>
 <td style="text-align:center;">
-373
+359
 </td>
 <td style="text-align:center;">
-87.65669
+80.83837
 </td>
 <td style="text-align:center;">
-45.92817
+46.83232
 </td>
 <td style="text-align:center;">
-41.728516
+34.006052
 </td>
 <td style="text-align:center;">
-66.79243
-</td>
-<td style="text-align:center;">
-MALE
-</td>
-<td style="text-align:center;">
-FEMALE
-</td>
-<td style="text-align:center;">
-mixed-sex
-</td>
-<td style="text-align:center;">
-mixed
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-464
-</td>
-<td style="text-align:center;">
-70.06481
-</td>
-<td style="text-align:center;">
-52.70917
-</td>
-<td style="text-align:center;">
-17.355634
-</td>
-<td style="text-align:center;">
-61.38699
-</td>
-<td style="text-align:center;">
-FEMALE
-</td>
-<td style="text-align:center;">
-MALE
-</td>
-<td style="text-align:center;">
-mixed-sex
-</td>
-<td style="text-align:center;">
-mixed
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-431
-</td>
-<td style="text-align:center;">
-63.60257
-</td>
-<td style="text-align:center;">
-44.20263
-</td>
-<td style="text-align:center;">
-19.399937
-</td>
-<td style="text-align:center;">
-53.90260
+63.83535
 </td>
 <td style="text-align:center;">
 FEMALE
@@ -323,19 +293,77 @@ FEMALE
 </tr>
 <tr>
 <td style="text-align:center;">
-361
+363
 </td>
 <td style="text-align:center;">
-68.20585
+79.39371
 </td>
 <td style="text-align:center;">
-62.58821
+74.43080
 </td>
 <td style="text-align:center;">
-5.617644
+4.962906
 </td>
 <td style="text-align:center;">
-65.39703
+76.91225
+</td>
+<td style="text-align:center;">
+FEMALE
+</td>
+<td style="text-align:center;">
+MALE
+</td>
+<td style="text-align:center;">
+mixed-sex
+</td>
+<td style="text-align:center;">
+mixed
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+492
+</td>
+<td style="text-align:center;">
+70.61552
+</td>
+<td style="text-align:center;">
+50.76235
+</td>
+<td style="text-align:center;">
+19.853172
+</td>
+<td style="text-align:center;">
+60.68894
+</td>
+<td style="text-align:center;">
+FEMALE
+</td>
+<td style="text-align:center;">
+MALE
+</td>
+<td style="text-align:center;">
+mixed-sex
+</td>
+<td style="text-align:center;">
+mixed
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+85
+</td>
+<td style="text-align:center;">
+48.54822
+</td>
+<td style="text-align:center;">
+35.09636
+</td>
+<td style="text-align:center;">
+13.451863
+</td>
+<td style="text-align:center;">
+41.82229
 </td>
 <td style="text-align:center;">
 FEMALE
@@ -352,19 +380,19 @@ FEMALE
 </tr>
 <tr>
 <td style="text-align:center;">
-456
+131
 </td>
 <td style="text-align:center;">
-25.78665
+49.05986
 </td>
 <td style="text-align:center;">
-17.98135
+35.82118
 </td>
 <td style="text-align:center;">
-7.805295
+13.238680
 </td>
 <td style="text-align:center;">
-21.88400
+42.44052
 </td>
 <td style="text-align:center;">
 MALE
@@ -381,31 +409,31 @@ mixed
 </tr>
 <tr>
 <td style="text-align:center;">
-243
+299
 </td>
 <td style="text-align:center;">
-39.27671
+47.78226
 </td>
 <td style="text-align:center;">
-35.29675
+31.52980
 </td>
 <td style="text-align:center;">
-3.979963
+16.252455
 </td>
 <td style="text-align:center;">
-37.28673
-</td>
-<td style="text-align:center;">
-FEMALE
+39.65603
 </td>
 <td style="text-align:center;">
 MALE
 </td>
 <td style="text-align:center;">
-mixed-sex
+MALE
 </td>
 <td style="text-align:center;">
-mixed
+same-sex
+</td>
+<td style="text-align:center;">
+MALE
 </td>
 </tr>
 </tbody>
@@ -432,7 +460,7 @@ FEMALE
 FEMALE
 </td>
 <td style="text-align:center;">
-751
+416
 </td>
 </tr>
 <tr>
@@ -443,7 +471,7 @@ FEMALE
 MALE
 </td>
 <td style="text-align:center;">
-650
+358
 </td>
 </tr>
 <tr>
@@ -454,7 +482,7 @@ MALE
 FEMALE
 </td>
 <td style="text-align:center;">
-754
+429
 </td>
 </tr>
 <tr>
@@ -465,7 +493,7 @@ MALE
 MALE
 </td>
 <td style="text-align:center;">
-706
+396
 </td>
 </tr>
 </tbody>
@@ -545,7 +573,7 @@ FEMALE
 MALE
 </td>
 <td style="text-align:center;">
-650
+358
 </td>
 </tr>
 <tr>
@@ -562,7 +590,7 @@ MALE
 FEMALE
 </td>
 <td style="text-align:center;">
-754
+429
 </td>
 </tr>
 <tr>
@@ -579,7 +607,7 @@ FEMALE
 FEMALE
 </td>
 <td style="text-align:center;">
-751
+416
 </td>
 </tr>
 <tr>
@@ -596,7 +624,7 @@ MALE
 MALE
 </td>
 <td style="text-align:center;">
-706
+396
 </td>
 </tr>
 </tbody>
@@ -610,6 +638,7 @@ female-female pairs, and mixed-sex pairs, <code>SEX_multimatch</code>
 can be a good option.</p>
 <p>In the regression model section, we demonstrated the regression
 analyses with these sex-composition variables.</p>
+</div>
 <div class="section level3">
 <h3 id="between-dyad-variable-race-as-an-example">Between-dyad variable: Race as an Example<a class="anchor" aria-label="anchor" href="#between-dyad-variable-race-as-an-example"></a>
 </h3>
@@ -622,7 +651,7 @@ between-dyad variable, meaning that we only include the same-race pairs
 in the data.</p>
 <p>By using the <code><a href="../reference/discord_data.html">discord_data()</a></code> function, we can prepare
 data for the analysis as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span> <span class="co"># for reproducibility </span></span>
@@ -670,7 +699,7 @@ MINORITY
 MINORITY
 </td>
 <td style="text-align:center;">
-1508
+778
 </td>
 </tr>
 <tr>
@@ -687,7 +716,7 @@ NONMINORITY
 NONMINORITY
 </td>
 <td style="text-align:center;">
-1353
+821
 </td>
 </tr>
 </tbody>
@@ -699,7 +728,7 @@ pairs. The <code>RACE_multimatch</code> variable indicates whether the
 pair is minority-minority, nonminority-nonminority, or mixed-race.</p>
 <p>By using the <code><a href="../reference/discord_data.html">discord_data()</a></code> function, users can prepare
 data that contains both race- and sex-composition variables.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># for reproducibility </span></span>
 <span></span>
@@ -767,7 +796,7 @@ FEMALE
 MALE
 </td>
 <td style="text-align:center;">
-351
+179
 </td>
 </tr>
 <tr>
@@ -793,7 +822,7 @@ MALE
 FEMALE
 </td>
 <td style="text-align:center;">
-406
+201
 </td>
 </tr>
 <tr>
@@ -819,7 +848,7 @@ FEMALE
 FEMALE
 </td>
 <td style="text-align:center;">
-401
+204
 </td>
 </tr>
 <tr>
@@ -845,7 +874,7 @@ MALE
 MALE
 </td>
 <td style="text-align:center;">
-350
+194
 </td>
 </tr>
 <tr>
@@ -871,7 +900,7 @@ FEMALE
 MALE
 </td>
 <td style="text-align:center;">
-299
+179
 </td>
 </tr>
 <tr>
@@ -897,7 +926,7 @@ MALE
 FEMALE
 </td>
 <td style="text-align:center;">
-348
+228
 </td>
 </tr>
 <tr>
@@ -923,7 +952,7 @@ FEMALE
 FEMALE
 </td>
 <td style="text-align:center;">
-350
+212
 </td>
 </tr>
 <tr>
@@ -949,7 +978,7 @@ MALE
 MALE
 </td>
 <td style="text-align:center;">
-356
+202
 </td>
 </tr>
 </tbody>
@@ -967,7 +996,7 @@ MALE
 </h4>
 <p>The regression model with the binary-match sex variable can be
 conducted as such:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_sex_binary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>     data <span class="op">=</span> <span class="va">df_link</span>,</span>
 <span>     outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
@@ -1001,13 +1030,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-23.540
+23.952
 </td>
 <td style="text-align:center;text-align: center;">
-0.875
+1.166
 </td>
 <td style="text-align:center;text-align: center;">
-26.907
+20.534
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1018,13 +1047,13 @@ p&lt;0.001
 S00_H40_mean
 </td>
 <td style="text-align:center;text-align: center;">
--0.069
+-0.090
 </td>
 <td style="text-align:center;text-align: center;">
-0.015
+0.020
 </td>
 <td style="text-align:center;text-align: center;">
--4.559
+-4.561
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1035,16 +1064,16 @@ p&lt;0.001
 SEX_binarymatch
 </td>
 <td style="text-align:center;text-align: center;">
--0.998
+0.024
 </td>
 <td style="text-align:center;text-align: center;">
-0.565
+0.750
 </td>
 <td style="text-align:center;text-align: center;">
--1.767
+0.031
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.077
+p=0.975
 </td>
 </tr>
 </tbody>
@@ -1056,16 +1085,16 @@ in SES score between siblings at age 40, <code>S00_H40_diff</code>,
 controlling for another variable (in this case,
 <code>SEX_binarymatch</code>). It is estimated that for one unit
 increase of <code>S00_H40_mean</code>, <code>S00_H40_diff</code>is
-expected to decrease approximately -0.069.</p>
+expected to decrease approximately -0.09.</p>
 <p>The term <code>SEX_binarymatch</code> is not a significant predictor
-(p = 0.077) when controlling for <code>S00_H40_mean</code>. There is no
+(p = 0.975) when controlling for <code>S00_H40_mean</code>. There is no
 significant differences between same-sex pairs and mixed-sex pairs in
 <code>S00_H40_diff</code>. This means that the difference between
 same-sex pairs and mixed-sex pairs does not significantly predict the
 <code>S00_H40_diff</code> in the pair when controlling for
 <code>S00_H40_mean</code>.</p>
 <p>It is estimated that, compared to the reference group (the mixed-sex
-pairs), the same-sex pairs would have approximately -0.998 higher
+pairs), the same-sex pairs would have approximately 0.024 higher
 difference score of <code>S00_H40_diff</code>, when controlling for
 <code>S00_H40_mean</code>. However, this coefficient is not significant,
 so it is not advisable to interpret the coefficient.</p>
@@ -1075,7 +1104,7 @@ so it is not advisable to interpret the coefficient.</p>
 </h4>
 <p>The regression model with the multi-match sex variable can be
 conducted as such:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_sex_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>     data <span class="op">=</span> <span class="va">df_link</span>,</span>
 <span>     outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
@@ -1109,13 +1138,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-22.497
+24.110
 </td>
 <td style="text-align:center;text-align: center;">
-0.941
+1.243
 </td>
 <td style="text-align:center;text-align: center;">
-23.910
+19.392
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1126,13 +1155,13 @@ p&lt;0.001
 S00_H40_mean
 </td>
 <td style="text-align:center;text-align: center;">
--0.069
+-0.090
 </td>
 <td style="text-align:center;text-align: center;">
-0.015
+0.020
 </td>
 <td style="text-align:center;text-align: center;">
--4.557
+-4.525
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1143,16 +1172,16 @@ p&lt;0.001
 SEX_multimatchMALE
 </td>
 <td style="text-align:center;text-align: center;">
-0.109
+-0.324
 </td>
 <td style="text-align:center;text-align: center;">
-0.794
+1.055
 </td>
 <td style="text-align:center;text-align: center;">
-0.138
+-0.307
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.891
+p=0.759
 </td>
 </tr>
 <tr>
@@ -1160,16 +1189,16 @@ p=0.891
 SEX_multimatchmixed
 </td>
 <td style="text-align:center;text-align: center;">
-1.051
+-0.182
 </td>
 <td style="text-align:center;text-align: center;">
-0.683
+0.909
 </td>
 <td style="text-align:center;text-align: center;">
-1.538
+-0.200
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.124
+p=0.842
 </td>
 </tr>
 </tbody>
@@ -1181,15 +1210,15 @@ in SES between siblings (<code>S00_H40_diff</code>), controlling for
 other variables (in this case, <code>SEX_multimatch</code>). It is
 estimated that for one unit increase of <code>S00_H40_mean</code>,
 <code>S00_H40_diff</code> is expected to decrease approximately
-0.069.</p>
+0.09.</p>
 <p>There was no significant difference between female-female pairs and
-male-male pairs (p=0.891) to predict <code>S00_H40_diff</code>.
+male-male pairs (p=0.759) to predict <code>S00_H40_diff</code>.
 Similarly, there were no significant differences between mixed-sex pairs
-and female-female pairs (p = 0.124).</p>
-<p>The coefficient 0.109 is the difference between the expected
+and female-female pairs (p = 0.842).</p>
+<p>The coefficient 0.324 is the difference between the expected
 <code>S00_H40_diff</code> for the reference group (in this case, the
 female-female pairs) and the male-male pairs.</p>
-<p>The coefficient 1.051 is the difference between the expected
+<p>The coefficient 0.182 is the difference between the expected
 <code>S00_H40_diff</code> for the reference group (in this case, the
 female-female pairs) and the mixed-sex pairs. However, these
 coefficients are not significant, so it is not advisable to interpret
@@ -1201,7 +1230,7 @@ the coefficients.</p>
 <p>if users are interested in predicting the mean SES score for the
 sibling pairs with predictors, regression analyses can be carried out as
 such::</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">SEX_binarymatch</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">cat_sex</span><span class="op">)</span></span></code></pre></div>
@@ -1229,13 +1258,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-51.218
+52.399
 </td>
 <td style="text-align:center;text-align: center;">
-0.497
+0.675
 </td>
 <td style="text-align:center;text-align: center;">
-102.984
+77.576
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1246,16 +1275,16 @@ p&lt;0.001
 SEX_binarymatchsame-sex
 </td>
 <td style="text-align:center;text-align: center;">
-0.703
+0.018
 </td>
 <td style="text-align:center;text-align: center;">
-0.697
+0.948
 </td>
 <td style="text-align:center;text-align: center;">
-1.009
+0.019
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.313
+p=0.985
 </td>
 </tr>
 </tbody>
@@ -1264,12 +1293,12 @@ p=0.313
 (<code>S00_H40_mean</code>) was regressed on the SEX-composition
 variable (<code>SEX_binarymatch</code>).</p>
 <p>There is no significant difference between same-sex pairs and
-mixed-sex pairs in the mean SES score for the siblings (p=0.313)</p>
+mixed-sex pairs in the mean SES score for the siblings (p=0.985)</p>
 <p>It is estimated that compared to the mixed-sex pairs, the same-sex
-pairs would have approximately 0.703 higher <code>S00_H40_mean</code>.
+pairs would have approximately 0.018 higher <code>S00_H40_mean</code>.
 However, this coefficient is not significant, so it is not advisable to
 interpret the coefficient.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span></span>
 <span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span> <span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">SEX_multimatch</span>,</span>
@@ -1298,13 +1327,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-50.163
+50.529
 </td>
 <td style="text-align:center;text-align: center;">
-0.678
+0.927
 </td>
 <td style="text-align:center;text-align: center;">
-73.934
+54.516
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1315,16 +1344,16 @@ p&lt;0.001
 SEX_multimatchMALE
 </td>
 <td style="text-align:center;text-align: center;">
-3.628
+3.872
 </td>
 <td style="text-align:center;text-align: center;">
-0.975
+1.327
 </td>
 <td style="text-align:center;text-align: center;">
-3.723
+2.917
 </td>
 <td style="text-align:center;text-align: center;">
-p&lt;0.001
+p=0.004
 </td>
 </tr>
 <tr>
@@ -1332,31 +1361,31 @@ p&lt;0.001
 SEX_multimatchmixed
 </td>
 <td style="text-align:center;text-align: center;">
-1.055
+1.870
 </td>
 <td style="text-align:center;text-align: center;">
-0.841
+1.146
 </td>
 <td style="text-align:center;text-align: center;">
-1.255
+1.632
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.210
+p=0.103
 </td>
 </tr>
 </tbody>
 </table>
 <p>There is a significant difference between female-female pairs and
-male-male pairs (0) to predict the <code>S00_H40_mean</code>. However,
-there is no significant difference between mixed-sex pairs and
-female-female pairs (p = 0.21).</p>
-<p>The coefficient 3.628 is the difference between the expected
+male-male pairs (0.004) to predict the <code>S00_H40_mean</code>.
+However, there is no significant difference between mixed-sex pairs and
+female-female pairs (p = 0.103).</p>
+<p>The coefficient 3.872 is the difference between the expected
 <code>S00_H40_mean</code> (the mean SES score for the siblings) for the
 reference group (in this case, the female-female pairs) and the
 male-male pairs. It can be concluded that male-male pairs and
 female-female pair has significant differences in
 <code>S00_H40_mean</code>.</p>
-<p>The coefficient 1.055 is the difference between the expected
+<p>The coefficient 1.87 is the difference between the expected
 <code>S00_H40_mean</code> for the reference group (in this case, the
 female-female pairs) and the mixed-sex pairs. However, these
 coefficients are not significant, so it is not advisable to interpret
@@ -1376,7 +1405,7 @@ can be conducted as such:</p>
 <div class="section level4">
 <h4 id="race-multi-match">RACE multi match<a class="anchor" aria-label="anchor" href="#race-multi-match"></a>
 </h4>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># perform kinship regressions </span></span>
 <span><span class="va">cat_race_reg</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>     data <span class="op">=</span> <span class="va">df_link</span>,</span>
@@ -1411,13 +1440,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-23.363
+24.361
 </td>
 <td style="text-align:center;text-align: center;">
-0.830
+1.108
 </td>
 <td style="text-align:center;text-align: center;">
-28.140
+21.987
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1428,16 +1457,16 @@ p&lt;0.001
 S00_H40_mean
 </td>
 <td style="text-align:center;text-align: center;">
--0.049
+-0.076
 </td>
 <td style="text-align:center;text-align: center;">
-0.016
+0.020
 </td>
 <td style="text-align:center;text-align: center;">
--3.104
+-3.712
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.002
+p&lt;0.001
 </td>
 </tr>
 <tr>
@@ -1445,42 +1474,41 @@ p=0.002
 RACE_multimatchNONMINORITY
 </td>
 <td style="text-align:center;text-align: center;">
--2.933
+-2.272
 </td>
 <td style="text-align:center;text-align: center;">
-0.585
+0.771
 </td>
 <td style="text-align:center;text-align: center;">
--5.017
+-2.945
 </td>
 <td style="text-align:center;text-align: center;">
-p&lt;0.001
+p=0.003
 </td>
 </tr>
 </tbody>
 </table>
 <p>The mean SES score for the siblings (<code>S00_H40_mean</code>) is a
-significant control variable (p =0.002. The term
-<code>S00_H40_mean</code> is negatively associated with the difference
-score of SES between siblings (<code>S00_H40_diff</code>), controlling
-for another variable (in this case,
-<code>RACE_multimatchNONMINORITY</code>). It is estimated that for one
-unit increase of <code>S00_H40_mean</code>, the DV
+significant control variable (p =0. The term <code>S00_H40_mean</code>
+is negatively associated with the difference score of SES between
+siblings (<code>S00_H40_diff</code>), controlling for another variable
+(in this case, <code>RACE_multimatchNONMINORITY</code>). It is estimated
+that for one unit increase of <code>S00_H40_mean</code>, the DV
 (<code>S00_H40_diff</code>) is expected to decrease by approximately
-0.049.</p>
+0.076.</p>
 <p>The term <code>RACE_multimatchNONMINORITY</code> was a significant
-predictor of <code>S00_H40_diff</code> (p = 0) after controlling for
+predictor of <code>S00_H40_diff</code> (p = 0.003) after controlling for
 <code>S00_H40_mean</code>. This means that the difference between the
 “Minority-minority” sibling pairs and “nonminority-non-minority” sibling
 pairs significantly predicts <code>S00_H40_diff</code>. Specifically,
 compared to the reference group (the “minority” pairs), “nonminority”
-pairs are expected to have approximately 2.933 lower
+pairs are expected to have approximately 2.272 lower
 <code>S00_H40_diff</code>.</p>
 </div>
 <div class="section level4">
 <h4 id="mean-model-1">Mean model<a class="anchor" aria-label="anchor" href="#mean-model-1"></a>
 </h4>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">cat_race</span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
@@ -1507,13 +1535,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-46.863
+47.645
 </td>
 <td style="text-align:center;text-align: center;">
-0.463
+0.659
 </td>
 <td style="text-align:center;text-align: center;">
-101.318
+72.335
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1524,13 +1552,13 @@ p&lt;0.001
 RACE_multimatchNONMINORITY
 </td>
 <td style="text-align:center;text-align: center;">
-9.966
+9.277
 </td>
 <td style="text-align:center;text-align: center;">
-0.673
+0.919
 </td>
 <td style="text-align:center;text-align: center;">
-14.817
+10.092
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1541,7 +1569,7 @@ p&lt;0.001
 <p>There is significant difference between “minority” pairs and
 “nonminority” pairs in <code>S00_H40_mean</code> (p =0). It is estimated
 that, compared to the reference group (minority pairs), the nonminority
-pairs would have approximately 9.966 lower
+pairs would have approximately 9.277 lower
 <code>S00_H40_mean</code>.</p>
 </div>
 </div>
@@ -1554,7 +1582,7 @@ using the <code><a href="../reference/discord_data.html">discord_data()</a></cod
 <div class="section level4">
 <h4 id="sex-and-race-multi-match">Sex and Race (Multi-match)<a class="anchor" aria-label="anchor" href="#sex-and-race-multi-match"></a>
 </h4>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="va">both_multi</span> <span class="op">&lt;-</span><span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>     data <span class="op">=</span> <span class="va">df_link</span>,</span>
 <span>     outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
@@ -1588,13 +1616,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-22.813
+24.523
 </td>
 <td style="text-align:center;text-align: center;">
-0.939
+1.248
 </td>
 <td style="text-align:center;text-align: center;">
-24.292
+19.647
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1605,16 +1633,16 @@ p&lt;0.001
 S00_H40_mean
 </td>
 <td style="text-align:center;text-align: center;">
--0.048
+-0.075
 </td>
 <td style="text-align:center;text-align: center;">
-0.016
+0.020
 </td>
 <td style="text-align:center;text-align: center;">
--3.088
+-3.673
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.002
+p&lt;0.001
 </td>
 </tr>
 <tr>
@@ -1622,16 +1650,16 @@ p=0.002
 SEX_multimatchMALE
 </td>
 <td style="text-align:center;text-align: center;">
-0.145
+-0.380
 </td>
 <td style="text-align:center;text-align: center;">
-0.791
+1.053
 </td>
 <td style="text-align:center;text-align: center;">
-0.184
+-0.361
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.854
+p=0.718
 </td>
 </tr>
 <tr>
@@ -1639,16 +1667,16 @@ p=0.854
 SEX_multimatchmixed
 </td>
 <td style="text-align:center;text-align: center;">
-1.014
+-0.192
 </td>
 <td style="text-align:center;text-align: center;">
-0.680
+0.907
 </td>
 <td style="text-align:center;text-align: center;">
-1.490
+-0.212
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.136
+p=0.832
 </td>
 </tr>
 <tr>
@@ -1656,22 +1684,22 @@ p=0.136
 RACE_multimatchNONMINORITY
 </td>
 <td style="text-align:center;text-align: center;">
--2.915
+-2.277
 </td>
 <td style="text-align:center;text-align: center;">
-0.585
+0.772
 </td>
 <td style="text-align:center;text-align: center;">
--4.986
+-2.950
 </td>
 <td style="text-align:center;text-align: center;">
-p&lt;0.001
+p=0.003
 </td>
 </tr>
 </tbody>
 </table>
 <p>The mean SES score for the siblings (<code>S00_H40_mean</code>) is a
-significant control variable (p = 0.002 ). <code>S00_H40_mean</code> is
+significant control variable (p = 0 ). <code>S00_H40_mean</code> is
 negatively associated with the difference score of SES between the
 siblings (<code>S00_H40_diff</code>), controlling for other variables
 (in this case, the <code>SEX_multimatchMALE</code>,
@@ -1680,19 +1708,19 @@ siblings (<code>S00_H40_diff</code>), controlling for other variables
 unit increase of the mean SES score for the sibling pairs(
 <code>S00_H40_mean</code>), the difference score of SES between
 siblings(<code>S00_H40_diff</code>) is expected to decrease
-approximately -0.048.</p>
+approximately -0.075.</p>
 <p>The <code>SEX_multimatchmixed</code> and
 <code>SEX_multimatchMALE</code> are not significant predictors when
 controlling for other variables (i.e., <code>S00_H40_mean</code> and
-<code>RACE_multimatchNONMINORITY</code>). The coefficient 0.145 is the
+<code>RACE_multimatchNONMINORITY</code>). The coefficient -0.38 is the
 difference between the expected DV (<code>S00_H40_diff</code>) for the
 reference group (in this case, the “female-female” pairs) and the
-“male-male” pairs. The coefficient 1.014 is the difference between the
+“male-male” pairs. The coefficient -0.192 is the difference between the
 expected DV (<code>S00_H40_diff</code>) for the female-female pairs and
 the mixed-sex pairs. However, these coefficients are not significant, so
 it is not advisable to interpret the coefficients.</p>
 <p>The term <code>RACE_multimatchNONMINORITY</code> is a significant
-predictor (p = 0) when controlling for other variables (i.e.,
+predictor (p = 0.003) when controlling for other variables (i.e.,
 <code>SEX_multimatchMALE</code>, <code>SEX_multimatchmixed</code>, and
 <code>S00_H40_mean</code>). This means that there is a significant
 difference between minority race pairs and nonminority race pairs in the
@@ -1701,7 +1729,7 @@ when controlling for the model covariates (i.e.,
 <code>SEX_multimatchMALE</code>, <code>SEX_multimatchmixed</code>, and
 <code>S00_H40_mean</code>). Specifically, compared to the minority race
 pairs, the nonminority race pairs were expected to have approximately
--2.915 higher difference score of SES between siblings at age 40.</p>
+-2.277 higher difference score of SES between siblings at age 40.</p>
 </div>
 <div class="section level4">
 <h4 id="sex-binary-match-and-race-multi-match">SEX binary match and Race multi match<a class="anchor" aria-label="anchor" href="#sex-binary-match-and-race-multi-match"></a>
@@ -1712,7 +1740,7 @@ Thus, if user wants to use the binarymatch sex variable and multimatch
 variable, it can be done by using the <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function.</p>
 <p>We can perform regression using the binary-match sex variable and
 multi-match race variable as such:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">discord_cat_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span> <span class="va">S00_H40_diff</span> <span class="op">~</span> <span class="va">S00_H40_mean</span> <span class="op">+</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">cat_both</span><span class="op">)</span>  </span></code></pre></div>
@@ -1740,13 +1768,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-23.817
+24.357
 </td>
 <td style="text-align:center;text-align: center;">
-0.873
+1.172
 </td>
 <td style="text-align:center;text-align: center;">
-27.281
+20.787
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1757,30 +1785,13 @@ p&lt;0.001
 S00_H40_mean
 </td>
 <td style="text-align:center;text-align: center;">
--0.048
+-0.076
 </td>
 <td style="text-align:center;text-align: center;">
-0.016
+0.020
 </td>
 <td style="text-align:center;text-align: center;">
--3.083
-</td>
-<td style="text-align:center;text-align: center;">
-p=0.002
-</td>
-</tr>
-<tr>
-<td style="text-align:center;text-align: center;">
-RACE_multimatchNONMINORITY
-</td>
-<td style="text-align:center;text-align: center;">
--2.914
-</td>
-<td style="text-align:center;text-align: center;">
-0.585
-</td>
-<td style="text-align:center;text-align: center;">
--4.985
+-3.711
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1788,25 +1799,42 @@ p&lt;0.001
 </tr>
 <tr>
 <td style="text-align:center;text-align: center;">
+RACE_multimatchNONMINORITY
+</td>
+<td style="text-align:center;text-align: center;">
+-2.272
+</td>
+<td style="text-align:center;text-align: center;">
+0.771
+</td>
+<td style="text-align:center;text-align: center;">
+-2.944
+</td>
+<td style="text-align:center;text-align: center;">
+p=0.003
+</td>
+</tr>
+<tr>
+<td style="text-align:center;text-align: center;">
 SEX_binarymatchsame-sex
 </td>
 <td style="text-align:center;text-align: center;">
--0.944
+0.007
 </td>
 <td style="text-align:center;text-align: center;">
-0.563
+0.748
 </td>
 <td style="text-align:center;text-align: center;">
--1.677
+0.009
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.094
+p=0.993
 </td>
 </tr>
 </tbody>
 </table>
 <p>The mean SES score for the siblings at 40 (<code>S00_H40_mean</code>)
-is a significant control variable (p = 0.002. The mean SES score for the
+is a significant control variable (p = 0. The mean SES score for the
 siblings (<code>S00_H40_mean</code>) is negatively associated with the
 difference score of SES between the siblings
 (<code>S00_H40_diff</code>), controlling for other variables (in this
@@ -1814,9 +1842,9 @@ case, <code>SEX_binarymatchsame-sex</code> and
 <code>RACE_multimatchNONMINORITY</code>). It is estimated that for one
 unit increase of <code>S00_H40_mean</code>, the DV
 (<code>S00_H40_diff</code>) is expected to decrease approximately
-0.048.</p>
+0.076.</p>
 <p>The term <code>SEX_binarymatchsame-sex</code> is not a significant
-predictor (p = 0.094) when controlling for other variables (i.e.,
+predictor (p = 0.993) when controlling for other variables (i.e.,
 <code>S00_H40_mean</code> and <code>RACE_multimatchNONMINORITY</code>).
 This means that the difference between same-sex pairs and mixed-sex
 pairs does not significantly predict the difference score of SES between
@@ -1824,20 +1852,20 @@ siblings (<code>S00_H40_diff</code>) when controlling for the mean SES
 score for the siblings (<code>S00_H40_mean</code>) and race-composition
 of the pair (<code>RACE_multimatchNONMINORITY</code>). Compared to the
 mixed-sex pairs, it is estimated that the same-sex pairs have
-approximately 0.944higher difference score of SES between siblings
+approximately 0.007higher difference score of SES between siblings
 (<code>S00_H40_diff</code>) when controlling for the mean SES score for
 the sibling pairs (<code>S00_H40_mean</code>) and race-composition of
 the pairs (<code>RACE_multimatchNONMINORITY</code>). However, this
 variable is not significant, so it is not advisable to interpret the
 coefficient.</p>
 <p>The term <code>RACE_multimatchNONMINORITY</code>is a significant
-predictor (p = 0). This means that there is a significant difference
+predictor (p = 0.003). This means that there is a significant difference
 between minority race pairs and nonminority race pairs to predict the
 difference score of SES between the siblings (<code>S00_H40_diff</code>)
 when controlling for the model covariates (i.e.,
 <code>SEX_binarymatchsame-sex</code> and <code>S00_H40_mean</code>).
 Specifically, compared to the minority race pairs, nonminority race
-pairs were expected to have approximately 2.914 lower difference scores
+pairs were expected to have approximately 2.272 lower difference scores
 of SES between siblings (<code>S00_H40_diff</code>).</p>
 </div>
 <div class="section level4">
@@ -1845,7 +1873,7 @@ of SES between siblings (<code>S00_H40_diff</code>).</p>
 </h4>
 <p>The mean SES score for the sibling pairs can be regressed on
 SEX-composition and race-composition variables as follows:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span> <span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_multimatch</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">cat_both</span><span class="op">)</span> </span></code></pre></div>
@@ -1873,13 +1901,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-45.553
+45.801
 </td>
 <td style="text-align:center;text-align: center;">
-0.725
+1.013
 </td>
 <td style="text-align:center;text-align: center;">
-62.806
+45.210
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1890,13 +1918,13 @@ p&lt;0.001
 RACE_multimatchNONMINORITY
 </td>
 <td style="text-align:center;text-align: center;">
-9.891
+9.277
 </td>
 <td style="text-align:center;text-align: center;">
-0.672
+0.917
 </td>
 <td style="text-align:center;text-align: center;">
-14.723
+10.114
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1907,16 +1935,16 @@ p&lt;0.001
 SEX_multimatchMALE
 </td>
 <td style="text-align:center;text-align: center;">
-3.251
+3.867
 </td>
 <td style="text-align:center;text-align: center;">
-0.940
+1.287
 </td>
 <td style="text-align:center;text-align: center;">
-3.457
+3.005
 </td>
 <td style="text-align:center;text-align: center;">
-p&lt;0.001
+p=0.003
 </td>
 </tr>
 <tr>
@@ -1924,39 +1952,39 @@ p&lt;0.001
 SEX_multimatchmixed
 </td>
 <td style="text-align:center;text-align: center;">
-1.107
+1.800
 </td>
 <td style="text-align:center;text-align: center;">
-0.811
+1.111
 </td>
 <td style="text-align:center;text-align: center;">
-1.365
+1.620
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.172
+p=0.105
 </td>
 </tr>
 </tbody>
 </table>
 <p>The term <code>SEX_multimatchMALE</code> is a significant predictor
-(p = 0.001) when controlling for other variables (i.e.,
+(p = 0.003) when controlling for other variables (i.e.,
 <code>SEX_multimatchmixed</code>and
 <code>RACEe_multimatchNONMINORITY</code>). This means that the
 difference between female-female pairs and male-male pairs significantly
 predicted the mean SES score for the siblings when controlling for
 race-composition of the pairs. Compared to the female-female pairs, it
-is estimated that the male-male pairs have approximately 3.251 higher
+is estimated that the male-male pairs have approximately 3.867 higher
 mean SES score for the siblings when controlling for and
 race-composition of the pairs.</p>
 <p>The term <code>SEX_multimatchmixed</code> was not a significant
-predictor (p = 0.172) when controlling for other variables (i.e.,
+predictor (p = 0.105) when controlling for other variables (i.e.,
 <code>SEX_multimatchMALE</code>and
 <code>RACE_multimatchNONMINORITY</code>). This means that the difference
 between female-female pairs and mixed-sex pairs does not significantly
 predict the mean SES score for the siblings when controlling for
 race-composition of the pairs. Compared to the female-female pairs, it
-is estimated that the mixed-sex pairs have approximately 1.107 higher
-mean SES score for the sibling pairs when controlling for and
+is estimated that the mixed-sex pairs have approximately 1.8 higher mean
+SES score for the sibling pairs when controlling for and
 race-composition of the pairs. However, this variable is not
 significant, so it is not advisable to interpret the coefficient.</p>
 <p>The term <code>RACE_multimatchNONMINORITY</code> is a significant
@@ -1966,8 +1994,8 @@ score for the sibling pairs (<code>S00_H40_mean</code>) when controlling
 for the other variables (i.e., <code>SEX_multimatchmixed</code> and
 <code>SEX_multimatchMALE</code>). Specifically, compared to the minority
 race pairs, nonminority race pairs were expected to have approximately
-9.891 higher mean SES score for siblings</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+9.277 higher mean SES score for siblings</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span> <span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">cat_both</span><span class="op">)</span>  </span></code></pre></div>
@@ -1995,13 +2023,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-46.630
+47.601
 </td>
 <td style="text-align:center;text-align: center;">
-0.571
+0.809
 </td>
 <td style="text-align:center;text-align: center;">
-81.673
+58.803
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -2012,13 +2040,13 @@ p&lt;0.001
 RACE_multimatchNONMINORITY
 </td>
 <td style="text-align:center;text-align: center;">
-9.955
+9.278
 </td>
 <td style="text-align:center;text-align: center;">
-0.673
+0.920
 </td>
 <td style="text-align:center;text-align: center;">
-14.795
+10.090
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -2029,27 +2057,27 @@ p&lt;0.001
 SEX_binarymatchsame-sex
 </td>
 <td style="text-align:center;text-align: center;">
-0.467
+0.086
 </td>
 <td style="text-align:center;text-align: center;">
-0.672
+0.919
 </td>
 <td style="text-align:center;text-align: center;">
-0.695
+0.093
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.487
+p=0.926
 </td>
 </tr>
 </tbody>
 </table>
 <p>The term <code>SEX_binarymatchsame-sex</code> is not a significant
-predictor (p = 0.487) when controlling for the race-composition variable
+predictor (p = 0.926) when controlling for the race-composition variable
 (i.e., <code>RACE_multimatchNONMINORITY</code>). This means that the
 difference between mixed-sex pairs and same sex pairs does not
 significantly predict the mean SES score for the siblings when
 controlling for race-composition of the pairs. Compared to the mixed-sex
-pairs, it is estimated that the same-sex pairs have approximately 0.467
+pairs, it is estimated that the same-sex pairs have approximately 0.086
 higher mean SES score for the sibling pairs (<code>S00_H40_mean</code>)
 when controlling for and race-composition of the pairs
 (<code>RACE_multimatchNONMINORITY</code>). However, this variable is not
@@ -2060,7 +2088,7 @@ between minority race pairs and nonminority race pairs in the the mean
 SES score for the siblings when controlling for the sex-composition
 variable (i.e., <code>SEX_binarymatchsame-sex</code>). Specifically,
 compared to the minority race pairs, nonminority race pairs were
-expected to have approximately 9.955 higher mean SES score for
+expected to have approximately 9.278 higher mean SES score for
 siblings</p>
 </div>
 </div>
@@ -2075,8 +2103,20 @@ variables or between-dyad variables as predictors, as exemplified by
 gender and race.</p>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Hwang2022" class="csl-entry">
+Hwang, Yoo Ri. 2022. <span>“Dueling Dyads: Regression Versus MLM
+Analysis with a Categorical Predictor.”</span> Master's thesis, Wake
+Forest University.
+</div>
+<div id="ref-kenny2006" class="csl-entry">
+Kenny, David A., Deborah A. Kashy, and William L. Cook. 2006. <em>Dyadic
+Data Analysis</em>. Dyadic Data Analysis. New York, NY, US: Guilford
+Press.
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
