@@ -5,7 +5,7 @@
 \alias{data_flu_ses}
 \title{Flu Vaccination and SES Data}
 \format{
-A data frame. \describe{Kinship pairs and their relatedness, 
+A data frame. \describe{Kinship pairs and their relatedness,
 SES, and flu vaccination information.}
 }
 \source{
@@ -15,7 +15,7 @@ NLSY/R Lab
 data_flu_ses
 }
 \description{
-A data frame that accompanies the regression vignette. 
+A data frame that accompanies the regression vignette.
 It contains data on SES and flu vaccination.
 }
 \keyword{datasets}
