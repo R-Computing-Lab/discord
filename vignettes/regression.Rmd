@@ -23,12 +23,12 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 # Introduction
 
 
-The next section illustrates one example of discordant-kinship regressions with the `discord` package. 
+This vignette presents a simple example of a discordant-kinship regression using the `discord` package. 
 
+The analysis draws from work presented by Trattner et al (2020) [@jonathantrattner2020], which was initially motivated by reports of health disparities among ethnic minority groups during the COVID-19 pandemic [@hooper2020].
+The data come from the 1979 National Longitudinal Survey of Youth (NLSY79), a nationally-representative household probability sample jointly sponsored by the U.S. Bureau of Labor Statistics and the Department of Defense. Participants were surveyed annually from 1979 until 1994 at which point surveys occurred biennially. The data are publicly available at <https://www.nlsinfo.org/> and include responses from a biennial flu vaccine survey administered between 2006 and 2016. 
 
-The following analysis is a simple case based on work presented elsewhere [@jonathantrattner2020]. The original project was inspired by reports detailing health disparities among ethnic minorities during the COVID-19 pandemic [@hooper2020]. Data came from the 1979 National Longitudinal Survey of Youth (NLSY79), a nationally representative household probability sample jointly sponsored by the U.S. Bureau of Labor Statistics and Department of Defense. Participants were surveyed annually from 1979 until 1994 at which point surveys occurred biennially. The data are publicly available at <https://www.nlsinfo.org/> and include responses from a biennial flu vaccine survey administered between 2006 and 2016. Our work originally examined whether SES at age 40 is a significant predictor for vaccination rates using the discordant-kinship model.
-
-The data for this analysis was downloaded with the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and can be found [here](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/flu_shot.dat). The SES at age 40 data can be found [here](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/nlsy-ses.csv). For clarity and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/preprocess-discord-flu.R). This discordant-kinship analysis is possible thanks to recent work that estimated relatedness for approximately 95% of the NLSY79 kin pairs [@rodgers2016]. These kinship links are included in the [{NlsyLinks}](http://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016] and are easily utilized with the {discord} package.
+The original analysis examined whether socioeconomic status (SES) at age 40 predicted flu vaccination rates, using a discordant kinship design. For this vignette, the data were downloaded using the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and are available [here](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/flu_shot.dat). SES at age 40 values can be found [here](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/nlsy-ses.csv). For clarity and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/preprocess-discord-flu.R). This analysis is enabled by recent work that inferred genetic relatedness for approximately 95% of kin pairs in the NLSY79 cohort [@rodgers2016]. These kinship links are provided in the [{NlsyLinks}](http://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016], and can be easily utilized with the {discord} package.
 
 ```{r setup-discord-data, include = FALSE, cache = FALSE, eval=FALSE}
 
@@ -56,7 +56,8 @@ library(magrittr)
 data(data_flu_ses)
 ```
 
-After some pre-processing, we have a data frame containing subject identifiers, demographic information such as race and sex, and behavioral measurements like flu vaccination rates and SES at age 40. A random slice of this data looks like:
+
+After preprocessing, we obtain a data frame that contain subject identifiers, ddemographic information such as race and sex, and behavioral variables such as flu vaccination totals and SES at age 40. A random slice of this dataset is shown below.
 
 ```{r preview-pre-processed-data, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
 
@@ -80,9 +81,9 @@ data_flu_ses %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position"), position = "center")
 ```
 
-Using the kinship relationships from the `NlsyLinks` package, we restructure the data to better lend itself to discordant kinship analysis. For each kin pair, the function `CreatePairLinksSingleEntered()` takes a data set like the one above, **[a specification of the NLSY database and the kin's relatedness]**, and the variables of interest. It returns a data frame where every row is a kin-pair and each column is a variable of interest with a suffix indicating to which individual the value corresponds.
+Using kinship data from the NlsyLinks package, we restructure the dataset to better lend itself to discordant kinship analysis. For each kin pair, the function `CreatePairLinksSingleEntered()` takes a data set like the one above, **[a specification of the NLSY database and the kin's relatedness]**, and the variables of interest.  It returns a data frame where each row represents a kin pair, and each variable appears twice—once for each sibling—using suffixes to distinguish individuals.
 
-For this example, we will examine the relationship between flu vaccinations received between 2006-2016 and SES at age 40 between full siblings. As such, we specify the following variables from the pre-processed data frame previewed above.
+In this example, we examine the relationship between total flu vaccinations (received between 2006 and 2016) and SES at age 40, focusing on full siblings. The variable names used in this linkage are drawn from the preprocessed data previewed above.
 
 ```{r set-kinship-link-vars}
 # Get kinship links for individuals with the following variables:
@@ -105,7 +106,7 @@ df_link <- CreatePairLinksSingleEntered(outcomeDataset = data_flu_ses,
 
 ```
 
-We have saved this data frame as `df_link`. A random subset of this data is:[^discord-2]
+We have saved this data frame as `df_link`. A random subset of this data is shown below::[^discord-2]
 
 ```{r preview-linked-dat, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
 
@@ -135,7 +136,7 @@ df_link %>%
   kableExtra::kable_styling(latex_options = c("striped", "hold_position", "scale_down"))
 ```
 
-[^discord-2]: Notice that, with the exception of the first column indicating the specific pair, each column name has the suffix "\_S1" and "\_S2". As mentioned above, these suffices identify which sibling the column values correspond.
+[^discord-2]: Each variable name includes the suffix "\_S1" and "\_S2", identifying the sibling to whom the value belongs. The only exception is the first column, which identifies the kin pair. 
 
 This data is almost ready for analysis, but we want to ensure that the data are representative of actual trends. The `FLU_total` column is simply a sum of the biennial survey responses. So for a given sibling-pair, one or both individuals may not have responded to the survey indicating their vaccination status. If that's the case, we want to exclude those siblings to reduce **[non-response bias]**, by examining the biennial responses and removing any rows with missingness.
 
@@ -198,7 +199,7 @@ flu_modeling_data %>%
 
 ## Modeling and Interpretation
 
-To perform the regression using the {discord} package, we supply the data frame and specify the outcome and predictors. It also requires a kinship pair id, `extended_id` in our case, as well as pair identifiers -- the column name suffixes that identify to which kin a column's values correspond ("\_s1" and "\_s2" in our case).[^discord-3] Optional, although recommended, are columns containing sex and race information to control for as additional covariates. In our case, these columns are prefixed "race" and "sex". Per the [pre-processing script](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/preprocess-discord-flu.R), these columns contain dummy variables where the reference group for race is "non-Black, non-Hispanic" and the reference group for sex is female. This 
+To perform the regression using the {discord} package, we supply the data frame and specify the outcome and predictors. It also requires a kinship pair id, `extended_id` in our case, as well as pair identifiers -- the column name suffixes that identify to which kin a column's values correspond ("\_s1" and "\_s2" in our case).[^discord-3] Optional, although recommended, are columns containing sex and race information to control for as additional covariates. In our case, these columns are prefixed "race" and "sex". Per the [pre-processing script](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/preprocess-discord-flu.R), these columns contain dummy variables where the reference group for race is "non-Black, non-Hispanic" and the reference group for sex is female. 
 
 [^discord-3]: Note these ids were previously "\_S1" and "\_S2", however, we used the `clean_names()` function which coerced the column names to lowercase.
 
