@@ -4,7 +4,7 @@ author: Yoo Ri Hwang and S. Mason Garrison
 bibliography: references.bib
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{categorical_predictors}
+  %\VignetteIndexEntry{Demonstrating Categorical Predictors in Discordant-Kinship Regressions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
