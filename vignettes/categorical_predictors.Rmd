@@ -21,20 +21,20 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ## Objective
 
-The aim of this vignette is to provide a comprehensive guide for incorporating categorical predictors in discordant-kinship regression analyses using the `discord` package. Furthermore, we will demonstrate how to interpret there different types of categorical variables—mixed variables and between-dyad variables—within the discordant-kinship framework.
 
-## Research Question
+This vignette provides a detailed guide for incorporating categorical predictors into discordant-kinship regression analyses using the `discord` package. We demonstrate how to structure, code, and interpret categorical variables that operate at either the dyad level (between-dyads) or vary across and within dyads (mixed variables).
 
-We explore whether sex significantly predicts SES at age 40 using different coding schemes for categorical variables.
 
-## Data Source
+To illustrate, we examine whether sex predicts SES at age 40, using different categorical coding schemes. The data come from a subset of the 1979 National Longitudinal Survey of Youth (NLSY79).
 
-We use a subset of the 1979 National Longitudinal Survey of Youth (NLSY79).
+This vignette addresses that challenge by demonstrating how to apply discordant-kinship regression models using categorical predictors — specifically, sex and race. The approach draws on dyadic modeling strategies described in [@kenny2006] and incorporates their extension to the kinship setting following [@Hwang2022].
 
+
+We now walk through the full analytic process, beginning with data preparation.
 
 # Data Preparation
 
-## Package and Data Loading
+We load the necessary packages and data.
  
 ```{r setup, message = FALSE}
 # Loading necessary packages and data
@@ -51,7 +51,7 @@ library(magrittr)
 data(data_flu_ses)
 ```
 
-## Data Cleaning and Preprocessing
+We begin by filtering and cleaning the dataset, creating kinship links, and recoding categorical variables. In this example, we use full siblings (R = 0.5) from the Gen1 cohort.
 
 ```{r set-df-link}
 
@@ -64,12 +64,23 @@ link_vars <- c("S00_H40", "RACE", "SEX")
 
 link_pairs <- Links79PairExpanded %>%
   filter(RelationshipPath == "Gen1Housemates" & RFull == 0.5)
+```
+
+
+We then use `CreatePairLinksSingleEntered()` from the `NlsyLinks` package to merge kinship links with the target variables. This gives us a sibling-pair dataset in "wide" format, with suffixes distinguishing the two individuals in each pair.
+
+```{r}
 
 df_link <- CreatePairLinksSingleEntered(outcomeDataset = data_flu_ses,
                                         linksPairDataset = link_pairs,
                                         outcomeNames = link_vars)
 
+```
 
+
+To ensure that the dependent variable (SES at age 40) is available for both members of the pair, we filter out missing values. We also recode sex and race into string labels and retain only same-race pairs to make race a between-dyads variable.
+
+```{r}
 # We removed the pair when the Dependent Variable is missing. 
 
 df_link <- df_link %>%
@@ -89,9 +100,9 @@ df_link <- df_link %>%
 
 ```
 
-# We only pick one pair per household to avoid the independence assumption violation.
+To avoid violating independence assumptions, we retain only one sibling pair per household. This ensures each dyad is independent in the regression model.
 
-
+```{r}
 df_link<-df_link%>%
   group_by(ExtendedID) %>%
   slice_sample() %>%
@@ -100,10 +111,16 @@ df_link<-df_link%>%
 ```
 
 
+# Handling Categorical Predictors
 
-# Methodology
 
-## Discordant-Kinship Regression: General Logic
+In dyadic analysis, categorical predictors can fall into three types:
+
+- Between-dyad variables: constant within dyads (e.g., same race)
+
+- Within-dyad variables: vary within dyads but constant across (rare for categories)
+
+- Mixed variables: vary both within and across dyads (e.g., sex
 
 
 If the predictor is a continuous variable, the DV (the difference score of the outcome variable) is regressed on the mean score of the outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of the categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for demonstration. We referred to  @kenny2006  for an idea about handling categorical predictors in dyadic analysis, and @Hwang2022 for incorporating that idea into discordant-kinship regression.
@@ -111,7 +128,7 @@ If the predictor is a continuous variable, the DV (the difference score of the o
 ## Handling Categorical Predictors
 
 
-### Breif explanation for types of variable in dyadic analysis
+### Brief explanation for types of variable in dyadic analysis
 
 In dyadic analysis, a variable can be at the within-dyads level, the between-dyad level, or a combination. This combination is called a "mixed variable", meaning that it varies both within and between dyads. 
 
@@ -170,6 +187,8 @@ cat_sex %>%
   kableExtra::kable_styling(full_width = FALSE) 
 
 ```
+
+
 The `SEX_1` variable indicates the sex of the individual who has the higher DV in the pairs, and the `SEX_2` variable indicates the sex of the other one in the pair. 
 
 In this example, the dependent variable (DV) is `S00_H40_diff`, the difference score of socio-economic status (SES) of the pair at age 40. Considering the DV (`S00_H40_diff`) is a between-dyads variable, we can make the sex variable a between-dyads variable as well. 

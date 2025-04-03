@@ -49,18 +49,20 @@ cite the following paper:
 citation(package = "discord")
 To cite package 'discord' in publications use:
 
-  Garrison S, Trattner J (2021). _discord: Functions for Discordant
-  Kinship Modeling_. R package version 1.1.0,
-  <https://CRAN.R-project.org/package=discord>.
+  Garrison S, Trattner J, Yoo Ri H (2025). _discord: Functions for
+  Discordant Kinship Modeling_. R package version 1.2.1,
+  https://r-computing-lab.github.io/discord/,
+  <https://github.com/R-Computing-Lab/discord>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {discord: Functions for Discordant Kinship Modeling},
-    author = {S. Mason Garrison and Jonathan Trattner},
-    year = {2021},
-    note = {R package version 1.1.0},
-    url = {https://CRAN.R-project.org/package=discord},
+    author = {S. Mason Garrison and Jonathan Trattner and Hwang {Yoo Ri}},
+    year = {2025},
+    note = {R package version 1.2.1, 
+https://r-computing-lab.github.io/discord/},
+    url = {https://github.com/R-Computing-Lab/discord},
   }
 ```
 
