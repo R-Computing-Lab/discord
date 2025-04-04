@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">discord</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -250,9 +250,9 @@ structure of the data.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">syn_df</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
-<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  r_a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.125</span><span class="op">)</span>, r_c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, cov_a <span class="op">=</span> <span class="fl">.2</span>,</span>
-<span>  cov_e <span class="op">=</span> <span class="fl">.4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">)</span></span>
+<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,cov_a <span class="op">=</span> <span class="fl">.4</span>,</span>
+<span>  cov_e <span class="op">=</span> <span class="fl">.4</span>, c_all<span class="op">=</span><span class="fl">0</span>,</span>
+<span>  r_vector <span class="op">=</span> <span class="va">df_cousin</span><span class="op">$</span><span class="va">addRel</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="va">A1_1</span>, <span class="va">A1_2</span>, <span class="va">A2_1</span>, <span class="va">A2_2</span>,</span>
@@ -268,19 +268,19 @@ it for modeling.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_demo</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       ID1             ID2             addRel          cnuRel       y1_1        </span></span>
-<span><span class="co">#&gt;  Min.   : 3.00   Min.   :  7.00   Min.   :0.125   Min.   :0   Min.   :-3.7893  </span></span>
-<span><span class="co">#&gt;  1st Qu.:21.00   1st Qu.: 26.00   1st Qu.:0.125   1st Qu.:0   1st Qu.:-0.4041  </span></span>
-<span><span class="co">#&gt;  Median :23.00   Median : 28.00   Median :0.125   Median :0   Median : 0.3677  </span></span>
-<span><span class="co">#&gt;  Mean   :21.62   Mean   : 36.55   Mean   :0.125   Mean   :0   Mean   : 0.6013  </span></span>
-<span><span class="co">#&gt;  3rd Qu.:24.00   3rd Qu.: 30.00   3rd Qu.:0.125   3rd Qu.:0   3rd Qu.: 1.6097  </span></span>
-<span><span class="co">#&gt;  Max.   :28.00   Max.   :104.00   Max.   :0.125   Max.   :0   Max.   : 4.5056  </span></span>
+<span><span class="co">#&gt;  Min.   : 3.00   Min.   :  7.00   Min.   :0.125   Min.   :0   Min.   :-3.6557  </span></span>
+<span><span class="co">#&gt;  1st Qu.:21.00   1st Qu.: 26.00   1st Qu.:0.125   1st Qu.:0   1st Qu.:-0.4007  </span></span>
+<span><span class="co">#&gt;  Median :23.00   Median : 28.00   Median :0.125   Median :0   Median : 0.3537  </span></span>
+<span><span class="co">#&gt;  Mean   :21.62   Mean   : 36.55   Mean   :0.125   Mean   :0   Mean   : 0.6055  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:24.00   3rd Qu.: 30.00   3rd Qu.:0.125   3rd Qu.:0   3rd Qu.: 1.6073  </span></span>
+<span><span class="co">#&gt;  Max.   :28.00   Max.   :104.00   Max.   :0.125   Max.   :0   Max.   : 4.5506  </span></span>
 <span><span class="co">#&gt;       y1_2              y2_1              y2_2               id      </span></span>
-<span><span class="co">#&gt;  Min.   :-1.2335   Min.   :-2.2244   Min.   :-2.5478   Min.   : 1.0  </span></span>
-<span><span class="co">#&gt;  1st Qu.:-0.1791   1st Qu.:-0.3895   1st Qu.: 0.2647   1st Qu.:12.5  </span></span>
-<span><span class="co">#&gt;  Median : 1.1652   Median : 0.9153   Median : 1.4645   Median :24.0  </span></span>
-<span><span class="co">#&gt;  Mean   : 1.1708   Mean   : 0.9886   Mean   : 1.1546   Mean   :24.0  </span></span>
-<span><span class="co">#&gt;  3rd Qu.: 2.1630   3rd Qu.: 2.1927   3rd Qu.: 2.1714   3rd Qu.:35.5  </span></span>
-<span><span class="co">#&gt;  Max.   : 4.9072   Max.   : 5.2628   Max.   : 4.3647   Max.   :47.0</span></span></code></pre></div>
+<span><span class="co">#&gt;  Min.   :-1.1505   Min.   :-2.2658   Min.   :-2.3618   Min.   : 1.0  </span></span>
+<span><span class="co">#&gt;  1st Qu.:-0.0983   1st Qu.:-0.4629   1st Qu.: 0.3215   1st Qu.:12.5  </span></span>
+<span><span class="co">#&gt;  Median : 1.1069   Median : 0.7087   Median : 1.4460   Median :24.0  </span></span>
+<span><span class="co">#&gt;  Mean   : 1.1957   Mean   : 0.9443   Mean   : 1.1523   Mean   :24.0  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: 2.1121   3rd Qu.: 2.2073   3rd Qu.: 2.1726   3rd Qu.:35.5  </span></span>
+<span><span class="co">#&gt;  Max.   : 5.0089   Max.   : 5.3431   Max.   : 4.2828   Max.   :47.0</span></span></code></pre></div>
 <p>We then use <code><a href="../reference/discord_regression.html">discord_regression()</a></code> to fit a
 discordant-kinship model, predicting y1 from y2. Based on the structure
 of the data, we expect that there will be a significant association
@@ -306,20 +306,20 @@ function, which takes the following arguments:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals:</span></span>
 <span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span><span class="co">#&gt; -1.4644 -0.9104 -0.1991  0.7750  2.8269 </span></span>
+<span><span class="co">#&gt; -1.6044 -0.9315 -0.1824  0.7204  2.7929 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
 <span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">#&gt; (Intercept)  1.28320    0.24793   5.176 5.68e-06 ***</span></span>
-<span><span class="co">#&gt; y1_mean      0.08302    0.13130   0.632  0.53053    </span></span>
-<span><span class="co">#&gt; y2_diff      0.24433    0.08983   2.720  0.00938 ** </span></span>
-<span><span class="co">#&gt; y2_mean      0.09841    0.12059   0.816  0.41896    </span></span>
+<span><span class="co">#&gt; (Intercept)  1.21796    0.24153   5.043  8.8e-06 ***</span></span>
+<span><span class="co">#&gt; y1_mean      0.08375    0.13099   0.639   0.5260    </span></span>
+<span><span class="co">#&gt; y2_diff      0.27022    0.08830   3.060   0.0038 ** </span></span>
+<span><span class="co">#&gt; y2_mean      0.11734    0.11812   0.993   0.3261    </span></span>
 <span><span class="co">#&gt; ---</span></span>
 <span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residual standard error: 1.137 on 43 degrees of freedom</span></span>
-<span><span class="co">#&gt; Multiple R-squared:  0.1666, Adjusted R-squared:  0.1085 </span></span>
-<span><span class="co">#&gt; F-statistic: 2.866 on 3 and 43 DF,  p-value: 0.04755</span></span></code></pre></div>
+<span><span class="co">#&gt; Residual standard error: 1.117 on 43 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.2033, Adjusted R-squared:  0.1477 </span></span>
+<span><span class="co">#&gt; F-statistic: 3.657 on 3 and 43 DF,  p-value: 0.01959</span></span></code></pre></div>
 <p>The output of the model includes estimates of the regression
 coefficients, standard errors, and p-values for the association between
 the two outcome variables.</p>
