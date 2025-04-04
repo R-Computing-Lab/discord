@@ -73,30 +73,131 @@ and S. Mason Garrison</h4>
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <div class="section level3">
-<h3 id="objective">Objective<a class="anchor" aria-label="anchor" href="#objective"></a>
+<h3 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h3>
-<p>This vignette provides a detailed guide for incorporating categorical
-predictors into discordant-kinship regression analyses using the
-<code>discord</code> package. We demonstrate how to structure, code, and
-interpret categorical variables that operate at either the dyad level
-(between-dyads) or vary across and within dyads (mixed variables).</p>
-<p>To illustrate, we examine whether sex predicts SES at age 40, using
-different categorical coding schemes. The data come from a subset of the
-1979 National Longitudinal Survey of Youth (NLSY79).</p>
-<p>This vignette addresses that challenge by demonstrating how to apply
-discordant-kinship regression models using categorical predictors —
-specifically, sex and race. The approach draws on dyadic modeling
-strategies described in <span class="citation">(Kenny, Kashy, and Cook
-2006)</span> and incorporates their extension to the kinship setting
-following <span class="citation">(Hwang 2022)</span>.</p>
-<p>We now walk through the full analytic process, beginning with data
-preparation.</p>
+<p>This vignette demonstrates how to incorporate categorical predictors
+in discordant-kinship regression analyses using the <code>discord</code>
+package. Drawing on dyadic modeling strategies described by Kenny et al.
+<span class="citation">(Kenny, Kashy, and Cook 2006)</span> and their
+extension to kinship settings by Hwang and Garrison <span class="citation">(Hwang 2022)</span>, we present a comprehensive
+approach to handling categorical variables like sex and race in these
+specialized regression models.</p>
+<p>We focus specifically on:</p>
+<ol style="list-style-type: decimal">
+<li>How to code and interpret categorical variables at different levels
+(between-dyads vs. mixed)</li>
+<li>Different methods for treating categorical predictors (binary match
+vs. multi match)</li>
+<li>Practical implementation using the <code>discord</code> package
+functions</li>
+</ol>
+<p>To illustrate, we examine whether sex and race predict SES at age 40,
+using different categorical coding schemes with data from the 1979
+National Longitudinal Survey of Youth (NLSY79).</p>
+</div>
+<div class="section level3">
+<h3 id="types-of-categorical-predictors">Types of Categorical Predictors<a class="anchor" aria-label="anchor" href="#types-of-categorical-predictors"></a>
+</h3>
+<p>In dyadic analysis, categorical predictors can operate at different
+levels:</p>
+<ul>
+<li>
+<strong>Between-dyad variables</strong>: Constant within dyads
+(e.g., same race pairs)</li>
+<li>
+<strong>Within-dyad variables</strong>: Vary within dyads but
+constant across dyads (rare for categorical variables)</li>
+<li>
+<strong>Mixed variables</strong>: Vary both within and across dyads
+(e.g., sex)</li>
+</ul>
+<p>This distinction affects how we code and interpret these variables in
+regression models.</p>
+</div>
+<div class="section level3">
+<h3 id="variable-types-and-their-implications">Variable Types and Their Implications<a class="anchor" aria-label="anchor" href="#variable-types-and-their-implications"></a>
+</h3>
+<p>In dyadic analysis, variables are classified based on their variation
+patterns:</p>
+<table class="table">
+<colgroup>
+<col width="25%">
+<col width="20%">
+<col width="16%">
+<col width="37%">
+</colgroup>
+<thead><tr class="header">
+<th>Variable Type</th>
+<th>Definition</th>
+<th>Examples</th>
+<th>Analytic Implications</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Between-dyads</td>
+<td>Members of the same pair have identical values</td>
+<td>Race in same-race siblings; Length of marriage in couples</td>
+<td>Simplifies analysis; Functions like individual-level variable</td>
+</tr>
+<tr class="even">
+<td>Within-dyads</td>
+<td>Varies within pairs but constant across pairs</td>
+<td>Division of chores between roommates (must sum to 100%)</td>
+<td>Rare for categorical variables; Requires specialized handling</td>
+</tr>
+<tr class="odd">
+<td>Mixed</td>
+<td>Varies both within and across pairs</td>
+<td>Sex in sibling pairs; Age; Personality traits</td>
+<td>Most complex; Requires transformation to dyad-level variables</td>
+</tr>
+</tbody>
+</table>
+<p>When analyzing continuous predictors, we typically calculate mean
+scores and difference scores. However, as Kenny et al. <span class="citation">(Kenny, Kashy, and Cook 2006)</span> note, categorical
+variables require alternative approaches since mean and difference
+calculations aren’t meaningful.</p>
+</div>
+<div class="section level3">
+<h3 id="coding-approaches-for-categorical-variables">Coding Approaches for Categorical Variables<a class="anchor" aria-label="anchor" href="#coding-approaches-for-categorical-variables"></a>
+</h3>
+<p>The <code>discord</code> package implements two primary coding
+strategies for categorical predictors:</p>
+<div class="float">
+<img src="coding_approaches.png" alt="Coding approaches comparison"><div class="figcaption">Coding approaches comparison</div>
+</div>
+<div class="section level4">
+<h4 id="binary-match-coding">Binary Match Coding<a class="anchor" aria-label="anchor" href="#binary-match-coding"></a>
+</h4>
+<p>Binary match coding creates a simple indicator of whether pairs match
+(1) or differ (0) on the categorical variable: - Same-sex pairs
+(male-male or female-female) → 1 - Mixed-sex pairs (male-female) → 0</p>
+<p><strong>When to use</strong>: When your research question focuses on
+similarity versus difference rather than specific category effects.</p>
+</div>
+<div class="section level4">
+<h4 id="multi-match-coding">Multi-Match Coding<a class="anchor" aria-label="anchor" href="#multi-match-coding"></a>
+</h4>
+<p>Multi-match coding preserves specific category information: -
+Male-male pairs → “MALE” - Female-female pairs → “FEMALE” - Mixed pairs
+→ “mixed”</p>
+<p><strong>When to use</strong>: When you hypothesize different effects
+for different categories (e.g., male pairs vs. female pairs).</p>
+<p>Following Hwang and Garrison <span class="citation">(Hwang
+2022)</span>, the approach you select should align with your specific
+research questions and theoretical framework.</p>
+</div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h2>
-<p>We load the necessary packages and data.</p>
+<p>We’ll demonstrate categorical predictor handling using sibling data
+from the NLSY79. We first load necessary packages and prepare our
+dataset.</p>
+<div class="section level3">
+<h3 id="package-loading-and-data-setup">Package Loading and Data Setup<a class="anchor" aria-label="anchor" href="#package-loading-and-data-setup"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Loading necessary packages and data</span></span>
 <span><span class="co"># For easy data manipulation</span></span>
@@ -163,31 +264,8 @@ regression model.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="handling-categorical-predictors">Handling Categorical Predictors<a class="anchor" aria-label="anchor" href="#handling-categorical-predictors"></a>
-</h2>
-<p>In dyadic analysis, categorical predictors can fall into three
-types:</p>
-<ul>
-<li><p>Between-dyad variables: constant within dyads (e.g., same
-race)</p></li>
-<li><p>Within-dyad variables: vary within dyads but constant across
-(rare for categories)</p></li>
-<li><p>Mixed variables: vary both within and across dyads (e.g.,
-sex</p></li>
-</ul>
-<p>If the predictor is a continuous variable, the DV (the difference
-score of the outcome variable) is regressed on the mean score of the
-outcome variable, the mean score of the predictor, and the difference
-score of the predictor. However, it is impossible to calculate the mean
-score and difference score of the categorical variable. This vignette
-introduces how to deal with categorical predictors in discordant-kinship
-regressions. In this example, we use sex and race as categorical
-variables for demonstration. We referred to <span class="citation">Kenny, Kashy, and Cook (2006)</span> for an idea about
-handling categorical predictors in dyadic analysis, and <span class="citation">Hwang (2022)</span> for incorporating that idea into
-discordant-kinship regression.</p>
 <div class="section level3">
-<h3 id="handling-categorical-predictors-1">Handling Categorical Predictors<a class="anchor" aria-label="anchor" href="#handling-categorical-predictors-1"></a>
+<h3 id="handling-categorical-predictors">Handling Categorical Predictors<a class="anchor" aria-label="anchor" href="#handling-categorical-predictors"></a>
 </h3>
 <div class="section level4">
 <h4 id="brief-explanation-for-types-of-variable-in-dyadic-analysis">Brief explanation for types of variable in dyadic analysis<a class="anchor" aria-label="anchor" href="#brief-explanation-for-types-of-variable-in-dyadic-analysis"></a>
@@ -1110,7 +1188,6 @@ conducted as such:</p>
 <span>     outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
 <span>     sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
 <span>     race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>     demographics <span class="op">=</span> <span class="st">"sex"</span>,</span>
 <span>     predictors<span class="op">=</span><span class="cn">NULL</span>,</span>
 <span>     pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
 <span>     coding_method <span class="op">=</span><span class="st">"multi"</span><span class="op">)</span></span></code></pre></div>
@@ -1138,13 +1215,13 @@ P Value
 (Intercept)
 </td>
 <td style="text-align:center;text-align: center;">
-24.110
+24.523
 </td>
 <td style="text-align:center;text-align: center;">
-1.243
+1.248
 </td>
 <td style="text-align:center;text-align: center;">
-19.392
+19.647
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1155,13 +1232,13 @@ p&lt;0.001
 S00_H40_mean
 </td>
 <td style="text-align:center;text-align: center;">
--0.090
+-0.075
 </td>
 <td style="text-align:center;text-align: center;">
 0.020
 </td>
 <td style="text-align:center;text-align: center;">
--4.525
+-3.673
 </td>
 <td style="text-align:center;text-align: center;">
 p&lt;0.001
@@ -1172,16 +1249,16 @@ p&lt;0.001
 SEX_multimatchMALE
 </td>
 <td style="text-align:center;text-align: center;">
--0.324
+-0.380
 </td>
 <td style="text-align:center;text-align: center;">
-1.055
+1.053
 </td>
 <td style="text-align:center;text-align: center;">
--0.307
+-0.361
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.759
+p=0.718
 </td>
 </tr>
 <tr>
@@ -1189,16 +1266,33 @@ p=0.759
 SEX_multimatchmixed
 </td>
 <td style="text-align:center;text-align: center;">
--0.182
+-0.192
 </td>
 <td style="text-align:center;text-align: center;">
-0.909
+0.907
 </td>
 <td style="text-align:center;text-align: center;">
--0.200
+-0.212
 </td>
 <td style="text-align:center;text-align: center;">
-p=0.842
+p=0.832
+</td>
+</tr>
+<tr>
+<td style="text-align:center;text-align: center;">
+RACE_multimatchNONMINORITY
+</td>
+<td style="text-align:center;text-align: center;">
+-2.277
+</td>
+<td style="text-align:center;text-align: center;">
+0.772
+</td>
+<td style="text-align:center;text-align: center;">
+-2.950
+</td>
+<td style="text-align:center;text-align: center;">
+p=0.003
 </td>
 </tr>
 </tbody>
@@ -1210,15 +1304,15 @@ in SES between siblings (<code>S00_H40_diff</code>), controlling for
 other variables (in this case, <code>SEX_multimatch</code>). It is
 estimated that for one unit increase of <code>S00_H40_mean</code>,
 <code>S00_H40_diff</code> is expected to decrease approximately
-0.09.</p>
+0.075.</p>
 <p>There was no significant difference between female-female pairs and
-male-male pairs (p=0.759) to predict <code>S00_H40_diff</code>.
+male-male pairs (p=0.718) to predict <code>S00_H40_diff</code>.
 Similarly, there were no significant differences between mixed-sex pairs
-and female-female pairs (p = 0.842).</p>
-<p>The coefficient 0.324 is the difference between the expected
+and female-female pairs (p = 0.832).</p>
+<p>The coefficient 0.38 is the difference between the expected
 <code>S00_H40_diff</code> for the reference group (in this case, the
 female-female pairs) and the male-male pairs.</p>
-<p>The coefficient 0.182 is the difference between the expected
+<p>The coefficient 0.192 is the difference between the expected
 <code>S00_H40_diff</code> for the reference group (in this case, the
 female-female pairs) and the mixed-sex pairs. However, these
 coefficients are not significant, so it is not advisable to interpret
@@ -2096,11 +2190,26 @@ siblings</p>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>This vignette demonstrates how to effectively include categorical
-predictors in discordant-kinship regressions using the discord package.
-Depending on the research question, one can choose to use either mixed
-variables or between-dyad variables as predictors, as exemplified by
-gender and race.</p>
+<p>This vignette has demonstrated how to incorporate categorical
+predictors in discordant-kinship regression analyses using the
+<code>discord</code> package. We’ve shown that:</p>
+<ol style="list-style-type: decimal">
+<li>Categorical variables can be handled as between-dyad or mixed
+variables depending on their distribution</li>
+<li>The <code><a href="../reference/discord_data.html">discord_data()</a></code> function facilitates appropriate
+recoding of categorical predictors</li>
+<li>Different coding schemes (binary and multi-category) offer
+flexibility based on research questions</li>
+</ol>
+<p>The analyses revealed that race composition significantly predicted
+SES differences between siblings, while sex composition did not. These
+findings illustrate how the <code>discord</code> package allows
+researchers to examine complex research questions while maintaining
+appropriate controls for kinship structures.</p>
+<p>For implementation in your own research, we recommend: - Consider the
+theoretical nature of your categorical predictors - Choose appropriate
+coding schemes based on your research questions - Carefully interpret
+results in light of variable coding decisions</p>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
