@@ -1,5 +1,5 @@
-
 # discord 1.2.2
+
 * Added kinship link demonstration using potter dataset from BGmisc package
 * Copy edited vignettes
 
