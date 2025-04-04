@@ -98,6 +98,7 @@ dataset from {BGmisc}.</p>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use the conflicted package (<span style="color: #0000BB; font-style: italic;">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/discord" class="external-link">discord</a></span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">potter</span><span class="op">)</span></span></code></pre></div>
 <p>We rename the family ID column to avoid naming conflicts and generate
 a pedigree-encoded data frame. This creates a consistent family
@@ -119,14 +120,17 @@ raised together (1) or apart (0)</p></li>
 <p>We then verify and, if necessary, repair sex coding to ensure
 compatibility with downstream pedigree-based operations.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_potter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/checkSex.html" class="external-link">checkSex</a></span><span class="op">(</span><span class="va">df_potter</span>,</span>
+<code class="sourceCode R"><span></span>
+<span><span class="va">df_potter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/checkSex.html" class="external-link">checkSex</a></span><span class="op">(</span><span class="va">df_potter</span>,</span>
 <span>  code_male <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  code_female <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>, repair <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/plotPedigree.html" class="external-link">plotPedigree</a></span><span class="op">(</span><span class="va">df_potter</span><span class="op">)</span></span></code></pre></div>
-<p><img src="links_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="links_files/figure-html/unnamed-chunk-6-1.png" alt="Pedigree plot of the Potter dataset" width="768"><p class="caption">
+Pedigree plot of the Potter dataset
+</p>
+</div>
 <pre><code><span><span class="co">#&gt; named list()</span></span></code></pre>
 </div>
 <div class="section level2">
@@ -135,15 +139,15 @@ compatibility with downstream pedigree-based operations.</p>
 <p>The <code>com2links</code> function generates a data frame of kinship
 links based on the pedigree data. The <code>writetodisk</code> argument
 is set to FALSE to avoid writing the output to disk, and we filter out
-upper triangular values to focus on unique pairs. We use the com2links()
-function to convert the additive genetic and shared environment
-component matrices into a long-form data frame of kin pairs. Each row in
-the resulting data frame represents a pair of individuals, along with
-their additive genetic relatedness and shared environmental status.
-Self-pairs and duplicate (upper-triangular) entries are removed.</p>
+upper triangular values to focus on unique pairs.</p>
+<p>We use the <code><a href="https://r-computing-lab.github.io/BGmisc/reference/com2links.html" class="external-link">com2links()</a></code> function to convert the additive
+genetic and shared environment component matrices into a long-form data
+frame of kin pairs. Each row in the resulting data frame represents a
+pair of individuals, along with their additive genetic relatedness and
+shared environmental status. Self-pairs and duplicate (upper-triangular)
+entries are removed.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span></span>
 <span><span class="va">df_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/com2links.html" class="external-link">com2links</a></span><span class="op">(</span>writetodisk <span class="op">=</span> <span class="cn">FALSE</span>, ad_ped_matrix <span class="op">=</span> <span class="va">add</span>,  cn_ped_matrix <span class="op">=</span> <span class="va">cn</span>,</span>
 <span>                      drop_upper_triangular <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ID1</span><span class="op">!=</span><span class="va">ID2</span><span class="op">)</span></span>
 <span></span>
@@ -248,9 +252,10 @@ they can be useful for debugging and understanding the underlying
 structure of the data.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">syn_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span>mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, </span>
+<span><span class="va">syn_df</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span>mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, </span>
 <span>                 r_a<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.125</span><span class="op">)</span>,r_c<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, </span>
-<span>                 cov_e <span class="op">=</span> <span class="fl">.4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">A1_1</span>, <span class="va">A1_2</span>, <span class="va">A2_1</span>, <span class="va">A2_2</span>, </span>
+<span>                 cov_e <span class="op">=</span> <span class="fl">.4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">A1_1</span>, <span class="va">A1_2</span>, <span class="va">A2_1</span>, <span class="va">A2_2</span>, </span>
 <span>                                                         <span class="va">C1_1</span>, <span class="va">C1_2</span>, <span class="va">C2_1</span>, <span class="va">C2_2</span>,</span>
 <span>                                                         <span class="va">E1_1</span>, <span class="va">E1_2</span>, <span class="va">E2_1</span>, <span class="va">E2_2</span>,</span>
 <span>                                                         <span class="va">r</span></span>
