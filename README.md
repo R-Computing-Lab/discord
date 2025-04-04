@@ -12,7 +12,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 version](https://www.r-pkg.org/badges/version/discord)](https://cran.r-project.org/package=discord)
 [![Package
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/discord)](https://cran.r-project.org/package=discord)</br>
-[![R-CMD-check](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-check.yaml/badge.svg)](hhttps://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-check.yaml)
 ![License](https://img.shields.io/badge/License-GPL_v3-blue.svg)
 <!-- badges: end -->
 
@@ -76,5 +76,5 @@ For support, please use the GitHub issues page.
 
 `discord` is licensed under the GNU General Public License v3.0. For
 more details, see the
-[LICENSE.md](https://github.com/R-Computing-Lab/discord/blob/main/LICENSE.md)
+[LICENSE](https://github.com/R-Computing-Lab/discord/blob/main/LICENSE)
 file.
