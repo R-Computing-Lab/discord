@@ -46,6 +46,7 @@ devtools::install_github('R-Computing-Lab/discord')
 ```
 
 ## Citation
+
 If you use `discord` in your research or wish to refer to it, please cite the following paper:
 
 ```{r eval=TRUE, comment=NA}

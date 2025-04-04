@@ -21,11 +21,13 @@ nlsy_flu_data <- categories %>%
   ) %>%
   # If both encoded genders did not get a flu shot, set the entry in the year total equal to NA
   # This is necessary since we removed NAs from our sum calculation above
-  mutate(FLU_2008 = ifelse(is.na(FLU_M_2008) & is.na(FLU_F_2008), NA, FLU_2008),
-         FLU_2010 = ifelse(is.na(FLU_M_2010) & is.na(FLU_F_2010), NA, FLU_2010),
-         FLU_2012 = ifelse(is.na(FLU_M_2012) & is.na(FLU_F_2012), NA, FLU_2012),
-         FLU_2014 = ifelse(is.na(FLU_M_2014) & is.na(FLU_F_2014), NA, FLU_2014),
-         FLU_2016 = ifelse(is.na(FLU_M_2016) & is.na(FLU_F_2016), NA, FLU_2016))#,
+  mutate(
+    FLU_2008 = ifelse(is.na(FLU_M_2008) & is.na(FLU_F_2008), NA, FLU_2008),
+    FLU_2010 = ifelse(is.na(FLU_M_2010) & is.na(FLU_F_2010), NA, FLU_2010),
+    FLU_2012 = ifelse(is.na(FLU_M_2012) & is.na(FLU_F_2012), NA, FLU_2012),
+    FLU_2014 = ifelse(is.na(FLU_M_2014) & is.na(FLU_F_2014), NA, FLU_2014),
+    FLU_2016 = ifelse(is.na(FLU_M_2016) & is.na(FLU_F_2016), NA, FLU_2016)
+  ) # ,
 #         FLU_total = ifelse(is.na(FLU_2016) & is.na(FLU_2014) & is.na(FLU_2012) & is.na(FLU_2010) & is.na(FLU_2008),
 #                            NA, FLU_total))
 
@@ -40,18 +42,26 @@ demographic_data <- read_csv(here("data-raw/nlsy-ses.csv"))
 
 # Combine the demographic data with the flu shot data
 data_flu_ses <- inner_join(nlsy_flu_data, demographic_data,
-                      by = "CASEID") %>%
-  mutate(RACE = case_when(RACE == "NON-BLACK, NON-HISPANIC" ~ 0,
-                          RACE == "HISPANIC" | RACE == "BLACK" ~ 1),
-         SEX = case_when(SEX == "FEMALE" ~ 0,
-                         SEX == "MALE" ~ 1)) %>% select(-"...1")
+  by = "CASEID"
+) %>%
+  mutate(
+    RACE = case_when(
+      RACE == "NON-BLACK, NON-HISPANIC" ~ 0,
+      RACE == "HISPANIC" | RACE == "BLACK" ~ 1
+    ),
+    SEX = case_when(
+      SEX == "FEMALE" ~ 0,
+      SEX == "MALE" ~ 1
+    )
+  ) %>%
+  select(-"...1")
 
 # note that RACE is actually racial minority (o if non-black,non-hispanic; 1 if black or hispanic
 
 remove(nlsy_flu_data)
 remove(demographic_data)
 
-#flu_ses_data <- flu_ses_data %>%
+# flu_ses_data <- flu_ses_data %>%
 #  select(CASEID, RACE, SEX, FLU_total, S00_H40)
 
 usethis::use_data(data_flu_ses, overwrite = TRUE)

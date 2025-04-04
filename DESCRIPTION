@@ -9,7 +9,7 @@ Authors@R: c(person("S. Mason", "Garrison", email = "garrissm@wfu.edu",
              person("Jonathan", "Trattner", email = "code@jdtrat.com",
                   role = "aut",
            comment = c(ORCID = "0000-0002-1097-7603", url = "https://www.jdtrat.com/")),
-             person("Hwang", "Yoo Ri", email = "yrhwang89@gmail.com",
+             person("Yoo Ri", "Hwang", email = "yrhwang89@gmail.com",
                   role = "aut"),
              person("Cermet", "Ream", role = c("ctb")))
 Description: Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Contains data restructuring functions and functions for generating biometrically informed data for kin pairs. See [Garrison and Rodgers, 2016 <doi.org/10.1016/j.intell.2016.08.008>], [Sims, Trattner, and Garrison, 2024 <doi.org/10.3389/fpsyg.2024.1430978>) for empirical examples, and Garrison et al for theoritical work <https://osf.io/zpdwt/>.
@@ -35,6 +35,6 @@ Suggests:
     scales,
     snakecase,
     testthat,
-	tidyverse
+    tidyverse
 VignetteBuilder: 
     knitr

@@ -22,7 +22,7 @@ Useful links:
 Authors:
 \itemize{
   \item Jonathan Trattner \email{code@jdtrat.com} (\href{https://orcid.org/0000-0002-1097-7603}{ORCID}) (https://www.jdtrat.com/)
-  \item Hwang Yoo Ri \email{yrhwang89@gmail.com}
+  \item Yoo Ri Hwang \email{yrhwang89@gmail.com}
 }
 
 Other contributors:

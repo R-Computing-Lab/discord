@@ -241,10 +241,12 @@ kinsim <- function(
     y.r[, 3:4] <- y.r[, 3:4] + mu_list[2]
     y.r <- mu + A.r + C.r + E.r
     data.r <- data.frame(A.r, C.r, E.r, y.r, r_vector, id)
-    names(data.r) <- c("A1_1", "A1_2", "A2_1", "A2_2",
-                       "C1_1", "C1_2", "C2_1", "C2_2",
-                       "E1_1", "E1_2", "E2_1", "E2_2",
-                       "y1_1", "y1_2", "y2_1", "y2_2", "r", "id")
+    names(data.r) <- c(
+      "A1_1", "A1_2", "A2_1", "A2_2",
+      "C1_1", "C1_2", "C2_1", "C2_2",
+      "E1_1", "E1_2", "E2_1", "E2_2",
+      "y1_1", "y1_2", "y2_1", "y2_2", "r", "id"
+    )
 
 
     datalist[[i]] <- data.r
