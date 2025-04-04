@@ -60,8 +60,10 @@ When analyzing continuous predictors, we typically calculate mean scores and dif
 
 The `discord` package implements two primary coding strategies for categorical predictors:
 
+
 1. **Binary Match Coding**: Creates a binary indicator of whether pairs match (1) or differ (0) on the categorical variable.
 2. **Multi-Match Coding**: Preserves specific category information, allowing for more nuanced analysis.
+
 
 
 
