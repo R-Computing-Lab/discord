@@ -12,7 +12,7 @@ This update introduces several enhancements to categorical variable handling as 
 1. Local OS: Windows 11 x64 (build 22635), R 4.4.3 (2025-02-28 ucrt)
 2. Local OS: Windows 11 x64 (build 22635), R Under development (unstable) (2025-02-17 r87739 ucrt)
 3. **GitHub Actions**:  
-    - [Link](https://github.com/R-Computing-Lab/discord/actions/runs/14227584727)
+    - [Link](https://github.com/R-Computing-Lab/discord/actions/runs/14255906008)
     - macOS (latest version) with the latest R release.
     - Windows (latest version) with the latest R release.
     - Ubuntu (latest version) with:
