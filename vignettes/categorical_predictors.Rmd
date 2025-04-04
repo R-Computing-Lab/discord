@@ -19,22 +19,76 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
-## Objective
+## Purpose
+
+This vignette demonstrates how to incorporate categorical predictors in discordant-kinship regression analyses using the `discord` package.  Drawing on dyadic modeling strategies described by Kenny et al. [@kenny2006] and their extension to kinship settings by Hwang and Garrison [@Hwang2022], we present a comprehensive approach to handling categorical variables like sex and race in these specialized regression models.
 
 
-This vignette provides a detailed guide for incorporating categorical predictors into discordant-kinship regression analyses using the `discord` package. We demonstrate how to structure, code, and interpret categorical variables that operate at either the dyad level (between-dyads) or vary across and within dyads (mixed variables).
+We focus specifically on:
+
+1. How to code and interpret categorical variables at different levels (between-dyads vs. mixed)
+2. Different methods for treating categorical predictors (binary match vs. multi match)
+3. Practical implementation using the `discord` package functions
+
+To illustrate, we examine whether sex and race predict SES at age 40, using different categorical coding schemes with data from the 1979 National Longitudinal Survey of Youth (NLSY79). 
 
 
-To illustrate, we examine whether sex predicts SES at age 40, using different categorical coding schemes. The data come from a subset of the 1979 National Longitudinal Survey of Youth (NLSY79).
+## Types of Categorical Predictors
 
-This vignette addresses that challenge by demonstrating how to apply discordant-kinship regression models using categorical predictors — specifically, sex and race. The approach draws on dyadic modeling strategies described in [@kenny2006] and incorporates their extension to the kinship setting following [@Hwang2022].
+In dyadic analysis, categorical predictors can operate at different levels:
+
+- **Between-dyad variables**: Constant within dyads (e.g., same race pairs)
+- **Within-dyad variables**: Vary within dyads but constant across dyads (rare for categorical variables)
+- **Mixed variables**: Vary both within and across dyads (e.g., sex)
+
+This distinction affects how we code and interpret these variables in regression models. 
 
 
-We now walk through the full analytic process, beginning with data preparation.
+## Variable Types and Their Implications
+
+In dyadic analysis, variables are classified based on their variation patterns:
+
+| Variable Type | Definition | Examples | Analytic Implications |
+|---------------|------------|----------|----------------------|
+| Between-dyads | Members of the same pair have identical values | Race in same-race siblings; Length of marriage in couples | Simplifies analysis; Functions like individual-level variable |
+| Within-dyads | Varies within pairs but constant across pairs | Division of chores between roommates (must sum to 100%) | Rare for categorical variables; Requires specialized handling |
+| Mixed | Varies both within and across pairs | Sex in sibling pairs; Age; Personality traits | Most complex; Requires transformation to dyad-level variables |
+
+When analyzing continuous predictors, we typically calculate mean scores and difference scores. However, as Kenny et al. [@kenny2006] note, categorical variables require alternative approaches since mean and difference calculations aren't meaningful.
+
+## Coding Approaches for Categorical Variables
+
+The `discord` package implements two primary coding strategies for categorical predictors:
+
+![Coding approaches comparison](coding_approaches.png)
+
+### Binary Match Coding
+
+Binary match coding creates a simple indicator of whether pairs match (1) or differ (0) on the categorical variable:
+- Same-sex pairs (male-male or female-female) → 1
+- Mixed-sex pairs (male-female) → 0
+
+**When to use**: When your research question focuses on similarity versus difference rather than specific category effects.
+
+### Multi-Match Coding
+
+Multi-match coding preserves specific category information:
+- Male-male pairs → "MALE" 
+- Female-female pairs → "FEMALE"
+- Mixed pairs → "mixed"
+
+**When to use**: When you hypothesize different effects for different categories (e.g., male pairs vs. female pairs).
+
+Following Hwang and Garrison [@Hwang2022], the approach you select should align with your specific research questions and theoretical framework.
+
+
 
 # Data Preparation
 
-We load the necessary packages and data.
+
+We'll demonstrate categorical predictor handling using sibling data from the NLSY79. We first load necessary packages and prepare our dataset.
+
+## Package Loading and Data Setup
  
 ```{r setup, message = FALSE}
 # Loading necessary packages and data
@@ -111,19 +165,6 @@ df_link<-df_link%>%
 ```
 
 
-# Handling Categorical Predictors
-
-
-In dyadic analysis, categorical predictors can fall into three types:
-
-- Between-dyad variables: constant within dyads (e.g., same race)
-
-- Within-dyad variables: vary within dyads but constant across (rare for categories)
-
-- Mixed variables: vary both within and across dyads (e.g., sex
-
-
-If the predictor is a continuous variable, the DV (the difference score of the outcome variable) is regressed on the mean score of the outcome variable, the mean score of the predictor, and the difference score of the predictor. However, it is impossible to calculate the mean score and difference score of the categorical variable. This vignette introduces how to deal with categorical predictors in discordant-kinship regressions. In this example, we use sex and race as categorical variables for demonstration. We referred to  @kenny2006  for an idea about handling categorical predictors in dyadic analysis, and @Hwang2022 for incorporating that idea into discordant-kinship regression.
 
 ## Handling Categorical Predictors
 
@@ -352,10 +393,10 @@ discord_sex_multi <- discord_regression(
      outcome = "S00_H40",
      sex= "SEX",
      race= "RACE",
-     demographics = "sex",
      predictors=NULL,
      pair_identifiers = c("_S1","_S2"),
      coding_method ="multi")
+
 ```
 
 ```{r, echo = FALSE, eval = knitr::is_html_output()}
@@ -671,7 +712,21 @@ The term `RACE_multimatchNONMINORITY` is a significant predictor (p = `r round(s
 
 # Conclusion
 
-This vignette demonstrates how to effectively include categorical predictors in discordant-kinship regressions using the discord package. Depending on the research question, one can choose to use either mixed variables or between-dyad variables as predictors, as exemplified by gender and race.
+This vignette has demonstrated how to incorporate categorical predictors in discordant-kinship regression analyses using the `discord` package. We've shown that:
+
+1. Categorical variables can be handled as between-dyad or mixed variables depending on their distribution
+2. The `discord_data()` function facilitates appropriate recoding of categorical predictors
+3. Different coding schemes (binary and multi-category) offer flexibility based on research questions
+
+
+The analyses revealed that race composition significantly predicted SES differences between siblings, while sex composition did not. These findings illustrate how the `discord` package allows researchers to examine complex research questions while maintaining appropriate controls for kinship structures.
+
+
+For implementation in your own research, we recommend:
+- Consider the theoretical nature of your categorical predictors
+- Choose appropriate coding schemes based on your research questions
+- Carefully interpret results in light of variable coding decisions
+
 
 # References
 
