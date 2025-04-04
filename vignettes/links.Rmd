@@ -121,9 +121,9 @@ To illustrate the modeling framework, we simulate outcome variables for the cous
 ```{r}
 set.seed(1234)
 syn_df <- discord::kinsim(
-  mu_all = c(1, 1),
-  r_a = c(.125), r_c = c(0), cov_a = .2,
-  cov_e = .4, nrow(df_cousin)
+  mu_all = c(1, 1),cov_a = .4,
+  cov_e = .4, c_all=0,
+  r_vector = df_cousin$addRel
 ) %>%
   select(-c(
     A1_1, A1_2, A2_1, A2_2,

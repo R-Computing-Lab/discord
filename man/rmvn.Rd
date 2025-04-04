@@ -2,19 +2,21 @@
 % Please edit documentation in R/helpers_simulation.R
 \name{rmvn}
 \alias{rmvn}
-\title{rmvn}
+\title{Generate Multivariate Normal Random Variates}
 \usage{
 rmvn(n, sigma)
 }
 \arguments{
-\item{n}{Sample Size}
+\item{n}{Integer. Number of samples to generate.}
 
-\item{sigma}{Covariance matrix}
+\item{sigma}{Matrix. Covariance matrix that defines the distribution.}
 }
 \value{
-Generates multivariate normal data from a covariance matrix (\code{sigma}) of length \code{n}
+Matrix of dimension \code{n × ncol(sigma)} containing random samples
+  from the multivariate normal distribution.
 }
 \description{
-rmvn
+Generates random samples from a multivariate normal distribution
+with a specified covariance structure.
 }
 \keyword{internal}

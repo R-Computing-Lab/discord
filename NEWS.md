@@ -1,5 +1,8 @@
-# discord 1.2.2
+# discord 1.2.3
+* improved documentation
+* fixed vector of relatedness values not behaving as expected
 
+# discord 1.2.2
 * Added kinship link demonstration using potter dataset from BGmisc package
 * Copy edited vignettes
 

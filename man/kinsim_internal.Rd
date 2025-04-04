@@ -2,46 +2,63 @@
 % Please edit documentation in R/helpers_simulation.R
 \name{kinsim_internal}
 \alias{kinsim_internal}
-\title{Simulate Biometrically informed Univariate Data}
+\title{Simulate Kinship-Based Biometrically Informed Univariate Data}
 \usage{
 kinsim_internal(
   r = c(1, 0.5),
+  c_rel = 1,
   npg = 100,
   npergroup = rep(npg, length(r)),
   mu = 0,
   ace = c(1, 1, 1),
   r_vector = NULL,
+  c_vector = NULL,
   ...
 )
 }
 \arguments{
-\item{r}{Levels of relatedness; default is MZ and DZ twins c(1,.5)}
+\item{r}{Numeric vector. Levels of genetic relatedness for each group;
+default is c(1, 0.5) representing MZ and DZ twins respectively.}
 
-\item{npg}{Sample size per group; default is 100.}
+\item{npg}{Integer. Default sample size per group; default is 100.}
 
-\item{npergroup}{List of sample sizes by group; default repeats \code{npg} for all groups.}
+\item{npergroup}{Numeric vector. List of sample sizes by group;
+default repeats \code{npg} for all groups in \code{r}.}
 
-\item{mu}{Mean for generated variable; default is 0.}
+\item{mu}{Numeric. Mean value for the generated variable; default is 0.}
 
-\item{ace}{Vector of variance components, ordered by c(a, c, e); default is c(1,1,1).}
+\item{ace}{Numeric vector. Variance components in order c(a, c, e) where
+a = additive genetic, c = shared environment, e = non-shared environment;
+default is c(1, 1, 1).}
 
-\item{r_vector}{Alternative, give vector of relatedness coefficients for entire sample.}
+\item{r_vector}{Numeric vector. Alternative specification method providing relatedness
+coefficients for the entire sample; default is NULL.}
 
-\item{...}{Optional pass on additional inputs.}
+\item{...}{Additional arguments passed to other methods.}
 }
 \value{
-Returns \code{data.frame} with the following:
-\item{id}{id}
-\item{A1}{genetic component for kin1}
-\item{A2}{genetic component for kin2}
-\item{C1}{shared-environmental component for kin1}
-\item{C2}{shared-environmental component for kin2}
-\item{E1}{non-shared-environmental component for kin1}
-\item{E2}{non-shared-environmental component for kin2}
-\item{y1}{generated variable for kin1 with mean of \code{mu}}
-\item{y2}{generated variable for kin2 with mean of \code{mu}}
-\item{r}{level of relatedness for the kin pair}
+A data frame with the following columns:
+\describe{
+  \item{id}{Unique identifier for each kinship pair}
+  \item{A1}{Genetic component for first member of pair}
+  \item{A2}{Genetic component for second member of pair}
+  \item{C1}{Shared-environmental component for first member of pair}
+  \item{C2}{Shared-environmental component for second member of pair}
+  \item{E1}{Non-shared-environmental component for first member of pair}
+  \item{E2}{Non-shared-environmental component for second member of pair}
+  \item{y1}{Generated phenotype for first member of pair with mean \code{mu}}
+  \item{y2}{Generated phenotype for second member of pair with mean \code{mu}}
+  \item{r}{Level of genetic relatedness for the kinship pair}
+}
 }
 \description{
-Generate paired univariate data, given ACE parameters.
+Generates paired univariate data for kinship pairs with specified genetic relatedness,
+following the classical ACE model (Additive genetic, Common environment, unique Environment).
 }
+\details{
+This function simulates data according to the ACE model, where phenotypic variance
+is decomposed into additive genetic (A), shared environmental (C), and non-shared
+environmental (E) components. It can generate data for multiple kinship groups with
+different levels of genetic relatedness (e.g., MZ twins, DZ twins, siblings).
+}
+\keyword{internal}
