@@ -34,6 +34,7 @@ We begin by loading the required packages and loading a built-in toy dataset fro
 library(BGmisc)
 library(tidyverse)
 library(discord)
+
 data(potter)
 ```
 
@@ -46,8 +47,6 @@ names(df_potter)[names(df_potter) == "famID"] <- "oldfam"
 
 df_potter<- ped2fam(df_potter, famID = "famID", personID = "personID")
 
-
-
 ```
 
 Next, we compute two component matrices based on the pedigree:
@@ -55,7 +54,6 @@ Next, we compute two component matrices based on the pedigree:
 - add: the additive genetic relatedness matrix
 
 - cn: the shared environment matrix, indicating whether kin were raised together (1) or apart (0)
-
 
 
 ```{r}
@@ -66,24 +64,28 @@ cn <- ped2cn(df_potter)
 We then verify and, if necessary, repair sex coding to ensure compatibility with downstream pedigree-based operations.
 
 ```{r}
+
 df_potter <- checkSex(df_potter,
   code_male = 1,
   code_female = 0,
   verbose = FALSE, repair = TRUE
 )
+```
 
-plotPedigree(df_potter)
+```{r, fig.cap="Pedigree plot of the Potter dataset", fig.width=8, fig.height=6, echo=FALSE}
+
+plotPedigree(df_potter) %>% suppressMessages()
 
 ```
 
 # Create Kinship Links
 
 The `com2links` function generates a data frame of kinship links based on the pedigree data. The `writetodisk` argument is set to FALSE to avoid writing the output to disk, and we filter out upper triangular values to focus on unique pairs.
-We use the com2links() function to convert the additive genetic and shared environment component matrices into a long-form data frame of kin pairs. Each row in the resulting data frame represents a pair of individuals, along with their additive genetic relatedness and shared environmental status. Self-pairs and duplicate (upper-triangular) entries are removed.
+
+We use the `com2links()` function to convert the additive genetic and shared environment component matrices into a long-form data frame of kin pairs. Each row in the resulting data frame represents a pair of individuals, along with their additive genetic relatedness and shared environmental status. Self-pairs and duplicate (upper-triangular) entries are removed.
 
 
 ```{r}
-
 
 df_links <- com2links(writetodisk = FALSE, ad_ped_matrix = add,  cn_ped_matrix = cn,
                       drop_upper_triangular = TRUE) %>% filter(ID1!=ID2)
@@ -115,9 +117,10 @@ To illustrate the modeling framework, we simulate outcome variables for the cous
 
 ```{r}
 
-syn_df <- kinsim(mu_all = c(1,1), 
+syn_df <- discord::kinsim(mu_all = c(1,1), 
                  r_a=c(.125),r_c=c(0), 
-                 cov_e = .4, nrow(df_cousin)) %>% select(-c(A1_1, A1_2, A2_1, A2_2, 
+                 cov_e = .4, nrow(df_cousin)) %>% 
+  select(-c(A1_1, A1_2, A2_1, A2_2, 
                                                          C1_1, C1_2, C2_1, C2_2,
                                                          E1_1, E1_2, E2_1, E2_2,
                                                          r
