@@ -102,8 +102,7 @@ be easily utilized with the {discord} package.</p>
 </h3>
 <p>For this example, we will load the following packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># For easy data manipulation</span></span>
+<code class="sourceCode R"><span><span class="co"># For easy data manipulation</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co"># For kinship linkages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlsy-links.github.io/NlsyLinks/" class="external-link">NlsyLinks</a></span><span class="op">)</span></span>
@@ -258,21 +257,24 @@ focusing on full siblings. The variable names used in this linkage are
 drawn from the preprocessed data previewed above.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get kinship links for individuals with the following variables:</span></span>
-<span><span class="va">link_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FLU_total"</span>, <span class="st">"FLU_2008"</span>, <span class="st">"FLU_2010"</span>, </span>
-<span>               <span class="st">"FLU_2012"</span>, <span class="st">"FLU_2014"</span>, <span class="st">"FLU_2016"</span>, </span>
-<span>               <span class="st">"S00_H40"</span>, <span class="st">"RACE"</span>, <span class="st">"SEX"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">link_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"FLU_total"</span>, <span class="st">"FLU_2008"</span>, <span class="st">"FLU_2010"</span>,</span>
+<span>  <span class="st">"FLU_2012"</span>, <span class="st">"FLU_2014"</span>, <span class="st">"FLU_2016"</span>,</span>
+<span>  <span class="st">"S00_H40"</span>, <span class="st">"RACE"</span>, <span class="st">"SEX"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>We now link the subjects by the specified variables using
 <code><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered()</a></code>, from the {NlsyLinks}
 package.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Specify NLSY database and kin relatedness </span></span>
+<code class="sourceCode R"><span><span class="co"># Specify NLSY database and kin relatedness</span></span>
 <span><span class="va">link_pairs</span> <span class="op">&lt;-</span> <span class="va">Links79PairExpanded</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RelationshipPath</span> <span class="op">==</span> <span class="st">"Gen1Housemates"</span> <span class="op">&amp;</span> <span class="va">RFull</span> <span class="op">==</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered</a></span><span class="op">(</span>outcomeDataset <span class="op">=</span> <span class="va">data_flu_ses</span>,</span>
-<span>                                        linksPairDataset <span class="op">=</span> <span class="va">link_pairs</span>,</span>
-<span>                                        outcomeNames <span class="op">=</span> <span class="va">link_vars</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered</a></span><span class="op">(</span></span>
+<span>  outcomeDataset <span class="op">=</span> <span class="va">data_flu_ses</span>,</span>
+<span>  linksPairDataset <span class="op">=</span> <span class="va">link_pairs</span>,</span>
+<span>  outcomeNames <span class="op">=</span> <span class="va">link_vars</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>We have saved this data frame as <code>df_link</code>. A random
 subset of this data is shown below::<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Each variable name includes the suffix “_S1” and “_S2”,
 identifying the sibling to whom the value belongs. The only exception is
@@ -451,32 +453,35 @@ to exclude those siblings to reduce <strong>[non-response
 bias]</strong>, by examining the biennial responses and removing any
 rows with missingness.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Take the linked data, group by the sibling pairs and</span></span>
-<span><span class="co"># count the number of responses for flu each year. If there is an NA, </span></span>
+<code class="sourceCode R"><span><span class="co"># Take the linked data, group by the sibling pairs and</span></span>
+<span><span class="co"># count the number of responses for flu each year. If there is an NA,</span></span>
 <span><span class="co"># then data is missing for one of the years, and we omit it.</span></span>
-<span><span class="va">consistent_kin</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">SubjectTag_S1</span>, <span class="va">SubjectTag_S2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">FLU_2008_S1</span>, <span class="va">FLU_2010_S1</span>, </span>
-<span>        <span class="va">FLU_2012_S1</span>, <span class="va">FLU_2014_S1</span>, </span>
-<span>        <span class="va">FLU_2016_S1</span>, <span class="va">FLU_2008_S2</span>, </span>
-<span>        <span class="va">FLU_2010_S2</span>, <span class="va">FLU_2012_S2</span>, </span>
-<span>        <span class="va">FLU_2014_S2</span>, <span class="va">FLU_2016_S2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">consistent_kin</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">SubjectTag_S1</span>, <span class="va">SubjectTag_S2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span></span>
+<span>    <span class="va">FLU_2008_S1</span>, <span class="va">FLU_2010_S1</span>,</span>
+<span>    <span class="va">FLU_2012_S1</span>, <span class="va">FLU_2014_S1</span>,</span>
+<span>    <span class="va">FLU_2016_S1</span>, <span class="va">FLU_2008_S2</span>,</span>
+<span>    <span class="va">FLU_2010_S2</span>, <span class="va">FLU_2012_S2</span>,</span>
+<span>    <span class="va">FLU_2014_S2</span>, <span class="va">FLU_2016_S2</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create the flu_modeling_data object with only consistent responders.</span></span>
 <span><span class="co"># Clean the column names with the {janitor} package.</span></span>
-<span><span class="va">flu_modeling_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">semi_join</a></span><span class="op">(</span><span class="va">df_link</span>, </span>
-<span>                               <span class="va">consistent_kin</span>, </span>
-<span>                               by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SubjectTag_S1"</span>, </span>
-<span>                                      <span class="st">"SubjectTag_S2"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">flu_modeling_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">semi_join</a></span><span class="op">(</span><span class="va">df_link</span>,</span>
+<span>  <span class="va">consistent_kin</span>,</span>
+<span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"SubjectTag_S1"</span>,</span>
+<span>    <span class="st">"SubjectTag_S2"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html" class="external-link">clean_names</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>To avoid violating assumptions of independence, in our analysis we
 specify that the kin-pairs should be from unique households (i.e. we
 randomly select one sibling pair per household).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">flu_modeling_data</span> <span class="op">&lt;-</span> <span class="va">flu_modeling_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">flu_modeling_data</span> <span class="op">&lt;-</span> <span class="va">flu_modeling_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">extended_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -900,18 +905,17 @@ sex is female.</p>
 <code><a href="../reference/discord_regression.html">discord_regression()</a></code> function, we can run the model as
 such:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Setting a seed for reproducibility</span></span>
+<code class="sourceCode R"><span><span class="co"># Setting a seed for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
 <span><span class="va">flu_model_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
-<span>                          data <span class="op">=</span> <span class="va">flu_modeling_data</span>,</span>
-<span>                          outcome <span class="op">=</span> <span class="st">"flu_total"</span>,</span>
-<span>                          predictors <span class="op">=</span> <span class="st">"s00_h40"</span>,</span>
-<span>                          id <span class="op">=</span> <span class="st">"extended_id"</span>,</span>
-<span>                          sex <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span>                          race <span class="op">=</span> <span class="st">"race"</span>,</span>
-<span>                          pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_s1"</span>, <span class="st">"_s2"</span><span class="op">)</span></span>
-<span>                          <span class="op">)</span></span></code></pre></div>
+<span>  data <span class="op">=</span> <span class="va">flu_modeling_data</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"flu_total"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="st">"s00_h40"</span>,</span>
+<span>  id <span class="op">=</span> <span class="st">"extended_id"</span>,</span>
+<span>  sex <span class="op">=</span> <span class="st">"sex"</span>,</span>
+<span>  race <span class="op">=</span> <span class="st">"race"</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_s1"</span>, <span class="st">"_s2"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>The default output of <code><a href="../reference/discord_regression.html">discord_regression()</a></code> is an
 <code>lm</code> object. The metrics for our regression can be summarized
 as follows:</p>
@@ -1143,7 +1147,7 @@ Association 50th Annual Meeting Abstracts, 50 (6): 483–83. <a href="https://do
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by S. Mason Garrison, Jonathan Trattner, Hwang Yoo Ri.</p>
+  <p>Developed by S. Mason Garrison, Jonathan Trattner, Yoo Ri Hwang.</p>
 </div>
 
 <div class="pkgdown-footer-right">

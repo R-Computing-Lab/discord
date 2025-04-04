@@ -214,19 +214,18 @@ dataset.</p>
 <span><span class="co"># pipe</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#data</span></span>
+<span><span class="co"># data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_flu_ses</span><span class="op">)</span></span></code></pre></div>
 <p>We begin by filtering and cleaning the dataset, creating kinship
 links, and recoding categorical variables. In this example, we use full
 siblings (R = 0.5) from the Gen1 cohort.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># for reproducibility </span></span>
+<code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">link_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S00_H40"</span>, <span class="st">"RACE"</span>, <span class="st">"SEX"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Specify NLSY database and kin relatedness </span></span>
+<span><span class="co"># Specify NLSY database and kin relatedness</span></span>
 <span></span>
 <span><span class="va">link_pairs</span> <span class="op">&lt;-</span> <span class="va">Links79PairExpanded</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RelationshipPath</span> <span class="op">==</span> <span class="st">"Gen1Housemates"</span> <span class="op">&amp;</span> <span class="va">RFull</span> <span class="op">==</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
@@ -235,36 +234,47 @@ siblings (R = 0.5) from the Gen1 cohort.</p>
 variables. This gives us a sibling-pair dataset in “wide” format, with
 suffixes distinguishing the two individuals in each pair.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered</a></span><span class="op">(</span>outcomeDataset <span class="op">=</span> <span class="va">data_flu_ses</span>,</span>
-<span>                                        linksPairDataset <span class="op">=</span> <span class="va">link_pairs</span>,</span>
-<span>                                        outcomeNames <span class="op">=</span> <span class="va">link_vars</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered</a></span><span class="op">(</span></span>
+<span>  outcomeDataset <span class="op">=</span> <span class="va">data_flu_ses</span>,</span>
+<span>  linksPairDataset <span class="op">=</span> <span class="va">link_pairs</span>,</span>
+<span>  outcomeNames <span class="op">=</span> <span class="va">link_vars</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>To ensure that the dependent variable (SES at age 40) is available
 for both members of the pair, we filter out missing values. We also
 recode sex and race into string labels and retain only same-race pairs
 to make race a between-dyads variable.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># We removed the pair when the Dependent Variable is missing. </span></span>
+<code class="sourceCode R"><span><span class="co"># We removed the pair when the Dependent Variable is missing.</span></span>
 <span></span>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>           <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">S00_H40_S1</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">S00_H40_S2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>SEX_S1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">SEX_S1</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"MALE"</span>, </span>
-<span>                            <span class="va">SEX_S1</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"FEMALE"</span><span class="op">)</span>,</span>
-<span>         SEX_S2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">SEX_S2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"MALE"</span>, </span>
-<span>                            <span class="va">SEX_S2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"FEMALE"</span><span class="op">)</span>,</span>
-<span>         RACE_S1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">RACE_S1</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"NONMINORITY"</span>, </span>
-<span>                            <span class="va">RACE_S1</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"MINORITY"</span><span class="op">)</span>,</span>
-<span>         RACE_S2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"NONMINORITY"</span>, </span>
-<span>                            <span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"MINORITY"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">S00_H40_S1</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">S00_H40_S2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    SEX_S1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">SEX_S1</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"MALE"</span>,</span>
+<span>      <span class="va">SEX_S1</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"FEMALE"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    SEX_S2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">SEX_S2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"MALE"</span>,</span>
+<span>      <span class="va">SEX_S2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"FEMALE"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    RACE_S1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">RACE_S1</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"NONMINORITY"</span>,</span>
+<span>      <span class="va">RACE_S1</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"MINORITY"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    RACE_S2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"NONMINORITY"</span>,</span>
+<span>      <span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"MINORITY"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># we only include same-race pairs in this example for demonstration purpose</span></span>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RACE_S1</span><span class="op">==</span><span class="va">RACE_S2</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RACE_S1</span> <span class="op">==</span> <span class="va">RACE_S2</span><span class="op">)</span></span></code></pre></div>
 <p>To avoid violating independence assumptions, we retain only one
 sibling pair per household. This ensures each dyad is independent in the
 regression model.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_link</span><span class="op">&lt;-</span><span class="va">df_link</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">ExtendedID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -305,14 +315,15 @@ data. In the pair, the one with the higher DV is assigned to be “_1” and
 the other one is assigned to be “_2”.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cat_sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_data.html">discord_data</a></span><span class="op">(</span></span>
-<span>            data <span class="op">=</span> <span class="va">df_link</span>,</span>
-<span>            outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
-<span>            sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>            race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>            demographics <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span>            predictors<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>            pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
-<span>            coding_method <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span></span></code></pre></div>
+<span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
+<span>  sex <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>  race <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  demographics <span class="op">=</span> <span class="st">"sex"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>, <span class="st">"_S2"</span><span class="op">)</span>,</span>
+<span>  coding_method <span class="op">=</span> <span class="st">"both"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>A random slice of this data looks as follows:</p>
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
@@ -735,19 +746,18 @@ in the data.</p>
 <p>By using the <code><a href="../reference/discord_data.html">discord_data()</a></code> function, we can prepare
 data for the analysis as follows:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span> <span class="co"># for reproducibility </span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span> <span class="co"># for reproducibility</span></span>
 <span></span>
 <span><span class="va">cat_race</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_data.html">discord_data</a></span><span class="op">(</span></span>
-<span>            data <span class="op">=</span> <span class="va">df_link</span>,</span>
-<span>            outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
-<span>            predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>            sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>            race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>            demographics <span class="op">=</span> <span class="st">"race"</span>,</span>
-<span>            pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
-<span>            coding_method<span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> </span></code></pre></div>
+<span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sex <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>  race <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  demographics <span class="op">=</span> <span class="st">"race"</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>, <span class="st">"_S2"</span><span class="op">)</span>,</span>
+<span>  coding_method <span class="op">=</span> <span class="st">"both"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>The race compositions in the data set are:</p>
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
@@ -812,20 +822,20 @@ pair is minority-minority, nonminority-nonminority, or mixed-race.</p>
 <p>By using the <code><a href="../reference/discord_data.html">discord_data()</a></code> function, users can prepare
 data that contains both race- and sex-composition variables.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># for reproducibility </span></span>
+<code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cat_both</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_data.html">discord_data</a></span><span class="op">(</span></span>
-<span>            data <span class="op">=</span> <span class="va">df_link</span>,</span>
-<span>            outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
-<span>            predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>            sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>            race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>            demographics <span class="op">=</span> <span class="st">"both"</span>,</span>
-<span>            pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
-<span>            coding_method<span class="op">=</span> <span class="st">"both"</span><span class="op">)</span> </span></code></pre></div>
+<span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sex <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>  race <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  demographics <span class="op">=</span> <span class="st">"both"</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>, <span class="st">"_S2"</span><span class="op">)</span>,</span>
+<span>  coding_method <span class="op">=</span> <span class="st">"both"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 The race composition and sex composition of the pairs in the dataset are
 as such:
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1081,14 +1091,15 @@ MALE
 conducted as such:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_sex_binary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
-<span>     data <span class="op">=</span> <span class="va">df_link</span>,</span>
-<span>     outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
-<span>     sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>     race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>     demographics <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span>     predictors<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>     pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
-<span>     coding_method <span class="op">=</span><span class="st">"binary"</span><span class="op">)</span> </span></code></pre></div>
+<span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
+<span>  sex <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>  race <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  demographics <span class="op">=</span> <span class="st">"sex"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>, <span class="st">"_S2"</span><span class="op">)</span>,</span>
+<span>  coding_method <span class="op">=</span> <span class="st">"binary"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1189,13 +1200,14 @@ so it is not advisable to interpret the coefficient.</p>
 conducted as such:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_sex_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
-<span>     data <span class="op">=</span> <span class="va">df_link</span>,</span>
-<span>     outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
-<span>     sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>     race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>     predictors<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>     pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
-<span>     coding_method <span class="op">=</span><span class="st">"multi"</span><span class="op">)</span></span></code></pre></div>
+<span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
+<span>  sex <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>  race <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>, <span class="st">"_S2"</span><span class="op">)</span>,</span>
+<span>  coding_method <span class="op">=</span> <span class="st">"multi"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1330,9 +1342,9 @@ the coefficients.</p>
 sibling pairs with predictors, regression analyses can be carried out as
 such::</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">SEX_binarymatch</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">cat_sex</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">SEX_binarymatch</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cat_sex</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1398,10 +1410,9 @@ pairs would have approximately 0.018 higher <code>S00_H40_mean</code>.
 However, this coefficient is not significant, so it is not advisable to
 interpret the coefficient.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span></span>
-<span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span> <span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">SEX_multimatch</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">cat_sex</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">SEX_multimatch</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cat_sex</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1505,16 +1516,17 @@ can be conducted as such:</p>
 <h4 id="race-multi-match">RACE multi match<a class="anchor" aria-label="anchor" href="#race-multi-match"></a>
 </h4>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># perform kinship regressions </span></span>
-<span><span class="va">cat_race_reg</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
-<span>     data <span class="op">=</span> <span class="va">df_link</span>,</span>
-<span>     outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
-<span>     sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>     race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>     demographics <span class="op">=</span> <span class="st">"race"</span>,</span>
-<span>     predictors<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>     pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
-<span>     coding_method <span class="op">=</span><span class="st">"multi"</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># perform kinship regressions</span></span>
+<span><span class="va">cat_race_reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
+<span>  sex <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>  race <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  demographics <span class="op">=</span> <span class="st">"race"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>, <span class="st">"_S2"</span><span class="op">)</span>,</span>
+<span>  coding_method <span class="op">=</span> <span class="st">"multi"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1609,7 +1621,8 @@ pairs are expected to have approximately 2.272 lower
 </h4>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">cat_race</span><span class="op">)</span></span></code></pre></div>
+<span>  data <span class="op">=</span> <span class="va">cat_race</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1682,15 +1695,16 @@ using the <code><a href="../reference/discord_data.html">discord_data()</a></cod
 <h4 id="sex-and-race-multi-match">Sex and Race (Multi-match)<a class="anchor" aria-label="anchor" href="#sex-and-race-multi-match"></a>
 </h4>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span> <span class="va">both_multi</span> <span class="op">&lt;-</span><span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
-<span>     data <span class="op">=</span> <span class="va">df_link</span>,</span>
-<span>     outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
-<span>     sex<span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>     race<span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>     demographics <span class="op">=</span> <span class="st">"both"</span>,</span>
-<span>     predictors<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>     pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>,<span class="st">"_S2"</span><span class="op">)</span>,</span>
-<span>     coding_method <span class="op">=</span><span class="st">"multi"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">both_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
+<span>  sex <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>  race <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>  demographics <span class="op">=</span> <span class="st">"both"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>, <span class="st">"_S2"</span><span class="op">)</span>,</span>
+<span>  coding_method <span class="op">=</span> <span class="st">"multi"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1840,9 +1854,9 @@ variable, it can be done by using the <code><a href="https://rdrr.io/r/stats/lm.
 <p>We can perform regression using the binary-match sex variable and
 multi-match race variable as such:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">discord_cat_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span> <span class="va">S00_H40_diff</span> <span class="op">~</span> <span class="va">S00_H40_mean</span> <span class="op">+</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">cat_both</span><span class="op">)</span>  </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">discord_cat_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_diff</span> <span class="op">~</span> <span class="va">S00_H40_mean</span> <span class="op">+</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cat_both</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1973,9 +1987,9 @@ of SES between siblings (<code>S00_H40_diff</code>).</p>
 <p>The mean SES score for the sibling pairs can be regressed on
 SEX-composition and race-composition variables as follows:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span> <span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_multimatch</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">cat_both</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_multimatch</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cat_both</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -2095,9 +2109,9 @@ for the other variables (i.e., <code>SEX_multimatchmixed</code> and
 race pairs, nonminority race pairs were expected to have approximately
 9.277 higher mean SES score for siblings</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span> <span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">cat_both</span><span class="op">)</span>  </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cat_both</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -2239,7 +2253,7 @@ Press.
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by S. Mason Garrison, Jonathan Trattner, Hwang Yoo Ri.</p>
+  <p>Developed by S. Mason Garrison, Jonathan Trattner, Yoo Ri Hwang.</p>
 </div>
 
 <div class="pkgdown-footer-right">
