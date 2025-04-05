@@ -1818,9 +1818,9 @@ standard <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">l
 <p>We can perform regression using the binary-match sex variable and
 multi-match race variable as such:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">discord_cat_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_diff</span> <span class="op">~</span> <span class="va">S00_H40_mean</span> <span class="op">+</span> </span>
-<span>                         <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
+<code class="sourceCode R"><span><span class="va">discord_cat_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">S00_H40_diff</span> <span class="op">~</span> <span class="va">S00_H40_mean</span> <span class="op">+</span></span>
+<span>    <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">cat_both</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
@@ -1958,9 +1958,10 @@ of SES between siblings (<code>S00_H40_diff</code>).</p>
 <p>Finally, we examine how sex and race together predict mean SES
 levels:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> </span>
-<span>                         <span class="va">SEX_multimatch</span>,</span>
-<span>                       data <span class="op">=</span> <span class="va">cat_both</span></span>
+<code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span></span>
+<span>    <span class="va">SEX_multimatch</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cat_both</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
