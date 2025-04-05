@@ -11,7 +11,8 @@ As requested, removed duplicate reference to GPL3 license, and added license to 
 
 1. Local OS: Windows 11 x64 (build 22635), R 4.4.3 (2025-02-28 ucrt)
 2. Local OS: Windows 11 x64 (build 26120), R Under development (unstable) (2025-02-17 r87739 ucrt)
-3. **GitHub Actions**:  
+3. Local OS: Windows 11 x64 (build 26120), R Under development (unstable) (2025-04-04 r88112 ucrt)
+4. **GitHub Actions**:  
     - [Link](https://github.com/R-Computing-Lab/discord/actions/runs/14255906008)
     - macOS (latest version) with the latest R release.
     - Windows (latest version) with the latest R release.

@@ -96,12 +96,16 @@ correlated_data <- kinsim(cov_a = 0.5)
 
 # Generate data for different relatedness groups with custom parameters
 family_data <- kinsim(
-  r_all = c(1, 0.5, 0.25),             # MZ twins, DZ twins, and half-siblings
-  npergroup_all = c(100, 100, 150),    # Sample sizes per group
-  ace_list = matrix(c(1.5, 0.5, 1.0,   # Variable 1 ACE components
-                     0.8, 1.2, 1.0),   # Variable 2 ACE components
-                   nrow = 2, byrow = TRUE),
-  cov_a = 0.3,                         # Genetic covariance
-  cov_c = 0.2                          # Shared environment covariance
+  r_all = c(1, 0.5, 0.25), # MZ twins, DZ twins, and half-siblings
+  npergroup_all = c(100, 100, 150), # Sample sizes per group
+  ace_list = matrix(
+    c(
+      1.5, 0.5, 1.0, # Variable 1 ACE components
+      0.8, 1.2, 1.0
+    ), # Variable 2 ACE components
+    nrow = 2, byrow = TRUE
+  ),
+  cov_a = 0.3, # Genetic covariance
+  cov_c = 0.2 # Shared environment covariance
 )
 }
