@@ -136,6 +136,7 @@ syn_df <- discord::kinsim(
 We bind the simulated outcome data to the cousin link data to prepare it for modeling.
 
 ```{r}
+
 data_demo <- cbind(df_cousin, syn_df)
 
 

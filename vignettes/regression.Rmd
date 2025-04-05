@@ -46,7 +46,7 @@ library(NlsyLinks)
 library(discord)
 # To clean data frame names
 library(janitor)
-# tidyup output
+# tidy up output
 library(broom)
 # pipe
 library(magrittr)
@@ -55,7 +55,7 @@ data(data_flu_ses)
 ```
 
 
-After preprocessing, we obtain a data frame that contain subject identifiers, ddemographic information such as race and sex, and behavioral variables such as flu vaccination totals and SES at age 40. A random slice of this dataset is shown below.
+After preprocessing, we obtain a data frame that contain subject identifiers, demographic information such as race and sex, and behavioral variables such as flu vaccination totals and SES at age 40. A random slice of this dataset is shown below.
 
 ```{r preview-pre-processed-data, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
 data_flu_ses %>%

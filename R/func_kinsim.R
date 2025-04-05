@@ -22,8 +22,10 @@
 #' @param mu_all Numeric. Default mean value for all generated variables; default is 0.
 #' @param mu_list Numeric vector. Means for each variable;
 #'   default repeats \code{mu_all} for all variables.
-#' @param r_vector Numeric vector. Alternative specification providing relatedness
+#' @param r_vector Numeric vector. Alternative specification providing genetic relatedness
 #'   coefficients for the entire sample; default is NULL.
+#' @param c_vector Numeric vector. Alternative specification providing
+#'   shared-environmental relatedness
 #' @param ace_all Numeric vector. Default variance components in order c(a, c, e)
 #'   for all variables; default is c(1, 1, 1).
 #' @param ace_list Matrix. ACE variance components by variable, where each row
@@ -166,8 +168,6 @@ kinsim <- function(
 
       # total score
       y.r <- A.r + C.r + E.r
-
-
       y.r[, 1:2] <- y.r[, 1:2] + mu_list[1]
       y.r[, 3:4] <- y.r[, 3:4] + mu_list[2]
       r_ <- rep(
@@ -206,7 +206,6 @@ kinsim <- function(
 
       idx <- which(r_vector == r_val)
       n_sub <- length(idx)
-
 
     #  n <- length(r_vector[r_vector == unique_r[i]])
 

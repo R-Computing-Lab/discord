@@ -41,8 +41,11 @@ Currently limited to a maximum of two variables.}
 \item{mu_list}{Numeric vector. Means for each variable;
 default repeats \code{mu_all} for all variables.}
 
-\item{r_vector}{Numeric vector. Alternative specification providing relatedness
+\item{r_vector}{Numeric vector. Alternative specification providing genetic relatedness
 coefficients for the entire sample; default is NULL.}
+
+\item{c_vector}{Numeric vector. Alternative specification providing
+shared-environmental relatedness}
 
 \item{ace_all}{Numeric vector. Default variance components in order c(a, c, e)
 for all variables; default is c(1, 1, 1).}

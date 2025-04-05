@@ -1,6 +1,8 @@
 # discord 1.2.3
 * improved documentation
+* allow for kin to not share their common environment
 * fixed vector of relatedness values not behaving as expected
+* increased test coverage to 82.39 from 47ish.
 
 # discord 1.2.2
 * Added kinship link demonstration using potter dataset from BGmisc package

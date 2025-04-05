@@ -9,6 +9,7 @@ desktop.ini
 ^docs$
 ^hidden$
 ^LICENSE\.md$
+^LICENSE$
 ^Meta$
 ^pkgdown$
 ^R/optimizing2\.R$
