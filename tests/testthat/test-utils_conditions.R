@@ -13,9 +13,9 @@ test_that("discord_cond emits correct message condition", {
 test_that("discord_cond constructs condition with expected classes", {
   catch_class <- function(expr) {
     tryCatch(expr,
-             error = function(e) class(e),
-             warning = function(w) class(w),
-             message = function(m) class(m)
+      error = function(e) class(e),
+      warning = function(w) class(w),
+      message = function(m) class(m)
     )
   }
 

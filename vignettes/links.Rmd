@@ -121,8 +121,8 @@ To illustrate the modeling framework, we simulate outcome variables for the cous
 ```{r}
 set.seed(1234)
 syn_df <- discord::kinsim(
-  mu_all = c(1, 1),cov_a = .4,
-  cov_e = .4, c_all=0,
+  mu_all = c(1, 1), cov_a = .4,
+  cov_e = .4, c_all = 0,
   r_vector = df_cousin$addRel
 ) %>%
   select(-c(
@@ -136,7 +136,6 @@ syn_df <- discord::kinsim(
 We bind the simulated outcome data to the cousin link data to prepare it for modeling.
 
 ```{r}
-
 data_demo <- cbind(df_cousin, syn_df)
 
 

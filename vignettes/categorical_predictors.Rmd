@@ -631,9 +631,9 @@ To combine binary and multi-match coding approaches, we can use the standard `lm
 We can perform regression using the binary-match sex variable and multi-match race variable as such:
  
 ```{r}
-
-discord_cat_diff <- lm(S00_H40_diff ~ S00_H40_mean + 
-                         RACE_multimatch + SEX_binarymatch,
+discord_cat_diff <- lm(
+  S00_H40_diff ~ S00_H40_mean +
+    RACE_multimatch + SEX_binarymatch,
   data = cat_both
 )
 ```
@@ -674,9 +674,10 @@ Finally, we examine how sex and race together predict mean SES levels:
 
 
 ```{r}
-discord_cat_mean <- lm(S00_H40_mean ~ RACE_multimatch + 
-                         SEX_multimatch,
-                       data = cat_both
+discord_cat_mean <- lm(
+  S00_H40_mean ~ RACE_multimatch +
+    SEX_multimatch,
+  data = cat_both
 )
 ```
 ```{r echo = FALSE, eval = knitr::is_html_output()}

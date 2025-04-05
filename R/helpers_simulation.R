@@ -67,28 +67,28 @@ kinsim_internal <- function(
     r_vector = NULL,
     c_vector = NULL,
     ...) {
-
-# Calculate standard deviations from variance components
+  # Calculate standard deviations from variance components
   sA <- ace[1]^0.5
   sC <- ace[2]^0.5
   sE <- ace[3]^0.5
 
 
-# Define exchange matrix for correlation structure
+  # Define exchange matrix for correlation structure
   S2 <- matrix(c(
     0, 1,
-    1, 0), 2)
+    1, 0
+  ), 2)
 
-# Initialize list to store data for each relatedness group
+  # Initialize list to store data for each relatedness group
 
   datalist <- list()
 
-# Handle standard case with groups of different relatedness
+  # Handle standard case with groups of different relatedness
   if (is.null(r_vector)) {
     id <- 1:sum(npergroup)
 
 
-  # Generate data for each relatedness group
+    # Generate data for each relatedness group
     for (i in 1:length(r)) {
       n <- npergroup[i]
 
@@ -96,17 +96,17 @@ kinsim_internal <- function(
       A.r <- sA * rmvn(n, sigma = diag(2) + S2 * r[i])
 
       # Generate shared environmental components (same for both members)
-  #     C.r <- stats::rnorm(n,sd = sC)
-    #   C.r <- cbind(C.r,C.r )
+      #     C.r <- stats::rnorm(n,sd = sC)
+      #   C.r <- cbind(C.r,C.r )
       C.r <- sC * rmvn(n, sigma = diag(2) + S2 * c_rel)
 
-  # Generate non-shared environmental components (different for each member)
-       E.r <- cbind(
-         stats::rnorm(n, sd = sE),
-         stats::rnorm(n, sd = sE)
-       )
+      # Generate non-shared environmental components (different for each member)
+      E.r <- cbind(
+        stats::rnorm(n, sd = sE),
+        stats::rnorm(n, sd = sE)
+      )
 
- # Calculate phenotypes as sum of components plus mean
+      # Calculate phenotypes as sum of components plus mean
       y.r <- mu + A.r + C.r + E.r
 
 
@@ -140,7 +140,7 @@ kinsim_internal <- function(
     # Generate genetic components for each unique relatedness value
     for (i in 1:length(unique_r)) {
       n <- length(r_vector[r_vector == unique_r[i]])
-      A.rz <- sA * rmvn(n,sigma = diag(2) + S2 * unique_r[i])
+      A.rz <- sA * rmvn(n, sigma = diag(2) + S2 * unique_r[i])
       data_vector$A.r1[data_vector$r_vector == unique_r[i]] <- A.rz[, 1]
       data_vector$A.r2[data_vector$r_vector == unique_r[i]] <- A.rz[, 2]
     }
@@ -151,8 +151,10 @@ kinsim_internal <- function(
     ), ncol = 2)
     C.r <- sC * rmvn(n, sigma = diag(2) + S2 * c_rel)
 
-    E.r <- cbind(stats::rnorm(n,sd = sE),
-                 stats::rnorm(n,sd = sE))
+    E.r <- cbind(
+      stats::rnorm(n, sd = sE),
+      stats::rnorm(n, sd = sE)
+    )
 
     y.r <- mu + A.r + C.r + E.r
 

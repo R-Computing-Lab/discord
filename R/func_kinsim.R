@@ -58,13 +58,17 @@
 #'
 #' # Generate data for different relatedness groups with custom parameters
 #' family_data <- kinsim(
-#'   r_all = c(1, 0.5, 0.25),             # MZ twins, DZ twins, and half-siblings
-#'   npergroup_all = c(100, 100, 150),    # Sample sizes per group
-#'   ace_list = matrix(c(1.5, 0.5, 1.0,   # Variable 1 ACE components
-#'                      0.8, 1.2, 1.0),   # Variable 2 ACE components
-#'                    nrow = 2, byrow = TRUE),
-#'   cov_a = 0.3,                         # Genetic covariance
-#'   cov_c = 0.2                          # Shared environment covariance
+#'   r_all = c(1, 0.5, 0.25), # MZ twins, DZ twins, and half-siblings
+#'   npergroup_all = c(100, 100, 150), # Sample sizes per group
+#'   ace_list = matrix(
+#'     c(
+#'       1.5, 0.5, 1.0, # Variable 1 ACE components
+#'       0.8, 1.2, 1.0
+#'     ), # Variable 2 ACE components
+#'     nrow = 2, byrow = TRUE
+#'   ),
+#'   cov_a = 0.3, # Genetic covariance
+#'   cov_c = 0.2 # Shared environment covariance
 #' )
 #' @export
 
@@ -95,10 +99,10 @@ kinsim <- function(
   if (variables == 1) {
     data_v <- kinsim_internal(
       r = r_all,
-      c_rel= c_all,
+      c_rel = c_all,
       npergroup = npergroup_all, #
       mu = mu_list[1], # intercept
-      ace = ace_list[1,],
+      ace = ace_list[1, ],
       r_vector = r_vector
     )
     data_v$A1_u <- data_v$A1
@@ -194,7 +198,6 @@ kinsim <- function(
     merged.data.frame <- Reduce(function(...) merge(..., all = T), datalist)
     merged.data.frame$id <- id
   } else {
-
     id <- seq_along(r_vector)
     # Initialize full-length empty matrices
     n <- length(r_vector)
@@ -203,11 +206,10 @@ kinsim <- function(
     E.r <- matrix(NA_real_, nrow = n, ncol = 4)
 
     for (r_val in unique(r_vector)) {
-
       idx <- which(r_vector == r_val)
       n_sub <- length(idx)
 
-    #  n <- length(r_vector[r_vector == unique_r[i]])
+      #  n <- length(r_vector[r_vector == unique_r[i]])
 
       # Genetic Covariance
       sigma_a <- diag(4) + S2 * r_val
@@ -260,9 +262,9 @@ kinsim <- function(
     y.r[, 3:4] <- A.r[, 3:4] * ace_list[2, 1] + C.r[, 3:4] * ace_list[2, 2] + E.r[, 3:4] * ace_list[2, 3]
     y.r[, 1:2] <- y.r[, 1:2] + mu_list[1]
     y.r[, 3:4] <- y.r[, 3:4] + mu_list[2]
-  #  y.r <- mu + A.r + C.r + E.r
+    #  y.r <- mu + A.r + C.r + E.r
 
-   # print(sum(length(A.r), length(C.r), length(E.r), length(y.r), length(r_vector)))
+    # print(sum(length(A.r), length(C.r), length(E.r), length(y.r), length(r_vector)))
     data.r <- data.frame(A.r, C.r, E.r, y.r, r = r_vector, id)
     names(data.r) <- c(
       "A1_1", "A1_2", "A2_1", "A2_2",
