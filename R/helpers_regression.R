@@ -66,8 +66,8 @@ make_mean_diffs <- function(data, id, sex, race, demographics,
   # This always runs -- ignoring sex or race variables
   if (data[, "order"] == "s1") {
     # no need to be yelled at by r for subtracting strings)
-    diff <- suppressWarnings(data[[S1]] - data[[S2]])
-    mean <- suppressWarnings(base::mean(c(data[[S1]], data[[S2]])))
+    diff <- suppressMessages(suppressWarnings(data[[S1]] - data[[S2]]))
+    mean <- suppressMessages(suppressWarnings(base::mean(c(data[[S1]], data[[S2]]))))
 
     output <- data.frame(
       id = data[[id]],
@@ -78,8 +78,8 @@ make_mean_diffs <- function(data, id, sex, race, demographics,
     )
   } else if (data[, "order"] == "s2") {
     # no need to be yelled at by r for subtracting strings)
-    diff <- suppressWarnings(data[[S2]] - data[[S1]])
-    mean <- suppressWarnings(base::mean(c(data[[S1]], data[[S2]])))
+    diff <- suppressMessages(suppressWarnings(data[[S2]] - data[[S1]]))
+    mean <- suppressMessages(suppressWarnings(base::mean(c(data[[S1]], data[[S2]]))))
 
     output <- data.frame(
       id = data[[id]],
