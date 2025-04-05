@@ -4,7 +4,7 @@
 This update introduces several enhancements to categorical variable handling as well as refining two existing vignettes as well as adding a new one. The new vignette demonstrates the use of the potter dataset from the BGmisc package to create and use other kinship links. 
 
 ## Pretest Notes
-
+Trattner is not misspelled in the DESCRIPTION file. It is the surname of one of the authors.
 As requested, removed duplicate reference to GPL3 license, and added license to rbuild ignore file.
  
 # Test Environments
