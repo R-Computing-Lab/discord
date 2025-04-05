@@ -192,13 +192,17 @@ environmental covariance structures.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Generate data for different relatedness groups with custom parameters</span></span></span>
 <span class="r-in"><span><span class="va">family_data</span> <span class="op">&lt;-</span> <span class="fu">kinsim</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  r_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span><span class="op">)</span>,             <span class="co"># MZ twins, DZ twins, and half-siblings</span></span></span>
-<span class="r-in"><span>  npergroup_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">100</span>, <span class="fl">150</span><span class="op">)</span>,    <span class="co"># Sample sizes per group</span></span></span>
-<span class="r-in"><span>  ace_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>,   <span class="co"># Variable 1 ACE components</span></span></span>
-<span class="r-in"><span>                     <span class="fl">0.8</span>, <span class="fl">1.2</span>, <span class="fl">1.0</span><span class="op">)</span>,   <span class="co"># Variable 2 ACE components</span></span></span>
-<span class="r-in"><span>                   nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  cov_a <span class="op">=</span> <span class="fl">0.3</span>,                         <span class="co"># Genetic covariance</span></span></span>
-<span class="r-in"><span>  cov_c <span class="op">=</span> <span class="fl">0.2</span>                          <span class="co"># Shared environment covariance</span></span></span>
+<span class="r-in"><span>  r_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span><span class="op">)</span>, <span class="co"># MZ twins, DZ twins, and half-siblings</span></span></span>
+<span class="r-in"><span>  npergroup_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">100</span>, <span class="fl">150</span><span class="op">)</span>, <span class="co"># Sample sizes per group</span></span></span>
+<span class="r-in"><span>  ace_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="co"># Variable 1 ACE components</span></span></span>
+<span class="r-in"><span>      <span class="fl">0.8</span>, <span class="fl">1.2</span>, <span class="fl">1.0</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>, <span class="co"># Variable 2 ACE components</span></span></span>
+<span class="r-in"><span>    nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  cov_a <span class="op">=</span> <span class="fl">0.3</span>, <span class="co"># Genetic covariance</span></span></span>
+<span class="r-in"><span>  cov_c <span class="op">=</span> <span class="fl">0.2</span> <span class="co"># Shared environment covariance</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
