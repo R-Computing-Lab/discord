@@ -1,3 +1,6 @@
+# discord 1.2.3.1
+* More mild improvements to documentation
+
 # discord 1.2.3
 * improved documentation
 * allow for kin to not share their common environment
@@ -5,11 +8,10 @@
 * increased test coverage to 82.39 from 47ish.
 
 # discord 1.2.2
-* Added kinship link demonstration using potter dataset from BGmisc package
-* Copy edited vignettes
+* Added a new vignette demonstrating the use of the potter dataset from the `BGmisc` package to create and use other kinship links.
+* Copy edited existing vignettes
 
 # discord 1.2.1
-
 * Enhanced categorical variable handling
 
 ## Bug Fixes

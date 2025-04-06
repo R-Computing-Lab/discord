@@ -170,7 +170,7 @@ df_link <- df_link %>%
 
 ## Handling Categorical Predictors
 
-##@ Mixed Variables: Gender as an Example
+### Mixed Variables: Sex as an Example
 
 Sex is a classic example of a mixed variable in sibling studies because it can vary both within and between dyads. Siblings can be of the same or different sexes, and the pattern varies across families.
 
@@ -245,7 +245,7 @@ Researchers can choose between these options based on their research question:
 - Use SEX_binarymatch when focusing on differences between same-sex and mixed-sex pairs
 - Use SEX_multimatch when interested in comparing male-male, female-female, and mixed-sex pairs
  
-## Between-dyad variable: Race as an Example
+### Between-dyad variable: Race as an Example
 
 For demonstration purposes, we've already filtered our dataset to include only same-race pairs, making race a between-dyads variable. Let's prepare the data specifically for race analysis:
 
@@ -374,7 +374,7 @@ discord_sex_binary %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-Interpretation:
+####Interpretation:
 
 
 - The mean SES score for the siblings (`S00_H40_diff`) is a significant control variable (p =`r round(summary(discord_sex_binary)[["coefficients"]]["S00_H40_mean", "Pr(>|t|)"],3)`).  `S00_H40_mean` is negatively associated with the difference in SES score between siblings at age 40, `S00_H40_diff`, controlling for another variable (in this case, `SEX_binarymatch`). It is estimated that for one unit increase of `S00_H40_mean`, `S00_H40_diff`is expected to decrease approximately `r round(discord_sex_binary[["coefficients"]][["S00_H40_mean"]],3)`.
@@ -416,11 +416,10 @@ discord_sex_multi %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-### Interpretation:
+#### Interpretation:
 
 
 - The term `S00_H40_mean`  was a significant control variable (p = `r round(summary(discord_sex_multi)[["coefficients"]]["S00_H40_mean","Pr(>|t|)"],3)`). This means that the mean SES score for the sibling pairs (`S00_H40_mean`) is negatively associated with the difference in SES between siblings (`S00_H40_diff`), controlling for other variables (in this case, `SEX_multimatch`). It is estimated that for one unit increase of `S00_H40_mean`, `S00_H40_diff` is expected to decrease approximately `r abs(round(discord_sex_multi[["coefficients"]][["S00_H40_mean"]],3))`. 
-
 
 - There was no significant difference between female-female pairs and male-male pairs (p=`r round(summary(discord_sex_multi)[["coefficients"]]["SEX_multimatchMALE", "Pr(>|t|)"],3)`) to predict `S00_H40_diff`. Similarly, there were no significant differences between mixed-sex pairs and female-female pairs (p = `r round(summary(discord_sex_multi)[["coefficients"]]["SEX_multimatchmixed", "Pr(>|t|)"],3)`).
 
@@ -455,7 +454,7 @@ discord_cat_mean %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-## Interpretation:
+#### Interpretation:
 
 In this regression model, the mean SES score for the siblings (`S00_H40_mean`) was regressed on the SEX-composition variable (`SEX_binarymatch`). 
 
@@ -488,7 +487,7 @@ discord_cat_mean2 %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-### Interpretation:
+#### Interpretation:
 
 There is a significant difference between female-female pairs and male-male pairs (`r round(summary(discord_cat_mean2)[["coefficients"]]["SEX_multimatchMALE", "Pr(>|t|)"],3)`) to predict the `S00_H40_mean`. However, there is  no significant difference between mixed-sex pairs and female-female pairs (p = `r round(summary(discord_cat_mean2)[["coefficients"]]["SEX_multimatchmixed", "Pr(>|t|)"],3)`).
 
@@ -499,6 +498,8 @@ The coefficient `r abs(round(discord_cat_mean2[["coefficients"]]["SEX_multimatch
 ## Regression Analysis: Race Variables
 
 For race variables, we use the multi-match coding to examine differences between minority and non-minority pairs:
+
+### Multimatch
 
 The regression model with a multi-match race variable as a  predictor can be conducted as such:
 
@@ -535,7 +536,7 @@ cat_race_reg %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-### Interpretation:
+#### Interpretation:
 
 The mean SES score for the siblings (`S00_H40_mean`) is a significant control variable (p =`r round(summary(cat_race_reg)[["coefficients"]]["S00_H40_mean","Pr(>|t|)"],3)`. The term `S00_H40_mean` is negatively associated with the difference score of SES between siblings (`S00_H40_diff`), controlling for another variable (in this case, `RACE_multimatchNONMINORITY`). It is estimated that for one unit increase of `S00_H40_mean`, the DV (`S00_H40_diff`) is expected to decrease by approximately 
 `r abs(round(cat_race_reg[["coefficients"]][["S00_H40_mean"]],3))`.
@@ -570,7 +571,7 @@ discord_cat_mean %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ``` 
 
-### Interpretation:
+#### Interpretation:
 
 
 There is significant difference between "minority" pairs and "nonminority" pairs in `S00_H40_mean` (p =`r round(summary(discord_cat_mean)[["coefficients"]]["RACE_multimatchNONMINORITY","Pr(>|t|)"],3)`). 
@@ -582,8 +583,9 @@ It is estimated that, compared to the reference group (minority pairs), the nonm
 
 We can include both sex and race as predictors in the same model:
 
-First, we restructure the data for the kinship-discordant regression using the `discord_data()` function.
+Like before we restructure the data for the kinship-discordant regression, but this time we using the `discord_regression()` function, which calls the `discord_data()` function internally. 
 
+### Multimatch
 
 ```{r}
 both_multi <- discord_regression(
@@ -615,7 +617,7 @@ both_multi %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-### Interpretation
+#### Interpretation
 
 The mean SES score for the siblings (`S00_H40_mean`) is a significant control variable (p = `r round(summary(both_multi)[["coefficients"]]["S00_H40_mean","Pr(>|t|)"],3)` ). `S00_H40_mean` is negatively associated with the difference score of SES between the siblings (`S00_H40_diff`), controlling for other variables (in this case, the `SEX_multimatchMALE`, `SEX_multimatchmixed` and `RACE_multimatchNONMINORITY`). It is estimated that for one unit increase of the mean SES score for the sibling pairs( `S00_H40_mean`), the difference score of SES between siblings(`S00_H40_diff`) is expected to decrease approximately `r round(both_multi[["coefficients"]][["S00_H40_mean"]],3)`.
 
@@ -657,7 +659,7 @@ discord_cat_diff %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-### Interpretation:
+#### Interpretation:
 
 The mean SES score for the siblings at 40 (`S00_H40_mean`) is a significant control variable (p =
 `r round(summary(discord_cat_diff)[["coefficients"]]["S00_H40_mean","Pr(>|t|)"],3)`. The mean SES score for the siblings (`S00_H40_mean`) is negatively associated with the difference score of SES between the siblings (`S00_H40_diff`), controlling for other variables (in this case, `SEX_binarymatchsame-sex` and `RACE_multimatchNONMINORITY`). It is estimated that for one unit increase of `S00_H40_mean`, the DV (`S00_H40_diff`) is expected to decrease approximately  `r abs(round(discord_cat_diff[["coefficients"]][["S00_H40_mean"]],3))`. 
@@ -668,7 +670,7 @@ The term `RACE_multimatchNONMINORITY`is a significant predictor (p = `r round(su
 
 
 
-## Mean SES Models with Both Variables
+### Mean SES Models with Both Variables
 
 Finally, we examine how sex and race together predict mean SES levels:
 
@@ -697,7 +699,7 @@ discord_cat_mean %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ``` 
 
-### Interpretation:
+#### Interpretation:
 
 The term `SEX_multimatchMALE` is a significant predictor (p = `r round(summary(discord_cat_mean)[["coefficients"]]["SEX_multimatchMALE","Pr(>|t|)"],3)`) when controlling for other variables (i.e., `SEX_multimatchmixed`and `RACEe_multimatchNONMINORITY`). This means that the difference between female-female pairs and  male-male pairs  significantly predicted the mean SES score for the siblings  when controlling for race-composition of the pairs. Compared to the female-female pairs, it is estimated that the male-male pairs have approximately 
 `r abs(round(discord_cat_mean[["coefficients"]][["SEX_multimatchMALE"]],3))` higher mean SES score for the siblings when controlling for and race-composition of the pairs.  
@@ -708,7 +710,7 @@ The term `SEX_multimatchmixed` was not a significant predictor (p = `r round(sum
 
 The term `RACE_multimatchNONMINORITY` is a significant predictor (p = `r round(summary(discord_cat_mean)[["coefficients"]]["RACE_multimatchNONMINORITY","Pr(>|t|)"],3)`). This means that there is a significant difference between minority race pairs and nonminority race pairs in the mean SES score for the sibling pairs (`S00_H40_mean`) when controlling for the other variables (i.e., `SEX_multimatchmixed` and `SEX_multimatchMALE`). Specifically, compared to the minority race pairs, nonminority race pairs were expected to have approximately `r abs(round(discord_cat_mean[["coefficients"]][["RACE_multimatchNONMINORITY"]],3))` higher mean SES score for siblings 
 
-## Mean SES Models with Combining multimatch and binarymatch
+### Mean SES Models with Combining multimatch and binarymatch
 
 
 ```{r}
@@ -735,7 +737,7 @@ discord_cat_mean2 %>%
 ``` 
 
 
-### Interpretation:
+#### Interpretation:
 
 The term `SEX_binarymatchsame-sex` is not a significant predictor (p = `r round(summary(discord_cat_mean2)[["coefficients"]]["SEX_binarymatchsame-sex","Pr(>|t|)"],3)`) when controlling for the race-composition variable (i.e., `RACE_multimatchNONMINORITY`). This means that the difference between mixed-sex pairs and same sex pairs does not significantly predict the mean SES score for the siblings  when controlling for race-composition of the pairs. Compared to the mixed-sex pairs, it is estimated that the same-sex pairs have approximately 
 `r abs(round(discord_cat_mean2[["coefficients"]][["SEX_binarymatchsame-sex"]],3))` higher mean SES score for the sibling pairs (`S00_H40_mean`) when controlling for and race-composition of the pairs (`RACE_multimatchNONMINORITY`). However, this variable is not significant, so it is not advisable to interpret the coefficient.    
