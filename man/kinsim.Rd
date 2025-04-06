@@ -2,16 +2,18 @@
 % Please edit documentation in R/func_kinsim.R
 \name{kinsim}
 \alias{kinsim}
-\title{Simulate Biometrically informed Multivariate Data}
+\title{Simulate Biometrically Informed Multivariate Data}
 \usage{
 kinsim(
   r_all = c(1, 0.5),
+  c_all = 1,
   npg_all = 500,
   npergroup_all = rep(npg_all, length(r_all)),
   mu_all = 0,
   variables = 2,
   mu_list = rep(mu_all, variables),
   r_vector = NULL,
+  c_vector = NULL,
   ace_all = c(1, 1, 1),
   ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
   cov_a = 0,
@@ -21,34 +23,48 @@ kinsim(
 )
 }
 \arguments{
-\item{r_all}{Levels of relatedness; default is MZ and DZ twins c(1,.5).}
+\item{r_all}{Numeric vector. Levels of genetic relatedness for each group;
+default is c(1, 0.5) representing MZ and DZ twins respectively.}
 
-\item{npg_all}{Sample size per group; default is 500.}
+\item{c_all}{Numeric. Default shared variance for common environment; default is 1.}
 
-\item{npergroup_all}{Vector of sample sizes by group; default repeats \code{npg_all} for all groups}
+\item{npg_all}{Integer. Default sample size per group; default is 500.}
 
-\item{mu_all}{Mean for each generated variable; default is 0.}
+\item{npergroup_all}{Numeric vector. Sample sizes by group;
+default repeats \code{npg_all} for all groups in \code{r_all}.}
 
-\item{variables}{Number of variables to generate; default is 2. Currently, limited to max of two variables.}
+\item{mu_all}{Numeric. Default mean value for all generated variables; default is 0.}
 
-\item{mu_list}{List of means by variable; default repeats \code{mu_all} for all variables}
+\item{variables}{Integer. Number of variables to generate; default is 2.
+Currently limited to a maximum of two variables.}
 
-\item{r_vector}{Alternative, give vector of r coefficients for entire sample.}
+\item{mu_list}{Numeric vector. Means for each variable;
+default repeats \code{mu_all} for all variables.}
 
-\item{ace_all}{Vector of variance components for each generated variable; default is c(1,1,1).}
+\item{r_vector}{Numeric vector. Alternative specification providing genetic relatedness
+coefficients for the entire sample; default is NULL.}
 
-\item{ace_list}{Matrix of ACE variance components by variable, where each row is its own variable; default is to repeat \code{ace_all} for each variable.}
+\item{c_vector}{Numeric vector. Alternative specification providing
+shared-environmental relatedness}
 
-\item{cov_a}{Shared variance for additive genetics (a); default is 0.}
+\item{ace_all}{Numeric vector. Default variance components in order c(a, c, e)
+for all variables; default is c(1, 1, 1).}
 
-\item{cov_c}{Shared variance for shared-environment (c); default is 0.}
+\item{ace_list}{Matrix. ACE variance components by variable, where each row
+represents a variable and columns are a, c, e components;
+default repeats \code{ace_all} for each variable.}
 
-\item{cov_e}{shared variance for non-shared-environment (e); default is 0.}
+\item{cov_a}{Numeric. Shared variance for additive genetics between variables; default is 0.}
 
-\item{...}{Optional pass on additional inputs.}
+\item{cov_c}{Numeric. Shared variance for shared-environment between variables; default is 0.}
+
+\item{cov_e}{Numeric. Shared variance for non-shared-environment between variables; default is 0.}
+
+\item{...}{Additional arguments passed to other methods.}
 }
 \value{
-Returns \code{data.frame} with the following:
+A data frame with the following columns:
+\describe{
 \item{Ai_1}{genetic component for variable i for kin1}
 \item{Ai_2}{genetic component for variable i for kin2}
 \item{Ci_1}{shared-environmental component for variable i for kin1}
@@ -58,8 +74,38 @@ Returns \code{data.frame} with the following:
 \item{yi_1}{generated variable i for kin1}
 \item{yi_2}{generated variable i for kin2}
 \item{r}{level of relatedness for the kin pair}
-\item{id}{id}
+\item{id}{Unique identifier for each kinship pair}
+}
 }
 \description{
-Generate paired multivariate data, given ACE parameters.
+Generates paired multivariate data for kinship pairs based on specified ACE (Additive
+genetic, Common environment, unique Environment) parameters with covariance structure.
+}
+\details{
+This function extends the univariate ACE model to multivariate data, allowing simulation
+of correlated phenotypes across kinship pairs with different levels of genetic relatedness.
+It supports simulation of up to two phenotypic variables with specified genetic and
+environmental covariance structures.
+}
+\examples{
+# Generate basic multivariate twin data with default parameters
+twin_data <- kinsim()
+
+# Generate data with genetic correlation between variables
+correlated_data <- kinsim(cov_a = 0.5)
+
+# Generate data for different relatedness groups with custom parameters
+family_data <- kinsim(
+  r_all = c(1, 0.5, 0.25), # MZ twins, DZ twins, and half-siblings
+  npergroup_all = c(100, 100, 150), # Sample sizes per group
+  ace_list = matrix(
+    c(
+      1.5, 0.5, 1.0, # Variable 1 ACE components
+      0.8, 1.2, 1.0
+    ), # Variable 2 ACE components
+    nrow = 2, byrow = TRUE
+  ),
+  cov_a = 0.3, # Genetic covariance
+  cov_c = 0.2 # Shared environment covariance
+)
 }

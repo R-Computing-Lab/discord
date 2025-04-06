@@ -6,7 +6,7 @@
 \alias{discord-package}
 \title{discord: Functions for Discordant Kinship Modeling}
 \description{
-Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Currently, the package contains data restructuring functions and functions for generating biometrically informed data for kin pairs.
+Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Contains data restructuring functions and functions for generating biometrically informed data for kin pairs. See [Garrison and Rodgers, 2016 \doi{10.1016/j.intell.2016.08.008}], [Sims, Trattner, and Garrison, 2024 \doi{10.3389/fpsyg.2024.1430978}] for empirical examples, and Garrison et al for theoretical work \url{https://osf.io/zpdwt/}.
 }
 \seealso{
 Useful links:
@@ -17,12 +17,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: S. Mason Garrison \email{garrissm@wfu.edu} [copyright holder]
+\strong{Maintainer}: S. Mason Garrison \email{garrissm@wfu.edu} (\href{https://orcid.org/0000-0002-4804-6003}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Jonathan Trattner \email{code@jdtrat.com}
-  \item Hwang Yoo Ri \email{yrhwang89@gmail.com}
+  \item Jonathan Trattner \email{code@jdtrat.com} (\href{https://orcid.org/0000-0002-1097-7603}{ORCID}) (https://www.jdtrat.com/)
+  \item Yoo Ri Hwang \email{yrhwang89@gmail.com}
 }
 
 Other contributors:

@@ -370,3 +370,83 @@ test_that("half-siblings nonsignificant: new & legacy data prep code results are
 
   expect_equal(new_data, old_data)
 })
+
+
+test_that("discord_data_legacy returns scaled values when scale = TRUE", {
+  set.seed(18)
+  tolerance <- .1
+
+  df <- data.frame(
+    y1_1 = rnorm(1000, mean = 10, sd = 5),
+    y1_2 = rnorm(1000, mean = 10, sd = 5),
+    x_1 = 1:1000,
+    x_2 = 1001:2000,
+    id = 1:1000
+  )
+  df_dbl <- make_double_entered(df)
+
+  result <- discord_data_legacy(
+    outcome = "y1",
+    predictors = "x",
+    df = df_dbl,
+    doubleentered = TRUE,
+    scale = TRUE,
+    sep = "_",
+    id = "id"
+  )
+  expect_gte(mean(result$y1_1),mean(result$y1_2))
+  expect_equal(mean(rbind(result$y1_1,result$y1_2)), 0, tolerance = tolerance)
+  expect_equal(sd(rbind(result$y1_1,result$y1_2)), 1, tolerance = tolerance)
+
+  expect_equal(mean(rbind(result$x_1,result$x_2)), 0, tolerance = tolerance)
+  expect_equal(sd(result$x_1), 1, tolerance = tolerance)
+  expect_equal(sd(result$x_2), 1, tolerance = tolerance)
+})
+
+test_that("discord_data_legacy drops raw vars when full = FALSE", {
+  df <- data.frame(
+    y1_1 = c(10, 20),
+    y1_2 = c(5, 25),
+    x_1 = c(1, 2),
+    x_2 = c(2, 1),
+    id = 1:2
+  )
+  df_dbl <- make_double_entered(df)
+
+  result <- discord_data_legacy(
+    outcome = "y1",
+    predictors = "x",
+    df = df_dbl,
+    doubleentered = TRUE,
+    full = FALSE,
+    sep = "_",
+    id = "id"
+  )
+
+  expect_true(all(c("id", "y1_diff", "y1_mean", "x_diff", "x_mean") %in% names(result)))
+  expect_false(any(c("y1_1", "x_1") %in% names(result)))
+})
+
+test_that("discord_data_legacy infers predictors when predictors = NULL", {
+  df <- data.frame(
+    y1_1 = c(1, 2),
+    y1_2 = c(3, 4),
+    x_1 = c(5, 6),
+    x_2 = c(7, 8),
+    id = 1:2
+  )
+  df_dbl <- make_double_entered(df)
+
+  result <- discord_data_legacy(
+    outcome = "y1",
+    predictors = NULL,
+    df = df_dbl,
+    doubleentered = TRUE,
+    sep = "_",
+    id = "id"
+  )
+
+  expect_true("x_diff" %in% names(result))
+  expect_true("x_mean" %in% names(result))
+})
+
