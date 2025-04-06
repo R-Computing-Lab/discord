@@ -274,7 +274,9 @@ sibling pair per household:</p>
 <div class="section level3">
 <h3 id="handling-categorical-predictors">Handling Categorical Predictors<a class="anchor" aria-label="anchor" href="#handling-categorical-predictors"></a>
 </h3>
-<p>##@ Mixed Variables: Gender as an Example</p>
+<div class="section level4">
+<h4 id="mixed-variables-sex-as-an-example">Mixed Variables: Sex as an Example<a class="anchor" aria-label="anchor" href="#mixed-variables-sex-as-an-example"></a>
+</h4>
 <p>Sex is a classic example of a mixed variable in sibling studies
 because it can vary both within and between dyads. Siblings can be of
 the same or different sexes, and the pattern varies across families.</p>
@@ -677,9 +679,9 @@ and mixed-sex pairs</li>
 female-female, and mixed-sex pairs</li>
 </ul>
 </div>
-<div class="section level3">
-<h3 id="between-dyad-variable-race-as-an-example">Between-dyad variable: Race as an Example<a class="anchor" aria-label="anchor" href="#between-dyad-variable-race-as-an-example"></a>
-</h3>
+<div class="section level4">
+<h4 id="between-dyad-variable-race-as-an-example">Between-dyad variable: Race as an Example<a class="anchor" aria-label="anchor" href="#between-dyad-variable-race-as-an-example"></a>
+</h4>
 <p>For demonstration purposes, we’ve already filtered our dataset to
 include only same-race pairs, making race a between-dyads variable.
 Let’s prepare the data specifically for race analysis:</p>
@@ -763,6 +765,7 @@ is the same-race pair or mixed-race pair. Because the race variable is a
 between-dyads variable, all the pairs in this example are same-race
 pairs. The <code>RACE_multimatch</code> variable indicates whether the
 pair is minority-minority, nonminority-nonminority, or mixed-race.</p>
+</div>
 <div class="section level4">
 <h4 id="combining-sex-and-race-variables">Combining Sex and Race Variables<a class="anchor" aria-label="anchor" href="#combining-sex-and-race-variables"></a>
 </h4>
@@ -1119,7 +1122,7 @@ p=0.975
 </tr>
 </tbody>
 </table>
-<p>Interpretation:</p>
+<p>####Interpretation:</p>
 <ul>
 <li><p>The mean SES score for the siblings (<code>S00_H40_diff</code>)
 is a significant control variable (p =0). <code>S00_H40_mean</code> is
@@ -1260,10 +1263,9 @@ p=0.003
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level4">
-<h4 id="interpretation">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation"></a>
-</h4>
+<div class="section level5">
+<h5 id="interpretation">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation"></a>
+</h5>
 <ul>
 <li><p>The term <code>S00_H40_mean</code> was a significant control
 variable (p = 0). This means that the mean SES score for the sibling
@@ -1286,6 +1288,7 @@ female-female pairs) and the mixed-sex pairs. However, these
 coefficients are not significant, so it is not advisable to interpret
 the coefficients.</p></li>
 </ul>
+</div>
 </div>
 <div class="section level4">
 <h4 id="mean-ses-model-with-sex">Mean SES Model with Sex<a class="anchor" aria-label="anchor" href="#mean-ses-model-with-sex"></a>
@@ -1351,11 +1354,9 @@ p=0.985
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section level3">
-<h3 id="interpretation-1">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-1"></a>
-</h3>
+<div class="section level5">
+<h5 id="interpretation-1">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-1"></a>
+</h5>
 <p>In this regression model, the mean SES score for the siblings
 (<code>S00_H40_mean</code>) was regressed on the SEX-composition
 variable (<code>SEX_binarymatch</code>).</p>
@@ -1365,6 +1366,8 @@ mixed-sex pairs in the mean SES score for the siblings (p=0.985)</p>
 pairs would have approximately 0.018 higher <code>S00_H40_mean</code>.
 However, this coefficient is not significant, so it is not advisable to
 interpret the coefficient.</p>
+</div>
+</div>
 <div class="section level4">
 <h4 id="multi-match-coding-for-sex-1">Multi-Match Coding for Sex<a class="anchor" aria-label="anchor" href="#multi-match-coding-for-sex-1"></a>
 </h4>
@@ -1444,10 +1447,9 @@ p=0.103
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level4">
-<h4 id="interpretation-2">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-2"></a>
-</h4>
+<div class="section level5">
+<h5 id="interpretation-2">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-2"></a>
+</h5>
 <p>There is a significant difference between female-female pairs and
 male-male pairs (0.004) to predict the <code>S00_H40_mean</code>.
 However, there is no significant difference between mixed-sex pairs and
@@ -1465,11 +1467,15 @@ coefficients are not significant, so it is not advisable to interpret
 the coefficients.</p>
 </div>
 </div>
+</div>
 <div class="section level3">
 <h3 id="regression-analysis-race-variables">Regression Analysis: Race Variables<a class="anchor" aria-label="anchor" href="#regression-analysis-race-variables"></a>
 </h3>
 <p>For race variables, we use the multi-match coding to examine
 differences between minority and non-minority pairs:</p>
+<div class="section level4">
+<h4 id="multimatch">Multimatch<a class="anchor" aria-label="anchor" href="#multimatch"></a>
+</h4>
 <p>The regression model with a multi-match race variable as a predictor
 can be conducted as such:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -1556,9 +1562,9 @@ p=0.003
 </tr>
 </tbody>
 </table>
-<div class="section level4">
-<h4 id="interpretation-3">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-3"></a>
-</h4>
+<div class="section level5">
+<h5 id="interpretation-3">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-3"></a>
+</h5>
 <p>The mean SES score for the siblings (<code>S00_H40_mean</code>) is a
 significant control variable (p =0. The term <code>S00_H40_mean</code>
 is negatively associated with the difference score of SES between
@@ -1575,6 +1581,7 @@ pairs significantly predicts <code>S00_H40_diff</code>. Specifically,
 compared to the reference group (the “minority” pairs), “nonminority”
 pairs are expected to have approximately 2.272 lower
 <code>S00_H40_diff</code>.</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="mean-ses-model-with-race">Mean SES Model with Race<a class="anchor" aria-label="anchor" href="#mean-ses-model-with-race"></a>
@@ -1640,10 +1647,9 @@ p&lt;0.001
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level4">
-<h4 id="interpretation-4">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-4"></a>
-</h4>
+<div class="section level5">
+<h5 id="interpretation-4">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-4"></a>
+</h5>
 <p>There is significant difference between “minority” pairs and
 “nonminority” pairs in <code>S00_H40_mean</code> (p =0). It is estimated
 that, compared to the reference group (minority pairs), the nonminority
@@ -1651,12 +1657,18 @@ pairs would have approximately 9.277 lower
 <code>S00_H40_mean</code>.</p>
 </div>
 </div>
+</div>
 <div class="section level3">
 <h3 id="regression-analysis-combined-sex-and-race-variables">Regression Analysis: Combined Sex and Race Variables<a class="anchor" aria-label="anchor" href="#regression-analysis-combined-sex-and-race-variables"></a>
 </h3>
 <p>We can include both sex and race as predictors in the same model:</p>
-<p>First, we restructure the data for the kinship-discordant regression
-using the <code><a href="../reference/discord_data.html">discord_data()</a></code> function.</p>
+<p>Like before we restructure the data for the kinship-discordant
+regression, but this time we using the <code><a href="../reference/discord_regression.html">discord_regression()</a></code>
+function, which calls the <code><a href="../reference/discord_data.html">discord_data()</a></code> function
+internally.</p>
+<div class="section level4">
+<h4 id="multimatch-1">Multimatch<a class="anchor" aria-label="anchor" href="#multimatch-1"></a>
+</h4>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">both_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
@@ -1774,9 +1786,9 @@ p=0.003
 </tr>
 </tbody>
 </table>
-<div class="section level4">
-<h4 id="interpretation-5">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation-5"></a>
-</h4>
+<div class="section level5">
+<h5 id="interpretation-5">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation-5"></a>
+</h5>
 <p>The mean SES score for the siblings (<code>S00_H40_mean</code>) is a
 significant control variable (p = 0 ). <code>S00_H40_mean</code> is
 negatively associated with the difference score of SES between the
@@ -1809,6 +1821,7 @@ when controlling for the model covariates (i.e.,
 <code>S00_H40_mean</code>). Specifically, compared to the minority race
 pairs, the nonminority race pairs were expected to have approximately
 -2.277 higher difference score of SES between siblings at age 40.</p>
+</div>
 </div>
 <div class="section level4">
 <h4 id="alternative-model-binary-sex-match-and-multi-match-race">Alternative Model: Binary Sex Match and Multi-Match Race<a class="anchor" aria-label="anchor" href="#alternative-model-binary-sex-match-and-multi-match-race"></a>
@@ -1912,10 +1925,9 @@ p=0.993
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level4">
-<h4 id="interpretation-6">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-6"></a>
-</h4>
+<div class="section level5">
+<h5 id="interpretation-6">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-6"></a>
+</h5>
 <p>The mean SES score for the siblings at 40 (<code>S00_H40_mean</code>)
 is a significant control variable (p = 0. The mean SES score for the
 siblings (<code>S00_H40_mean</code>) is negatively associated with the
@@ -1952,9 +1964,9 @@ pairs were expected to have approximately 2.272 lower difference scores
 of SES between siblings (<code>S00_H40_diff</code>).</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="mean-ses-models-with-both-variables">Mean SES Models with Both Variables<a class="anchor" aria-label="anchor" href="#mean-ses-models-with-both-variables"></a>
-</h3>
+<div class="section level4">
+<h4 id="mean-ses-models-with-both-variables">Mean SES Models with Both Variables<a class="anchor" aria-label="anchor" href="#mean-ses-models-with-both-variables"></a>
+</h4>
 <p>Finally, we examine how sex and race together predict mean SES
 levels:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -2052,9 +2064,9 @@ p=0.105
 </tr>
 </tbody>
 </table>
-<div class="section level4">
-<h4 id="interpretation-7">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-7"></a>
-</h4>
+<div class="section level5">
+<h5 id="interpretation-7">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-7"></a>
+</h5>
 <p>The term <code>SEX_multimatchMALE</code> is a significant predictor
 (p = 0.003) when controlling for other variables (i.e.,
 <code>SEX_multimatchmixed</code>and
@@ -2086,9 +2098,9 @@ race pairs, nonminority race pairs were expected to have approximately
 9.277 higher mean SES score for siblings</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="mean-ses-models-with-combining-multimatch-and-binarymatch">Mean SES Models with Combining multimatch and binarymatch<a class="anchor" aria-label="anchor" href="#mean-ses-models-with-combining-multimatch-and-binarymatch"></a>
-</h3>
+<div class="section level4">
+<h4 id="mean-ses-models-with-combining-multimatch-and-binarymatch">Mean SES Models with Combining multimatch and binarymatch<a class="anchor" aria-label="anchor" href="#mean-ses-models-with-combining-multimatch-and-binarymatch"></a>
+</h4>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">cat_both</span></span>
@@ -2165,9 +2177,9 @@ p=0.926
 </tr>
 </tbody>
 </table>
-<div class="section level4">
-<h4 id="interpretation-8">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-8"></a>
-</h4>
+<div class="section level5">
+<h5 id="interpretation-8">Interpretation:<a class="anchor" aria-label="anchor" href="#interpretation-8"></a>
+</h5>
 <p>The term <code>SEX_binarymatchsame-sex</code> is not a significant
 predictor (p = 0.926) when controlling for the race-composition variable
 (i.e., <code>RACE_multimatchNONMINORITY</code>). This means that the
@@ -2187,6 +2199,7 @@ variable (i.e., <code>SEX_binarymatchsame-sex</code>). Specifically,
 compared to the minority race pairs, nonminority race pairs were
 expected to have approximately 9.278 higher mean SES score for
 siblings</p>
+</div>
 </div>
 </div>
 </div>
