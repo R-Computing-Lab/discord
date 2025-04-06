@@ -6,7 +6,7 @@
 \alias{discord-package}
 \title{discord: Functions for Discordant Kinship Modeling}
 \description{
-Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Contains data restructuring functions and functions for generating biometrically informed data for kin pairs. See [Garrison and Rodgers, 2016 \doi{10.1016/j.intell.2016.08.008}], [Sims, Trattner, and Garrison, 2024 \doi{10.3389/fpsyg.2024.1430978}] for empirical examples, and Garrison et al for theoretical work \url{https://osf.io/zpdwt/}.
+Functions for discordant kinship modeling (and other sibling-based quasi-experimental designs). Contains data restructuring functions and functions for generating biometrically informed data for kin pairs. See [Garrison and Rodgers, 2016 \doi{10.1016/j.intell.2016.08.008}], [Sims, Trattner, and Garrison, 2024 \doi{10.3389/fpsyg.2024.1430978}] for empirical examples, and Garrison and colleagues for theoretical work \url{https://osf.io/zpdwt/}.
 }
 \seealso{
 Useful links:
