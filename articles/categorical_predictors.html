@@ -79,22 +79,21 @@ and S. Mason Garrison</h4>
 in discordant-kinship regression analyses using the <code>discord</code>
 package. Drawing on dyadic modeling strategies described by Kenny et al.
 <span class="citation">(Kenny, Kashy, and Cook 2006)</span> and their
-extension to kinship settings by Hwang and Garrison <span class="citation">(Hwang 2022)</span>, we present a several approaches to
-handling categorical variables like sex and race in these specialized
-regression models.</p>
+extension to kinship models by Hwang and Garrison <span class="citation">(Hwang 2022)</span>, we present several approaches for
+handling categorical variables in these specialized regression
+models.</p>
 <p>We focus on:</p>
 <ol style="list-style-type: decimal">
 <li>How to code and interpret categorical variables at different levels
 (between-dyads vs. mixed)</li>
-<li>Different methods for treating categorical predictors (binary match
-vs. multi match)</li>
-<li>Practical implementation using the <code>discord</code> package
-functions</li>
+<li>Methods for treating categorical predictors (binary match
+vs. multi-match)</li>
+<li>Practical implementation using the <code>discord</code> package</li>
 </ol>
 <p>To illustrate these concepts, we examine whether sex and race predict
 socioeconomic status (SES) at age 40, using different categorical coding
-schemes with data from the 1979 National Longitudinal Survey of Youth
-(NLSY79).</p>
+schemes applied to data from the 1979 National Longitudinal Survey of
+Youth (NLSY79).</p>
 </div>
 <div class="section level3">
 <h3 id="understanding-variable-types-in-dyadic-analysis">Understanding Variable Types in Dyadic Analysis<a class="anchor" aria-label="anchor" href="#understanding-variable-types-in-dyadic-analysis"></a>
@@ -106,13 +105,13 @@ levels:</p>
 <strong>Between-dyad variables</strong>: Constant within dyads
 (e.g., same race pairs)</li>
 <li>
-<strong>Within-dyad variables</strong>: Vary within dyads but
+<strong>Within-dyad variables</strong>: Vary within dyads but remain
 constant across dyads (rare for categorical variables)</li>
 <li>
 <strong>Mixed variables</strong>: Vary both within and across dyads
 (e.g., sex)</li>
 </ul>
-<p>We have summarized these variable types in the table below:</p>
+<p>We summarize these variable types in the table below:</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -149,8 +148,10 @@ constant across dyads (rare for categorical variables)</li>
 </table>
 <p>When analyzing continuous predictors, we typically calculate mean
 scores and difference scores. However, as Kenny et al. <span class="citation">(Kenny, Kashy, and Cook 2006)</span> note, categorical
-variables require alternative approaches since mean and difference
-calculations aren’t meaningful.</p>
+variables require alternative approaches, since mean and difference
+calculations are not meaningful in this context. Instead, we can use
+coding strategies to represent categorical variables in a way that
+allows for meaningful analysis.</p>
 </div>
 <div class="section level3">
 <h3 id="coding-approaches-for-categorical-variables">Coding Approaches for Categorical Variables<a class="anchor" aria-label="anchor" href="#coding-approaches-for-categorical-variables"></a>
@@ -168,31 +169,32 @@ information, allowing for more nuanced analysis.</li>
 <div class="section level4">
 <h4 id="binary-match-coding">Binary Match Coding<a class="anchor" aria-label="anchor" href="#binary-match-coding"></a>
 </h4>
-<p>Binary match coding creates a simple indicator of whether pairs match
-(1) or differ (0) on the categorical variable: - Same-sex pairs
+<p>Binary match coding generates a simple indicator of whether pairs
+match (1) or differ (0) on a categorical variable: - Same-sex pairs
 (male-male or female-female) → 1 - Mixed-sex pairs (male-female) → 0</p>
 <p><strong>When to use</strong>: When your research question focuses on
-similarity versus difference rather than specific category effects.</p>
+similarity versus difference, rather than on specific category
+effects.</p>
 </div>
 <div class="section level4">
 <h4 id="multi-match-coding">Multi-Match Coding<a class="anchor" aria-label="anchor" href="#multi-match-coding"></a>
 </h4>
-<p>Multi-match coding preserves specific category information: -
-Male-male pairs → “MALE” - Female-female pairs → “FEMALE” - Mixed pairs
-→ “mixed”</p>
-<p><strong>When to use</strong>: When you hypothesize different effects
-for different categories (e.g., male pairs vs. female pairs).</p>
+<p>Multi-match coding retains specific category information: - Male-male
+pairs → “MALE” - Female-female pairs → “FEMALE” - Mixed pairs →
+“mixed”</p>
+<p><strong>When to use</strong>: When you hypothesize distinct effects
+for specific categories (e.g., male pairs vs. female pairs).</p>
 <p>Following Hwang and Garrison <span class="citation">(Hwang
-2022)</span>, the approach you select should align with your specific
-research questions and theoretical framework.</p>
+2022)</span>, the approach you select should align with your research
+questions and theoretical framework.</p>
 </div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h2>
-<p>We’ll demonstrate categorical predictor handling using sibling data
-from the NLSY79. We first load necessary packages and prepare our
+<p>We demonstrate categorical predictor handling using sibling data from
+the NLSY79. We begin by loading the necessary packages and preparing the
 dataset.</p>
 <div class="section level3">
 <h3 id="package-loading-and-data-setup">Package Loading and Data Setup<a class="anchor" aria-label="anchor" href="#package-loading-and-data-setup"></a>
@@ -210,9 +212,9 @@ dataset.</p>
 <span></span>
 <span><span class="co"># data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_flu_ses</span><span class="op">)</span></span></code></pre></div>
-<p>We begin by filtering and cleaning the dataset, creating kinship
-links, and recoding categorical variables. In this example, we use full
-siblings (R = 0.5) from the Gen1 cohort.</p>
+<p>Next, we filter and clean the dataset, create kinship links, and
+recode the categorical variables. In this example, we use full siblings
+(R = 0.5) from the Gen1 cohort.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
@@ -225,7 +227,7 @@ siblings (R = 0.5) from the Gen1 cohort.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RelationshipPath</span> <span class="op">==</span> <span class="st">"Gen1Housemates"</span> <span class="op">&amp;</span> <span class="va">RFull</span> <span class="op">==</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we use <code><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered()</a></code> from the
 <code>NlsyLinks</code> package to merge kinship links with our target
-variables. This merge creates a sibling-pair dataset in “wide” format,
+variables. This merge creates a sibling-pair dataset in wide format,
 with suffixes distinguishing the two individuals in each pair.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered</a></span><span class="op">(</span></span>
@@ -234,9 +236,8 @@ with suffixes distinguishing the two individuals in each pair.</p>
 <span>  outcomeNames <span class="op">=</span> <span class="va">link_vars</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>To ensure that the dependent variable (SES at age 40) is available
-for both members of the pair, we filter out missing values. We also
-recode sex and race into string labels and retain only same-race pairs
-to make race a between-dyads variable.</p>
+for both members of the pair, we filter out cases with missing values.
+We also recode sex and race into factors.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># We removed the pair when the Dependent Variable is missing.</span></span>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -258,14 +259,16 @@ to make race a between-dyads variable.</p>
 <span>      <span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"NONMINORITY"</span>,</span>
 <span>      <span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"MINORITY"</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co"># we only include same-race pairs in this example for demonstration purpose</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>For full siblings, race a between-dyad variable. But we demonstrate
+below how one can restrict anaylses</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># we only include same-race pairs in this example for demonstration purpose</span></span>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RACE_S1</span> <span class="op">==</span> <span class="va">RACE_S2</span><span class="op">)</span></span></code></pre></div>
 <p>To avoid violating independence assumptions, we retain only one
 sibling pair per household:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">ExtendedID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -282,7 +285,7 @@ because it can vary both within and between dyads. Siblings can be of
 the same or different sexes, and the pattern varies across families.</p>
 <p>We use the <code><a href="../reference/discord_data.html">discord_data()</a></code> function to prepare the data
 for analysis.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cat_sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_data.html">discord_data</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
@@ -685,7 +688,7 @@ female-female, and mixed-sex pairs</li>
 <p>For demonstration purposes, we’ve already filtered our dataset to
 include only same-race pairs, making race a between-dyads variable.
 Let’s prepare the data specifically for race analysis:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span> <span class="co"># for reproducibility</span></span>
 <span></span>
 <span><span class="co"># Prepare data with race as demographic variable</span></span>
@@ -771,7 +774,7 @@ pair is minority-minority, nonminority-nonminority, or mixed-race.</p>
 </h4>
 <p>We can also prepare data that includes both sex and race composition
 variables:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
@@ -1039,7 +1042,7 @@ MALE
 </h4>
 <p>First, we examine whether same-sex versus mixed-sex pairs differ in
 SES discordance:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_sex_binary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
@@ -1147,7 +1150,7 @@ when controlling for <code>S00_H40_mean</code>.
 </h4>
 <p>Next, we test whether male-male, female-female, and mixed-sex pairs
 differ. The regression model can be conducted as such:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_sex_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
@@ -1295,7 +1298,7 @@ the coefficients.</p></li>
 </h4>
 <p>We can also examine whether sex composition predicts mean SES levels
 (rather than SES differences):</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">SEX_binarymatch</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">cat_sex</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -1371,7 +1374,7 @@ interpret the coefficient.</p>
 <div class="section level4">
 <h4 id="multi-match-coding-for-sex-1">Multi-Match Coding for Sex<a class="anchor" aria-label="anchor" href="#multi-match-coding-for-sex-1"></a>
 </h4>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">SEX_multimatch</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">cat_sex</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -1478,7 +1481,7 @@ differences between minority and non-minority pairs:</p>
 </h4>
 <p>The regression model with a multi-match race variable as a predictor
 can be conducted as such:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># perform kinship regressions</span></span>
 <span><span class="va">cat_race_reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
@@ -1588,7 +1591,7 @@ pairs are expected to have approximately 2.272 lower
 </h4>
 <p>We can also examine whether race composition predicts mean SES
 levels:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">cat_race</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -1669,7 +1672,7 @@ internally.</p>
 <div class="section level4">
 <h4 id="multimatch-1">Multimatch<a class="anchor" aria-label="anchor" href="#multimatch-1"></a>
 </h4>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">both_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">df_link</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"S00_H40"</span>,</span>
@@ -1830,7 +1833,7 @@ pairs, the nonminority race pairs were expected to have approximately
 standard <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function:</p>
 <p>We can perform regression using the binary-match sex variable and
 multi-match race variable as such:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">S00_H40_diff</span> <span class="op">~</span> <span class="va">S00_H40_mean</span> <span class="op">+</span></span>
 <span>    <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
@@ -1969,7 +1972,7 @@ of SES between siblings (<code>S00_H40_diff</code>).</p>
 </h4>
 <p>Finally, we examine how sex and race together predict mean SES
 levels:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span></span>
 <span>    <span class="va">SEX_multimatch</span>,</span>
@@ -2101,7 +2104,7 @@ race pairs, nonminority race pairs were expected to have approximately
 <div class="section level4">
 <h4 id="mean-ses-models-with-combining-multimatch-and-binarymatch">Mean SES Models with Combining multimatch and binarymatch<a class="anchor" aria-label="anchor" href="#mean-ses-models-with-combining-multimatch-and-binarymatch"></a>
 </h4>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_cat_mean2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">S00_H40_mean</span> <span class="op">~</span> <span class="va">RACE_multimatch</span> <span class="op">+</span> <span class="va">SEX_binarymatch</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">cat_both</span></span>
 <span><span class="op">)</span></span></code></pre></div>
