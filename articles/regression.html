@@ -1061,16 +1061,22 @@ p=0.866
 </table>
 <p>Looking at this output, the intercept can be thought of as the
 average difference in outcomes between siblings, controlling for all
-other variables. That is, it looks like the average difference for two
+other variables. That is, it estimates the expected difference for two
 sisters of a non-minority ethnic background (the reference groups for
-sex and race) is approximately 1.4. The term <code>flu_total_mean</code>
-is essentially an extra component of the intercept that captures some
-non-linear trends and allows the difference score to change as a
-function of the average predictors. Here, this is the mean socioeconomic
-status for the siblings, <code>s00_h40_mean</code>. We also accounted
-for sex and race, neither of which have a statistically significant
-effect on the differences in flu vaccine shots between siblings
-(different families) or within a sibling pair (same family).</p>
+sex and race), when SES and all other predictors are equal –
+approximately 1.4. The term <code>flu_total_mean</code> is essentially
+an extra component of the intercept that adjusts for between-family
+differences in the outcome variable. It allows the model to capture how
+the expected difference between siblings changes as a function of their
+average level of flu vaccinations, helping to avoid misattributing
+between-family differences to within-family effects.</p>
+<p>The next term, <code>s00_h40_mean</code>, represents the mean
+socioeconomic status for the siblings. Like <code>flu_total_mean</code>,
+it adjusts the expected difference to reflect between-family variation
+in SES. We also accounted for sex and race, neither of which have a
+statistically significant effect on the differences in flu vaccine shots
+between siblings (different families) or within a sibling pair (same
+family).</p>
 <p>The most important metric from the output, though, is the difference
 score, <code>s00_h40_diff</code>. Here, it is statistically significant.
 An interpretation of this result might be, “the difference in
