@@ -77,11 +77,10 @@ and S. Mason Garrison</h4>
 </h3>
 <p>This vignette demonstrates how to incorporate categorical predictors
 in discordant-kinship regression analyses using the <code>discord</code>
-package. Drawing on dyadic modeling strategies described by Kenny et al.
-<span class="citation">(Kenny, Kashy, and Cook 2006)</span> and their
-extension to kinship models by Hwang and Garrison <span class="citation">(Hwang 2022)</span>, we present several approaches for
-handling categorical variables in these specialized regression
-models.</p>
+package. Building on dyadic modeling strategies from Kenny et al. <span class="citation">(Kenny, Kashy, and Cook 2006)</span> and extended to
+kinship models in our prior work <span class="citation">(Hwang
+2022)</span>, we present several approaches for handling categorical
+variables in these specialized regression models.</p>
 <p>We focus on:</p>
 <ol style="list-style-type: decimal">
 <li>How to code and interpret categorical variables at different levels
@@ -111,7 +110,7 @@ constant across dyads (rare for categorical variables)</li>
 <strong>Mixed variables</strong>: Vary both within and across dyads
 (e.g., sex)</li>
 </ul>
-<p>We summarize these variable types in the table below:</p>
+<p>We summarize these distinctions below:</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -146,12 +145,10 @@ constant across dyads (rare for categorical variables)</li>
 </tr>
 </tbody>
 </table>
-<p>When analyzing continuous predictors, we typically calculate mean
-scores and difference scores. However, as Kenny et al. <span class="citation">(Kenny, Kashy, and Cook 2006)</span> note, categorical
-variables require alternative approaches, since mean and difference
-calculations are not meaningful in this context. Instead, we can use
-coding strategies to represent categorical variables in a way that
-allows for meaningful analysis.</p>
+<p>When analyzing continuous predictors, we typically calculate mean and
+difference scores. However, as Kenny et al. <span class="citation">(Kenny, Kashy, and Cook 2006)</span> note, these
+calculations are not meaningful for categorical variables and must be
+replaced with appropriate coding strategies.</p>
 </div>
 <div class="section level3">
 <h3 id="coding-approaches-for-categorical-variables">Coding Approaches for Categorical Variables<a class="anchor" aria-label="anchor" href="#coding-approaches-for-categorical-variables"></a>
@@ -159,12 +156,13 @@ allows for meaningful analysis.</p>
 <p>The <code>discord</code> package implements two primary coding
 strategies for categorical predictors:</p>
 <ol style="list-style-type: decimal">
-<li>
-<strong>Binary Match Coding</strong>: Creates a binary indicator of
-whether pairs match (1) or differ (0) on the categorical variable.</li>
-<li>
-<strong>Multi-Match Coding</strong>: Preserves specific category
-information, allowing for more nuanced analysis.</li>
+<li><p><strong>Binary Match Coding</strong>: Creates a binary indicator
+of whether pairs match (1) or differ (0) on the categorical
+variable.</p></li>
+<li><p><strong>Binary Match Coding</strong>: Indicates whether both
+members of a pair share the same category (1) or differ (0).</p></li>
+<li><p><strong>Multi-Match Coding</strong>: Retains specific category
+combinations</p></li>
 </ol>
 <div class="section level4">
 <h4 id="binary-match-coding">Binary Match Coding<a class="anchor" aria-label="anchor" href="#binary-match-coding"></a>
