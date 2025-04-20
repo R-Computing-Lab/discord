@@ -21,7 +21,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
-
+The discord package was initially developed  using the National Longitudinal Survey of Youth (NLSY) dataset. However, its functionality extends beyond this specific dataset. The package can be applied to any dataset with known kinship structures, allowing researchers to explore genetic and environmental influences on phenotypes in a variety of contexts.
 This vignette demonstrates how to use the discord package with non-NLSY data. Specifically, it shows how to construct kinship links from a pedigree, estimate additive genetic relatedness and shared environmental exposure, and fit a discordant-kinship regression model. We use data and tools from the {BGmisc} package to illustrate the process.
 
 
@@ -34,7 +34,7 @@ We begin by loading the required packages and loading a built-in toy dataset fro
 library(BGmisc)
 library(tidyverse)
 library(discord)
-
+library(stargazer)
 data(potter)
 ```
 
@@ -74,13 +74,17 @@ df_potter <- checkSex(df_potter,
 )
 ```
 
+# Visualize the Pedigree
+
 ```{r, fig.cap="Pedigree plot of the Potter dataset", fig.width=8, fig.height=6, echo=FALSE}
 plotPedigree(df_potter) %>% suppressMessages()
 ```
 
+The pedigree plot provides a visual representation of the kinship structure in the dataset. Each node represents an individual, and the edges indicate familial relationships. This visualization can help identify potential confounding factors or interesting patterns in the data.
+
 # Create Kinship Links
 
-The `com2links` function generates a data frame of kinship links based on the pedigree data. The `writetodisk` argument is set to FALSE to avoid writing the output to disk, and we filter out upper triangular values to focus on unique pairs.
+The `com2links` function generates a data frame of kinship links based on the pedigree data. The `writetodisk` argument is set to FALSE to avoid writing the output to disk, and we filter out the upper triangular values to focus on unique pairs.
 
 We use the `com2links()` function to convert the additive genetic and shared environment component matrices into a long-form data frame of kin pairs. Each row in the resulting data frame represents a pair of individuals, along with their additive genetic relatedness and shared environmental status. Self-pairs and duplicate (upper-triangular) entries are removed.
 
@@ -136,11 +140,13 @@ syn_df <- discord::kinsim(
 We bind the simulated outcome data to the cousin link data to prepare it for modeling.
 
 ```{r}
+
 data_demo <- cbind(df_cousin, syn_df)
 
 
 summary(data_demo)
 ```
+
 
 We then use `discord_regression()` to fit a discordant-kinship model, predicting y1 from y2. Based on the structure of the data, we expect that there will be a significant association between the two outcome variables, as there is a known overlapping non-shared environment covariance.
 
@@ -159,8 +165,23 @@ model_output <- discord_regression(
 summary(model_output)
 ```
 
+The output of the model includes estimates of the regression coefficients, standard errors, and p-values for the association between the two outcome variables.
 
-The output of the model includes estimates of the regression coefficients, standard errors, and p-values for the association between the two outcome variables. 
+
+A nicer regression table can be generated using the `stargazer` package, which provides a more user-friendly format for presenting regression results. The `stargazer` function can be used to create a summary table of the model output, including coefficients, standard errors, and significance levels.
+
+```{r summarize-model-html, echo = FALSE, eval = knitr::is_html_output(), error=FALSE,results = 'asis'}
+ stargazer(model_output$model, type = "html" , single.row	=TRUE, title = "Discordant Kinship Regression Results",align = TRUE)
+
+```
+
+```{r summarize-model-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE,results = 'asis'}
+
+stargazer(model_output$model, type = "latex" , single.row	=TRUE, title = "Discordant Kinship Regression Results",align = TRUE)
+```  
+
+
+
 
 This example demonstrates how the discord package can be used with custom kinship data derived from pedigrees. By extracting component matrices for additive genetic relatedness and shared environment using {BGmisc}, and converting them to linked pair data, we can apply discordant-kinship regression outside of the NLSY context. This enables flexible applications of the method to any dataset where kin structure is known or derivable.
 
