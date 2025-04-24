@@ -57,8 +57,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Kinship Links</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Kinship Links</h1>
                         <h4 data-toc-skip class="author">Mason
 Garrison</h4>
             
@@ -72,7 +71,12 @@ Garrison</h4>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>This vignette demonstrates how to use the discord package with
+<p>The discord package was initially developed using the National
+Longitudinal Survey of Youth (NLSY) dataset. However, its functionality
+extends beyond this specific dataset. The package can be applied to any
+dataset with known kinship structures, allowing researchers to explore
+genetic and environmental influences on phenotypes in a variety of
+contexts. This vignette demonstrates how to use the discord package with
 non-NLSY data. Specifically, it shows how to construct kinship links
 from a pedigree, estimate additive genetic relatedness and shared
 environmental exposure, and fit a discordant-kinship regression model.
@@ -88,7 +92,7 @@ dataset from {BGmisc}.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/BGmisc/" class="external-link">BGmisc</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/discord" class="external-link">discord</a></span><span class="op">)</span></span>
-<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">stargazer</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">potter</span><span class="op">)</span></span></code></pre></div>
 <p>We rename the family ID column to avoid naming conflicts and generate
 a pedigree-encoded data frame. This creates a consistent family
@@ -119,12 +123,21 @@ compatibility with downstream pedigree-based operations.</p>
 <span>  code_female <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>, repair <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="visualize-the-pedigree">Visualize the Pedigree<a class="anchor" aria-label="anchor" href="#visualize-the-pedigree"></a>
+</h2>
 <div class="figure">
 <img src="links_files/figure-html/unnamed-chunk-6-1.png" alt="Pedigree plot of the Potter dataset" width="768"><p class="caption">
 Pedigree plot of the Potter dataset
 </p>
 </div>
 <pre><code><span><span class="co">#&gt; named list()</span></span></code></pre>
+<p>The pedigree plot provides a visual representation of the kinship
+structure in the dataset. Each node represents an individual, and the
+edges indicate familial relationships. This visualization can help
+identify potential confounding factors or interesting patterns in the
+data.</p>
 </div>
 <div class="section level2">
 <h2 id="create-kinship-links">Create Kinship Links<a class="anchor" aria-label="anchor" href="#create-kinship-links"></a>
@@ -132,7 +145,7 @@ Pedigree plot of the Potter dataset
 <p>The <code>com2links</code> function generates a data frame of kinship
 links based on the pedigree data. The <code>writetodisk</code> argument
 is set to FALSE to avoid writing the output to disk, and we filter out
-upper triangular values to focus on unique pairs.</p>
+the upper triangular values to focus on unique pairs.</p>
 <p>We use the <code><a href="https://r-computing-lab.github.io/BGmisc/reference/com2links.html" class="external-link">com2links()</a></code> function to convert the additive
 genetic and shared environment component matrices into a long-form data
 frame of kin pairs. Each row in the resulting data frame represents a
@@ -263,7 +276,8 @@ structure of the data.</p>
 <p>We bind the simulated outcome data to the cousin link data to prepare
 it for modeling.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df_cousin</span>, <span class="va">syn_df</span><span class="op">)</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="va">data_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df_cousin</span>, <span class="va">syn_df</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_demo</span><span class="op">)</span></span>
@@ -323,6 +337,128 @@ function, which takes the following arguments:</p>
 <p>The output of the model includes estimates of the regression
 coefficients, standard errors, and p-values for the association between
 the two outcome variables.</p>
+<p>A nicer regression table can be generated using the
+<code>stargazer</code> package, which provides a more user-friendly
+format for presenting regression results. The <code>stargazer</code>
+function can be used to create a summary table of the model output,
+including coefficients, standard errors, and significance levels.</p>
+<table style="text-align:center" class="table">
+<caption>
+<strong>Discordant Kinship Regression Results</strong>
+</caption>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Statistic
+</td>
+<td>
+N
+</td>
+<td>
+Mean
+</td>
+<td>
+St. Dev.
+</td>
+<td>
+Min
+</td>
+<td>
+Max
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+y1_diff
+</td>
+<td>
+47
+</td>
+<td>
+1.583
+</td>
+<td>
+1.210
+</td>
+<td>
+0.013
+</td>
+<td>
+4.849
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+y1_mean
+</td>
+<td>
+47
+</td>
+<td>
+0.901
+</td>
+<td>
+1.257
+</td>
+<td>
+-2.297
+</td>
+<td>
+4.562
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+y2_diff
+</td>
+<td>
+47
+</td>
+<td>
+0.617
+</td>
+<td>
+1.866
+</td>
+<td>
+-3.544
+</td>
+<td>
+4.269
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+y2_mean
+</td>
+<td>
+47
+</td>
+<td>
+1.048
+</td>
+<td>
+1.394
+</td>
+<td>
+-1.959
+</td>
+<td>
+3.776
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+</table>
 <p>This example demonstrates how the discord package can be used with
 custom kinship data derived from pedigrees. By extracting component
 matrices for additive genetic relatedness and shared environment using
