@@ -1,5 +1,6 @@
 # discord 1.2.3.1
 * More mild improvements to documentation
+* Added hex sticker
 
 # discord 1.2.3
 * improved documentation

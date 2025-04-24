@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # discord
 
 <!-- badges: start -->
+<a href="https://r-computing-lab.github.io/discord/"><img src="man/figures/logo.png" align="right" height="139" alt="discord website" /></a>
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R package version](https://www.r-pkg.org/badges/version/discord)](https://cran.r-project.org/package=discord)
 [![Package downloads](https://cranlogs.r-pkg.org/badges/grand-total/discord)](https://cran.r-project.org/package=discord)</br>

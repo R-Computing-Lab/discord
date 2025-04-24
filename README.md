@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+<a href="https://r-computing-lab.github.io/discord/"><img src="man/figures/logo.png" align="right" height="139" alt="discord website" /></a>
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -50,8 +51,9 @@ citation(package = "discord")
 To cite package 'discord' in publications use:
 
   Garrison S, Trattner J, Hwang Y (2025). _discord: Functions for
-  Discordant Kinship Modeling_. R package version 1.2.3,
-  <https://github.com/R-Computing-Lab/discord>.
+  Discordant Kinship Modeling_. doi:10.32614/CRAN.package.discord
+  <https://doi.org/10.32614/CRAN.package.discord>, R package version
+  1.2.3, <https://CRAN.R-project.org/package=discord>.
 
 A BibTeX entry for LaTeX users is
 
@@ -60,7 +62,8 @@ A BibTeX entry for LaTeX users is
     author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
     year = {2025},
     note = {R package version 1.2.3},
-    url = {https://github.com/R-Computing-Lab/discord},
+    url = {https://CRAN.R-project.org/package=discord},
+    doi = {10.32614/CRAN.package.discord},
   }
 ```
 

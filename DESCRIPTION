@@ -33,6 +33,7 @@ Suggests:
     magrittr,
     rmarkdown,
     scales,
+    stargazer,
     snakecase,
     testthat,
     tidyverse
