@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Kinship Links • discord</title>
+<title>No Database? No Problem: Using discord with Simple Family Structures • discord</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Kinship Links">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="No Database? No Problem: Using discord with Simple Family Structures">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,7 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/categorical_predictors.html">Demonstrating Categorical Predictors in Discordant-Kinship Regressions</a></li>
-    <li><a class="dropdown-item" href="../articles/links.html">Kinship Links</a></li>
+    <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
     <li><a class="dropdown-item" href="../articles/regression.html">Regression demonstration</a></li>
   </ul>
 </li>
@@ -57,7 +57,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Kinship Links</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>No Database? No Problem: Using discord with Simple Family Structures</h1>
                         <h4 data-toc-skip class="author">Mason
 Garrison</h4>
             
@@ -71,23 +71,29 @@ Garrison</h4>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The discord package was initially developed using the National
-Longitudinal Survey of Youth (NLSY) dataset. However, its functionality
-extends beyond this specific dataset. The package can be applied to any
-dataset with known kinship structures, allowing researchers to explore
-genetic and environmental influences on phenotypes in a variety of
-contexts. This vignette demonstrates how to use the discord package with
-non-NLSY data. Specifically, it shows how to construct kinship links
-from a pedigree, estimate additive genetic relatedness and shared
-environmental exposure, and fit a discordant-kinship regression model.
-We use data and tools from the {BGmisc} package to illustrate the
-process.</p>
+<p>The {discord} package was originally developed for use with the
+National Longitudinal Survey of Youth (NLSY), but its functionality
+extends far beyond that. When paired with its sister package {BGmisc},
+discord can be applied to any dataset containing basic family structure
+information, allowing researchers to explore genetic and environmental
+influences without requiring pre-constructed kinship links.</p>
+<p>This vignette demonstrates how to:</p>
+<ul>
+<li>Construct kinship links from simple family data (e.g., individual
+ID, mother ID, father ID).</li>
+<li>Simulate phenotyipic data based on known genetic and environmental
+structures.</li>
+<li>Fit a discordant-kinship regression model using the simulated
+data.</li>
+</ul>
+<p>We use tools from {BGmisc} and a toy dataset to illustrate the
+workflow.</p>
 </div>
 <div class="section level2">
 <h2 id="loading-packages-and-data">Loading Packages and Data<a class="anchor" aria-label="anchor" href="#loading-packages-and-data"></a>
 </h2>
-<p>We begin by loading the required packages and loading a built-in toy
-dataset from {BGmisc}.</p>
+<p>We begin by loading the required packages and a built-in dataset from
+{BGmisc}.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/BGmisc/" class="external-link">BGmisc</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
@@ -95,8 +101,7 @@ dataset from {BGmisc}.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">stargazer</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">potter</span><span class="op">)</span></span></code></pre></div>
 <p>We rename the family ID column to avoid naming conflicts and generate
-a pedigree-encoded data frame. This creates a consistent family
-identifier for use in subsequent functions.</p>
+a pedigree-encoded data frame.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_potter</span> <span class="op">&lt;-</span> <span class="va">potter</span></span>
 <span></span>
@@ -106,53 +111,56 @@ identifier for use in subsequent functions.</p>
 <span>  famID <span class="op">=</span> <span class="st">"famID"</span>,</span>
 <span>  personID <span class="op">=</span> <span class="st">"personID"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Next, we compute two component matrices based on the pedigree:</p>
-<ul>
-<li><p>add: the additive genetic relatedness matrix</p></li>
-<li><p>cn: the shared environment matrix, indicating whether kin were
-raised together (1) or apart (0)</p></li>
-</ul>
+<p>We also verify and repair sex coding to ensure compatibility with
+downstream pedigree operations.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">add</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/ped2add.html" class="external-link">ped2add</a></span><span class="op">(</span><span class="va">df_potter</span><span class="op">)</span></span>
-<span><span class="va">cn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/ped2cn.html" class="external-link">ped2cn</a></span><span class="op">(</span><span class="va">df_potter</span><span class="op">)</span></span></code></pre></div>
-<p>We then verify and, if necessary, repair sex coding to ensure
-compatibility with downstream pedigree-based operations.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_potter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/checkSex.html" class="external-link">checkSex</a></span><span class="op">(</span><span class="va">df_potter</span>,</span>
 <span>  code_male <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  code_female <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>, repair <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="visualize-the-pedigree">Visualize the Pedigree<a class="anchor" aria-label="anchor" href="#visualize-the-pedigree"></a>
-</h2>
-<div class="figure">
-<img src="links_files/figure-html/unnamed-chunk-6-1.png" alt="Pedigree plot of the Potter dataset" width="768"><p class="caption">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">BGmisc</span><span class="fu">::</span><span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/plotPedigree.html" class="external-link">plotPedigree</a></span><span class="op">(</span><span class="va">df_potter</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="links_files/figure-html/unnamed-chunk-5-1.png" alt="Pedigree plot of the Potter dataset" width="384"><p class="caption">
 Pedigree plot of the Potter dataset
 </p>
 </div>
 <pre><code><span><span class="co">#&gt; named list()</span></span></code></pre>
 <p>The pedigree plot provides a visual representation of the kinship
 structure in the dataset. Each node represents an individual, and the
-edges indicate familial relationships. This visualization can help
-identify potential confounding factors or interesting patterns in the
-data.</p>
+edges indicate familial relationships.</p>
 </div>
 <div class="section level2">
-<h2 id="create-kinship-links">Create Kinship Links<a class="anchor" aria-label="anchor" href="#create-kinship-links"></a>
+<h2 id="constructing-kinship-links">Constructing Kinship Links<a class="anchor" aria-label="anchor" href="#constructing-kinship-links"></a>
 </h2>
-<p>The <code>com2links</code> function generates a data frame of kinship
-links based on the pedigree data. The <code>writetodisk</code> argument
-is set to FALSE to avoid writing the output to disk, and we filter out
-the upper triangular values to focus on unique pairs.</p>
-<p>We use the <code><a href="https://r-computing-lab.github.io/BGmisc/reference/com2links.html" class="external-link">com2links()</a></code> function to convert the additive
-genetic and shared environment component matrices into a long-form data
-frame of kin pairs. Each row in the resulting data frame represents a
-pair of individuals, along with their additive genetic relatedness and
-shared environmental status. Self-pairs and duplicate (upper-triangular)
-entries are removed.</p>
+<p>To extract the necessary kinship information, we need to compute two
+matrices: the additive genetic relatedness matrix and the shared
+environment matrix. These matrices are derived from the pedigree data
+and are essential for understanding the genetic and environmental
+relationships among individuals. Using {BGmisc}, we compute:</p>
+<ul>
+<li><p>The additive genetic relatedness matrix (add).</p></li>
+<li><p>The shared environment matrix (cn), indicating whether kin were
+raised together (1) or apart (0).</p></li>
+</ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">add</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/ped2add.html" class="external-link">ped2add</a></span><span class="op">(</span><span class="va">df_potter</span><span class="op">)</span></span>
+<span><span class="va">cn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/ped2cn.html" class="external-link">ped2cn</a></span><span class="op">(</span><span class="va">df_potter</span><span class="op">)</span></span></code></pre></div>
+<p>The <code><a href="https://r-computing-lab.github.io/BGmisc/reference/ped2add.html" class="external-link">ped2add()</a></code> function computes the additive genetic
+relatedness matrix, which quantifies the genetic similarity between
+individuals based on their pedigree information. The
+<code><a href="https://r-computing-lab.github.io/BGmisc/reference/ped2cn.html" class="external-link">ped2cn()</a></code> function computes the shared environment matrix,
+which indicates whether individuals were raised in the same environment
+(1) or different environments (0).</p>
+<p>The resulting matrices are symmetric, with diagonal elements
+representing self-relatedness (1.0). The off-diagonal elements represent
+the relatedness between pairs of individuals, with values ranging from 0
+(no relatedness) to 0.5 (full siblings) to 1 (themselves).</p>
+<p>We convert the component matrices into a long-form data frame of kin
+pairs using <code><a href="https://r-computing-lab.github.io/BGmisc/reference/com2links.html" class="external-link">com2links()</a></code>. Self-pairs and duplicate entries
+are removed.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/com2links.html" class="external-link">com2links</a></span><span class="op">(</span></span>
 <span>  writetodisk <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ad_ped_matrix <span class="op">=</span> <span class="va">add</span>, cn_ped_matrix <span class="op">=</span> <span class="va">cn</span>,</span>
@@ -233,15 +241,14 @@ entries are removed.</p>
 </tr>
 </tbody>
 </table>
-<p>From the full set of kin links, we extract two subsets based on
-expected genetic and environmental structure:</p>
+<p>We then extract two subsets:</p>
 <ul>
 <li><p>Full siblings: additive relatedness = 0.5 and shared environment
 = 1</p></li>
 <li><p>Cousins: additive relatedness = 0.125 and shared environment =
 0</p></li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_sim</span> <span class="op">&lt;-</span> <span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">addRel</span> <span class="op">==</span> <span class="fl">.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># only full siblings %&gt;%</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnuRel</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># only kin raised in the same home</span></span>
@@ -251,20 +258,21 @@ expected genetic and environmental structure:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnuRel</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># only kin raised in separate homes</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="simulate-phenotypes-and-fit-model">Simulate Phenotypes and Fit Model<a class="anchor" aria-label="anchor" href="#simulate-phenotypes-and-fit-model"></a>
+<h2 id="simulate-phenotypic-data">Simulate Phenotypic Data<a class="anchor" aria-label="anchor" href="#simulate-phenotypic-data"></a>
 </h2>
-<p>To illustrate the modeling framework, we simulate outcome variables
-for the cousin pairs using <code><a href="../reference/kinsim.html">kinsim()</a></code>. The simulated data
-reflect a known variance structure: additive genetic correlation =
-0.125, no shared environment, and residual (unique environment) variance
-= 0.4. Latent component scores are excluded from the final dataset, but
-they can be useful for debugging and understanding the underlying
-structure of the data.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>To simulate phenotypic data, we need to create a data frame that
+includes the kinship information and the outcome variables. We will
+simulate two outcome variables (y1 and y2) for each cousin pair in the
+dataset. The <code><a href="../reference/kinsim.html">kinsim()</a></code> function from {discord} is used to
+generate the simulated data based on the specified variance
+structure.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">syn_df</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
-<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, cov_a <span class="op">=</span> <span class="fl">.4</span>,</span>
-<span>  cov_e <span class="op">=</span> <span class="fl">.4</span>, c_all <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  cov_a <span class="op">=</span> <span class="fl">.4</span>,</span>
+<span>  cov_e <span class="op">=</span> <span class="fl">.4</span>,</span>
+<span>  c_all <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  r_vector <span class="op">=</span> <span class="va">df_cousin</span><span class="op">$</span><span class="va">addRel</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -273,11 +281,16 @@ structure of the data.</p>
 <span>    <span class="va">E1_1</span>, <span class="va">E1_2</span>, <span class="va">E2_1</span>, <span class="va">E2_2</span>,</span>
 <span>    <span class="va">r</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The simulated data reflect a known variance structure: additive
+genetic covariance = .4, genetic correlation = 0.125, no shared
+environment, and residual (unique environment) variance = 0.4. Latent
+component scores are excluded from the final dataset, but they can be
+useful for debugging and understanding the underlying structure of the
+data.</p>
 <p>We bind the simulated outcome data to the cousin link data to prepare
 it for modeling.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">data_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df_cousin</span>, <span class="va">syn_df</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df_cousin</span>, <span class="va">syn_df</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_demo</span><span class="op">)</span></span>
@@ -295,6 +308,14 @@ it for modeling.</p>
 <span><span class="co">#&gt;  Mean   : 1.1957   Mean   : 0.9443   Mean   : 1.1523   Mean   :24.0  </span></span>
 <span><span class="co">#&gt;  3rd Qu.: 2.1121   3rd Qu.: 2.2073   3rd Qu.: 2.1726   3rd Qu.:35.5  </span></span>
 <span><span class="co">#&gt;  Max.   : 5.0089   Max.   : 5.3431   Max.   : 4.2828   Max.   :47.0</span></span></code></pre></div>
+<p>The <code>data_demo</code> data frame now contains the kinship
+information along with the simulated outcome variables y1 and y2. Each
+row represents a pair of cousins, and the columns include the IDs of the
+individuals, their relatedness, and the simulated phenotypic data.</p>
+</div>
+<div class="section level2">
+<h2 id="fitting-a-discordant-kinship-regression-model">Fitting a Discordant-Kinship Regression Model<a class="anchor" aria-label="anchor" href="#fitting-a-discordant-kinship-regression-model"></a>
+</h2>
 <p>We then use <code><a href="../reference/discord_regression.html">discord_regression()</a></code> to fit a
 discordant-kinship model, predicting y1 from y2. Based on the structure
 of the data, we expect that there will be a significant association
@@ -302,7 +323,7 @@ between the two outcome variables, as there is a known overlapping
 non-shared environment covariance.</p>
 <p>The model is fit using the <code><a href="../reference/discord_regression.html">discord_regression()</a></code>
 function, which takes the following arguments:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data_demo</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"y1"</span>,</span>
@@ -459,13 +480,16 @@ y2_mean
 </td>
 </tr>
 </table>
-<p>This example demonstrates how the discord package can be used with
-custom kinship data derived from pedigrees. By extracting component
-matrices for additive genetic relatedness and shared environment using
-{BGmisc}, and converting them to linked pair data, we can apply
-discordant-kinship regression outside of the NLSY context. This enables
-flexible applications of the method to any dataset where kin structure
-is known or derivable.</p>
+</div>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>This vignette demonstrates how {BGmisc} and discord enable
+researchers to perform discordant-kinship analyses starting from simple
+family data. There’s no need for pre-constructed kinship links or
+specialized datasets like the NLSY—just basic family identifiers are
+sufficient to generate kinship structures and apply powerful behavior
+genetic models.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
