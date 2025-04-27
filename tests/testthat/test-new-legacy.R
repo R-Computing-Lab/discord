@@ -394,11 +394,11 @@ test_that("discord_data_legacy returns scaled values when scale = TRUE", {
     sep = "_",
     id = "id"
   )
-  expect_gte(mean(result$y1_1),mean(result$y1_2))
-  expect_equal(mean(rbind(result$y1_1,result$y1_2)), 0, tolerance = tolerance)
-  expect_equal(sd(rbind(result$y1_1,result$y1_2)), 1, tolerance = tolerance)
+  expect_gte(mean(result$y1_1), mean(result$y1_2))
+  expect_equal(mean(rbind(result$y1_1, result$y1_2)), 0, tolerance = tolerance)
+  expect_equal(sd(rbind(result$y1_1, result$y1_2)), 1, tolerance = tolerance)
 
-  expect_equal(mean(rbind(result$x_1,result$x_2)), 0, tolerance = tolerance)
+  expect_equal(mean(rbind(result$x_1, result$x_2)), 0, tolerance = tolerance)
   expect_equal(sd(result$x_1), 1, tolerance = tolerance)
   expect_equal(sd(result$x_2), 1, tolerance = tolerance)
 })
@@ -449,4 +449,3 @@ test_that("discord_data_legacy infers predictors when predictors = NULL", {
   expect_true("x_diff" %in% names(result))
   expect_true("x_mean" %in% names(result))
 })
-
