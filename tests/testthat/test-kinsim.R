@@ -145,8 +145,8 @@ test_that("custom ACE components produce different sd than default", {
   set.seed(123)
   df_custom <- kinsim(
     ace_list = matrix(c(
-      2, 0, 1,
-      2, 0, 1
+      3, 0, 1,
+      3, 0, 1
     ), nrow = 2, byrow = TRUE),
     npergroup_all = c(200, 200)
   )

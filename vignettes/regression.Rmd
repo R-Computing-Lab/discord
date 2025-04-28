@@ -275,6 +275,9 @@ The most important metric from the output, though, is the difference score, `s00
 
 The goal of performing a discordant-kinship regression is to see whether there is a significant difference in some behavioral measure while controlling for as much gene-and-environmental variance as possible. In this section, we walked through an analysis showing a statistically significant difference in the number of flu shots a sibling received and their socioeconomic status. From this finding, we *could not* claim the relationship is causal. However, we cannot eliminate causality because there are statistically significant within- and between-family differences in our predictors and outcomes.
 
+
+
+
 # Conclusion
 
 In its current implementation, the {discord} package encourages best practices for performing discordant-kinship regressions. For example, the main function has the default expectation that sex and race indicators will be supplied. These measures are both important covariates **when testing for causality between familial background and psychological characteristics.**

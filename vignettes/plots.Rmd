@@ -1,0 +1,230 @@
+---
+title: "Plots"
+author: S. Mason Garrison
+bibliography: references.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plots}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+
+This demonstrates how to plot data from the `discord` package. The data used in this example is from the NLSY79 dataset, which contains information on flu vaccination and socioeconomic status (SES) for kinship pairs. These plots are inspired by the work of Garrison and Rodgers (2016), but updated to reflect improvements in the ggplot2 package.
+
+# Data Prep
+
+The data used in this example is from the NLSY79 dataset, which contains information on flu vaccination and socioeconomic status (SES) for kinship pairs. The data is filtered to include only those individuals who are housemates and have a relatedness of 0.5. More details on the kinship link building process can be found in the regression vignette.
+
+## Data Cleaning
+
+```{r}
+## Setup: Use discord_data
+# Visualizing the Results
+library(discord)
+library(NlsyLinks)
+
+library(tidyverse)
+library(ggplot2)
+library(gridExtra)
+library(janitor)
+
+# Load the data
+data(data_flu_ses)
+
+# Get kinship links for individuals with the following variables:
+link_vars <- c(
+  "FLU_total", "FLU_2008", "FLU_2010",
+  "FLU_2012", "FLU_2014", "FLU_2016",
+  "S00_H40", "RACE", "SEX"
+)
+
+link_pairs <- Links79PairExpanded %>%
+  filter(RelationshipPath == "Gen1Housemates" & RFull == 0.5)
+
+
+df_link <- CreatePairLinksSingleEntered(
+  outcomeDataset = data_flu_ses,
+  linksPairDataset = link_pairs,
+  outcomeNames = link_vars
+)
+
+consistent_kin <- df_link %>%
+  group_by(SubjectTag_S1, SubjectTag_S2) %>%
+  count(
+    FLU_2008_S1, FLU_2010_S1,
+    FLU_2012_S1, FLU_2014_S1,
+    FLU_2016_S1, FLU_2008_S2,
+    FLU_2010_S2, FLU_2012_S2,
+    FLU_2014_S2, FLU_2016_S2
+  ) %>%
+  na.omit()
+
+# Create the flu_modeling_data object with only consistent responders.
+# Clean the column names with the {janitor} package.
+flu_modeling_data <- semi_join(df_link,
+  consistent_kin,
+  by = c(
+    "SubjectTag_S1",
+    "SubjectTag_S2"
+  )
+) %>%
+  clean_names()
+```
+
+# Creating the Discord Data
+
+Now that we have prepared the data, we can restructure data with  `discord_data()`. 
+
+```{r}
+discord_flu <- discord_data(
+  data = flu_modeling_data,
+  outcome = "flu_total",
+  predictors = "s00_h40",
+  id = "extended_id",
+  sex = "sex",
+  race = "race",
+  pair_identifiers = c("_s1", "_s2"),
+  demographics = "both"
+) %>%
+  filter(!is.na(s00_h40_mean), !is.na(flu_total_mean))
+```
+Because we are interested in the differences between kin, we will create a new variable,  `ses_diff_group`, which classifies the difference in SES into three groups: "More Advantage", "Equally Advantage", and "Less Advantage". We will use this variable to add marginal density plots to the main scatter plot.
+
+```{r}
+discord_flu <- discord_flu %>%
+  mutate(
+    # # Classify Difference Grouping
+    ses_diff_group = factor(case_when(s00_h40_diff > 0.33 ~ "More Advantage",
+                                      s00_h40_diff < -0.33 ~ "Less Advantage",
+                                      abs(s00_h40_diff) <= 0.33 ~ "Equally Advantage"),
+                            levels = c("Less Advantage",
+                                       "Equally Advantage",
+                                       "More Advantage"))
+  )
+```
+
+
+
+
+
+```{r plot-raw-data, echo = FALSE, eval = knitr::is_html_output(),message=FALSE}
+# Create a color palette for the shading
+shading <- c("firebrick4", "firebrick1", "dodgerblue1", "dodgerblue4")
+max_val <- max(abs(discord_flu$s00_h40_diff), na.rm = TRUE)
+values <- seq(-max_val, max_val, length = length(shading))
+
+
+
+# Main scatter plot
+main_plot <- ggplot(discord_flu, aes(x = s00_h40_mean,
+                                     y = flu_total_mean, colour = s00_h40_diff)) +
+  geom_point(size = 0.8, alpha = 0.8, na.rm = TRUE,
+             position = position_jitter(w = 0.2, h = 0.2)) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  scale_colour_gradientn(
+    name = "Sibling\nDifferences\nin SES",
+    colours = shading,
+    na.value = "#AD78B6",
+    values = scales::rescale(c(min(discord_flu$flu_total_diff, na.rm = TRUE),
+                               mean(discord_flu$flu_total_diff, na.rm = TRUE),
+                               max(discord_flu$flu_total_diff, na.rm = TRUE)))
+  ) +
+  theme_minimal() +
+  theme( legend.position = "left")+
+  labs(x = "Mean SES at Age 40", y = "Mean Flu Vaccinations (2006–2016)")
+
+# Marginal X density (SES mean)
+xdensity <- ggplot(discord_flu, aes(x = s00_h40_mean, group = ses_diff_group, color = ses_diff_group)) +
+  geom_density(adjust = 2, size = 1, fill = NA) +
+  scale_colour_manual(
+    values = c("firebrick1", "#AD78B6", "dodgerblue1")
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank()) +
+  labs(x = NULL, y = NULL)
+
+# Marginal Y density (Flu mean)
+ydensity <- ggplot(discord_flu, aes(x = flu_total_mean, group = ses_diff_group, color = ses_diff_group)) +
+  geom_density(adjust = 2, size = 1, fill = NA) +
+  scale_colour_manual(
+    values = c("firebrick1", "#AD78B6", "dodgerblue1")
+  ) +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank()) +
+  labs(x = NULL, y = NULL)
+
+# Blank placeholder plot
+blankPlot <- ggplot() +
+  theme_void()
+
+# Final layout (true layout you originally had: AB above CC)
+grid.arrange(
+  arrangeGrob(blankPlot, xdensity, blankPlot, ncol = 3, widths = c(.75,3.25, 1)),
+  arrangeGrob(main_plot, ydensity, ncol = 2, widths = c(4, 1)),
+  heights = c(1.5, 4)
+)
+
+```
+
+## Within Family
+
+```{r plot-within-family, echo=TRUE, message=FALSE}
+# Within Family
+## Setup: Use discord_data
+
+
+discord_flu <- discord_data(
+  data = flu_modeling_data,
+  outcome = "flu_total",
+  predictors = "s00_h40",
+  id = "extended_id",
+  sex = "sex",
+  race = "race",
+  pair_identifiers = c("_s1", "_s2"),
+  demographics = "both"
+) %>%
+  filter(!is.na(s00_h40_mean), !is.na(flu_total_mean)) %>%
+  mutate(
+    # # Classify Difference Grouping
+    ses_diff_group = factor(case_when(s00_h40_diff > 0.33 ~ "More Advantage",
+                                      s00_h40_diff < -0.33 ~ "Less Advantage",
+                                      abs(s00_h40_diff) <= 0.33 ~ "Equally Advantage"),
+                            levels = c("Less Advantage",
+                                       "Equally Advantage",
+                                       "More Advantage"))
+  )
+
+shading <- c("firebrick4", "firebrick1", "dodgerblue1", "dodgerblue4")
+
+
+# Color scale settings
+max_val <- max(abs(discord_flu$s00_h40_diff), na.rm = TRUE)
+values <- seq(-max_val, max_val, length = length(shading))
+# Main scatter plot
+main_plot <- ggplot(discord_flu, aes(x = s00_h40_diff,
+                                     y = flu_total_diff, colour = s00_h40_diff)) +
+  geom_point(size = 0.8, alpha = 0.8, na.rm = TRUE,
+             position = position_jitter(w = 0.2, h = 0.2)) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  scale_colour_gradientn(
+    name = "Sibling\nDifferences\nin SES",
+    colours = shading,
+    na.value = "#AD78B6",
+    values = scales::rescale(c(min(discord_flu$flu_total_diff, na.rm = TRUE),
+                               mean(discord_flu$flu_total_diff, na.rm = TRUE),
+                               max(discord_flu$flu_total_diff, na.rm = TRUE)))
+  ) +
+  theme_minimal() +
+  theme( legend.position = "left")+
+  labs(x = "Diff SES at Age 40", y = "Diff Flu Vaccinations (2006–2016)")
+
+main_plot
+```
