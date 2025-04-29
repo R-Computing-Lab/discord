@@ -20,7 +20,7 @@ The data used in this example is from the NLSY79 dataset, which contains informa
 
 ## Data Cleaning
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 ## Setup: Use discord_data
 # Visualizing the Results
 library(discord)
@@ -28,6 +28,7 @@ library(NlsyLinks)
 
 library(tidyverse)
 library(ggplot2)
+library(grid)
 library(gridExtra)
 library(janitor)
 
@@ -91,6 +92,7 @@ discord_flu <- discord_data(
 ) %>%
   filter(!is.na(s00_h40_mean), !is.na(flu_total_mean))
 ```
+
 Because we are interested in the differences between kin, we will create a new variable,  `ses_diff_group`, which classifies the difference in SES into three groups: "More Advantage", "Equally Advantage", and "Less Advantage". We will use this variable to add marginal density plots to the main scatter plot.
 
 ```{r}
@@ -104,20 +106,21 @@ discord_flu <- discord_flu %>%
                                        "Equally Advantage",
                                        "More Advantage"))
   )
-```
 
-
-
-
-
-```{r plot-raw-data, echo = FALSE, eval = knitr::is_html_output(),message=FALSE}
 # Create a color palette for the shading
 shading <- c("firebrick4", "firebrick1", "dodgerblue1", "dodgerblue4")
 max_val <- max(abs(discord_flu$s00_h40_diff), na.rm = TRUE)
 values <- seq(-max_val, max_val, length = length(shading))
 
+```
 
+# Plotting the Data
 
+The following code creates a scatter plot of the mean SES at age 40 against the mean flu vaccinations, with points colored by the difference in SES between kin. The marginal density plots show the distribution for each group.
+
+## Core Scatter Plot
+
+```{r scatter, message=FALSE, include=FALSE, echo=TRUE}
 # Main scatter plot
 main_plot <- ggplot(discord_flu, aes(x = s00_h40_mean,
                                      y = flu_total_mean, colour = s00_h40_diff)) +
@@ -136,21 +139,36 @@ main_plot <- ggplot(discord_flu, aes(x = s00_h40_mean,
   theme( legend.position = "left")+
   labs(x = "Mean SES at Age 40", y = "Mean Flu Vaccinations (2006–2016)")
 
+```
+
+```{r echo=FALSE, message=FALSE}
+main_plot
+```
+
+
+# Adding Marginal Density Plots
+```{r plot-raw-data, message=FALSE}
+
+
 # Marginal X density (SES mean)
 xdensity <- ggplot(discord_flu, aes(x = s00_h40_mean, group = ses_diff_group, color = ses_diff_group)) +
-  geom_density(adjust = 2, size = 1, fill = NA) +
+  geom_density(adjust = 2, linewidth = 1, fill = NA) +
   scale_colour_manual(
+    name = "Sibling\nDifferences\nin SES",
     values = c("firebrick1", "#AD78B6", "dodgerblue1")
   ) +
   theme_minimal() +
-  theme(legend.position = "none",
+  theme(legend.position = "left",
         axis.title.y = element_blank(),
-        axis.text.y = element_blank()) +
+        axis.text.y = element_blank(),
+        legend.title = element_text(size = 8),
+        legend.text = element_text(size = 6)
+        ) +
   labs(x = NULL, y = NULL)
 
 # Marginal Y density (Flu mean)
 ydensity <- ggplot(discord_flu, aes(x = flu_total_mean, group = ses_diff_group, color = ses_diff_group)) +
-  geom_density(adjust = 2, size = 1, fill = NA) +
+  geom_density(adjust = 2, linewidth = 1, fill = NA) +
   scale_colour_manual(
     values = c("firebrick1", "#AD78B6", "dodgerblue1")
   ) +
@@ -160,17 +178,39 @@ ydensity <- ggplot(discord_flu, aes(x = flu_total_mean, group = ses_diff_group, 
         axis.title.x = element_blank(),
         axis.text.x = element_blank()) +
   labs(x = NULL, y = NULL)
+```
+These marginal density plots show the distribution of the mean SES at age 40 and the mean flu vaccinations, respectively. The colors correspond to the difference in SES between kin. Here are the marginal density plots with titles added.
 
+
+```{r echo=FALSE, message=FALSE}
+# add titles
+xdensity + theme_bw() + theme(
+  plot.title = element_text(hjust = 0.5, size = 12),
+  axis.title.x = element_text(size = 12)
+) + labs(title = "Mean SES at Age 40")
+
+ydensity + theme_bw() + theme(
+  plot.title = element_text(hjust = 0.5, size = 12),
+  axis.title.x = element_text(size = 12)
+) + labs(title = "Mean Flu Vaccinations (2006–2016)")
+
+```
+
+
+```{r}
 # Blank placeholder plot
 blankPlot <- ggplot() +
   theme_void()
 
+
+    
 # Final layout (true layout you originally had: AB above CC)
 grid.arrange(
-  arrangeGrob(blankPlot, xdensity, blankPlot, ncol = 3, widths = c(.75,3.25, 1)),
+  arrangeGrob(xdensity, blankPlot, ncol = 2, widths = c(4, 1)),
   arrangeGrob(main_plot, ydensity, ncol = 2, widths = c(4, 1)),
-  heights = c(1.5, 4)
-)
+  heights = c(1.5, 4),
+  top = textGrob("Sibling Differences in SES and Flu Vaccinations",
+                 gp=gpar(fontsize=20,font=3)))
 
 ```
 
