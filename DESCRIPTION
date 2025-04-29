@@ -24,9 +24,10 @@ Imports:
     stats
 Suggests: 
     NlsyLinks,
-        BGmisc,
+    BGmisc,
     broom,
     dplyr,
+    grid,
     gridExtra,
     janitor,
     kableExtra,
