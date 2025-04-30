@@ -195,17 +195,6 @@ summary(model_output)
 The output of the model includes estimates of the regression coefficients, standard errors, and p-values for the association between the two outcome variables.
 
 
-A nicer regression table can be generated using the `stargazer` package, which provides a more user-friendly format for presenting regression results. The `stargazer` function can be used to create a summary table of the model output, including coefficients, standard errors, and significance levels.
-
-```{r summarize-model-html, echo = FALSE, eval = knitr::is_html_output(), error=FALSE,results = 'asis'}
-stargazer(model_output$model, type = "html", single.row = TRUE, title = "Discordant Kinship Regression Results", align = TRUE)
-```
-
-
-```{r summarize-model-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE,results = 'asis'}
-stargazer(model_output$model, type = "latex", single.row = TRUE, title = "Discordant Kinship Regression Results", align = TRUE)
-```  
-
 # Conclusion
 
 This vignette demonstrates how {BGmisc} and discord enable researchers to perform discordant-kinship analyses starting from simple family data. There’s no need for pre-constructed kinship links or specialized datasets like the NLSY—just basic family identifiers are sufficient to generate kinship structures and apply powerful behavior genetic models.
