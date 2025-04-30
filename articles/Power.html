@@ -272,27 +272,35 @@ can (and should) increase this for more robust estimates.</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">final_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">conditions</span>, <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">power_summary</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">final_results</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">final_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">conditions</span>, <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">power_summary</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>As shown in the table (at the end of the vignette), we have the power
+estimates for each condition, including the total number of pairs,
+relatedness level, covariate settings, and the median R-squared value
+from the regression models. As expected, power increases with the number
+of pairs and is influenced by the relatedness level and covariate
+settings. In the plots below, we visualize the power estimates across
+different conditions, focusing on the impact of covariates and
+relatedness levels.</p>
+<p><img src="Power_files/figure-html/plot-power-1.png" width="672"><img src="Power_files/figure-html/plot-power-2.png" width="672"></p>
 <table style="width:100%;" class="table">
 <colgroup>
-<col width="14%">
-<col width="14%">
-<col width="7%">
-<col width="7%">
-<col width="7%">
-<col width="7%">
-<col width="7%">
-<col width="7%">
-<col width="14%">
-<col width="12%">
+<col width="9%">
+<col width="9%">
+<col width="15%">
+<col width="15%">
+<col width="15%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="9%">
+<col width="8%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">total_pairs</th>
 <th align="right">relatedness</th>
-<th align="right">cov_a</th>
-<th align="right">cov_c</th>
-<th align="right">cov_e</th>
+<th align="left">cov_a</th>
+<th align="left">cov_c</th>
+<th align="left">cov_e</th>
 <th align="right">ace_a</th>
 <th align="right">ace_c</th>
 <th align="right">ace_e</th>
@@ -303,9 +311,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">100</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -315,9 +323,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -327,9 +335,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">500</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -339,9 +347,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -351,9 +359,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">1000</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -363,9 +371,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -375,9 +383,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -387,9 +395,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">500</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -399,9 +407,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">750</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -411,9 +419,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">1000</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -423,9 +431,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">100</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -435,9 +443,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -447,9 +455,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">500</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -459,9 +467,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -471,9 +479,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">1000</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -483,9 +491,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -495,9 +503,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -507,9 +515,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">500</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -519,9 +527,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">750</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -531,9 +539,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">1000</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -543,9 +551,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">100</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -555,9 +563,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -567,9 +575,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">500</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -579,9 +587,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -591,9 +599,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">1000</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -603,9 +611,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -615,9 +623,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -627,9 +635,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">500</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -639,9 +647,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">750</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -651,9 +659,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">1000</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -663,9 +671,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">100</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -675,9 +683,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -687,9 +695,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">500</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -699,9 +707,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -711,9 +719,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">1000</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -723,9 +731,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -735,9 +743,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -747,9 +755,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">500</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -759,9 +767,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">750</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -771,9 +779,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">1000</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -783,9 +791,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">100</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -795,9 +803,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -807,9 +815,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">500</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -819,9 +827,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -831,9 +839,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">1000</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -843,9 +851,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -855,9 +863,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -867,9 +875,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">500</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -879,9 +887,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">750</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -891,9 +899,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">1000</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -903,9 +911,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">100</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -915,9 +923,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -927,9 +935,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">500</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -939,9 +947,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -951,9 +959,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">1000</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -963,9 +971,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -975,9 +983,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -987,9 +995,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">500</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -999,9 +1007,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">750</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1011,9 +1019,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">1000</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1023,9 +1031,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">100</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1035,9 +1043,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1047,9 +1055,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">500</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1059,9 +1067,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1071,9 +1079,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">1000</td>
 <td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1083,9 +1091,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1095,9 +1103,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1107,9 +1115,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">500</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1119,9 +1127,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">750</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1131,9 +1139,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">1000</td>
 <td align="right">0.5</td>
-<td align="right">0.00</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1143,9 +1151,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">100</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1155,9 +1163,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1167,9 +1175,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">500</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1179,9 +1187,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1191,9 +1199,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">1000</td>
 <td align="right">1.0</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1203,9 +1211,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1215,9 +1223,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1227,9 +1235,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">500</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1239,9 +1247,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="odd">
 <td align="right">750</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1251,9 +1259,9 @@ can (and should) increase this for more robust estimates.</p>
 <tr class="even">
 <td align="right">1000</td>
 <td align="right">0.5</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
-<td align="right">0.25</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">Covariate E (0.25)</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1262,66 +1270,6 @@ can (and should) increase this for more robust estimates.</p>
 </tr>
 </tbody>
 </table>
-<p>As shown in the table, we have the power estimates for each
-condition, including the total number of pairs, relatedness level,
-covariate settings, and the median R-squared value from the regression
-models. As expected, power increases with the number of pairs and is
-influenced by the relatedness level and covariate settings. In the plots
-below, we visualize the power estimates across different conditions,
-focusing on the impact of covariates and relatedness levels.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">final_results_noc</span> <span class="op">&lt;-</span> <span class="va">final_results</span><span class="op">[</span><span class="va">final_results</span><span class="op">$</span><span class="va">cov_c</span> <span class="op">==</span> <span class="st">"No Covariate C"</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="va">p_noc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">final_results_noc</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">total_pairs</span>, y <span class="op">=</span> <span class="va">power_xdiff</span>, </span>
-<span>                               fill<span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">relatedness</span><span class="op">)</span>,</span>
-<span>                               color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">relatedness</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span>, position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Power Analysis for Discordant Sibling Designs"</span>,</span>
-<span>    x <span class="op">=</span> <span class="st">"Total Pairs"</span>,</span>
-<span>    y <span class="op">=</span> <span class="st">"Power (p &lt; 0.05)"</span>,</span>
-<span>    color <span class="op">=</span> <span class="st">"Relatedness"</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"Relatedness"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># Manual, per-facet annotations with explicit facet-mapped data</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span> x <span class="op">=</span> <span class="fl">600</span>, y <span class="op">=</span> <span class="fl">0.55</span>, label <span class="op">=</span> <span class="st">"False Positive Rate"</span>,</span>
-<span>           data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>cov_a <span class="op">=</span> <span class="st">"No Covariate A"</span>, cov_e <span class="op">=</span> <span class="st">"No Covariate E"</span><span class="op">)</span>,</span>
-<span>           fontface <span class="op">=</span> <span class="st">"italic"</span>, size <span class="op">=</span> <span class="fl">3.5</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span> x <span class="op">=</span> <span class="fl">600</span>, y <span class="op">=</span> <span class="fl">0.85</span>, label <span class="op">=</span> <span class="st">"Genetic Confounding"</span>,</span>
-<span>           data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>cov_a <span class="op">=</span><span class="st">"Covariate A (0.25)"</span>, cov_e <span class="op">=</span> <span class="st">"No Covariate E"</span><span class="op">)</span>,</span>
-<span>           fontface <span class="op">=</span> <span class="st">"italic"</span>, size <span class="op">=</span> <span class="fl">3.5</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">cov_e</span> <span class="op">~</span> <span class="va">cov_a</span>, labeller <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labeller.html" class="external-link">labeller</a></span><span class="op">(</span><span class="va">facet_labels</span><span class="op">)</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="va">p_noc</span></span></code></pre></div>
-<p><img src="Power_files/figure-html/plot-power-1.png" width="672"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span></span>
-<span><span class="va">final_results_noa</span> <span class="op">&lt;-</span> <span class="va">final_results</span><span class="op">[</span><span class="va">final_results</span><span class="op">$</span><span class="va">cov_a</span> <span class="op">==</span> <span class="st">"No Covariate A"</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="va">p_noa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">final_results_noa</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">total_pairs</span>, y <span class="op">=</span> <span class="va">power_xdiff</span>, </span>
-<span>                               fill<span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">relatedness</span><span class="op">)</span>,</span>
-<span>                               color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">relatedness</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span>, position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Power Analysis for Discordant Sibling Designs"</span>,</span>
-<span>    x <span class="op">=</span> <span class="st">"Total Pairs"</span>,</span>
-<span>    y <span class="op">=</span> <span class="st">"Power (p &lt; 0.05)"</span>,</span>
-<span>    color <span class="op">=</span> <span class="st">"Relatedness"</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"Relatedness"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># Manual, per-facet annotations with explicit facet-mapped data</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span> x <span class="op">=</span> <span class="fl">600</span>, y <span class="op">=</span> <span class="fl">0.55</span>, label <span class="op">=</span> <span class="st">"False Positive Rate"</span>,</span>
-<span>           data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>cov_c <span class="op">=</span> <span class="st">"No Covariate C"</span>, cov_e <span class="op">=</span> <span class="st">"No Covariate E"</span><span class="op">)</span>,</span>
-<span>           fontface <span class="op">=</span> <span class="st">"italic"</span>, size <span class="op">=</span> <span class="fl">3.5</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span> x <span class="op">=</span> <span class="fl">600</span>, y <span class="op">=</span> <span class="fl">0.85</span>, label <span class="op">=</span> <span class="st">"Shared-Environmental Confounding"</span>,</span>
-<span>           data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>cov_c <span class="op">=</span><span class="st">"Covariate C (0.25)"</span>, cov_e <span class="op">=</span> <span class="st">"No Covariate E"</span><span class="op">)</span>,</span>
-<span>           fontface <span class="op">=</span> <span class="st">"italic"</span>, size <span class="op">=</span> <span class="fl">3.5</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">cov_e</span> <span class="op">~</span> <span class="va">cov_c</span>, labeller <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labeller.html" class="external-link">labeller</a></span><span class="op">(</span><span class="va">facet_labels</span><span class="op">)</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="va">p_noa</span></span></code></pre></div>
-<p><img src="Power_files/figure-html/plot-power-2.png" width="672"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
