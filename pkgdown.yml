@@ -5,8 +5,9 @@ articles:
   categorical_predictors: categorical_predictors.html
   links: links.html
   plots: plots.html
+  Power: Power.html
   regression: regression.html
-last_built: 2025-04-30T01:09Z
+last_built: 2025-04-30T22:27Z
 urls:
   reference: https://r-computing-lab.github.io/discord/reference
   article: https://r-computing-lab.github.io/discord/articles
