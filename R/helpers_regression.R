@@ -11,7 +11,30 @@
 #' @return A one-row data frame with a new column order indicating which familial member (1, 2, or
 #'   neither) has more of the outcome.
 #'
-check_sibling_order <- function(data, outcome, pair_identifiers, row) {
+
+check_sibling_order <- function(..., fast = FALSE) {
+  if (fast) {
+    check_sibling_order_fast(...)
+  } else {
+    check_sibling_order_ram_optimized(...)
+  }
+}
+
+#' @title Check Sibling Order RAM Optimized
+#'
+#' @description This function determines the order of sibling pairs based on an outcome variable.
+#' The function checks which of the two kinship pairs has more of a specified outcome variable.
+#' It adds a new column named `order` to the dataset, indicating which sibling (identified as "s1" or "s2") has more of the outcome.
+#' If the two siblings have the same amount of the outcome, it randomly assigns one as having more.
+#'
+#' @inheritParams discord_data
+#' @inheritParams check_sibling_order
+#'
+#' @return A one-row data frame with a new column order indicating which familial member (1, 2, or
+#'  neither) has more of the outcome.
+#' @keywords internal
+
+check_sibling_order_ram_optimized <- function(data, outcome, pair_identifiers, row) {
   # Select the row of interest from the data frame
   data <- data[row, ]
 
