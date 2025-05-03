@@ -1,14 +1,14 @@
 #' @title Check Sibling Order
 #'
 #' @description This function determines the order of sibling pairs based on an outcome variable.
-#' It function checks which of the two kinship pairs has more of a specified outcome variable.
+#' The function checks which of the two kinship pairs has more of a specified outcome variable.
 #' It adds a new column named `order` to the dataset, indicating which sibling (identified as "s1" or "s2") has more of the outcome.
 #' If the two siblings have the same amount of the outcome, it randomly assigns one as having more.
 #
 #' @inheritParams discord_data
 #' @param row The row number of the data frame
 #'
-#' @return A character string signifying which familial member (1, 2, or
+#' @return A one-row data frame with a new column order indicating which familial member (1, 2, or
 #'   neither) has more of the outcome.
 #'
 check_sibling_order <- function(data, outcome, pair_identifiers, row) {
@@ -20,10 +20,10 @@ check_sibling_order <- function(data, outcome, pair_identifiers, row) {
   outcome2 <- data[, base::paste0(outcome, pair_identifiers[2])]
 
   # Check if either sibling has missing (NA) outcome data
-  if (is.na(outcome1) | is.na(outcome2)) {
+  if (is.na(outcome1) || is.na(outcome2)) {
     stop(paste0("There are missing data, encoded as `NA`, for at least one kinship pair in the '", outcome, "' variable and data cannot be prepped properly.\n Please remove or impute missing data."))
   }
-
+  # Determine sibling order
   if (outcome1 > outcome2) {
     data$order <- "s1"
   } else if (outcome1 < outcome2) {

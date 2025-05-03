@@ -21,7 +21,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ## Purpose
 
-This vignette demonstrates how to incorporate categorical predictors in discordant-kinship regression analyses using the `discord` package.  Drawing on dyadic modeling strategies described by Kenny et al. [@kenny2006] and their extension to kinship models by Hwang and Garrison [@Hwang2022], we present several approaches for handling categorical variables in these specialized regression models.
+This vignette demonstrates how to incorporate categorical predictors in discordant-kinship regression analyses using the `discord` package.  Building on dyadic modeling strategies from Kenny et al. [@kenny2006] and extensions to kinship models in our prior work [@Hwang2022], we present several approaches for incorporating categorical variables into these specialized regression models.
 
 We focus on:
 
@@ -36,12 +36,15 @@ To illustrate these concepts, we examine whether sex and race predict socioecono
 
 In dyadic analysis, categorical predictors can operate at different levels:
 
-- **Between-dyad variables**: Constant within dyads (e.g., same race pairs)
-- **Within-dyad variables**: Vary within dyads  but remain constant across dyads (rare for categorical variables)
-- **Mixed variables**: Vary both within and across dyads (e.g., sex)
+- **Between-dyad variables**: Variables that are constant within dyads.
+  - Example: For full siblings, race is often a between-dyad variable.
+- **Within-dyad variables**: Variables that vary within dyads but remain constant across dyads (rare for categorical variables).
+  - Example: Division of chores between roommates (must sum to 100%)
+- **Mixed variables**: Vary both within and across dyads
+  - Example: Biological sex in non-MZ twin siblings; age; personality traits
 
 
-We summarize these variable types in the table below:
+We summarize these distinctions below:
 
 
 | Variable Type | Definition | Examples | Analytic Implications |
@@ -50,39 +53,44 @@ We summarize these variable types in the table below:
 | Within-dyads | Varies within pairs but constant across pairs | Division of chores between roommates (must sum to 100%) | Rare for categorical variables; Requires specialized handling |
 | Mixed | Varies both within and across pairs | Sex in sibling pairs; Age; Personality traits | Most complex; Requires transformation to dyad-level variables |
 
-When analyzing continuous predictors, we typically calculate mean scores and difference scores. However, as Kenny et al. [@kenny2006] note, categorical variables require alternative approaches, since mean and difference calculations are not meaningful in this context. Instead, we can use coding strategies to represent categorical variables in a way that allows for meaningful analysis.
+For continuous predictors, researchers typically compute mean and difference scores. However, as noted by Kenny et al. [@kenny2006], these calculations are not meaningful for categorical variables and should instead be replaced with appropriate coding strategies.
+
 
 ## Coding Approaches for Categorical Variables
 
 The `discord` package implements two primary coding strategies for categorical predictors:
 
 1. **Binary Match Coding**: Creates a binary indicator of whether pairs match (1) or differ (0) on the categorical variable.
-2. **Multi-Match Coding**: Preserves specific category information, allowing for more nuanced analysis.
+
+
+2. **Multi-Match Coding**: Retains specific category combinations
 
 ### Binary Match Coding
 
-Binary match coding generates a simple indicator of whether pairs match (1) or differ (0) on a categorical variable:
+Binary match coding creates a simple indicator of whether pairs match (1) or differ (0) on a categorical variable:
 - Same-sex pairs (male-male or female-female) → 1
 - Mixed-sex pairs (male-female) → 0
 
-**When to use**: When your research question focuses on similarity versus difference, rather than on specific category effects.
+**Use case**: When the research question focuses on similarity versus difference, rather than effects of specific categories.
 
 ### Multi-Match Coding
 
 Multi-match coding retains specific category information:
+
 - Male-male pairs → "MALE" 
 - Female-female pairs → "FEMALE"
 - Mixed pairs → "mixed"
 
-**When to use**: When you hypothesize distinct effects for specific categories (e.g., male pairs vs. female pairs).
+**Use case**: When distinct effects for specific categories are hypothesized (e.g., male pairs vs. female pairs).
 
-Following Hwang and Garrison [@Hwang2022], the approach you select should align with your research questions and theoretical framework.
+Following Hwang and Garrison [@Hwang2022], the coding approach you select should align with your research questions and theoretical framework.
 
 
 # Data Preparation
 
 
-We demonstrate categorical predictor handling using sibling data from the NLSY79. We begin by loading the necessary packages and preparing the dataset.
+We demonstrate how to handle categorical predictors using sibling data from the NLSY79. We begin by loading the necessary packages and preparing the dataset.
+
 
 ## Package Loading and Data Setup
  
@@ -101,7 +109,8 @@ library(magrittr)
 data(data_flu_ses)
 ```
 
-Next, we filter and clean the dataset, create kinship links, and recode the categorical variables. In this example, we use full siblings (R = 0.5) from the Gen1 cohort.
+We then filter and clean the dataset, create kinship links, and recode the categorical variables. This example uses full siblings (R = 0.5) from the Gen1 cohort.
+
 
 ```{r set-df-link}
 # for reproducibility
@@ -115,7 +124,7 @@ link_pairs <- Links79PairExpanded %>%
   filter(RelationshipPath == "Gen1Housemates" & RFull == 0.5)
 ```
 
-Next, we use `CreatePairLinksSingleEntered()` from the `NlsyLinks` package to merge kinship links with our target variables. This merge creates a sibling-pair dataset in wide format, with suffixes distinguishing the two individuals in each pair.
+We use `CreatePairLinksSingleEntered()` from the `NlsyLinks` package to merge kinship links with our target variables. This merge creates a sibling-pair dataset in wide format. Suffixes distinguish the two individuals in each pair.
 
 
 ```{r}
@@ -127,7 +136,7 @@ df_link <- CreatePairLinksSingleEntered(
 ```
 
 
-To ensure that the dependent variable (SES at age 40) is available for both members of the pair, we filter out cases with missing values. We also recode sex and race into factors. 
+To ensure the dependent variable (SES at age 40) is available for both siblings, we remove cases with missing values. We also recode sex and race into factors.
 
 ```{r}
 # We removed the pair when the Dependent Variable is missing.
@@ -153,15 +162,15 @@ df_link <- df_link %>%
   )
 ```
 
-For full siblings, race a between-dyad variable. But we demonstrate below how one can restrict anaylses 
+For full siblings, race is a between-dyad variable. In this example, we restrict the analyses to same-race pairs.
+
 
 ```{r}
-# we only include same-race pairs in this example for demonstration purpose
 df_link <- df_link %>%
   dplyr::filter(RACE_S1 == RACE_S2)
 ```
 
-To avoid violating independence assumptions, we retain only one sibling pair per household:
+To avoid violating assumptions of independence, we retain only one sibling pair per household:
 
 
 ```{r}
@@ -171,13 +180,11 @@ df_link <- df_link %>%
   ungroup()
 ```
 
-
-
 ## Handling Categorical Predictors
 
 ### Mixed Variables: Sex as an Example
 
-Sex is a classic example of a mixed variable in sibling studies because it can vary both within and between dyads. Siblings can be of the same or different sexes, and the pattern varies across families.
+Sex is a classic example of a mixed variable in sibling studies because it can vary both within and between dyads. Siblings may be of the same or different sexes, and the composition varies across families.
 
 We use the `discord_data()` function to prepare the data for analysis.
 
@@ -212,7 +219,8 @@ cat_sex %>%
   kableExtra::kable_styling(full_width = FALSE)
 ```
 
-The possible sex combinations in the dataset are:
+The dataset contains the following sex pairings:
+
 
 ```{r preview-sex, echo = FALSE, eval = knitr::is_html_output()}
 cat_sex %>%
@@ -235,7 +243,7 @@ So, how to force the sex variable to be a sex-composition variable? The above ta
 Thus, we can utilize the following sex-composition variables. First, we can use sex-composition variables that have three factors: 1) female-female,2) "male-female" and "female-male", and 3) "male-male".  Or, we can also use sex-composition variables that have two factors: 1) "same-sex", and 2) mixed sex. The `discord_data()` function and `discord_regression()` function utilize these two options; the binary match variable utilizes the former categorizations, and the multi-match variable utilizes the latter categorization. 
 -->
 
-As shown above, the `discord_data()` function generates `SEX_binarymatch` and `SEX_multimatch` for the sex variable. By doing so, the sex variable (which was initially a mixed variable) becomes a between-dyad variable as follows:
+As shown, the `discord_data()` function generates both `SEX_binarymatch` and `SEX_multimatch`  variables. This recodes the sex variable—which initially varied within and between dyads—into between-dyad variables:
 
 ```{r sex-compositions, echo = FALSE, eval = knitr::is_html_output()}
 cat_sex %>%
@@ -245,14 +253,13 @@ cat_sex %>%
   kableExtra::kable_styling(full_width = FALSE)
 ```
  
-Researchers can choose between these options based on their research question:
+Researchers can choose between these options depending on their research question:
+- Use `SEX_binarymatch`  when comparing same-sex and mixed-sex pairs.
+- Use `SEX_multimatch` when comparing male-male, female-female, and mixed-sex pairs.
 
-- Use SEX_binarymatch when focusing on differences between same-sex and mixed-sex pairs
-- Use SEX_multimatch when interested in comparing male-male, female-female, and mixed-sex pairs
- 
-### Between-dyad variable: Race as an Example
+### Between-dyad Variable: Race as an Example
 
-For demonstration purposes, we've already filtered our dataset to include only same-race pairs, making race a between-dyads variable. Let's prepare the data specifically for race analysis:
+For demonstration purposes, we have already restricted the dataset to include only same-race pairs, making race a between-dyad variable. We now prepare the data specifically for testing whether there are racial differences in SES discordance.
 
 
 ```{r}
@@ -271,7 +278,8 @@ cat_race <- discord_data(
 )
 ```
 
-The race compositions in the dataset are:
+The race compositions in the dataset are as follows:
+
 
 ```{r preview-race, echo = FALSE, eval = knitr::is_html_output()}
 cat_race <- cat_race %>%
@@ -290,13 +298,22 @@ cat_race %>%
   kableExtra::kable_styling(full_width = FALSE)
 ```
 
+Because we filtered for same-race pairs, all pairs have RACE_binarymatch = "same-race." When using NLSY data, the RACE_multimatch variable distinguishes between the three categories used by the Bureau of Labor Statistics (Black, Hispanic, and Non-Black, Non-Hispanic).
+
+The `RACE_binarymatch` variable indicates whether the pair is same-race or mixed-race. As all pairs are same-race in this sample, this variable does not vary. The `RACE_multimatch` variable classifies pairs into one of three categories:
+The RACE_binarymatch variable indicates whether the pair is same-race or mixed-race. As all pairs are same-race in this sample, this variable does not vary. The RACE_multimatch variable classifies pairs into one of three categories:
 Since we filtered for same-race pairs only, all pairs have RACE_binarymatch = "same-race". When using NLSY data, the RACE_multimatch variable distinguishes between the three groupings that the bureau of labor statistics uses (Black, Hispanic, and Non-Black, Non-Hispanic).
 
-The `RACE_binarymatch` variable indicates whether the pair is the same-race pair or mixed-race pair. Because the race variable is a between-dyads variable, all the pairs in this example are same-race pairs. The `RACE_multimatch` variable indicates whether the pair is minority-minority, nonminority-nonminority, or mixed-race.
+The `RACE_binarymatch` variable indicates whether the pair is the same-race pair or mixed-race pair .As all pairs are same-race in this sample, this variable does not vary within dyad. The `RACE_multimatch`  The RACE_multimatch variable classifies pairs into one of three categories:
+- Minority-minority,
 
-### Combining Sex and Race Variables
+- Nonminority-nonminority,
 
-We can also prepare data that includes both sex and race composition variables:
+- Discordant (unused in this restricted sample).
+
+### Combining Binary and Multi-match Variables
+
+We can also prepare data that includes multiple demographic variables.
 
 ```{r}
 # for reproducibility
@@ -315,9 +332,9 @@ cat_both <- discord_data(
 )
 ```
 
-The combined race and sex compositions in the dataset are:
+The demographic variables can be used in the same regression model. 
 
-```{r preview-both, echo = FALSE, eval = knitr::is_html_output()}
+```{r processboth}
 cat_both <- cat_both %>%
   dplyr::mutate(
     RACE_binarymatch = case_when(
@@ -329,6 +346,9 @@ cat_both <- cat_both %>%
       SEX_binarymatch == 1 ~ "same-sex"
     )
   )
+```
+
+```{r preview-both, echo = FALSE, eval = knitr::is_html_output()}
 cat_both %>%
   group_by(RACE_multimatch, RACE_1, RACE_2, SEX_binarymatch, SEX_multimatch, SEX_1, SEX_2) %>%
   summarize(n(), .groups = "drop") %>%
@@ -342,12 +362,23 @@ cat_both %>%
   kableExtra::kable_styling(full_width = FALSE)
 ```
 
+In this table:
+
+- `RACE_multimatch` shows whether pairs are minority-minority or nonminority-nonminority.
+
+- `SEX_binarymatch` distinguishes same-sex and mixed-sex pairs.
+
+- `SEX_multimatch` identifies male-male, female-female, and mixed-sex pairings.
 
 # Results and Interpretation
-## Regression Analysis: Sex Variables
-### Binary Match Coding for Sex
-First, we examine whether same-sex versus mixed-sex pairs differ in SES discordance:
 
+## Regression Analysis: Sex Variables
+
+### Binary Match Coding for Sex
+
+First, we test whether same-sex versus mixed-sex pairs differ in SES discordance.
+
+The regression model can be conducted as such:
 
 ```{r}
 discord_sex_binary <- discord_regression(
@@ -361,6 +392,7 @@ discord_sex_binary <- discord_regression(
   coding_method = "binary"
 )
 ```
+
 
 ```{r, echo = FALSE, eval = knitr::is_html_output()}
 discord_sex_binary %>%
@@ -379,18 +411,20 @@ discord_sex_binary %>%
   kableExtra::column_spec(1:5, extra_css = "text-align: center;")
 ```
 
-####Interpretation:
+#### Interpretation:
 
+We predict sibling differences in SES (`S00_H40_diff`).
 
-- The mean SES score for the siblings (`S00_H40_diff`) is a significant control variable (p =`r round(summary(discord_sex_binary)[["coefficients"]]["S00_H40_mean", "Pr(>|t|)"],3)`).  `S00_H40_mean` is negatively associated with the difference in SES score between siblings at age 40, `S00_H40_diff`, controlling for another variable (in this case, `SEX_binarymatch`). It is estimated that for one unit increase of `S00_H40_mean`, `S00_H40_diff`is expected to decrease approximately `r round(discord_sex_binary[["coefficients"]][["S00_H40_mean"]],3)`.
+- The mean SES score (`S00_H40_mean`)  is a significant control variable (p =`r round(summary(discord_sex_binary)[["coefficients"]]["S00_H40_mean", "Pr(>|t|)"],3)`).  `S00_H40_mean` is negatively associated with the difference in SES score between siblings at age 40, controlling for another variable (in this case, `SEX_binarymatch`). For one unit increase of `S00_H40_mean`, `S00_H40_diff`is expected to decrease approximately `r round(discord_sex_binary[["coefficients"]][["S00_H40_mean"]],3)`.
 
-
-- The binary sex match variable `SEX_binarymatch` is not a significant predictor (p = `r round(summary(discord_sex_binary)[["coefficients"]]["SEX_binarymatch", "Pr(>|t|)"],3)`) when controlling for `S00_H40_mean`. There is no significant differences between same-sex pairs and mixed-sex pairs in `S00_H40_diff`. This means that the difference between same-sex pairs and mixed-sex pairs does not significantly predict the `S00_H40_diff` in the pair when controlling for `S00_H40_mean`. <!--It is estimated that, compared to the reference group (the mixed-sex pairs), the same-sex pairs would have approximately `r round(discord_sex_binary[["coefficients"]][["SEX_binarymatch"]],3)` higher difference score of `S00_H40_diff`, when controlling for `S00_H40_mean`. However, this coefficient is not significant, so it is not advisable to interpret the coefficient. -->
+- The binary sex match variable `SEX_binarymatch` is not a significant predictor (p = `r round(summary(discord_sex_binary)[["coefficients"]]["SEX_binarymatch", "Pr(>|t|)"],3)`), when controlling for `S00_H40_mean`. There is no significant differences between same-sex pairs and mixed-sex pairs in `S00_H40_diff`. This means that the difference between same-sex pairs and mixed-sex pairs does not significantly predict the `S00_H40_diff` in the pair when controlling for `S00_H40_mean`. <!--It is estimated that, compared to the reference group (the mixed-sex pairs), the same-sex pairs would have approximately `r round(discord_sex_binary[["coefficients"]][["SEX_binarymatch"]],3)` higher difference score of `S00_H40_diff`, when controlling for `S00_H40_mean`. However, this coefficient is not significant, so it is not advisable to interpret the coefficient. -->
 
 
 ### Multi-Match Coding for Sex
 
-Next, we test whether male-male, female-female, and mixed-sex pairs differ. The regression model can be conducted as such:
+Next, we examine whether male-male, female-female, and mixed-sex pairs differ in SES discordance.
+
+The regression model can be conducted as such:
 
 ```{r }
 discord_sex_multi <- discord_regression(
@@ -669,7 +703,7 @@ discord_cat_diff %>%
 The mean SES score for the siblings at 40 (`S00_H40_mean`) is a significant control variable (p =
 `r round(summary(discord_cat_diff)[["coefficients"]]["S00_H40_mean","Pr(>|t|)"],3)`. The mean SES score for the siblings (`S00_H40_mean`) is negatively associated with the difference score of SES between the siblings (`S00_H40_diff`), controlling for other variables (in this case, `SEX_binarymatchsame-sex` and `RACE_multimatchNONMINORITY`). It is estimated that for one unit increase of `S00_H40_mean`, the DV (`S00_H40_diff`) is expected to decrease approximately  `r abs(round(discord_cat_diff[["coefficients"]][["S00_H40_mean"]],3))`. 
 
-The term `SEX_binarymatchsame-sex` is not a significant predictor (p = `r round(summary(discord_cat_diff)[["coefficients"]][["SEX_binarymatchsame-sex", "Pr(>|t|)"]],3)`) when controlling for other variables (i.e., `S00_H40_mean` and `RACE_multimatchNONMINORITY`). This means that the difference between same-sex pairs and mixed-sex pairs does not significantly predict the difference score of SES between siblings (`S00_H40_diff`) when controlling for the mean SES score for the siblings (`S00_H40_mean`) and race-composition of the pair (`RACE_multimatchNONMINORITY`). Compared to the mixed-sex pairs, it is estimated that the same-sex pairs have approximately `r abs(round(discord_cat_diff[["coefficients"]][["SEX_binarymatchsame-sex"]],3))`higher difference score of SES between siblings (`S00_H40_diff`) when controlling for the mean SES score for the sibling pairs (`S00_H40_mean`) and race-composition of the pairs (`RACE_multimatchNONMINORITY`). However, this variable is not significant, so it is not advisable to interpret the coefficient. 
+The term `SEX_binarymatchsame-sex` is not a significant predictor (p = `r round(summary(discord_cat_diff)[["coefficients"]][["SEX_binarymatchsame-sex", "Pr(>|t|)"]],3)`) when controlling for other variables (i.e., `S00_H40_mean` and `RACE_multimatchNONMINORITY`). This means that the difference between same-sex pairs and mixed-sex pairs does not significantly predict the difference score of SES between siblings (`S00_H40_diff`) when controlling for the mean SES score for the siblings (`S00_H40_mean`) and race-composition of the pair (`RACE_multimatchNONMINORITY`). Compared to the mixed-sex pairs, it is estimated that the same-sex pairs have approximately `r abs(round(discord_cat_diff[["coefficients"]][["SEX_binarymatchsame-sex"]],3))`higher difference score of SES between siblings (`S00_H40_diff`) when controlling for the mean SES score for the sibling pairs (`S00_H40_mean`) and race-composition of the pairs (`RACE_multimatchNONMINORITY`). However, this coefficient is not statistically significant and should not be interpreted.
 
 The term `RACE_multimatchNONMINORITY`is a significant predictor (p = `r round(summary(discord_cat_diff)[["coefficients"]][["RACE_multimatchNONMINORITY", "Pr(>|t|)"]],3)`). This means that there is a significant difference between minority race pairs and nonminority race pairs to predict the difference score of SES between the siblings (`S00_H40_diff`) when controlling for the model covariates (i.e., `SEX_binarymatchsame-sex` and `S00_H40_mean`). Specifically, compared to the minority race pairs, nonminority race pairs were expected to have approximately `r abs(round(discord_cat_diff[["coefficients"]][["RACE_multimatchNONMINORITY"]],3))` lower difference scores of SES between siblings (`S00_H40_diff`). 
 

@@ -114,6 +114,8 @@ kinsim <- function(
     data_v$y1_u <- data_v$y1
     data_v$y2_u <- data_v$y2
 
+
+
     merged.data.frame <- data_v
     names(merged.data.frame)[c(1, 10)] <- c("id", "r")
   }
@@ -195,7 +197,7 @@ kinsim <- function(
       datalist[[i]] <- data.r
       names(datalist)[i] <- paste0("datar", r_all[i])
     }
-    merged.data.frame <- Reduce(function(...) merge(..., all = T), datalist)
+    merged.data.frame <- Reduce(function(...) merge(..., all = TRUE), datalist)
     merged.data.frame$id <- id
   } else {
     id <- seq_along(r_vector)
