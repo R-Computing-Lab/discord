@@ -32,7 +32,8 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race + sex", {
   set.seed(18)
   new <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
-    predictors = c("edu_2008", "ses_2008")
+    predictors = c("edu_2008", "ses_2008"),
+    fast=TRUE
   )
   new <- summarize_results(new)
 

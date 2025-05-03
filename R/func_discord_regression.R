@@ -26,7 +26,8 @@ discord_regression <- function(data,
                                race = "race",
                                pair_identifiers = c("_s1", "_s2"),
                                data_processed = FALSE,
-                               coding_method = "none") {
+                               coding_method = "none",
+                               fast = TRUE) {
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
   # if no demographics provided
@@ -52,7 +53,8 @@ discord_regression <- function(data,
       race = race,
       pair_identifiers = pair_identifiers,
       demographics = demographics,
-      coding_method = coding_method
+      coding_method = coding_method,
+      fast = fast
     )
   } else {
     preppedData <- data
@@ -70,6 +72,8 @@ discord_regression <- function(data,
     pred_mean <- NULL
   }
   # coding method
+
+
   if (coding_method %in% c("binary", "binarymatch")) {
     race_match <- base::paste0(race, "_binarymatch")
     sex_match <- base::paste0(sex, "_binarymatch")

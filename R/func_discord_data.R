@@ -153,7 +153,10 @@ discord_data_ram_optimized <- function(data,
 
   return(output)
 }
-
+.clean_names <- function(df) {
+  names(df) <- sub(".*\\.", "", names(df))  # If name has "prefix.name", keep only "name"
+  return(df)
+}
 #' @title Discord Data Fast
 #'
 #' @description This function restructures data to determine kinship differences.
@@ -162,10 +165,10 @@ discord_data_ram_optimized <- function(data,
 #' @keywords internal
 
 discord_data_fast <- function(data,
-                                                           outcome,
-                                                           predictors,
-                                                           id = NULL,
-                                                           sex = "sex",
+                              outcome,
+                              predictors,
+                              id = NULL,
+                              sex = "sex",
                                                            race = "race",
                                                            pair_identifiers,
                                                            demographics = "both",
@@ -181,11 +184,6 @@ discord_data_fast <- function(data,
     data = data,
     outcome = outcome,
     pair_identifiers = pair_identifiers,
-    id = id,
-    sex = sex,
-    race = race,
-    demographics = demographics,
-    coding_method = coding_method,
     fast = TRUE
   )
 
@@ -199,12 +197,11 @@ discord_data_fast <- function(data,
   #-------------------------------------------
   # Step 3: Differencing (using original helper, fast = TRUE)
   #-------------------------------------------
-  out <- vector(mode = "list", length = length(variables))
 
-  for (i in seq_along(variables)) {
-    out[[i]] <- make_mean_diffs(
+ #   out <- vector(mode = "list", length = length(variables))
+    out <- make_mean_diffs(
       data = orderedOnOutcome,
-      variable = variables[i],
+      variables = variables,
       id = id,
       sex = sex,
       race = race,
@@ -213,13 +210,14 @@ discord_data_fast <- function(data,
       coding_method = coding_method,
       fast = TRUE
     )
-  }
+
+
 
   if (demographics == "none") {
     mrg <- function(x, y) {
       merge(
-        x = x,
-        y = y,
+        x = .clean_names(x),
+        y = .clean_names(y),
         by = c("id"),
         all.x = TRUE
       )
@@ -229,8 +227,8 @@ discord_data_fast <- function(data,
   } else if (demographics == "race") {
     mrg <- function(x, y) {
       merge(
-        x = x,
-        y = y,
+        x = .clean_names(x),
+        y = .clean_names(y),
         by = c(
           "id", paste0(race, "_1"),
           paste0(race, "_2")
@@ -243,8 +241,8 @@ discord_data_fast <- function(data,
   } else if (demographics == "sex") {
     mrg <- function(x, y) {
       merge(
-        x = x,
-        y = y,
+        x = .clean_names(x),
+        y = .clean_names(y),
         by = c(
           "id", paste0(sex, "_1"),
           paste0(sex, "_2")
@@ -257,8 +255,8 @@ discord_data_fast <- function(data,
   } else if (demographics == "both") {
     mrg <- function(x, y) {
       merge(
-        x = x,
-        y = y,
+        x = .clean_names(x),
+        y = .clean_names(y),
         by = c(
           "id", paste0(sex, "_1"), paste0(sex, "_2"),
           paste0(race, "_1"), paste0(race, "_2")
@@ -266,6 +264,9 @@ discord_data_fast <- function(data,
         all.x = TRUE
       )
     }
+    # remove names of lists that get concatenated by Reduce
+    #the variable name repeats to look like var.var_1, instead of var_1
+    # how do we fix this? it breaks inside Reduce
 
     output <- Reduce(mrg, out)
   }

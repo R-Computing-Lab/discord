@@ -372,6 +372,36 @@ test_that("half-siblings nonsignificant: new & legacy data prep code results are
 })
 
 
+test_that("half-siblings nonsignificant: new & legacy data prep code results are equal", {
+  set.seed(18)
+  new_data <- discord_data(half_sibs_nonsignif,
+                           outcome = "y1",
+                           predictors = "y2",
+                           id = "id",
+                           sex = NULL,
+                           race = NULL,
+                           pair_identifiers = c("_1", "_2"),
+                           demographics = "none",
+                           fast = TRUE
+  )
+  rownames(new_data) <- NULL
+
+  set.seed(18)
+  old_data <- discord_data_legacy(
+    df = make_double_entered(half_sibs_nonsignif),
+    outcome = "y1",
+    predictors = "y2",
+    id = "id",
+    sep = "_",
+    doubleentered = TRUE
+  )
+  rownames(old_data) <- NULL
+
+  expect_equal(new_data, old_data)
+})
+
+
+
 test_that("discord_data_legacy returns scaled values when scale = TRUE", {
   set.seed(18)
   tolerance <- .1
