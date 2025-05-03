@@ -35,7 +35,7 @@
 #' )
 #'
 
-discord_data <- function(..., fast = FALSE) {
+discord_data <- function(..., fast = TRUE) {
   if (fast) {
     discord_data_fast(...)
   } else {
@@ -48,7 +48,7 @@ discord_data <- function(..., fast = FALSE) {
 #' @description This function restructures data to determine kinship differences.
 #'
 #' @inheritParams discord_data
-#' keywords internal
+#' @keywords internal
 
 discord_data_ram_optimized <- function(data,
                          outcome,

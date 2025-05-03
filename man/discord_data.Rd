@@ -4,7 +4,7 @@
 \alias{discord_data}
 \title{Restructure Data to Determine Kinship Differences}
 \usage{
-discord_data(..., fast = FALSE)
+discord_data(..., fast = TRUE)
 }
 \arguments{
 \item{fast}{Logical. If TRUE, uses a faster method for data processing.}

@@ -14,7 +14,8 @@ discord_regression(
   race = "race",
   pair_identifiers = c("_s1", "_s2"),
   data_processed = FALSE,
-  coding_method = "none"
+  coding_method = "none",
+  fast = TRUE
 )
 }
 \arguments{
@@ -44,6 +45,8 @@ variable identifier for each kinship pair}
 
 \item{coding_method}{A character string that indicates what kind of
 additional coding schemes should be used. Default is none. Other options include "binary" and "multi".}
+
+\item{fast}{Logical. If TRUE, uses a faster method for data processing.}
 }
 \value{
 Resulting `lm` object from performing the discordant regression.

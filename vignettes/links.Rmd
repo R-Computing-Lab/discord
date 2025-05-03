@@ -43,7 +43,7 @@ We begin by loading the required packages and a built-in dataset from {BGmisc}.
 library(BGmisc)
 library(tidyverse)
 library(discord)
-library(stargazer)
+
 data(potter)
 ```
 

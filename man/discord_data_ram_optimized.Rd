@@ -16,6 +16,33 @@ discord_data_ram_optimized(
   coding_method = "none"
 )
 }
+\arguments{
+\item{data}{The data set with kinship pairs}
+
+\item{outcome}{A character string containing the outcome variable of
+interest.}
+
+\item{predictors}{A character vector containing the column names for
+predicting the outcome.}
+
+\item{id}{Default's to NULL. If supplied, must specify the column name
+corresponding to unique kinship pair identifiers.}
+
+\item{sex}{A character string for the sex column name.}
+
+\item{race}{A character string for the race column name.}
+
+\item{pair_identifiers}{A character vector of length two that contains the
+variable identifier for each kinship pair}
+
+\item{demographics}{Indicator variable for if the data has the sex and race
+demographics. If both are present (default, and recommended), value should
+be "both". Other options include "sex", "race", or "none".}
+
+\item{coding_method}{A character string that indicates what kind of
+additional coding schemes should be used. Default is none. Other options include "binary" and "multi".}
+}
 \description{
 This function restructures data to determine kinship differences.
 }
+\keyword{internal}
