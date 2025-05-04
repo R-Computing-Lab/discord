@@ -137,21 +137,22 @@ discord_data_ram_optimized <- function(data,
       )
     }
 
-    output <- Reduce(mrg, out)
+    output <- base::Reduce(mrg, out)
   } else if (demographics == "race") {
     mrg <- function(x, y) {
       merge(
         x = x,
         y = y,
         by = c(
-          "id", paste0(race, "_1"),
-          paste0(race, "_2")
+          "id",
+          base::paste0(race, "_1"),
+          base::paste0(race, "_2")
         ),
         all.x = TRUE
       )
     }
 
-    output <- Reduce(mrg, out)
+    output <- base::Reduce(mrg, out)
   } else if (demographics == "sex") {
     mrg <- function(x, y) {
       merge(
@@ -159,21 +160,21 @@ discord_data_ram_optimized <- function(data,
         y = y,
         by = c(
           "id", base::paste0(sex, "_1"),
-          paste0(sex, "_2")
+          base::paste0(sex, "_2")
         ),
         all.x = TRUE
       )
     }
 
-    output <- Reduce(mrg, out)
+    output <- base::Reduce(mrg, out)
   } else if (demographics == "both") {
     mrg <- function(x, y) {
       merge(
         x = x,
         y = y,
         by = c(
-          "id", paste0(sex, "_1"), paste0(sex, "_2"),
-          paste0(race, "_1"), paste0(race, "_2")
+          "id", base::paste0(sex, "_1"), base::paste0(sex, "_2"),
+          base::paste0(race, "_1"), base::paste0(race, "_2")
         ),
         all.x = TRUE
       )
@@ -254,43 +255,43 @@ discord_data_fast <- function(data,
       )
     }
 
-    output <- Reduce(mrg, out)
+    output <- base::Reduce(mrg, out)
   } else if (demographics == "race") {
     mrg <- function(x, y) {
       merge(
         x = .clean_names(x),
         y = .clean_names(y),
         by = c(
-          "id", paste0(race, "_1"),
-          paste0(race, "_2")
+          "id", base::paste0(race, "_1"),
+          base::paste0(race, "_2")
         ),
         all.x = TRUE
       )
     }
 
-    output <- Reduce(mrg, out)
+    output <- base::Reduce(mrg, out)
   } else if (demographics == "sex") {
     mrg <- function(x, y) {
       merge(
         x = .clean_names(x),
         y = .clean_names(y),
         by = c(
-          "id", paste0(sex, "_1"),
-          paste0(sex, "_2")
+          "id", base::paste0(sex, "_1"),
+          base::paste0(sex, "_2")
         ),
         all.x = TRUE
       )
     }
 
-    output <- Reduce(mrg, out)
+    output <- base::Reduce(mrg, out)
   } else if (demographics == "both") {
     mrg <- function(x, y) {
       merge(
         x = .clean_names(x),
         y = .clean_names(y),
         by = c(
-          "id", paste0(sex, "_1"), paste0(sex, "_2"),
-          paste0(race, "_1"), paste0(race, "_2")
+          "id", base::paste0(sex, "_1"), base::paste0(sex, "_2"),
+          base::paste0(race, "_1"), base::paste0(race, "_2")
         ),
         all.x = TRUE
       )
@@ -299,7 +300,7 @@ discord_data_fast <- function(data,
     # the variable name repeats to look like var.var_1, instead of var_1
     # how do we fix this? it breaks inside Reduce
 
-    output <- Reduce(mrg, out)
+    output <- base::Reduce(mrg, out)
   }
 
 

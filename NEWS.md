@@ -4,6 +4,7 @@
 * Added a new vignette demonstrating ways to visualize discordant kinship data using the `ggplot2` package. 
 * Added a new vignette demonstrating how to conduct a power analysis.
 * Vectorizing `discord_data()` to improve performance.
+* Adding tests to ensure comparability between optimized and non-optimized versions of `discord_data()`.
 * Adding `discord_between_model()` to get the between-family model
 
 # discord 1.2.3.1

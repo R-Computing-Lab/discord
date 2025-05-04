@@ -44,6 +44,7 @@ The `kinsim()` function is designed to simulate data for kinship studies. It gen
 | `r_vector` | Optional: pairwise relatedness at the observation level |
 
 ## Output
+
 A data.frame with:
 
 - Latent variables: A, C, E for each phenotype and sibling
@@ -58,7 +59,6 @@ A data.frame with:
 ## Step 1: Define Simulation Grid
 
 We define a grid of simulation conditions, varying genetic relatedness, ACE variance components, and genetic correlations.
-
 
 
 ```{r load-packages, message=FALSE}
@@ -100,7 +100,7 @@ FAST <- TRUE # Set to FALSE for slower, more detailed analysis
 results_list <- list()
 name.results <- c("coef_xdiff", "p_xdiff", "r.squared")
 
-for (cond in 1:nrow(conditions)) {
+for (cond in seq_along(conditions)) {
   current <- conditions[cond, ]
   temp_results <- matrix(NA, nrow = n_trials, ncol = length(name.results))
   colnames(temp_results) <- name.results
@@ -202,9 +202,15 @@ facet_labels <- list(
   cov_e = c("0" = "No Cov_E", "1" = "With Cov_E")
 )
 # Ensure factors with exact string levels
-final_results$cov_a <- factor(final_results$cov_a, levels = c(0, 0.25), labels = c("No Covariate A", "Covariate A (0.25)"))
-final_results$cov_c <- factor(final_results$cov_c, levels = c(0, 0.25), labels = c("No Covariate C", "Covariate C (0.25)"))
-final_results$cov_e <- factor(final_results$cov_e, levels = c(0, 0.25), labels = c("No Covariate E", "Covariate E (0.25)"))
+final_results$cov_a <- factor(final_results$cov_a, levels = c(0, 0.25), 
+                              labels = c("No Covariate A",
+                                         "Covariate A (0.25)"))
+final_results$cov_c <- factor(final_results$cov_c, levels = c(0, 0.25), 
+                              labels = c("No Covariate C",
+                                         "Covariate C (0.25)"))
+final_results$cov_e <- factor(final_results$cov_e, levels = c(0, 0.25), 
+                              labels = c("No Covariate E",
+                                         "Covariate E (0.25)"))
 ```
 
 
@@ -225,7 +231,7 @@ p_noc <- ggplot(final_results_noc, aes(
     color = "Relatedness",
     fill = "Relatedness"
   ) +
-  theme_minimal() + # Manual, per-facet annotations with explicit facet-mapped data
+  theme_minimal() +
   geom_text(
     x = 600, y = 0.55, label = "False Positive Rate",
     data = data.frame(cov_a = "No Covariate A", cov_e = "No Covariate E"),
@@ -256,7 +262,7 @@ p_noa <- ggplot(final_results_noa, aes(
     color = "Relatedness",
     fill = "Relatedness"
   ) +
-  theme_minimal() + # Manual, per-facet annotations with explicit facet-mapped data
+  theme_minimal() + 
   geom_text(
     x = 600, y = 0.55, label = "False Positive Rate",
     data = data.frame(cov_c = "No Covariate C", cov_e = "No Covariate E"),

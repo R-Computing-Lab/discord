@@ -382,7 +382,7 @@ test_that("half-siblings nonsignificant: new & legacy data prep code results are
     race = NULL,
     pair_identifiers = c("_1", "_2"),
     demographics = "none",
-    fast = TRUE
+    fast = FALSE
   )
   rownames(new_data) <- NULL
 
