@@ -155,7 +155,7 @@ discord_data_ram_optimized <- function(data,
         x = x,
         y = y,
         by = c(
-          "id", paste0(sex, "_1"),
+          "id", base::paste0(sex, "_1"),
           paste0(sex, "_2")
         ),
         all.x = TRUE
