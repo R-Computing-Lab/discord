@@ -6,14 +6,14 @@
 #' If the two siblings have the same amount of the outcome, it randomly assigns one as having more.
 #
 #' @inheritParams discord_data
-#' @param row The row number of the data frame
+#' @param ... Additional arguments to be passed to the function.
 #'
 #' @return A one-row data frame with a new column order indicating which familial member (1, 2, or
 #'   neither) has more of the outcome.
 #'
 
 check_sibling_order <- function(..., fast = FALSE) {
-  if (fast) {
+  if (fast==TRUE) {
     check_sibling_order_fast(...)
   } else {
     check_sibling_order_ram_optimized(...)
@@ -29,6 +29,8 @@ check_sibling_order <- function(..., fast = FALSE) {
 #'
 #' @inheritParams discord_data
 #' @inheritParams check_sibling_order
+#' @param row The row number of the data frame
+#'
 #'
 #' @return A one-row data frame with a new column order indicating which familial member (1, 2, or
 #'  neither) has more of the outcome.
@@ -101,7 +103,6 @@ check_sibling_order_fast <- function(data, outcome, pair_identifiers) {
 #' swapping the order of demographics as per the order column.
 #' @inheritParams discord_data
 #' @inheritParams check_sibling_order
-#' @param variable outcomes and predictors for manipulating the data
 #'
 make_mean_diffs <- function(..., fast = FALSE) {
   if (fast) {
@@ -110,7 +111,6 @@ make_mean_diffs <- function(..., fast = FALSE) {
     make_mean_diffs_ram_optimized(...)
   }
 }
-
 
 
 make_mean_diffs_ram_optimized <-  function(data, id, sex, race, demographics,
@@ -325,10 +325,10 @@ diff_list <- list()
 
     tmp <- data.frame(
       id = data[[id]],
-      setNames(list(var1), paste0(var, "_1")),
-      setNames(list(var2), paste0(var, "_2")),
-      setNames(list(diff), paste0(var, "_diff")),
-      setNames(list(mean_), paste0(var, "_mean"))
+      stats::setNames(list(var1), paste0(var, "_1")),
+      stats::setNames(list(var2), paste0(var, "_2")),
+      stats::setNames(list(diff), paste0(var, "_diff")),
+      stats::setNames(list(mean_), paste0(var, "_mean"))
     )
 
 # obvious inefficiency

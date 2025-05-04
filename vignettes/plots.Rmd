@@ -17,8 +17,6 @@ This vignette walks through the steps needed to recreate a figure from Garrison 
 
 ## Data Cleaning
 
-## Data Cleaning
-
 This section reuses the data preparation pipeline developed in the regression vignette.\
 That vignette demonstrated how to set up data for discordant regression analysis by using discord data processing tools. Those tools facilitate the construction of kinship links, including identifying sibling pairs, merging sibling characteristics, and calculating pair-level variables.
 
@@ -89,7 +87,7 @@ flu_modeling_data <- semi_join(df_link,
 
 With the data prepared, we restructure it using `discord_data()`.
 
-```{r}
+```{r, warning=FALSE}
 discord_flu <- discord_data(
   data = flu_modeling_data,
   outcome = "flu_total",
@@ -141,7 +139,7 @@ individual_plot <- ggplot(flu_modeling_data, aes(x = s00_h40_s1,
                                                 y = flu_total_s1,
                                                 color = s00_h40_s1 - s00_h40_s2)) +
   geom_point(size = 0.8, alpha = 0.8, na.rm = TRUE,
-             position = position_jitter(w = 0.2, h = 0.2)) +
+             position = position_jitter(width = 0.2, height = 0.2)) +
   geom_smooth(method = "lm", se = FALSE, color = "black") +
   # added sibling 2 to the plot
   geom_point(size = 0.8, alpha = 0.8, na.rm = TRUE,
@@ -177,7 +175,7 @@ This scatter plot shows mean SES at age 40 against mean flu vaccinations, with p
 main_plot <- ggplot(discord_flu, aes(x = s00_h40_mean,
                                      y = flu_total_mean, colour = s00_h40_diff)) +
   geom_point(size = 0.8, alpha = 0.8, na.rm = TRUE,
-             position = position_jitter(w = 0.2, h = 0.2)) +
+             position = position_jitter(width = 0.2, height = 0.2)) +
   geom_smooth(method = "lm", se = FALSE, color = "black") +
   scale_colour_gradientn(
     name = "Sibling\nDifferences\nin SES",

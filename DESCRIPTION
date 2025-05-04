@@ -29,6 +29,7 @@ Suggests:
     dplyr,
     grid,
     gridExtra,
+    ggplot2,
     janitor,
     kableExtra,
     knitr,

@@ -17,6 +17,7 @@
 #' @param coding_method A character string that indicates what kind of
 #'   additional coding schemes should be used. Default is none. Other options include "binary" and "multi".
 #' @param fast Logical. If TRUE, uses a faster method for data processing.
+#' @param ... Additional arguments to be passed to the function.
 #' @return A data frame that contains analyzable, paired data for performing
 #'   kinship regressions.
 #'
@@ -35,11 +36,39 @@
 #' )
 #'
 
-discord_data <- function(..., fast = TRUE) {
+discord_data <- function(data,
+                         outcome,
+                         predictors,
+                         id = NULL,
+                         sex = "sex",
+                         race = "race",
+                         pair_identifiers,
+                         demographics = "both",
+                         coding_method = "none",
+                         fast = TRUE,
+                         ...) {
   if (fast) {
-    discord_data_fast(...)
+    discord_data_fast(data = data,
+      outcome = outcome,
+      id = id,
+      sex = sex,
+      race = race,
+      pair_identifiers = pair_identifiers,
+      demographics = demographics,
+      predictors = predictors,
+      coding_method = coding_method,
+      ...)
   } else {
-    discord_data_ram_optimized(...)
+    discord_data_ram_optimized(data = data,
+                               outcome = outcome,
+                               id = id,
+                               sex = sex,
+                               race = race,
+                               pair_identifiers = pair_identifiers,
+                               demographics = demographics,
+                               predictors = predictors,
+                               coding_method = coding_method,
+                               ...)
   }
 }
 

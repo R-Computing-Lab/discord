@@ -7,9 +7,9 @@
 make_mean_diffs(..., fast = FALSE)
 }
 \arguments{
-\item{fast}{Logical. If TRUE, uses a faster method for data processing.}
+\item{...}{Additional arguments to be passed to the function.}
 
-\item{variable}{outcomes and predictors for manipulating the data}
+\item{fast}{Logical. If TRUE, uses a faster method for data processing.}
 }
 \description{
 This function calculates differences and means of a given variable for each kinship pair. The order of subtraction and the variables' names in the output dataframe depend on the order column set by check_sibling_order().

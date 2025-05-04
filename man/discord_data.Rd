@@ -4,11 +4,21 @@
 \alias{discord_data}
 \title{Restructure Data to Determine Kinship Differences}
 \usage{
-discord_data(..., fast = TRUE)
+discord_data(
+  data,
+  outcome,
+  predictors,
+  id = NULL,
+  sex = "sex",
+  race = "race",
+  pair_identifiers,
+  demographics = "both",
+  coding_method = "none",
+  fast = TRUE,
+  ...
+)
 }
 \arguments{
-\item{fast}{Logical. If TRUE, uses a faster method for data processing.}
-
 \item{data}{The data set with kinship pairs}
 
 \item{outcome}{A character string containing the outcome variable of
@@ -33,6 +43,10 @@ be "both". Other options include "sex", "race", or "none".}
 
 \item{coding_method}{A character string that indicates what kind of
 additional coding schemes should be used. Default is none. Other options include "binary" and "multi".}
+
+\item{fast}{Logical. If TRUE, uses a faster method for data processing.}
+
+\item{...}{Additional arguments to be passed to the function.}
 }
 \value{
 A data frame that contains analyzable, paired data for performing

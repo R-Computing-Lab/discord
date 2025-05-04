@@ -7,9 +7,9 @@
 check_sibling_order(..., fast = FALSE)
 }
 \arguments{
-\item{fast}{Logical. If TRUE, uses a faster method for data processing.}
+\item{...}{Additional arguments to be passed to the function.}
 
-\item{row}{The row number of the data frame}
+\item{fast}{Logical. If TRUE, uses a faster method for data processing.}
 }
 \value{
 A one-row data frame with a new column order indicating which familial member (1, 2, or

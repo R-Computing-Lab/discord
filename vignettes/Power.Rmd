@@ -56,9 +56,7 @@ A data.frame with:
 # Example Usage
 
 
-
-
-# Step 1: Define Simulation Grid
+## Step 1: Define Simulation Grid
 
 We define a grid of simulation conditions, varying genetic relatedness, ACE variance components, and genetic correlations.
 
@@ -69,6 +67,7 @@ We define a grid of simulation conditions, varying genetic relatedness, ACE vari
 library(NlsyLinks)
 library(discord)
 library(utils)
+library(tidyverse)
 library(ggplot2)
 # Set random seed for reproducibility
 set.seed(1492)
@@ -95,7 +94,7 @@ conditions <- expand.grid(
 
 
 
-# Step 2: Run Simulations
+## Step 2: Run Simulations
 
 For each condition, we simulate 100 replications of fitting discordant sibling models. We have kept the number of trials low for demonstration purposes, but you can increase `n_trials` for more robust power estimates. 
 
@@ -155,7 +154,8 @@ for (cond in 1:nrow(conditions)) {
      discord_regression(data = extract, outcome = "y", predictors = "x",
                        id = "id",
                        sex = NULL,
-                       race = NULL),
+                       race = NULL,
+                       fast=TRUE),
       error = function(e) return(NULL)
     )
 }
@@ -260,6 +260,9 @@ p_noa
 
 
 ```
+
+
+
 
 
 ```{r, echo=FALSE, message=FALSE}
