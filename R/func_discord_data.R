@@ -35,7 +35,6 @@
 #'   demographics = "none"
 #' )
 #'
-
 discord_data <- function(data,
                          outcome,
                          predictors,
@@ -48,7 +47,8 @@ discord_data <- function(data,
                          fast = TRUE,
                          ...) {
   if (fast) {
-    discord_data_fast(data = data,
+    discord_data_fast(
+      data = data,
       outcome = outcome,
       id = id,
       sex = sex,
@@ -57,18 +57,21 @@ discord_data <- function(data,
       demographics = demographics,
       predictors = predictors,
       coding_method = coding_method,
-      ...)
+      ...
+    )
   } else {
-    discord_data_ram_optimized(data = data,
-                               outcome = outcome,
-                               id = id,
-                               sex = sex,
-                               race = race,
-                               pair_identifiers = pair_identifiers,
-                               demographics = demographics,
-                               predictors = predictors,
-                               coding_method = coding_method,
-                               ...)
+    discord_data_ram_optimized(
+      data = data,
+      outcome = outcome,
+      id = id,
+      sex = sex,
+      race = race,
+      pair_identifiers = pair_identifiers,
+      demographics = demographics,
+      predictors = predictors,
+      coding_method = coding_method,
+      ...
+    )
   }
 }
 
@@ -80,14 +83,14 @@ discord_data <- function(data,
 #' @keywords internal
 
 discord_data_ram_optimized <- function(data,
-                         outcome,
-                         predictors,
-                         id = NULL,
-                         sex = "sex",
-                         race = "race",
-                         pair_identifiers,
-                         demographics = "both",
-                         coding_method = "none") {
+                                       outcome,
+                                       predictors,
+                                       id = NULL,
+                                       sex = "sex",
+                                       race = "race",
+                                       pair_identifiers,
+                                       demographics = "both",
+                                       coding_method = "none") {
   # combine outcome and predictors for manipulating the data
   variables <- c(outcome, predictors)
 
@@ -183,7 +186,7 @@ discord_data_ram_optimized <- function(data,
   return(output)
 }
 .clean_names <- function(df) {
-  names(df) <- sub(".*\\.", "", names(df))  # If name has "prefix.name", keep only "name"
+  names(df) <- sub(".*\\.", "", names(df)) # If name has "prefix.name", keep only "name"
   return(df)
 }
 #' @title Discord Data Fast
@@ -198,11 +201,10 @@ discord_data_fast <- function(data,
                               predictors,
                               id = NULL,
                               sex = "sex",
-                                                           race = "race",
-                                                           pair_identifiers,
-                                                           demographics = "both",
-                                                           coding_method = "none") {
-
+                              race = "race",
+                              pair_identifiers,
+                              demographics = "both",
+                              coding_method = "none") {
   # combine outcome and predictors for manipulating the data
   variables <- c(outcome, predictors)
 
@@ -217,7 +219,7 @@ discord_data_fast <- function(data,
   )
 
   if (!valid_ids(orderedOnOutcome,
-                 id = id
+    id = id
   )) {
     id <- "rowwise_id"
     orderedOnOutcome <- cbind(orderedOnOutcome, rowwise_id = 1:nrow(data))
@@ -227,18 +229,18 @@ discord_data_fast <- function(data,
   # Step 3: Differencing (using original helper, fast = TRUE)
   #-------------------------------------------
 
- #   out <- vector(mode = "list", length = length(variables))
-    out <- make_mean_diffs(
-      data = orderedOnOutcome,
-      variables = variables,
-      id = id,
-      sex = sex,
-      race = race,
-      pair_identifiers = pair_identifiers,
-      demographics = demographics,
-      coding_method = coding_method,
-      fast = TRUE
-    )
+  #   out <- vector(mode = "list", length = length(variables))
+  out <- make_mean_diffs(
+    data = orderedOnOutcome,
+    variables = variables,
+    id = id,
+    sex = sex,
+    race = race,
+    pair_identifiers = pair_identifiers,
+    demographics = demographics,
+    coding_method = coding_method,
+    fast = TRUE
+  )
 
 
 
@@ -294,7 +296,7 @@ discord_data_fast <- function(data,
       )
     }
     # remove names of lists that get concatenated by Reduce
-    #the variable name repeats to look like var.var_1, instead of var_1
+    # the variable name repeats to look like var.var_1, instead of var_1
     # how do we fix this? it breaks inside Reduce
 
     output <- Reduce(mrg, out)

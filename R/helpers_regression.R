@@ -13,7 +13,7 @@
 #'
 
 check_sibling_order <- function(..., fast = FALSE) {
-  if (fast==TRUE) {
+  if (fast == TRUE) {
     check_sibling_order_fast(...)
   } else {
     check_sibling_order_ram_optimized(...)
@@ -67,8 +67,6 @@ check_sibling_order_ram_optimized <- function(data, outcome, pair_identifiers, r
 }
 
 check_sibling_order_fast <- function(data, outcome, pair_identifiers) {
-
-
   #-------------------------
   # 1. VECTORIZE ORDER ASSIGNMENT
   #-------------------------
@@ -81,7 +79,8 @@ check_sibling_order_fast <- function(data, outcome, pair_identifiers) {
   }
 
   order <- ifelse(outcome1 > outcome2, "s1",
-                  ifelse(outcome1 < outcome2, "s2", NA))
+    ifelse(outcome1 < outcome2, "s2", NA)
+  )
 
   # Random tie breaking
   ties <- which(is.na(order))
@@ -113,9 +112,9 @@ make_mean_diffs <- function(..., fast = FALSE) {
 }
 
 
-make_mean_diffs_ram_optimized <-  function(data, id, sex, race, demographics,
-                            variable, pair_identifiers, row,
-                            coding_method = "none") {
+make_mean_diffs_ram_optimized <- function(data, id, sex, race, demographics,
+                                          variable, pair_identifiers, row,
+                                          coding_method = "none") {
   S1 <- base::paste0(variable, pair_identifiers[1])
   S2 <- base::paste0(variable, pair_identifiers[2])
   sexS1 <- base::paste0(sex, pair_identifiers[1])
@@ -164,17 +163,19 @@ make_mean_diffs_ram_optimized <-  function(data, id, sex, race, demographics,
 
   # check for whether or not race and sex are defined
 
-  output <- recode_demographics(demographics = demographics,
-                                             data = data,
-                                             raceS1 = raceS1,
-                                             raceS2 = raceS2,
-                                             race = race,
-                                             sexS1 = sexS1,
-                                             sexS2 = sexS2,
-                                             sex =sex,
-                                             coding_method = coding_method,
-                                             output = output,
-                                fast = FALSE)
+  output <- recode_demographics(
+    demographics = demographics,
+    data = data,
+    raceS1 = raceS1,
+    raceS2 = raceS2,
+    race = race,
+    sexS1 = sexS1,
+    sexS2 = sexS2,
+    sex = sex,
+    coding_method = coding_method,
+    output = output,
+    fast = FALSE
+  )
 
 
   return(output)
@@ -182,107 +183,106 @@ make_mean_diffs_ram_optimized <-  function(data, id, sex, race, demographics,
 
 
 recode_demographics <- function(demographics, data, raceS1, raceS2,
-                                race, sexS1, sexS2, sex, coding_method, output,fast=FALSE) {
-
+                                race, sexS1, sexS2, sex, coding_method, output, fast = FALSE) {
   # check for whether or not race and sex are defined
-if (fast) {
-  if (demographics == "race") {
-    output_demographics <- data.frame(
-      race_1 = data[[raceS1]],
-      race_2 = data[[raceS2]]
-    )
-    output_demographics$race_1[data$order == "s2"] <- data[[raceS2]][data$order == "s2"]
-    output_demographics$race_2[data$order == "s2"] <- data[[raceS1]][data$order == "s2"]
-  names(output_demographics) <- paste0(race, c("_1", "_2"))
-} else if (demographics == "sex") {
-  output_demographics <- data.frame(
-    sex_1 = data[[sexS1]],
-    sex_2 = data[[sexS2]]
-  )
-  output_demographics$sex_1[data$order == "s2"] <- data[[sexS2]][data$order == "s2"]
-  output_demographics$sex_2[data$order == "s2"] <- data[[sexS1]][data$order == "s2"]
-
-  names(output_demographics) <- paste0(sex, c("_1", "_2"))
-} else if (demographics == "both") {
-  output_demographics <- data.frame(
-    sex_1 = data[[sexS1]],
-    sex_2 = data[[sexS2]],
-    race_1 = data[[raceS1]],
-    race_2 = data[[raceS2]]
-  )
-  output_demographics$race_1[data$order == "s2"] <- data[[raceS2]][data$order == "s2"]
-  output_demographics$race_2[data$order == "s2"] <- data[[raceS1]][data$order == "s2"]
-  output_demographics$sex_1[data$order == "s2"] <- data[[sexS2]][data$order == "s2"]
-  output_demographics$sex_2[data$order == "s2"] <- data[[sexS1]][data$order == "s2"]
-  names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
-}
-  } else {
-  if (demographics == "race") {
-    if (data[, "order"] == "s1") {
+  if (fast) {
+    if (demographics == "race") {
       output_demographics <- data.frame(
         race_1 = data[[raceS1]],
         race_2 = data[[raceS2]]
       )
-    } else if (data[, "order"] == "s2") {
-      output_demographics <- data.frame(
-        race_1 = data[[raceS2]],
-        race_2 = data[[raceS1]]
-      )
-    }
-
-    names(output_demographics) <- paste0(race, c("_1", "_2"))
-  } else if (demographics == "sex") {
-    if (data[, "order"] == "s1") {
+      output_demographics$race_1[data$order == "s2"] <- data[[raceS2]][data$order == "s2"]
+      output_demographics$race_2[data$order == "s2"] <- data[[raceS1]][data$order == "s2"]
+      names(output_demographics) <- paste0(race, c("_1", "_2"))
+    } else if (demographics == "sex") {
       output_demographics <- data.frame(
         sex_1 = data[[sexS1]],
         sex_2 = data[[sexS2]]
       )
-    } else if (data[, "order"] == "s2") {
-      output_demographics <- data.frame(
-        sex_1 = data[[sexS2]],
-        sex_2 = data[[sexS1]]
-      )
-    }
+      output_demographics$sex_1[data$order == "s2"] <- data[[sexS2]][data$order == "s2"]
+      output_demographics$sex_2[data$order == "s2"] <- data[[sexS1]][data$order == "s2"]
 
-    names(output_demographics) <- paste0(sex, c("_1", "_2"))
-  } else if (demographics == "both") {
-    if (data[, "order"] == "s1") {
+      names(output_demographics) <- paste0(sex, c("_1", "_2"))
+    } else if (demographics == "both") {
       output_demographics <- data.frame(
         sex_1 = data[[sexS1]],
         sex_2 = data[[sexS2]],
         race_1 = data[[raceS1]],
         race_2 = data[[raceS2]]
       )
-    } else if (data[, "order"] == "s2") {
-      output_demographics <- data.frame(
-        sex_1 = data[[sexS2]],
-        sex_2 = data[[sexS1]],
-        race_1 = data[[raceS2]],
-        race_2 = data[[raceS1]]
-      )
+      output_demographics$race_1[data$order == "s2"] <- data[[raceS2]][data$order == "s2"]
+      output_demographics$race_2[data$order == "s2"] <- data[[raceS1]][data$order == "s2"]
+      output_demographics$sex_1[data$order == "s2"] <- data[[sexS2]][data$order == "s2"]
+      output_demographics$sex_2[data$order == "s2"] <- data[[sexS1]][data$order == "s2"]
+      names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
     }
+  } else {
+    if (demographics == "race") {
+      if (data[, "order"] == "s1") {
+        output_demographics <- data.frame(
+          race_1 = data[[raceS1]],
+          race_2 = data[[raceS2]]
+        )
+      } else if (data[, "order"] == "s2") {
+        output_demographics <- data.frame(
+          race_1 = data[[raceS2]],
+          race_2 = data[[raceS1]]
+        )
+      }
 
-    names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
+      names(output_demographics) <- paste0(race, c("_1", "_2"))
+    } else if (demographics == "sex") {
+      if (data[, "order"] == "s1") {
+        output_demographics <- data.frame(
+          sex_1 = data[[sexS1]],
+          sex_2 = data[[sexS2]]
+        )
+      } else if (data[, "order"] == "s2") {
+        output_demographics <- data.frame(
+          sex_1 = data[[sexS2]],
+          sex_2 = data[[sexS1]]
+        )
+      }
+
+      names(output_demographics) <- paste0(sex, c("_1", "_2"))
+    } else if (demographics == "both") {
+      if (data[, "order"] == "s1") {
+        output_demographics <- data.frame(
+          sex_1 = data[[sexS1]],
+          sex_2 = data[[sexS2]],
+          race_1 = data[[raceS1]],
+          race_2 = data[[raceS2]]
+        )
+      } else if (data[, "order"] == "s2") {
+        output_demographics <- data.frame(
+          sex_1 = data[[sexS2]],
+          sex_2 = data[[sexS1]],
+          race_1 = data[[raceS2]],
+          race_2 = data[[raceS1]]
+        )
+      }
+
+      names(output_demographics) <- c(paste0(sex, c("_1", "_2")), paste0(race, c("_1", "_2")))
+    }
   }
-  }
-# both methods
+  # both methods
   if (coding_method != "none") {
     # New logic to handle race and sex as categorical variables
     if (demographics == "both" || demographics == "race") {
       race_1_name <- paste0(race, "_1")
       race_2_name <- paste0(race, "_2")
       output_demographics[[paste0(race, "_binarymatch")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
-                                                                    1, 0
+        1, 0
       )
       output_demographics[[paste0(race, "_multimatch")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
-                                                                   as.character(output_demographics[[race_2_name]]), "mixed"
+        as.character(output_demographics[[race_2_name]]), "mixed"
       )
     }
     if (demographics == "both" || demographics == "sex") {
       sex_1_name <- paste0(sex, "_1")
       sex_2_name <- paste0(sex, "_2")
       output_demographics[[paste0(sex, "_binarymatch")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]],
-                                                                   1, 0
+        1, 0
       )
       output_demographics[[paste0(sex, "_multimatch")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]], as.character(output_demographics[[sex_2_name]]), "mixed")
     }
@@ -297,28 +297,29 @@ if (fast) {
 
 
 
-make_mean_diffs_fast <-  function(data, id, sex, race, demographics,
-                                  variables=  variable,
-                                  variable=NULL,
-                                  pair_identifiers,
-                                  coding_method = "none"
-                                  ) {
- # S1 <- base::paste0(variable, pair_identifiers[1])
- # S2 <- base::paste0(variable, pair_identifiers[2])
+make_mean_diffs_fast <- function(data, id, sex, race, demographics,
+                                 variables = variable,
+                                 variable = NULL,
+                                 pair_identifiers,
+                                 coding_method = "none") {
+  # S1 <- base::paste0(variable, pair_identifiers[1])
+  # S2 <- base::paste0(variable, pair_identifiers[2])
   sexS1 <- base::paste0(sex, pair_identifiers[1])
   sexS2 <- base::paste0(sex, pair_identifiers[2])
   raceS1 <- base::paste0(race, pair_identifiers[1])
   raceS2 <- base::paste0(race, pair_identifiers[2])
 
 
-diff_list <- list()
+  diff_list <- list()
   for (var in variables) {
     var1 <- ifelse(data$order == "s1",
-                   data[[paste0(var, pair_identifiers[1])]],
-                   data[[paste0(var, pair_identifiers[2])]])
+      data[[paste0(var, pair_identifiers[1])]],
+      data[[paste0(var, pair_identifiers[2])]]
+    )
     var2 <- ifelse(data$order == "s1",
-                   data[[paste0(var, pair_identifiers[2])]],
-                   data[[paste0(var, pair_identifiers[1])]])
+      data[[paste0(var, pair_identifiers[2])]],
+      data[[paste0(var, pair_identifiers[1])]]
+    )
 
     diff <- var1 - var2
     mean_ <- (var1 + var2) / 2
@@ -331,21 +332,23 @@ diff_list <- list()
       stats::setNames(list(mean_), paste0(var, "_mean"))
     )
 
-# obvious inefficiency
-    tmp <- recode_demographics(demographics = demographics,
-                              data = data,
-                              raceS1 = raceS1,
-                              raceS2 = raceS2,
-                              race = race,
-                              sexS1 = sexS1,
-                              sexS2 = sexS2,
-                              sex =sex,
-                              coding_method = coding_method,
-                              output = tmp,
-                              fast = TRUE)
+    # obvious inefficiency
+    tmp <- recode_demographics(
+      demographics = demographics,
+      data = data,
+      raceS1 = raceS1,
+      raceS2 = raceS2,
+      race = race,
+      sexS1 = sexS1,
+      sexS2 = sexS2,
+      sex = sex,
+      coding_method = coding_method,
+      output = tmp,
+      fast = TRUE
+    )
     diff_list[[var]] <- tmp
   }
-return(diff_list)
+  return(diff_list)
 }
 
 #' @title Check Discord Errors

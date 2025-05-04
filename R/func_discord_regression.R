@@ -142,7 +142,6 @@ discord_within_model <- discord_regression
 #'   race = NULL
 #' )
 #'
-
 discord_between_model <- function(data,
                                   outcome,
                                   predictors,
@@ -154,7 +153,6 @@ discord_between_model <- function(data,
                                   data_processed = FALSE,
                                   coding_method = "none",
                                   fast = TRUE) {
-
   check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
 
   # if no demographics provided
@@ -231,7 +229,7 @@ discord_between_model <- function(data,
     preds <- base::paste(pred_mean, demographic_controls, sep = " + ")
   }
 
-   formula_ <- stats::as.formula(base::paste(realOutcome, preds, sep = " ~ "))
+  formula_ <- stats::as.formula(base::paste(realOutcome, preds, sep = " ~ "))
 
   model <- eval(substitute(
     stats::lm(formula = F, data = preppedData),

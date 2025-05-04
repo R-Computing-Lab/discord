@@ -375,14 +375,14 @@ test_that("half-siblings nonsignificant: new & legacy data prep code results are
 test_that("half-siblings nonsignificant: new & legacy data prep code results are equal", {
   set.seed(18)
   new_data <- discord_data(half_sibs_nonsignif,
-                           outcome = "y1",
-                           predictors = "y2",
-                           id = "id",
-                           sex = NULL,
-                           race = NULL,
-                           pair_identifiers = c("_1", "_2"),
-                           demographics = "none",
-                           fast = TRUE
+    outcome = "y1",
+    predictors = "y2",
+    id = "id",
+    sex = NULL,
+    race = NULL,
+    pair_identifiers = c("_1", "_2"),
+    demographics = "none",
+    fast = TRUE
   )
   rownames(new_data) <- NULL
 
