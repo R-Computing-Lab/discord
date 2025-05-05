@@ -14,7 +14,12 @@ version](https://www.r-pkg.org/badges/version/discord)](https://cran.r-project.o
 [![Package
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/discord)](https://cran.r-project.org/package=discord)</br>
 [![R-CMD-check](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-check.yaml)
+[![Dev Main
+branch](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-dev_check.yaml/badge.svg)](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-dev_check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/R-Computing-Lab/discord/graph/badge.svg)](https://app.codecov.io/gh/R-Computing-Lab/discord)
 ![License](https://img.shields.io/badge/License-GPL_v3-blue.svg)
+
 <!-- badges: end -->
 
 The goal of discord is to provide functions for discordant kinship
