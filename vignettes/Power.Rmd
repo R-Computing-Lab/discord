@@ -95,6 +95,8 @@ conditions <- expand.grid(
 For each condition, we simulate 100 replications of fitting discordant sibling models. We have kept the number of trials low for demonstration purposes, but you can increase `n_trials` for more robust power estimates. 
 
 ```{r}
+
+set.seed(1492) # Set seed for reproducibility
 n_trials <- 100
 FAST <- TRUE # Set to FALSE for slower, more detailed analysis
 results_list <- list()
@@ -190,8 +192,9 @@ power_summary <- lapply(results_list, function(res) {
 final_results <- cbind(conditions, do.call(rbind, power_summary))
 ```
 
+## Step 4: Visualize Power
 
-As shown in the table (at the end of the vignette), we have the power estimates for each condition, including the total number of pairs, relatedness level, covariate settings, and the median R-squared value from the regression models. As expected, power increases with the number of pairs and is influenced by the relatedness level and covariate settings. In the plots below, we visualize the power estimates across different conditions, focusing on the impact of covariates and relatedness levels.
+We can visualize the power estimates across different conditions. The plots below show the power estimates for each condition, including the total number of pairs, relatedness level, covariate settings, and the median R-squared value from the regression models. As expected, power increases with the number of pairs and is influenced by the relatedness level and covariate settings. In the plots below, we visualize the power estimates across different conditions, focusing on the impact of covariates and relatedness levels.
 
 
 ```{r, echo=FALSE, message=FALSE}
@@ -278,10 +281,14 @@ p_noa <- ggplot(final_results_noa, aes(
 p_noa
 ```
 
+### Power Table
 
-
-
+The table below summarizes the power estimates across different conditions. The `power_xdiff` column indicates the proportion of trials where the p-value for the difference in means (`p_xdiff`) is less than 0.05, and the `median_r2` column reports the median R-squared value from the regression models.
 
 ```{r, echo=FALSE, message=FALSE}
 knitr::kable(final_results)
 ```
+
+## Conclusion
+This vignette demonstrates how to conduct a simulation-based power analysis for discordant sibling designs using the `discord` package. By varying genetic relatedness, ACE variance components, and covariate settings, we can assess the power of our designs to detect causal effects. The results highlight the importance of sample size and relatedness level in achieving sufficient power for these analyses.
+
