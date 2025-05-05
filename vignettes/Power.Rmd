@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
   fig.width = 7,
   fig.height = 5
 )
-
 ```
 
 
@@ -45,6 +44,7 @@ The `kinsim()` function is designed to simulate data for kinship studies. It gen
 | `r_vector` | Optional: pairwise relatedness at the observation level |
 
 ## Output
+
 A data.frame with:
 
 - Latent variables: A, C, E for each phenotype and sibling
@@ -56,12 +56,9 @@ A data.frame with:
 # Example Usage
 
 
-
-
-# Step 1: Define Simulation Grid
+## Step 1: Define Simulation Grid
 
 We define a grid of simulation conditions, varying genetic relatedness, ACE variance components, and genetic correlations.
-
 
 
 ```{r load-packages, message=FALSE}
@@ -69,44 +66,43 @@ We define a grid of simulation conditions, varying genetic relatedness, ACE vari
 library(NlsyLinks)
 library(discord)
 library(utils)
+library(tidyverse)
 library(ggplot2)
 # Set random seed for reproducibility
 set.seed(1492)
 
 # Disable scientific notation for clarity
-options(scipen=999)
+options(scipen = 999)
 
 
 
 conditions <- expand.grid(
-  total_pairs   = c(100,250,500,750,1000),
-  relatedness = c(1,.5),
+  total_pairs = c(100, 250, 500, 750, 1000),
+  relatedness = c(1, .5),
   cov_a = c(0, 0.25),
   cov_c = c(0, 0.25),
-  cov_e = c(0,0.25),
+  cov_e = c(0, 0.25),
   ace_a = c(1),
   ace_c = c(1),
   ace_e = c(1)
 )
-
-
-
 ```
 
 
 
-# Step 2: Run Simulations
+## Step 2: Run Simulations
 
 For each condition, we simulate 100 replications of fitting discordant sibling models. We have kept the number of trials low for demonstration purposes, but you can increase `n_trials` for more robust power estimates. 
 
 ```{r}
 
+set.seed(1492) # Set seed for reproducibility
 n_trials <- 100
-FAST <- TRUE # Set to FALSE for slower, more detailed analysis
+FAST <- FALSE # Set to FALSE for slower, more detailed analysis
 results_list <- list()
 name.results <- c("coef_xdiff", "p_xdiff", "r.squared")
 
-for (cond in 1:nrow(conditions)) {
+for (cond in seq_along(conditions)) {
   current <- conditions[cond, ]
   temp_results <- matrix(NA, nrow = n_trials, ncol = length(name.results))
   colnames(temp_results) <- name.results
@@ -114,7 +110,7 @@ for (cond in 1:nrow(conditions)) {
   for (i in 1:n_trials) {
     trial <- kinsim(
       r_vector = rep(current$relatedness, each = current$total_pairs),
-      npg_all  =  current$total_pairs,
+      npg_all = current$total_pairs,
       ace_all = c(current$ace_a, current$ace_c, current$ace_e),
       cov_a = current$cov_a,
       cov_c = current$cov_c,
@@ -128,42 +124,52 @@ for (cond in 1:nrow(conditions)) {
       x_s1 = trial$y2_1, x_s2 = trial$y2_2
     )
 
-    if(FAST==TRUE){
-    # faster  
+    if (FAST == TRUE) {
+      # faster
       # double enter the data
-    extract2 <- rbind(
-      transform(extract, y_s1 = y_s2, y_s2 = y_s1, 
-                x_s1 = x_s2, x_s2 = x_s1),
-      extract
-    )
-    extract2$y_diff <- extract2$y_s1 - extract2$y_s2
-    extract2$x_diff <- extract2$x_s1 - extract2$x_s2
-    extract2$x_bar  <- (extract2$x_s1 + extract2$x_s2) / 2
-    extract2$y_bar  <- (extract2$y_s1 + extract2$y_s2) / 2
-    # select pair with ydiff > 0
-    extract3 <- extract2[extract2$y_diff>0,]
-    
-    
-    fit <- tryCatch(
-      lm(y_diff ~ x_bar + y_bar + x_diff, data = extract3),
-      error = function(e) return(NULL)
-    )
+      extract2 <- rbind(
+        transform(extract,
+          y_s1 = y_s2, y_s2 = y_s1,
+          x_s1 = x_s2, x_s2 = x_s1
+        ),
+        extract
+      )
+      extract2$y_diff <- extract2$y_s1 - extract2$y_s2
+      extract2$x_diff <- extract2$x_s1 - extract2$x_s2
+      extract2$x_bar <- (extract2$x_s1 + extract2$x_s2) / 2
+      extract2$y_bar <- (extract2$y_s1 + extract2$y_s2) / 2
+
+      # select pair with ydiff > 0
+      extract3 <- extract2[extract2$y_diff > 0, ]
+
+
+      fit <- tryCatch(
+        lm(y_diff ~ x_bar + y_bar + x_diff, data = extract3),
+        error = function(e) {
+          return(NULL)
+        }
+      )
     }
     # slower
-    if(FAST==FALSE){
-  fit <- tryCatch(
-     discord_regression(data = extract, outcome = "y", predictors = "x",
-                       id = "id",
-                       sex = NULL,
-                       race = NULL),
-      error = function(e) return(NULL)
-    )
-}
+    if (FAST == FALSE) {
+      fit <- tryCatch(
+        discord_regression(
+          data = extract, outcome = "y", predictors = "x",
+          id = "id",
+          sex = NULL,
+          race = NULL,
+          fast = TRUE
+        ),
+        error = function(e) {
+          return(NULL)
+        }
+      )
+    }
     if (!is.null(fit)) {
       sm <- summary(fit)
       temp_results[i, "coef_xdiff"] <- coef(sm)["x_diff", "Estimate"]
-      temp_results[i, "p_xdiff"]    <- coef(sm)["x_diff", "Pr(>|t|)"]
-      temp_results[i, "r.squared"]  <- sm$r.squared
+      temp_results[i, "p_xdiff"] <- coef(sm)["x_diff", "Pr(>|t|)"]
+      temp_results[i, "r.squared"] <- sm$r.squared
     }
   }
 
@@ -177,7 +183,6 @@ for (cond in 1:nrow(conditions)) {
 Our final step is to summarize the power across all conditions. We calculate the proportion of trials where the p-value for the difference in means (`p_xdiff`) is less than 0.05, and we also report the median R-squared value from the regression models. Note that we've limited the number of trials to 10 for demonstration purposes, but you can (and should) increase this for more robust estimates.
 
 ```{r summarize-power}
-
 power_summary <- lapply(results_list, function(res) {
   data.frame(
     power_xdiff = mean(res$p_xdiff < 0.05, na.rm = TRUE),
@@ -188,8 +193,9 @@ power_summary <- lapply(results_list, function(res) {
 final_results <- cbind(conditions, do.call(rbind, power_summary))
 ```
 
+## Step 4: Visualize Power
 
-As shown in the table (at the end of the vignette), we have the power estimates for each condition, including the total number of pairs, relatedness level, covariate settings, and the median R-squared value from the regression models. As expected, power increases with the number of pairs and is influenced by the relatedness level and covariate settings. In the plots below, we visualize the power estimates across different conditions, focusing on the impact of covariates and relatedness levels.
+We can visualize the power estimates across different conditions. The plots below show the power estimates for each condition, including the total number of pairs, relatedness level, covariate settings, and the median R-squared value from the regression models. As expected, power increases with the number of pairs and is influenced by the relatedness level and covariate settings. In the plots below, we visualize the power estimates across different conditions, focusing on the impact of covariates and relatedness levels.
 
 
 ```{r, echo=FALSE, message=FALSE}
@@ -200,20 +206,27 @@ facet_labels <- list(
   cov_e = c("0" = "No Cov_E", "1" = "With Cov_E")
 )
 # Ensure factors with exact string levels
-final_results$cov_a <- factor(final_results$cov_a, levels = c(0, 0.25), labels = c("No Covariate A", "Covariate A (0.25)"))
-final_results$cov_c <- factor(final_results$cov_c, levels = c(0, 0.25), labels = c("No Covariate C", "Covariate C (0.25)"))
-final_results$cov_e <- factor(final_results$cov_e, levels = c(0, 0.25), labels = c("No Covariate E", "Covariate E (0.25)"))
+final_results$cov_a <- factor(final_results$cov_a, levels = c(0, 0.25), 
+                              labels = c("No Covariate A",
+                                         "Covariate A (0.25)"))
+final_results$cov_c <- factor(final_results$cov_c, levels = c(0, 0.25), 
+                              labels = c("No Covariate C",
+                                         "Covariate C (0.25)"))
+final_results$cov_e <- factor(final_results$cov_e, levels = c(0, 0.25), 
+                              labels = c("No Covariate E",
+                                         "Covariate E (0.25)"))
 ```
 
 
 
 ```{r plot-power, echo=FALSE}
-
 final_results_noc <- final_results[final_results$cov_c == "No Covariate C", ]
 
-p_noc <- ggplot(final_results_noc, aes(x = total_pairs, y = power_xdiff, 
-                               fill=  factor(relatedness),
-                               color = factor(relatedness))) +
+p_noc <- ggplot(final_results_noc, aes(
+  x = total_pairs, y = power_xdiff,
+  fill = factor(relatedness),
+  color = factor(relatedness)
+)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(
     title = "Power Analysis for Discordant Sibling Designs",
@@ -222,23 +235,29 @@ p_noc <- ggplot(final_results_noc, aes(x = total_pairs, y = power_xdiff,
     color = "Relatedness",
     fill = "Relatedness"
   ) +
-  theme_minimal() +  # Manual, per-facet annotations with explicit facet-mapped data
-  geom_text( x = 600, y = 0.55, label = "False Positive Rate",
-           data = data.frame(cov_a = "No Covariate A", cov_e = "No Covariate E"),
-           fontface = "italic", size = 3.5, inherit.aes = FALSE) +
-  geom_text( x = 600, y = 0.85, label = "Genetic Confounding",
-           data = data.frame(cov_a ="Covariate A (0.25)", cov_e = "No Covariate E"),
-           fontface = "italic", size = 3.5, inherit.aes = FALSE) +
-  facet_grid(cov_e ~ cov_a, labeller = labeller(facet_labels)) 
+  theme_minimal() +
+  geom_text(
+    x = 600, y = 0.55, label = "False Positive Rate",
+    data = data.frame(cov_a = "No Covariate A", cov_e = "No Covariate E"),
+    fontface = "italic", size = 3.5, inherit.aes = FALSE
+  ) +
+  geom_text(
+    x = 600, y = 0.85, label = "Genetic Confounding",
+    data = data.frame(cov_a = "Covariate A (0.25)", cov_e = "No Covariate E"),
+    fontface = "italic", size = 3.5, inherit.aes = FALSE
+  ) +
+  facet_grid(cov_e ~ cov_a, labeller = labeller(facet_labels))
 
 p_noc
 
 
 final_results_noa <- final_results[final_results$cov_a == "No Covariate A", ]
 
-p_noa <- ggplot(final_results_noa, aes(x = total_pairs, y = power_xdiff, 
-                               fill=  factor(relatedness),
-                               color = factor(relatedness))) +
+p_noa <- ggplot(final_results_noa, aes(
+  x = total_pairs, y = power_xdiff,
+  fill = factor(relatedness),
+  color = factor(relatedness)
+)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(
     title = "Power Analysis for Discordant Sibling Designs",
@@ -247,21 +266,30 @@ p_noa <- ggplot(final_results_noa, aes(x = total_pairs, y = power_xdiff,
     color = "Relatedness",
     fill = "Relatedness"
   ) +
-  theme_minimal() +  # Manual, per-facet annotations with explicit facet-mapped data
-  geom_text( x = 600, y = 0.55, label = "False Positive Rate",
-           data = data.frame(cov_c = "No Covariate C", cov_e = "No Covariate E"),
-           fontface = "italic", size = 3.5, inherit.aes = FALSE) +
-  geom_text( x = 600, y = 0.85, label = "Shared-Environmental Confounding",
-           data = data.frame(cov_c ="Covariate C (0.25)", cov_e = "No Covariate E"),
-           fontface = "italic", size = 3.5, inherit.aes = FALSE) +
-  facet_grid(cov_e ~ cov_c, labeller = labeller(facet_labels)) 
+  theme_minimal() + 
+  geom_text(
+    x = 600, y = 0.55, label = "False Positive Rate",
+    data = data.frame(cov_c = "No Covariate C", cov_e = "No Covariate E"),
+    fontface = "italic", size = 3.5, inherit.aes = FALSE
+  ) +
+  geom_text(
+    x = 600, y = 0.85, label = "Shared-Environmental Confounding",
+    data = data.frame(cov_c = "Covariate C (0.25)", cov_e = "No Covariate E"),
+    fontface = "italic", size = 3.5, inherit.aes = FALSE
+  ) +
+  facet_grid(cov_e ~ cov_c, labeller = labeller(facet_labels))
 
 p_noa
-
-
 ```
 
+### Power Table
+
+The table below summarizes the power estimates across different conditions. The `power_xdiff` column indicates the proportion of trials where the p-value for the difference in means (`p_xdiff`) is less than 0.05, and the `median_r2` column reports the median R-squared value from the regression models.
 
 ```{r, echo=FALSE, message=FALSE}
 knitr::kable(final_results)
 ```
+
+## Conclusion
+This vignette demonstrates how to conduct a simulation-based power analysis for discordant sibling designs using the `discord` package. By varying genetic relatedness, ACE variance components, and covariate settings, we can assess the power of our designs to detect causal effects. The results highlight the importance of sample size and relatedness level in achieving sufficient power for these analyses.
+

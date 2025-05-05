@@ -35,7 +35,7 @@ The original analysis examined whether socioeconomic status (SES) at age 40 pred
 
 ## Data Cleaning
 
-For this example, we will load the following packages.
+For this example, we will load the following packages:
 
 ```{r discord-setup, message = FALSE}
 # For easy data manipulation

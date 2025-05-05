@@ -23,6 +23,8 @@ predicting the outcome.}
 \item{more_args}{Optional string to add additional inputs to formula}
 
 \item{additional_formula}{Deprecated}
+
+\item{...}{Additional arguments to be passed to the function.}
 }
 \value{
 Resulting `lm` object from performing the discordant regression.

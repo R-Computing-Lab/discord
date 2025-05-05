@@ -30,13 +30,27 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race + sex", {
   ))
 
   set.seed(18)
-  new <- discord_regression(uniqueExtendedIDs,
+  new_fast <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
-    predictors = c("edu_2008", "ses_2008")
+    predictors = c("edu_2008", "ses_2008"),
+    fast = TRUE
   )
-  new <- summarize_results(new)
+  new_fast <- summarize_results(new_fast)
 
-  expect_equal(control, new, tolerance = 0.005)
+  expect_equal(control, new_fast, tolerance = 0.005)
+
+  set.seed(18)
+  new_ram <- discord_regression(uniqueExtendedIDs,
+                            outcome = "flu_2008",
+                            predictors = c("edu_2008", "ses_2008"),
+                            fast = FALSE
+  )
+
+  new_ram <- summarize_results(new_ram)
+
+  expect_equal(control, new_ram, tolerance = 0.005)
+
+  expect_equal(new_fast, new_ram, tolerance = 0.005)
 })
 
 
@@ -63,15 +77,29 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race", {
     "ses_2008_mean", "race_1BLACK"
   ))
   set.seed(18)
-  new <- discord_regression(uniqueExtendedIDs,
+  new_fast <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
     id = "extended_id",
     predictors = c("edu_2008", "ses_2008"),
-    sex = NULL
+    sex = NULL,
+    fast= TRUE
   )
-  new <- summarize_results(new)
 
-  expect_equal(control, new, tolerance = 0.005)
+  set.seed(18)
+  new_ram <- discord_regression(uniqueExtendedIDs,
+                                 outcome = "flu_2008",
+                                 id = "extended_id",
+                                 predictors = c("edu_2008", "ses_2008"),
+                                 sex = NULL,
+                                 fast= FALSE
+  )
+  new_fast <- summarize_results(new_fast)
+  new_ram <- summarize_results(new_ram)
+
+  expect_equal(control, new_fast, tolerance = 0.005)
+  expect_equal(control, new_ram, tolerance = 0.005)
+
+  expect_equal(new_fast, new_ram, tolerance = 0.005)
 })
 
 test_that("flu_2008 ~ edu_2008 + ses_2008", {
@@ -96,16 +124,30 @@ test_that("flu_2008 ~ edu_2008 + ses_2008", {
   ))
 
   set.seed(18)
-  new <- discord_regression(uniqueExtendedIDs,
+  new_fast <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
     id = "extended_id",
     predictors = c("edu_2008", "ses_2008"),
     sex = NULL,
-    race = NULL
+    race = NULL,
+    fast = TRUE
   )
-  new <- summarize_results(new)
+  set.seed(18)
+  new_ram <- discord_regression(uniqueExtendedIDs,
+                                 outcome = "flu_2008",
+                                 id = "extended_id",
+                                 predictors = c("edu_2008", "ses_2008"),
+                                 sex = NULL,
+                                 race = NULL,
+                                 fast = FALSE
+  )
 
-  expect_equal(control, new, tolerance = 0.005)
+  new_fast <- summarize_results(new_fast)
+  new_ram <- summarize_results(new_ram)
+
+  expect_equal(control, new_fast, tolerance = 0.005)
+  expect_equal(control, new_ram, tolerance = 0.005)
+  expect_equal(new_fast, new_ram, tolerance = 0.005)
 })
 
 
@@ -134,11 +176,22 @@ test_that("flu_2008 ~ edu_2008 + ses_2008 + race + sex", {
     "race_1BLACK", "sex_2FEMALE"
   ))
   set.seed(18)
-  new <- discord_regression(uniqueExtendedIDs,
+  new_fast <- discord_regression(uniqueExtendedIDs,
     outcome = "flu_2008",
-    predictors = "edu_2008"
+    predictors = "edu_2008",
+    fast = TRUE
   )
-  new <- summarize_results(new)
+  set.seed(18)
+  new_ram <- discord_regression(uniqueExtendedIDs,
+                                 outcome = "flu_2008",
+                                 predictors = "edu_2008",
+  fast = FALSE
+  )
 
-  expect_equal(control, new, tolerance = 0.005)
+new_fast <- summarize_results(new_fast)
+new_ram <- summarize_results(new_ram)
+
+expect_equal(control, new_fast, tolerance = 0.005)
+expect_equal(control, new_ram, tolerance = 0.005)
+expect_equal(new_fast, new_ram, tolerance = 0.005)
 })

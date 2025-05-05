@@ -10,85 +10,156 @@ signif_threshold <- 0.05
 
 test_that("monozygotic significant is as expected", {
   set.seed(18)
-  results <- discord_regression(mz_signif,
+  results_fast <- discord_regression(mz_signif,
     outcome = "y1",
     predictors = "y2",
     id = "id",
     sex = NULL,
     race = NULL,
-    pair_identifiers = c("_1", "_2")
+    pair_identifiers = c("_1", "_2"),
+    fast = TRUE
   )
+  results_ram <- discord_regression(mz_signif,
+                                     outcome = "y1",
+                                     predictors = "y2",
+                                     id = "id",
+                                     sex = NULL,
+                                     race = NULL,
+                                     pair_identifiers = c("_1", "_2"),
+                                     fast = FALSE
+  )
+  expect_lt(object = get_p_value(results_fast), expected = signif_threshold)
+  expect_lt(object = get_p_value(results_ram), expected = signif_threshold)
+  expect_equal(get_p_value(results_fast), get_p_value(results_ram), tolerance = 0.005)
 
-  expect_lt(object = get_p_value(results), expected = signif_threshold)
 })
 
 test_that("monozygotic nonsignificant is as expected", {
   set.seed(18)
-  results <- discord_regression(mz_nonsignif,
+  results_fast <- discord_regression(mz_nonsignif,
     outcome = "y1",
     predictors = "y2",
     id = "id",
     sex = NULL,
     race = NULL,
-    pair_identifiers = c("_1", "_2")
+    pair_identifiers = c("_1", "_2"),
+    fast = TRUE
   )
-
-  expect_gt(object = get_p_value(results), expected = signif_threshold)
+  results_ram <- discord_regression(mz_nonsignif,
+                                     outcome = "y1",
+                                     predictors = "y2",
+                                     id = "id",
+                                     sex = NULL,
+                                     race = NULL,
+                                     pair_identifiers = c("_1", "_2"),
+                                     fast = FALSE
+  )
+  expect_gt(object = get_p_value(results_fast), expected = signif_threshold)
+  expect_gt(object = get_p_value(results_ram), expected = signif_threshold)
+  expect_equal(get_p_value(results_fast), get_p_value(results_ram), tolerance = 0.005)
 })
 
 test_that("dizygotic significant is as expected", {
   set.seed(18)
-  results <- discord_regression(dz_signif,
+  results_fast <- discord_regression(dz_signif,
     outcome = "y1",
     predictors = "y2",
     id = "id",
     sex = NULL,
     race = NULL,
-    pair_identifiers = c("_1", "_2")
+    pair_identifiers = c("_1", "_2"),
+    fast = TRUE
   )
-
-  expect_lt(object = get_p_value(results), expected = signif_threshold)
+  results_ram <- discord_regression(dz_signif,
+                                     outcome = "y1",
+                                     predictors = "y2",
+                                     id = "id",
+                                     sex = NULL,
+                                     race = NULL,
+                                     pair_identifiers = c("_1", "_2"),
+                                     fast = FALSE
+  )
+  expect_lt(object = get_p_value(results_fast), expected = signif_threshold)
+  expect_lt(object = get_p_value(results_ram), expected = signif_threshold)
+  expect_equal(get_p_value(results_fast), get_p_value(results_ram), tolerance = 0.005)
 })
 
 test_that("dizygotic nonsignificant is as expected", {
   set.seed(18)
-  results <- discord_regression(dz_nonsignif,
+  results_fast <- discord_regression(dz_nonsignif,
     outcome = "y1",
     predictors = "y2",
     id = "id",
     sex = NULL,
     race = NULL,
-    pair_identifiers = c("_1", "_2")
+    pair_identifiers = c("_1", "_2"),
+    fast = TRUE
   )
 
-  expect_gt(object = get_p_value(results), expected = signif_threshold)
+  results_ram <- discord_regression(dz_nonsignif,
+                                     outcome = "y1",
+                                     predictors = "y2",
+                                     id = "id",
+                                     sex = NULL,
+                                     race = NULL,
+                                     pair_identifiers = c("_1", "_2"),
+                                     fast = FALSE
+  )
+
+  expect_gt(object = get_p_value(results_fast), expected = signif_threshold)
+  expect_gt(object = get_p_value(results_ram), expected = signif_threshold)
+  expect_equal(get_p_value(results_fast), get_p_value(results_ram), tolerance = 0.005)
 })
 
 
 test_that("half siblings significant is as expected", {
   set.seed(18)
-  results <- discord_regression(half_sibs_signif,
+  results_fast <- discord_regression(half_sibs_signif,
     outcome = "y1",
     predictors = "y2",
     id = "id",
     sex = NULL,
     race = NULL,
-    pair_identifiers = c("_1", "_2")
+    pair_identifiers = c("_1", "_2"),
+    fast = TRUE
+  )
+  results_ram <- discord_regression(half_sibs_signif,
+                                     outcome = "y1",
+                                     predictors = "y2",
+                                     id = "id",
+                                     sex = NULL,
+                                     race = NULL,
+                                     pair_identifiers = c("_1", "_2"),
+                                     fast = FALSE
   )
 
-  expect_lt(object = get_p_value(results), expected = signif_threshold)
+  expect_lt(object = get_p_value(results_fast), expected = signif_threshold)
+  expect_lt(object = get_p_value(results_ram), expected = signif_threshold)
+  expect_equal(get_p_value(results_fast), get_p_value(results_ram), tolerance = 0.005)
 })
 
 test_that("half siblings nonsignificant is as expected", {
   set.seed(18)
-  results <- discord_regression(half_sibs_nonsignif,
+  results_fast <- discord_regression(half_sibs_nonsignif,
     outcome = "y1",
     predictors = "y2",
     id = "id",
     sex = NULL,
     race = NULL,
-    pair_identifiers = c("_1", "_2")
+    pair_identifiers = c("_1", "_2"),
+    fast= TRUE
+  )
+  results_ram <- discord_regression(half_sibs_nonsignif,
+                                     outcome = "y1",
+                                     predictors = "y2",
+                                     id = "id",
+                                     sex = NULL,
+                                     race = NULL,
+                                     pair_identifiers = c("_1", "_2"),
+                                     fast= FALSE
   )
 
-  expect_gt(object = get_p_value(results), expected = signif_threshold)
+  expect_gt(object = get_p_value(results_fast), expected = signif_threshold)
+  expect_gt(object = get_p_value(results_ram), expected = signif_threshold)
+  expect_equal(get_p_value(results_fast), get_p_value(results_ram), tolerance = 0.005)
 })
