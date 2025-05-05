@@ -98,7 +98,7 @@ For each condition, we simulate 100 replications of fitting discordant sibling m
 
 set.seed(1492) # Set seed for reproducibility
 n_trials <- 100
-FAST <- TRUE # Set to FALSE for slower, more detailed analysis
+FAST <- FALSE # Set to FALSE for slower, more detailed analysis
 results_list <- list()
 name.results <- c("coef_xdiff", "p_xdiff", "r.squared")
 
@@ -138,6 +138,7 @@ for (cond in seq_along(conditions)) {
       extract2$x_diff <- extract2$x_s1 - extract2$x_s2
       extract2$x_bar <- (extract2$x_s1 + extract2$x_s2) / 2
       extract2$y_bar <- (extract2$y_s1 + extract2$y_s2) / 2
+
       # select pair with ydiff > 0
       extract3 <- extract2[extract2$y_diff > 0, ]
 
