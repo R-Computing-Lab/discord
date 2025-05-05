@@ -52,62 +52,19 @@ swapping the order of demographics as per the order column.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_mean_diffs</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">sex</span>,</span>
-<span>  <span class="va">race</span>,</span>
-<span>  <span class="va">demographics</span>,</span>
-<span>  <span class="va">variable</span>,</span>
-<span>  <span class="va">pair_identifiers</span>,</span>
-<span>  <span class="va">row</span>,</span>
-<span>  coding_method <span class="op">=</span> <span class="st">"none"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_mean_diffs</span><span class="op">(</span><span class="va">...</span>, fast <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>The data set with kinship pairs</p></dd>
+<dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Additional arguments to be passed to the function.</p></dd>
 
 
-<dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
-<dd><p>Default's to NULL. If supplied, must specify the column name
-corresponding to unique kinship pair identifiers.</p></dd>
-
-
-<dt id="arg-sex">sex<a class="anchor" aria-label="anchor" href="#arg-sex"></a></dt>
-<dd><p>A character string for the sex column name.</p></dd>
-
-
-<dt id="arg-race">race<a class="anchor" aria-label="anchor" href="#arg-race"></a></dt>
-<dd><p>A character string for the race column name.</p></dd>
-
-
-<dt id="arg-demographics">demographics<a class="anchor" aria-label="anchor" href="#arg-demographics"></a></dt>
-<dd><p>Indicator variable for if the data has the sex and race
-demographics. If both are present (default, and recommended), value should
-be "both". Other options include "sex", "race", or "none".</p></dd>
-
-
-<dt id="arg-variable">variable<a class="anchor" aria-label="anchor" href="#arg-variable"></a></dt>
-<dd><p>outcomes and predictors for manipulating the data</p></dd>
-
-
-<dt id="arg-pair-identifiers">pair_identifiers<a class="anchor" aria-label="anchor" href="#arg-pair-identifiers"></a></dt>
-<dd><p>A character vector of length two that contains the
-variable identifier for each kinship pair</p></dd>
-
-
-<dt id="arg-row">row<a class="anchor" aria-label="anchor" href="#arg-row"></a></dt>
-<dd><p>The row number of the data frame</p></dd>
-
-
-<dt id="arg-coding-method">coding_method<a class="anchor" aria-label="anchor" href="#arg-coding-method"></a></dt>
-<dd><p>A character string that indicates what kind of
-additional coding schemes should be used. Default is none. Other options include "binary" and "multi".</p></dd>
+<dt id="arg-fast">fast<a class="anchor" aria-label="anchor" href="#arg-fast"></a></dt>
+<dd><p>Logical. If TRUE, uses a faster method for data processing.</p></dd>
 
 </dl></div>
 

@@ -146,10 +146,9 @@ c, e)</td>
 <div class="section level2">
 <h2 id="example-usage">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage"></a>
 </h2>
-</div>
-<div class="section level2">
-<h2 id="step-1-define-simulation-grid">Step 1: Define Simulation Grid<a class="anchor" aria-label="anchor" href="#step-1-define-simulation-grid"></a>
-</h2>
+<div class="section level3">
+<h3 id="step-1-define-simulation-grid">Step 1: Define Simulation Grid<a class="anchor" aria-label="anchor" href="#step-1-define-simulation-grid"></a>
+</h3>
 <p>We define a grid of simulation conditions, varying genetic
 relatedness, ACE variance components, and genetic correlations.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -157,41 +156,43 @@ relatedness, ACE variance components, and genetic correlations.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlsy-links.github.io/NlsyLinks/" class="external-link">NlsyLinks</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/discord" class="external-link">discord</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">utils</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="co"># Set random seed for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1492</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Disable scientific notation for clarity</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>scipen<span class="op">=</span><span class="fl">999</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>scipen <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span></span>
 <span><span class="va">conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
-<span>  total_pairs   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">250</span>,<span class="fl">500</span>,<span class="fl">750</span>,<span class="fl">1000</span><span class="op">)</span>,</span>
-<span>  relatedness <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">.5</span><span class="op">)</span>,</span>
+<span>  total_pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">750</span>, <span class="fl">1000</span><span class="op">)</span>,</span>
+<span>  relatedness <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.5</span><span class="op">)</span>,</span>
 <span>  cov_a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>  cov_c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.25</span><span class="op">)</span>,</span>
-<span>  cov_e <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.25</span><span class="op">)</span>,</span>
+<span>  cov_e <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>  ace_a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  ace_c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  ace_e <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="step-2-run-simulations">Step 2: Run Simulations<a class="anchor" aria-label="anchor" href="#step-2-run-simulations"></a>
-</h2>
+<div class="section level3">
+<h3 id="step-2-run-simulations">Step 2: Run Simulations<a class="anchor" aria-label="anchor" href="#step-2-run-simulations"></a>
+</h3>
 <p>For each condition, we simulate 100 replications of fitting
 discordant sibling models. We have kept the number of trials low for
 demonstration purposes, but you can increase <code>n_trials</code> for
 more robust power estimates.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1492</span><span class="op">)</span> <span class="co"># Set seed for reproducibility</span></span>
 <span><span class="va">n_trials</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
-<span><span class="va">FAST</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># Set to FALSE for slower, more detailed analysis</span></span>
+<span><span class="va">FAST</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span> <span class="co"># Set to FALSE for slower, more detailed analysis</span></span>
 <span><span class="va">results_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">name.results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"coef_xdiff"</span>, <span class="st">"p_xdiff"</span>, <span class="st">"r.squared"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">cond</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">cond</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">current</span> <span class="op">&lt;-</span> <span class="va">conditions</span><span class="op">[</span><span class="va">cond</span>, <span class="op">]</span></span>
 <span>  <span class="va">temp_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="va">n_trials</span>, ncol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">name.results</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">temp_results</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">name.results</span></span>
@@ -199,7 +200,7 @@ more robust power estimates.</p>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_trials</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">trial</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
 <span>      r_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">current</span><span class="op">$</span><span class="va">relatedness</span>, each <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">total_pairs</span><span class="op">)</span>,</span>
-<span>      npg_all  <span class="op">=</span>  <span class="va">current</span><span class="op">$</span><span class="va">total_pairs</span>,</span>
+<span>      npg_all <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">total_pairs</span>,</span>
 <span>      ace_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">current</span><span class="op">$</span><span class="va">ace_a</span>, <span class="va">current</span><span class="op">$</span><span class="va">ace_c</span>, <span class="va">current</span><span class="op">$</span><span class="va">ace_e</span><span class="op">)</span>,</span>
 <span>      cov_a <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">cov_a</span>,</span>
 <span>      cov_c <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">cov_c</span>,</span>
@@ -213,47 +214,57 @@ more robust power estimates.</p>
 <span>      x_s1 <span class="op">=</span> <span class="va">trial</span><span class="op">$</span><span class="va">y2_1</span>, x_s2 <span class="op">=</span> <span class="va">trial</span><span class="op">$</span><span class="va">y2_2</span></span>
 <span>    <span class="op">)</span></span>
 <span></span>
-<span>    <span class="kw">if</span><span class="op">(</span><span class="va">FAST</span><span class="op">==</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="co"># faster  </span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">FAST</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="co"># faster</span></span>
 <span>      <span class="co"># double enter the data</span></span>
-<span>    <span class="va">extract2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">extract</span>, y_s1 <span class="op">=</span> <span class="va">y_s2</span>, y_s2 <span class="op">=</span> <span class="va">y_s1</span>, </span>
-<span>                x_s1 <span class="op">=</span> <span class="va">x_s2</span>, x_s2 <span class="op">=</span> <span class="va">x_s1</span><span class="op">)</span>,</span>
-<span>      <span class="va">extract</span></span>
-<span>    <span class="op">)</span></span>
-<span>    <span class="va">extract2</span><span class="op">$</span><span class="va">y_diff</span> <span class="op">&lt;-</span> <span class="va">extract2</span><span class="op">$</span><span class="va">y_s1</span> <span class="op">-</span> <span class="va">extract2</span><span class="op">$</span><span class="va">y_s2</span></span>
-<span>    <span class="va">extract2</span><span class="op">$</span><span class="va">x_diff</span> <span class="op">&lt;-</span> <span class="va">extract2</span><span class="op">$</span><span class="va">x_s1</span> <span class="op">-</span> <span class="va">extract2</span><span class="op">$</span><span class="va">x_s2</span></span>
-<span>    <span class="va">extract2</span><span class="op">$</span><span class="va">x_bar</span>  <span class="op">&lt;-</span> <span class="op">(</span><span class="va">extract2</span><span class="op">$</span><span class="va">x_s1</span> <span class="op">+</span> <span class="va">extract2</span><span class="op">$</span><span class="va">x_s2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span>
-<span>    <span class="va">extract2</span><span class="op">$</span><span class="va">y_bar</span>  <span class="op">&lt;-</span> <span class="op">(</span><span class="va">extract2</span><span class="op">$</span><span class="va">y_s1</span> <span class="op">+</span> <span class="va">extract2</span><span class="op">$</span><span class="va">y_s2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span>
-<span>    <span class="co"># select pair with ydiff &gt; 0</span></span>
-<span>    <span class="va">extract3</span> <span class="op">&lt;-</span> <span class="va">extract2</span><span class="op">[</span><span class="va">extract2</span><span class="op">$</span><span class="va">y_diff</span><span class="op">&gt;</span><span class="fl">0</span>,<span class="op">]</span></span>
-<span>    </span>
-<span>    </span>
-<span>    <span class="va">fit</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y_diff</span> <span class="op">~</span> <span class="va">x_bar</span> <span class="op">+</span> <span class="va">y_bar</span> <span class="op">+</span> <span class="va">x_diff</span>, data <span class="op">=</span> <span class="va">extract3</span><span class="op">)</span>,</span>
-<span>      error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
+<span>      <span class="va">extract2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">extract</span>,</span>
+<span>          y_s1 <span class="op">=</span> <span class="va">y_s2</span>, y_s2 <span class="op">=</span> <span class="va">y_s1</span>,</span>
+<span>          x_s1 <span class="op">=</span> <span class="va">x_s2</span>, x_s2 <span class="op">=</span> <span class="va">x_s1</span></span>
+<span>        <span class="op">)</span>,</span>
+<span>        <span class="va">extract</span></span>
+<span>      <span class="op">)</span></span>
+<span>      <span class="va">extract2</span><span class="op">$</span><span class="va">y_diff</span> <span class="op">&lt;-</span> <span class="va">extract2</span><span class="op">$</span><span class="va">y_s1</span> <span class="op">-</span> <span class="va">extract2</span><span class="op">$</span><span class="va">y_s2</span></span>
+<span>      <span class="va">extract2</span><span class="op">$</span><span class="va">x_diff</span> <span class="op">&lt;-</span> <span class="va">extract2</span><span class="op">$</span><span class="va">x_s1</span> <span class="op">-</span> <span class="va">extract2</span><span class="op">$</span><span class="va">x_s2</span></span>
+<span>      <span class="va">extract2</span><span class="op">$</span><span class="va">x_bar</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">extract2</span><span class="op">$</span><span class="va">x_s1</span> <span class="op">+</span> <span class="va">extract2</span><span class="op">$</span><span class="va">x_s2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span>
+<span>      <span class="va">extract2</span><span class="op">$</span><span class="va">y_bar</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">extract2</span><span class="op">$</span><span class="va">y_s1</span> <span class="op">+</span> <span class="va">extract2</span><span class="op">$</span><span class="va">y_s2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span>
+<span></span>
+<span>      <span class="co"># select pair with ydiff &gt; 0</span></span>
+<span>      <span class="va">extract3</span> <span class="op">&lt;-</span> <span class="va">extract2</span><span class="op">[</span><span class="va">extract2</span><span class="op">$</span><span class="va">y_diff</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="op">]</span></span>
+<span></span>
+<span>      <span class="va">fit</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y_diff</span> <span class="op">~</span> <span class="va">x_bar</span> <span class="op">+</span> <span class="va">y_bar</span> <span class="op">+</span> <span class="va">x_diff</span>, data <span class="op">=</span> <span class="va">extract3</span><span class="op">)</span>,</span>
+<span>        error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span></span>
+<span>          <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span>        <span class="op">}</span></span>
+<span>      <span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
 <span>    <span class="co"># slower</span></span>
-<span>    <span class="kw">if</span><span class="op">(</span><span class="va">FAST</span><span class="op">==</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
-<span>     <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">extract</span>, outcome <span class="op">=</span> <span class="st">"y"</span>, predictors <span class="op">=</span> <span class="st">"x"</span>,</span>
-<span>                       id <span class="op">=</span> <span class="st">"id"</span>,</span>
-<span>                       sex <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                       race <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
-<span>      error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span><span class="op">}</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">FAST</span> <span class="op">==</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="va">fit</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
+<span>        <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
+<span>          data <span class="op">=</span> <span class="va">extract</span>, outcome <span class="op">=</span> <span class="st">"y"</span>, predictors <span class="op">=</span> <span class="st">"x"</span>,</span>
+<span>          id <span class="op">=</span> <span class="st">"id"</span>,</span>
+<span>          sex <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>          race <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>          fast <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>        <span class="op">)</span>,</span>
+<span>        error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span></span>
+<span>          <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span>        <span class="op">}</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span>      <span class="va">temp_results</span><span class="op">[</span><span class="va">i</span>, <span class="st">"coef_xdiff"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">sm</span><span class="op">)</span><span class="op">[</span><span class="st">"x_diff"</span>, <span class="st">"Estimate"</span><span class="op">]</span></span>
-<span>      <span class="va">temp_results</span><span class="op">[</span><span class="va">i</span>, <span class="st">"p_xdiff"</span><span class="op">]</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">sm</span><span class="op">)</span><span class="op">[</span><span class="st">"x_diff"</span>, <span class="st">"Pr(&gt;|t|)"</span><span class="op">]</span></span>
-<span>      <span class="va">temp_results</span><span class="op">[</span><span class="va">i</span>, <span class="st">"r.squared"</span><span class="op">]</span>  <span class="op">&lt;-</span> <span class="va">sm</span><span class="op">$</span><span class="va">r.squared</span></span>
+<span>      <span class="va">temp_results</span><span class="op">[</span><span class="va">i</span>, <span class="st">"p_xdiff"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">sm</span><span class="op">)</span><span class="op">[</span><span class="st">"x_diff"</span>, <span class="st">"Pr(&gt;|t|)"</span><span class="op">]</span></span>
+<span>      <span class="va">temp_results</span><span class="op">[</span><span class="va">i</span>, <span class="st">"r.squared"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">sm</span><span class="op">$</span><span class="va">r.squared</span></span>
 <span>    <span class="op">}</span></span>
 <span>  <span class="op">}</span></span>
 <span></span>
 <span>  <span class="va">results_list</span><span class="op">[[</span><span class="va">cond</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">temp_results</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="step-3-summarize-power">Step 3: Summarize Power<a class="anchor" aria-label="anchor" href="#step-3-summarize-power"></a>
 </h3>
@@ -264,8 +275,7 @@ the median R-squared value from the regression models. Note that we’ve
 limited the number of trials to 10 for demonstration purposes, but you
 can (and should) increase this for more robust estimates.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">power_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">results_list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="va">power_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">results_list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    power_xdiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">p_xdiff</span> <span class="op">&lt;</span> <span class="fl">0.05</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    median_r2   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">r.squared</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -273,15 +283,28 @@ can (and should) increase this for more robust estimates.</p>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">final_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">conditions</span>, <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">power_summary</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>As shown in the table (at the end of the vignette), we have the power
-estimates for each condition, including the total number of pairs,
-relatedness level, covariate settings, and the median R-squared value
-from the regression models. As expected, power increases with the number
-of pairs and is influenced by the relatedness level and covariate
-settings. In the plots below, we visualize the power estimates across
-different conditions, focusing on the impact of covariates and
-relatedness levels.</p>
+</div>
+<div class="section level3">
+<h3 id="step-4-visualize-power">Step 4: Visualize Power<a class="anchor" aria-label="anchor" href="#step-4-visualize-power"></a>
+</h3>
+<p>We can visualize the power estimates across different conditions. The
+plots below show the power estimates for each condition, including the
+total number of pairs, relatedness level, covariate settings, and the
+median R-squared value from the regression models. As expected, power
+increases with the number of pairs and is influenced by the relatedness
+level and covariate settings. In the plots below, we visualize the power
+estimates across different conditions, focusing on the impact of
+covariates and relatedness levels.</p>
 <p><img src="Power_files/figure-html/plot-power-1.png" width="672"><img src="Power_files/figure-html/plot-power-2.png" width="672"></p>
+<div class="section level4">
+<h4 id="power-table">Power Table<a class="anchor" aria-label="anchor" href="#power-table"></a>
+</h4>
+<p>The table below summarizes the power estimates across different
+conditions. The <code>power_xdiff</code> column indicates the proportion
+of trials where the p-value for the difference in means
+(<code>p_xdiff</code>) is less than 0.05, and the <code>median_r2</code>
+column reports the median R-squared value from the regression
+models.</p>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="9%">
@@ -413,8 +436,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0031260</td>
+<td align="right">0.03</td>
+<td align="right">0.0201218</td>
 </tr>
 <tr class="even">
 <td align="right">1000</td>
@@ -425,8 +448,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0024807</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
 <td align="right">100</td>
@@ -437,12 +460,72 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0264681</td>
+<td align="right">0.02</td>
+<td align="right">0.0045342</td>
 </tr>
 <tr class="even">
 <td align="right">250</td>
 <td align="right">1.0</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.06</td>
+<td align="right">0.0038589</td>
+</tr>
+<tr class="odd">
+<td align="right">500</td>
+<td align="right">1.0</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
+</tr>
+<tr class="even">
+<td align="right">750</td>
+<td align="right">1.0</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
+</tr>
+<tr class="odd">
+<td align="right">1000</td>
+<td align="right">1.0</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.05</td>
+<td align="right">0.0105100</td>
+</tr>
+<tr class="even">
+<td align="right">100</td>
+<td align="right">0.5</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.06</td>
+<td align="right">0.0056736</td>
+</tr>
+<tr class="odd">
+<td align="right">250</td>
+<td align="right">0.5</td>
 <td align="left">Covariate A (0.25)</td>
 <td align="left">No Covariate C</td>
 <td align="left">No Covariate E</td>
@@ -450,11 +533,35 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.03</td>
-<td align="right">0.0075613</td>
+<td align="right">0.0201218</td>
+</tr>
+<tr class="even">
+<td align="right">500</td>
+<td align="right">0.5</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
+<td align="right">750</td>
+<td align="right">0.5</td>
+<td align="left">Covariate A (0.25)</td>
+<td align="left">No Covariate C</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.02</td>
+<td align="right">0.0045342</td>
+</tr>
+<tr class="even">
+<td align="right">1000</td>
+<td align="right">0.5</td>
 <td align="left">Covariate A (0.25)</td>
 <td align="left">No Covariate C</td>
 <td align="left">No Covariate E</td>
@@ -462,131 +569,83 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.06</td>
-<td align="right">0.0049293</td>
+<td align="right">0.0038589</td>
+</tr>
+<tr class="odd">
+<td align="right">100</td>
+<td align="right">1.0</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
+</tr>
+<tr class="even">
+<td align="right">250</td>
+<td align="right">1.0</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
+</tr>
+<tr class="odd">
+<td align="right">500</td>
+<td align="right">1.0</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.05</td>
+<td align="right">0.0105100</td>
 </tr>
 <tr class="even">
 <td align="right">750</td>
 <td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.06</td>
+<td align="right">0.0056736</td>
+</tr>
+<tr class="odd">
+<td align="right">1000</td>
+<td align="right">1.0</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
 <td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.03</td>
-<td align="right">0.0034704</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0025828</td>
+<td align="right">0.0201218</td>
 </tr>
 <tr class="even">
 <td align="right">100</td>
 <td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
 <td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.08</td>
-<td align="right">0.0239943</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
 <td align="right">250</td>
 <td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.12</td>
-<td align="right">0.0107728</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.17</td>
-<td align="right">0.0061513</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.22</td>
-<td align="right">0.0042833</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.44</td>
-<td align="right">0.0054768</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.07</td>
-<td align="right">0.0241423</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0099945</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0051310</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
 <td align="left">No Covariate A</td>
 <td align="left">Covariate C (0.25)</td>
 <td align="left">No Covariate E</td>
@@ -594,103 +653,67 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.02</td>
-<td align="right">0.0030280</td>
+<td align="right">0.0045342</td>
+</tr>
+<tr class="even">
+<td align="right">500</td>
+<td align="right">0.5</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.06</td>
+<td align="right">0.0038589</td>
 </tr>
 <tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
+<td align="right">750</td>
+<td align="right">0.5</td>
 <td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
+</tr>
+<tr class="even">
+<td align="right">1000</td>
+<td align="right">0.5</td>
+<td align="left">No Covariate A</td>
+<td align="left">Covariate C (0.25)</td>
+<td align="left">No Covariate E</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
+</tr>
+<tr class="odd">
+<td align="right">100</td>
+<td align="right">1.0</td>
+<td align="left">Covariate A (0.25)</td>
 <td align="left">Covariate C (0.25)</td>
 <td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.05</td>
-<td align="right">0.0027930</td>
+<td align="right">0.0105100</td>
 </tr>
 <tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0302752</td>
-</tr>
-<tr class="odd">
 <td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0083165</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0047981</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
+<td align="right">1.0</td>
+<td align="left">Covariate A (0.25)</td>
 <td align="left">Covariate C (0.25)</td>
 <td align="left">No Covariate E</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.06</td>
-<td align="right">0.0031712</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0028195</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.07</td>
-<td align="right">0.0270337</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0075247</td>
+<td align="right">0.0056736</td>
 </tr>
 <tr class="odd">
 <td align="right">500</td>
@@ -702,7 +725,7 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.03</td>
-<td align="right">0.0049942</td>
+<td align="right">0.0201218</td>
 </tr>
 <tr class="even">
 <td align="right">750</td>
@@ -713,8 +736,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.09</td>
-<td align="right">0.0034646</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
 <td align="right">1000</td>
@@ -725,8 +748,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.09</td>
-<td align="right">0.0025382</td>
+<td align="right">0.02</td>
+<td align="right">0.0045342</td>
 </tr>
 <tr class="even">
 <td align="right">100</td>
@@ -738,7 +761,7 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.06</td>
-<td align="right">0.0221981</td>
+<td align="right">0.0038589</td>
 </tr>
 <tr class="odd">
 <td align="right">250</td>
@@ -749,8 +772,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.11</td>
-<td align="right">0.0118093</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
 </tr>
 <tr class="even">
 <td align="right">500</td>
@@ -761,8 +784,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.18</td>
-<td align="right">0.0061359</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
 </tr>
 <tr class="odd">
 <td align="right">750</td>
@@ -773,8 +796,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.27</td>
-<td align="right">0.0058557</td>
+<td align="right">0.05</td>
+<td align="right">0.0105100</td>
 </tr>
 <tr class="even">
 <td align="right">1000</td>
@@ -785,8 +808,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.36</td>
-<td align="right">0.0045422</td>
+<td align="right">0.06</td>
+<td align="right">0.0056736</td>
 </tr>
 <tr class="odd">
 <td align="right">100</td>
@@ -797,8 +820,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.34</td>
-<td align="right">0.0422215</td>
+<td align="right">0.03</td>
+<td align="right">0.0201218</td>
 </tr>
 <tr class="even">
 <td align="right">250</td>
@@ -809,8 +832,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.67</td>
-<td align="right">0.0288653</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
 <td align="right">500</td>
@@ -821,8 +844,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.98</td>
-<td align="right">0.0299628</td>
+<td align="right">0.02</td>
+<td align="right">0.0045342</td>
 </tr>
 <tr class="even">
 <td align="right">750</td>
@@ -833,8 +856,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.98</td>
-<td align="right">0.0291107</td>
+<td align="right">0.06</td>
+<td align="right">0.0038589</td>
 </tr>
 <tr class="odd">
 <td align="right">1000</td>
@@ -845,8 +868,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0261539</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
 </tr>
 <tr class="even">
 <td align="right">100</td>
@@ -857,8 +880,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.12</td>
-<td align="right">0.0282458</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
 </tr>
 <tr class="odd">
 <td align="right">250</td>
@@ -869,8 +892,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.27</td>
-<td align="right">0.0162111</td>
+<td align="right">0.05</td>
+<td align="right">0.0105100</td>
 </tr>
 <tr class="even">
 <td align="right">500</td>
@@ -881,8 +904,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.59</td>
-<td align="right">0.0151933</td>
+<td align="right">0.06</td>
+<td align="right">0.0056736</td>
 </tr>
 <tr class="odd">
 <td align="right">750</td>
@@ -893,8 +916,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.79</td>
-<td align="right">0.0131810</td>
+<td align="right">0.03</td>
+<td align="right">0.0201218</td>
 </tr>
 <tr class="even">
 <td align="right">1000</td>
@@ -905,8 +928,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.95</td>
-<td align="right">0.0121556</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
 <td align="right">100</td>
@@ -917,8 +940,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.32</td>
-<td align="right">0.0435790</td>
+<td align="right">0.02</td>
+<td align="right">0.0045342</td>
 </tr>
 <tr class="even">
 <td align="right">250</td>
@@ -929,8 +952,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.69</td>
-<td align="right">0.0332200</td>
+<td align="right">0.06</td>
+<td align="right">0.0038589</td>
 </tr>
 <tr class="odd">
 <td align="right">500</td>
@@ -941,8 +964,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.93</td>
-<td align="right">0.0275496</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
 </tr>
 <tr class="even">
 <td align="right">750</td>
@@ -953,8 +976,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.99</td>
-<td align="right">0.0270883</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
 </tr>
 <tr class="odd">
 <td align="right">1000</td>
@@ -965,8 +988,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0285619</td>
+<td align="right">0.05</td>
+<td align="right">0.0105100</td>
 </tr>
 <tr class="even">
 <td align="right">100</td>
@@ -977,8 +1000,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.45</td>
-<td align="right">0.0474981</td>
+<td align="right">0.06</td>
+<td align="right">0.0056736</td>
 </tr>
 <tr class="odd">
 <td align="right">250</td>
@@ -989,8 +1012,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.66</td>
-<td align="right">0.0336241</td>
+<td align="right">0.03</td>
+<td align="right">0.0201218</td>
 </tr>
 <tr class="even">
 <td align="right">500</td>
@@ -1001,8 +1024,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.95</td>
-<td align="right">0.0270068</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
 <td align="right">750</td>
@@ -1013,8 +1036,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0276285</td>
+<td align="right">0.02</td>
+<td align="right">0.0045342</td>
 </tr>
 <tr class="even">
 <td align="right">1000</td>
@@ -1025,8 +1048,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0274089</td>
+<td align="right">0.06</td>
+<td align="right">0.0038589</td>
 </tr>
 <tr class="odd">
 <td align="right">100</td>
@@ -1037,8 +1060,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.21</td>
-<td align="right">0.0419909</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
 </tr>
 <tr class="even">
 <td align="right">250</td>
@@ -1049,8 +1072,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.69</td>
-<td align="right">0.0302473</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
 </tr>
 <tr class="odd">
 <td align="right">500</td>
@@ -1061,8 +1084,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.95</td>
-<td align="right">0.0259048</td>
+<td align="right">0.05</td>
+<td align="right">0.0105100</td>
 </tr>
 <tr class="even">
 <td align="right">750</td>
@@ -1073,8 +1096,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0279083</td>
+<td align="right">0.06</td>
+<td align="right">0.0056736</td>
 </tr>
 <tr class="odd">
 <td align="right">1000</td>
@@ -1085,8 +1108,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0247672</td>
+<td align="right">0.03</td>
+<td align="right">0.0201218</td>
 </tr>
 <tr class="even">
 <td align="right">100</td>
@@ -1097,8 +1120,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.14</td>
-<td align="right">0.0304504</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
 <td align="right">250</td>
@@ -1109,8 +1132,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.30</td>
-<td align="right">0.0190707</td>
+<td align="right">0.02</td>
+<td align="right">0.0045342</td>
 </tr>
 <tr class="even">
 <td align="right">500</td>
@@ -1121,8 +1144,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.68</td>
-<td align="right">0.0156615</td>
+<td align="right">0.06</td>
+<td align="right">0.0038589</td>
 </tr>
 <tr class="odd">
 <td align="right">750</td>
@@ -1133,8 +1156,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.80</td>
-<td align="right">0.0128411</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
 </tr>
 <tr class="even">
 <td align="right">1000</td>
@@ -1145,8 +1168,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.88</td>
-<td align="right">0.0120095</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
 </tr>
 <tr class="odd">
 <td align="right">100</td>
@@ -1157,8 +1180,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.29</td>
-<td align="right">0.0506499</td>
+<td align="right">0.05</td>
+<td align="right">0.0105100</td>
 </tr>
 <tr class="even">
 <td align="right">250</td>
@@ -1169,8 +1192,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.65</td>
-<td align="right">0.0305847</td>
+<td align="right">0.06</td>
+<td align="right">0.0056736</td>
 </tr>
 <tr class="odd">
 <td align="right">500</td>
@@ -1181,8 +1204,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.90</td>
-<td align="right">0.0282262</td>
+<td align="right">0.03</td>
+<td align="right">0.0201218</td>
 </tr>
 <tr class="even">
 <td align="right">750</td>
@@ -1193,8 +1216,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0270273</td>
+<td align="right">0.04</td>
+<td align="right">0.0089694</td>
 </tr>
 <tr class="odd">
 <td align="right">1000</td>
@@ -1205,8 +1228,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.99</td>
-<td align="right">0.0244487</td>
+<td align="right">0.02</td>
+<td align="right">0.0045342</td>
 </tr>
 <tr class="even">
 <td align="right">100</td>
@@ -1217,8 +1240,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.29</td>
-<td align="right">0.0470180</td>
+<td align="right">0.06</td>
+<td align="right">0.0038589</td>
 </tr>
 <tr class="odd">
 <td align="right">250</td>
@@ -1229,8 +1252,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.72</td>
-<td align="right">0.0315701</td>
+<td align="right">0.04</td>
+<td align="right">0.0018504</td>
 </tr>
 <tr class="even">
 <td align="right">500</td>
@@ -1241,8 +1264,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.98</td>
-<td align="right">0.0263069</td>
+<td align="right">0.04</td>
+<td align="right">0.0238725</td>
 </tr>
 <tr class="odd">
 <td align="right">750</td>
@@ -1253,8 +1276,8 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0251115</td>
+<td align="right">0.05</td>
+<td align="right">0.0105100</td>
 </tr>
 <tr class="even">
 <td align="right">1000</td>
@@ -1265,11 +1288,22 @@ relatedness levels.</p>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">0.0273470</td>
+<td align="right">0.06</td>
+<td align="right">0.0056736</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="section level3">
+<h3 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h3>
+<p>This vignette demonstrates how to conduct a simulation-based power
+analysis for discordant sibling designs using the <code>discord</code>
+package. By varying genetic relatedness, ACE variance components, and
+covariate settings, we can assess the power of our designs to detect
+causal effects. The results highlight the importance of sample size and
+relatedness level in achieving sufficient power for these analyses.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -84,10 +84,6 @@ updated <code>ggplot2</code> tools.</p>
 <div class="section level3">
 <h3 id="data-cleaning">Data Cleaning<a class="anchor" aria-label="anchor" href="#data-cleaning"></a>
 </h3>
-</div>
-<div class="section level3">
-<h3 id="data-cleaning-1">Data Cleaning<a class="anchor" aria-label="anchor" href="#data-cleaning-1"></a>
-</h3>
 <p>This section reuses the data preparation pipeline developed in the
 regression vignette.<br>
 That vignette demonstrated how to set up data for discordant regression
@@ -179,24 +175,27 @@ vignette</a>.</p>
 <span>  demographics <span class="op">=</span> <span class="st">"both"</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">s00_h40_mean</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">flu_total_mean</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Specified id column does not contain unique values for each kin-pair.</span></span>
-<span><span class="co">## Adding row-wise ID for restructuring data into paired format for analysis.</span></span>
-<span><span class="co">## For more details, see &lt;https://github.com/R-Computing-Lab/discord/issues/6&gt;.</span></span></code></pre>
 <p>Because we are interested in differences between kin, we create a new
 variable, <code>ses_diff_group</code>, that classifies SES differences
 into three categories: “More Advantage”, “Equally Advantage”, and “Less
 Advantage”. This variable is later used to group observations in the
 marginal density plots.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_flu</span> <span class="op">&lt;-</span> <span class="va">discord_flu</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    <span class="co"># # Classify Difference Grouping</span></span>
-<span>    ses_diff_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.33</span> <span class="op">~</span> <span class="st">"More Advantage"</span>,</span>
-<span>                                      <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span> <span class="op">&lt;</span> <span class="op">-</span><span class="fl">0.33</span> <span class="op">~</span> <span class="st">"Less Advantage"</span>,</span>
-<span>                                      <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">0.33</span> <span class="op">~</span> <span class="st">"Equally Advantage"</span><span class="op">)</span>,</span>
-<span>                            levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Less Advantage"</span>,</span>
-<span>                                       <span class="st">"Equally Advantage"</span>,</span>
-<span>                                       <span class="st">"More Advantage"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    ses_diff_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.33</span> <span class="op">~</span> <span class="st">"More Advantage"</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span> <span class="op">&lt;</span> <span class="op">-</span><span class="fl">0.33</span> <span class="op">~</span> <span class="st">"Less Advantage"</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">0.33</span> <span class="op">~</span> <span class="st">"Equally Advantage"</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"Less Advantage"</span>,</span>
+<span>        <span class="st">"Equally Advantage"</span>,</span>
+<span>        <span class="st">"More Advantage"</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a color palette for the shading</span></span>
@@ -212,29 +211,38 @@ marginal density plots.</p>
 </h3>
 <p>This scatter plot shows individual SES at age 40 against individual
 flu vaccinations.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Individual level plot</span></span>
-<span><span class="va">individual_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">flu_modeling_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">s00_h40_s1</span>,</span>
-<span>                                                y <span class="op">=</span> <span class="va">flu_total_s1</span>,</span>
-<span>                                                color <span class="op">=</span> <span class="va">s00_h40_s1</span> <span class="op">-</span> <span class="va">s00_h40_s2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.8</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>             position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>w <span class="op">=</span> <span class="fl">0.2</span>, h <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">individual_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">flu_modeling_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">s00_h40_s1</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">flu_total_s1</span>,</span>
+<span>  color <span class="op">=</span> <span class="va">s00_h40_s1</span> <span class="op">-</span> <span class="va">s00_h40_s2</span></span>
+<span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    size <span class="op">=</span> <span class="fl">0.8</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.2</span>, height <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># added sibling 2 to the plot</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.8</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>             position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>w <span class="op">=</span> <span class="fl">0.2</span>, h <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span>
-<span>             <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>             x <span class="op">=</span> <span class="va">s00_h40_s2</span>,</span>
-<span>             y <span class="op">=</span> <span class="va">flu_total_s2</span>,</span>
-<span>             color <span class="op">=</span> <span class="va">s00_h40_s2</span> <span class="op">-</span> <span class="va">s00_h40_s1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    size <span class="op">=</span> <span class="fl">0.8</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>w <span class="op">=</span> <span class="fl">0.2</span>, h <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">s00_h40_s2</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">flu_total_s2</span>,</span>
+<span>      color <span class="op">=</span> <span class="va">s00_h40_s2</span> <span class="op">-</span> <span class="va">s00_h40_s1</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"Sibling\nDifferences\nin SES"</span>,</span>
 <span>    colours <span class="op">=</span> <span class="va">shading</span>,</span>
 <span>    na.value <span class="op">=</span> <span class="st">"#AD78B6"</span>,</span>
 <span>    values <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/rescale.html" class="external-link">rescale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">max_val</span>, <span class="va">max_val</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"SES at Age 40"</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"Flu Vaccination Count"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"SES at Age 40"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Flu Vaccination Count"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="co">#+</span></span>
 <span><span class="co">#  theme(legend.position = "none")</span></span>
 <span></span>
@@ -257,7 +265,7 @@ Marginal density plots display the distribution for each group.</p>
 </h4>
 <p>We overlay marginal density plots for SES and flu vaccinations,
 grouped by SES difference category.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Marginal X density (SES mean)</span></span>
 <span><span class="va">xdensity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">discord_flu</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">s00_h40_mean</span>, group <span class="op">=</span> <span class="va">ses_diff_group</span>, color <span class="op">=</span> <span class="va">ses_diff_group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density</a></span><span class="op">(</span>adjust <span class="op">=</span> <span class="fl">2</span>, linewidth <span class="op">=</span> <span class="fl">1</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
@@ -266,12 +274,13 @@ grouped by SES difference category.</p>
 <span>    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"firebrick1"</span>, <span class="st">"#AD78B6"</span>, <span class="st">"dodgerblue1"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"left"</span>,</span>
-<span>        axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,</span>
-<span>        legend.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span>        <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    legend.position <span class="op">=</span> <span class="st">"left"</span>,</span>
+<span>    axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,</span>
+<span>    legend.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Marginal Y density (Flu mean)</span></span>
@@ -282,26 +291,30 @@ grouped by SES difference category.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>        axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    legend.position <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>    axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p>These plots display the distributions of mean SES and flu
 vaccinations, grouped by SES difference category. Titles have been added
 for clarity.</p>
 <p><img src="plots_files/figure-html/unnamed-chunk-5-1.png" width="700"><img src="plots_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Blank placeholder plot</span></span>
 <span><span class="va">blankPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    </span>
+<span></span>
 <span><span class="co"># Final layout (true layout you originally had: AB above CC)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">arrangeGrob</a></span><span class="op">(</span><span class="va">xdensity</span>, <span class="va">blankPlot</span>, ncol <span class="op">=</span> <span class="fl">2</span>, widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">arrangeGrob</a></span><span class="op">(</span><span class="va">main_plot</span>, <span class="va">ydensity</span>, ncol <span class="op">=</span> <span class="fl">2</span>, widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>, <span class="fl">4</span><span class="op">)</span>,</span>
 <span>  top <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">textGrob</a></span><span class="op">(</span><span class="st">"Sibling Differences in SES and Flu Vaccinations"</span>,</span>
-<span>                 gp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fontsize<span class="op">=</span><span class="fl">20</span>,font<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    gp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>fontsize <span class="op">=</span> <span class="fl">20</span>, font <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre>
 <p><img src="plots_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Other ways to plot this data include using <code>facet_wrap</code> to
@@ -317,26 +330,32 @@ categories.</p>
 <p>This plot compares differences in SES at age 40 to differences in flu
 vaccinations, with points colored by SES difference. Marginal plots are
 omitted for simplicity but can be added using the same structure.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Within Family</span></span>
 <span><span class="co">## Setup: Use discord_data</span></span>
 <span></span>
 <span><span class="co"># Main scatter plot</span></span>
-<span><span class="va">main_plot_within</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">discord_flu</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">s00_h40_diff</span>,</span>
-<span>                                     y <span class="op">=</span> <span class="va">flu_total_diff</span>, colour <span class="op">=</span> <span class="va">s00_h40_diff</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.8</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>             position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>w <span class="op">=</span> <span class="fl">0.2</span>, h <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">main_plot_within</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">discord_flu</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">s00_h40_diff</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">flu_total_diff</span>, colour <span class="op">=</span> <span class="va">s00_h40_diff</span></span>
+<span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    size <span class="op">=</span> <span class="fl">0.8</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>w <span class="op">=</span> <span class="fl">0.2</span>, h <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_colour_gradientn</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"Sibling\nDifferences\nin SES"</span>,</span>
 <span>    colours <span class="op">=</span> <span class="va">shading</span>,</span>
 <span>    na.value <span class="op">=</span> <span class="st">"#AD78B6"</span>,</span>
-<span>    values <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/rescale.html" class="external-link">rescale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">discord_flu</span><span class="op">$</span><span class="va">s00_h40_diff</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>                               <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">discord_flu</span><span class="op">$</span><span class="va">s00_h40_diff</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>                               <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">discord_flu</span><span class="op">$</span><span class="va">s00_h40_diff</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>    values <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/rescale.html" class="external-link">rescale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">discord_flu</span><span class="op">$</span><span class="va">s00_h40_diff</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">discord_flu</span><span class="op">$</span><span class="va">s00_h40_diff</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">discord_flu</span><span class="op">$</span><span class="va">s00_h40_diff</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    <span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span> legend.position <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Diff SES at Age 40"</span>, y <span class="op">=</span> <span class="st">"Diff Flu Vaccinations (2006–2016)"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">main_plot_within</span></span></code></pre></div>
@@ -344,9 +363,9 @@ omitted for simplicity but can be added using the same structure.</p>
 <p>You can further facet this plot by the difference in SES between kin
 to see how the relationship varies across different groups. The
 following code does this and adds a title to the plot.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">main_plot_within</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">ses_diff_group</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">main_plot_within</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">ses_diff_group</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Within Family Differences in SES and Flu Vaccinations"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plots_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
