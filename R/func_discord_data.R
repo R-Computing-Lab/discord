@@ -47,7 +47,7 @@ discord_data <- function(data,
                          fast = TRUE,
                          ...) {
   if (fast) {
-    discord_data_fast(
+    unique(discord_data_fast(
       data = data,
       outcome = outcome,
       id = id,
@@ -58,9 +58,9 @@ discord_data <- function(data,
       predictors = predictors,
       coding_method = coding_method,
       ...
-    )
+    ))
   } else {
-    discord_data_ram_optimized(
+    unique(discord_data_ram_optimized(
       data = data,
       outcome = outcome,
       id = id,
@@ -71,7 +71,7 @@ discord_data <- function(data,
       predictors = predictors,
       coding_method = coding_method,
       ...
-    )
+    ))
   }
 }
 

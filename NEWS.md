@@ -6,6 +6,7 @@
 * Vectorizing `discord_data()` to improve performance.
 * Adding tests to ensure comparability between optimized and non-optimized versions of `discord_data()`.
 * Adding `discord_between_model()` to get the between-family model
+* Added unique filter for `discord_data()` to ensure that the data is not duplicated.
 
 # discord 1.2.3.1
 * More mild improvements to documentation

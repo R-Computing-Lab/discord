@@ -95,7 +95,6 @@ conditions <- expand.grid(
 For each condition, we simulate 100 replications of fitting discordant sibling models. We have kept the number of trials low for demonstration purposes, but you can increase `n_trials` for more robust power estimates. 
 
 ```{r}
-
 set.seed(1492) # Set seed for reproducibility
 n_trials <- 100
 FAST <- FALSE # Set to FALSE for slower, more detailed analysis
@@ -206,15 +205,27 @@ facet_labels <- list(
   cov_e = c("0" = "No Cov_E", "1" = "With Cov_E")
 )
 # Ensure factors with exact string levels
-final_results$cov_a <- factor(final_results$cov_a, levels = c(0, 0.25), 
-                              labels = c("No Covariate A",
-                                         "Covariate A (0.25)"))
-final_results$cov_c <- factor(final_results$cov_c, levels = c(0, 0.25), 
-                              labels = c("No Covariate C",
-                                         "Covariate C (0.25)"))
-final_results$cov_e <- factor(final_results$cov_e, levels = c(0, 0.25), 
-                              labels = c("No Covariate E",
-                                         "Covariate E (0.25)"))
+final_results$cov_a <- factor(final_results$cov_a,
+  levels = c(0, 0.25),
+  labels = c(
+    "No Covariate A",
+    "Covariate A (0.25)"
+  )
+)
+final_results$cov_c <- factor(final_results$cov_c,
+  levels = c(0, 0.25),
+  labels = c(
+    "No Covariate C",
+    "Covariate C (0.25)"
+  )
+)
+final_results$cov_e <- factor(final_results$cov_e,
+  levels = c(0, 0.25),
+  labels = c(
+    "No Covariate E",
+    "Covariate E (0.25)"
+  )
+)
 ```
 
 
@@ -266,7 +277,7 @@ p_noa <- ggplot(final_results_noa, aes(
     color = "Relatedness",
     fill = "Relatedness"
   ) +
-  theme_minimal() + 
+  theme_minimal() +
   geom_text(
     x = 600, y = 0.55, label = "False Positive Rate",
     data = data.frame(cov_c = "No Covariate C", cov_e = "No Covariate E"),
