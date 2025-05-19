@@ -8,7 +8,7 @@
 #' @return Matrix of dimension \code{n × ncol(sigma)} containing random samples
 #'   from the multivariate normal distribution.
 #' @keywords internal
-rmvn <- function(n, sigma) {
+.rmvn <- function(n, sigma) {
   Sh <- with(
     svd(sigma),
     v %*% diag(sqrt(d)) %*% t(u)
@@ -89,16 +89,17 @@ kinsim_internal <- function(
 
 
     # Generate data for each relatedness group
-    for (i in 1:length(r)) {
+#    for (i in 1:length(r)) {
+    for (i in seq_along(r)) {
       n <- npergroup[i]
 
       # Generate correlated genetic components based on relatedness
-      A.r <- sA * rmvn(n, sigma = diag(2) + S2 * r[i])
+      A.r <- sA * .rmvn(n, sigma = diag(2) + S2 * r[i])
 
       # Generate shared environmental components (same for both members)
       #     C.r <- stats::rnorm(n,sd = sC)
       #   C.r <- cbind(C.r,C.r )
-      C.r <- sC * rmvn(n, sigma = diag(2) + S2 * c_rel)
+      C.r <- sC * .rmvn(n, sigma = diag(2) + S2 * c_rel)
 
       # Generate non-shared environmental components (different for each member)
       E.r <- cbind(
@@ -140,7 +141,7 @@ kinsim_internal <- function(
     # Generate genetic components for each unique relatedness value
     for (i in 1:length(unique_r)) {
       n <- length(r_vector[r_vector == unique_r[i]])
-      A.rz <- sA * rmvn(n, sigma = diag(2) + S2 * unique_r[i])
+      A.rz <- sA * .rmvn(n, sigma = diag(2) + S2 * unique_r[i])
       data_vector$A.r1[data_vector$r_vector == unique_r[i]] <- A.rz[, 1]
       data_vector$A.r2[data_vector$r_vector == unique_r[i]] <- A.rz[, 2]
     }
@@ -149,7 +150,7 @@ kinsim_internal <- function(
       data_vector$A.r1,
       data_vector$A.r2
     ), ncol = 2)
-    C.r <- sC * rmvn(n, sigma = diag(2) + S2 * c_rel)
+    C.r <- sC * .rmvn(n, sigma = diag(2) + S2 * c_rel)
 
     E.r <- cbind(
       stats::rnorm(n, sd = sE),

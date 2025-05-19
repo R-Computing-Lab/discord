@@ -161,11 +161,13 @@ test_that("genetic correlation between variables is present when cov_a is non-ze
   expect_gt(cor_val, 0.1) # minimal expected correlation
 })
 
-test_that("kinsim handles r_vector input correctly", {
+test_that("kinsim handles r_vector and c_vecttor input correctly", {
   r_vec <- rep(c(1, 0.5), each = 100)
-  df <- kinsim(r_vector = r_vec)
+  c_vector <- rep(1, 200)
+  df <- kinsim(r_vector = r_vec, c_vector = c_vector)
   expect_equal(nrow(df), 200)
   expect_equal(df$r, r_vec)
+  expect_equal(df$C1_1, df$C1_2)
 })
 
 test_that("output has correct ID range", {
