@@ -1,6 +1,5 @@
 
-
-# discord 1.2.4
+# discord 1.2.4.1
 * Added a new vignette demonstrating ways to visualize discordant kinship data using the `ggplot2` package. 
 * Added a new vignette demonstrating how to conduct a power analysis.
 * Vectorizing `discord_data()` to improve performance.
@@ -8,6 +7,7 @@
 * Adding `discord_between_model()` to get the between-family model
 * Added unique filter for `discord_data()` to ensure that the data is not duplicated.
 * Added tests for categorical variables in `discord_data()`.
+* Added hotfix to BGmisc vignette.
 * Made hex sticker more generalizable
 
 # discord 1.2.3.1

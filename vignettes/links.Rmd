@@ -41,6 +41,7 @@ We begin by loading the required packages and a built-in dataset from {BGmisc}.
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(BGmisc)
+library(ggpedigree)
 library(tidyverse)
 library(discord)
 
@@ -76,7 +77,7 @@ df_potter <- checkSex(df_potter,
 
 
 ```{r echo=TRUE, fig.cap="Pedigree plot of the Potter dataset", fig.height=3, fig.width=4, message=FALSE, warning=FALSE}
-BGmisc::plotPedigree(df_potter, verbose = FALSE)
+ggpedigree(potter)
 ```
 
 The pedigree plot provides a visual representation of the kinship structure in the dataset. Each node represents an individual, and the edges indicate familial relationships. 
