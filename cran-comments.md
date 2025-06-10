@@ -17,7 +17,7 @@ As requested, removed duplicate reference to GPL3 license, and added license to 
     - Ubuntu (latest version) with:
         - The development version of R.
         - The latest R release.
-
+        - The penultimate release of R.
         
 ## R CMD check results
 
