@@ -28,12 +28,12 @@ discord_regression <- function(data,
                                data_processed = FALSE,
                                coding_method = "none",
                                fast = TRUE) {
- if( data_processed == TRUE & !is.data.frame(data) ) {
+  if (data_processed == TRUE & !is.data.frame(data)) {
     stop("data must be a data frame if data_processed is TRUE")
- }
-  if( data_processed == FALSE){
-  check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
-}
+  }
+  if (data_processed == FALSE) {
+    check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
+  }
   # if no demographics provided
   if (is.null(demographics)) {
     if (is.null(sex) & is.null(race)) {

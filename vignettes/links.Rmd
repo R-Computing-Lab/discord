@@ -77,8 +77,10 @@ df_potter <- checkSex(df_potter,
 
 
 ```{r echo=TRUE, fig.cap="Pedigree plot of the Potter dataset", fig.height=3, fig.width=4, message=FALSE, warning=FALSE}
-ggpedigree(potter, config=list(label_method = "geom_text",
-                               label_nudge_y = -.25)) +
+ggpedigree(potter, config = list(
+  label_method = "geom_text",
+  label_nudge_y = -.25
+)) +
   labs(title = "Pedigree Plot of the Potter Dataset") +
   theme(legend.position = "bottom")
 ```

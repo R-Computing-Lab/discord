@@ -89,7 +89,7 @@ kinsim_internal <- function(
 
 
     # Generate data for each relatedness group
-#    for (i in 1:length(r)) {
+    #    for (i in 1:length(r)) {
     for (i in seq_along(r)) {
       n <- npergroup[i]
 

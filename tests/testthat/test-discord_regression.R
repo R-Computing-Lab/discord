@@ -212,7 +212,6 @@ test_that("discord_data 'binary' coding excludes multi columns", {
 
 
 test_that("discord_data with sex coding returns expected columns and values", {
-
   set.seed(2023)
   data(data_flu_ses)
 
@@ -242,12 +241,11 @@ test_that("discord_data with sex coding returns expected columns and values", {
     coding_method    = "binary"
   )
 
-  expect_true("SEX_binarymatch"  %in% names(cat_sex_model$model))
-  expect_false("SEX_multimatch"   %in% names(cat_sex_model$model))
+  expect_true("SEX_binarymatch" %in% names(cat_sex_model$model))
+  expect_false("SEX_multimatch" %in% names(cat_sex_model$model))
 
   expect_false("RACE_binarymatch" %in% names(cat_sex_model$model))
   expect_false("RACE_multimatch" %in% names(cat_sex_model$model))
-
 })
 
 test_that("discord_data with race coding returns expected columns and values", {
@@ -280,8 +278,10 @@ test_that("discord_data with race coding returns expected columns and values", {
   expect_true(all(cat_race$RACE_binarymatch %in% c(0, 1)))
 
   # sample the distinct levels
-  expect_setequal(unique(cat_race$RACE_multimatch),
-                  c("NONMINORITY", "MINORITY"))
+  expect_setequal(
+    unique(cat_race$RACE_multimatch),
+    c("NONMINORITY", "MINORITY")
+  )
 
   expect_false("SEX_multimatch" %in% names(cat_race_model$model))
   expect_false("SEX_binarymatch" %in% names(cat_race_model$model))
@@ -303,19 +303,21 @@ test_that("discord_data 'both' coding returns binary and multi columns", {
   )
 
   cd_model <- discord_regression(
-    data             = cd,
+    data = cd,
     data_processed = TRUE,
-    outcome          = "S00_H40",
-    sex              = "SEX",
-    race             = "RACE",
-    demographics     = "both",
-    predictors       = NULL,
+    outcome = "S00_H40",
+    sex = "SEX",
+    race = "RACE",
+    demographics = "both",
+    predictors = NULL,
     pair_identifiers = c("_S1", "_S2"),
-    coding_method    = "multi"
+    coding_method = "multi"
   )
-  expect_true(all(c( "SEX_multimatch",
-                    "RACE_multimatch") %in%
-                    names(cd_model$model)))
+  expect_true(all(c(
+    "SEX_multimatch",
+    "RACE_multimatch"
+  ) %in%
+    names(cd_model$model)))
 
   expect_false("SEX_binarymatch" %in% names(cd_model$model))
   expect_false("RACE_binarymatch" %in% names(cd_model$model))
@@ -343,4 +345,3 @@ test_that("discord_regression returns a model with coefficients", {
   coefs <- broom::tidy(dr_mod)
   expect_true(nrow(coefs) > 0)
 })
-
