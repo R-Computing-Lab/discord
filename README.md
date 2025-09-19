@@ -58,7 +58,7 @@ To cite package 'discord' in publications use:
   Garrison S, Trattner J, Hwang Y (2025). _discord: Functions for
   Discordant Kinship Modeling_. doi:10.32614/CRAN.package.discord
   <https://doi.org/10.32614/CRAN.package.discord>, R package version
-  1.2.3, <https://CRAN.R-project.org/package=discord>.
+  1.2.4.1, <https://CRAN.R-project.org/package=discord>.
 
 A BibTeX entry for LaTeX users is
 
@@ -66,7 +66,7 @@ A BibTeX entry for LaTeX users is
     title = {discord: Functions for Discordant Kinship Modeling},
     author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
     year = {2025},
-    note = {R package version 1.2.3},
+    note = {R package version 1.2.4.1},
     url = {https://CRAN.R-project.org/package=discord},
     doi = {10.32614/CRAN.package.discord},
   }
