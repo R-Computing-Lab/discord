@@ -91,6 +91,7 @@ The pedigree plot provides a visual representation of the kinship structure in t
 # Constructing Kinship Links
 
 To extract the necessary kinship information, we need to compute two matrices: the additive genetic relatedness matrix and the shared environment matrix. These matrices are derived from the pedigree data and are essential for understanding the genetic and environmental relationships among individuals.
+
 Using {BGmisc}, we compute:
 
 - The additive genetic relatedness matrix (add).
@@ -161,6 +162,8 @@ syn_df <- discord::kinsim(
     E1_1, E1_2, E2_1, E2_2,
     r
   ))
+
+
 ```
 
 The simulated data reflect a known variance structure: additive genetic covariance = .4, genetic correlation = 0.125, no shared environment, and residual (unique environment) variance = 0.4. Latent component scores are excluded from the final dataset, but they can be useful for debugging and understanding the underlying structure of the data.
@@ -170,8 +173,10 @@ We bind the simulated outcome data to the cousin link data to prepare it for mod
 ```{r}
 data_demo <- cbind(df_cousin, syn_df)
 
-
+data_demo %>% arrange(ID1, ID2)
 summary(data_demo)
+
+data_demo %>% slice(1:10) %>% knitr::kable()
 ```
 
 The `data_demo` data frame now contains the kinship information along with the simulated outcome variables y1 and y2. Each row represents a pair of cousins, and the columns include the IDs of the individuals, their relatedness, and the simulated phenotypic data.
@@ -194,9 +199,29 @@ model_output <- discord_regression(
   pair_identifiers = c("_1", "_2")
 )
 summary(model_output)
+
 ```
 
 The output of the model includes estimates of the regression coefficients, standard errors, and p-values for the association between the two outcome variables.
+
+# Alternative Specifications
+
+```{r}
+
+model_output <- discord_data(
+  data = data_demo,
+  outcome = "y1",
+  predictors = "y2",
+  id = "id",
+  sex = NULL,
+  race = NULL,
+  pair_identifiers = c("_1", "_2")
+)
+summary(model_output)
+
+```
+
+
 
 
 # Conclusion
