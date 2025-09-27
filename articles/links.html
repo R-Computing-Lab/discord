@@ -33,11 +33,11 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/categorical_predictors.html">Demonstrating Categorical Predictors in Discordant-Kinship Regressions</a></li>
+<li><a class="dropdown-item" href="../articles/categorical_predictors.html">Demonstrating categorical predictors</a></li>
     <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
     <li><a class="dropdown-item" href="../articles/plots.html">Plots</a></li>
     <li><a class="dropdown-item" href="../articles/Power.html">Power</a></li>
-    <li><a class="dropdown-item" href="../articles/regression.html">Regression demonstration</a></li>
+    <li><a class="dropdown-item" href="../articles/regression.html">Regression demonstration with Flu Vaccination and SES data</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -145,7 +145,8 @@ edges indicate familial relationships.</p>
 matrices: the additive genetic relatedness matrix and the shared
 environment matrix. These matrices are derived from the pedigree data
 and are essential for understanding the genetic and environmental
-relationships among individuals. Using {BGmisc}, we compute:</p>
+relationships among individuals.</p>
+<p>Using {BGmisc}, we compute:</p>
 <ul>
 <li><p>The additive genetic relatedness matrix (add).</p></li>
 <li><p>The shared environment matrix (cn), indicating whether kin were
@@ -170,7 +171,8 @@ are removed.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/com2links.html" class="external-link">com2links</a></span><span class="op">(</span></span>
 <span>  writetodisk <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  ad_ped_matrix <span class="op">=</span> <span class="va">add</span>, cn_ped_matrix <span class="op">=</span> <span class="va">cn</span>,</span>
+<span>  ad_ped_matrix <span class="op">=</span> <span class="va">add</span>,</span>
+<span>  cn_ped_matrix <span class="op">=</span> <span class="va">cn</span>,</span>
 <span>  drop_upper_triangular <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ID1</span> <span class="op">!=</span> <span class="va">ID2</span><span class="op">)</span></span>
@@ -248,6 +250,34 @@ are removed.</p>
 </tr>
 </tbody>
 </table>
+<p>As you can see, the <code>df_links</code> data frame contains pairs
+of individuals (ID1 and ID2) along with their additive genetic
+relatedness (<code>addRel</code>) and shared environment status
+(<code>cnuRel</code>). These data are in wide format, with each row
+representing a unique pair of individuals.</p>
+<p>Further, we can tally the number of pairs by relatedness and shared
+environment to understand the composition of the dataset.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">addRel</span>, <span class="va">cnuRel</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   addRel [4]</span></span></span>
+<span><span class="co">#&gt;   addRel cnuRel     n</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 0.062<span style="text-decoration: underline;">5</span>      0     3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 0.125       0    47</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 0.25        0   104</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 0.5         0    50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 0.5         1    32</span></span></code></pre></div>
+<p>As you can see, the dataset contains a variety of kinship pairs,
+including full siblings, parent-child, aunt-nephew, cousins, and
+unrelated individuals, with varying degrees of shared environment.</p>
+<p>For this demonstration, we will focus on cousins. Cousins share some
+genetic relatedness but typically do not share the same environment. (In
+contrast, full siblings share both genetic relatedness and environment.
+Half-siblings share genetic relatedness but sometimes do not share the
+same environment, making them less ideal for this demonstration.)</p>
 <p>We then extract two subsets:</p>
 <ul>
 <li><p>Full siblings: additive relatedness = 0.5 and shared environment
@@ -255,31 +285,46 @@ are removed.</p>
 <li><p>Cousins: additive relatedness = 0.125 and shared environment =
 0</p></li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_sim</span> <span class="op">&lt;-</span> <span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_siblings</span> <span class="op">&lt;-</span> <span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">addRel</span> <span class="op">==</span> <span class="fl">.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># only full siblings %&gt;%</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnuRel</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># only kin raised in the same home</span></span>
 <span></span>
 <span><span class="va">df_cousin</span> <span class="op">&lt;-</span> <span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">addRel</span> <span class="op">==</span> <span class="fl">.125</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># only cousins %&gt;%</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnuRel</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># only kin raised in separate homes</span></span></code></pre></div>
+<p>Now for the rest of the vignette, we will use the cousin subset
+(<code>df_cousin</code>) to illustrate the process of simulating
+phenotypic data and fitting a discordant-kinship regression model.
+However, given the small sample size of cousins in this dataset, we will
+simulate four datasets worth of cousins and combine them to increase the
+sample size.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_cousin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="va">df_cousin</span>,</span>
+<span>  <span class="va">df_cousin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ID1 <span class="op">=</span> <span class="va">ID1</span> <span class="op">+</span> <span class="fl">1000</span>, ID2 <span class="op">=</span> <span class="va">ID2</span> <span class="op">+</span> <span class="fl">1000</span><span class="op">)</span>,</span>
+<span>  <span class="va">df_cousin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ID1 <span class="op">=</span> <span class="va">ID1</span> <span class="op">+</span> <span class="fl">2000</span>, ID2 <span class="op">=</span> <span class="va">ID2</span> <span class="op">+</span> <span class="fl">2000</span><span class="op">)</span>,</span>
+<span>  <span class="va">df_cousin</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ID1 <span class="op">=</span> <span class="va">ID1</span> <span class="op">+</span> <span class="fl">3000</span>, ID2 <span class="op">=</span> <span class="va">ID2</span> <span class="op">+</span> <span class="fl">3000</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="simulate-phenotypic-data">Simulate Phenotypic Data<a class="anchor" aria-label="anchor" href="#simulate-phenotypic-data"></a>
 </h2>
 <p>To simulate phenotypic data, we need to create a data frame that
 includes the kinship information and the outcome variables. We will
-simulate two outcome variables (y1 and y2) for each cousin pair in the
+simulate two outcome variables (y1 and y2) for each kin pair in the
 dataset. The <code><a href="../reference/kinsim.html">kinsim()</a></code> function from {discord} is used to
-generate the simulated data based on the specified variance
-structure.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+generate the simulated data based on the specified variance structure.
+For convenience, we will generate data for all the cousins in
+<code>df_links</code>. However, we could also generate data for the full
+siblings or any other kinship pairs.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">syn_df</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
-<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  cov_a <span class="op">=</span> <span class="fl">.4</span>,</span>
 <span>  cov_e <span class="op">=</span> <span class="fl">.4</span>,</span>
-<span>  c_all <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  c_vector <span class="op">=</span> <span class="va">df_cousin</span><span class="op">$</span><span class="va">cnuRel</span>,</span>
 <span>  r_vector <span class="op">=</span> <span class="va">df_cousin</span><span class="op">$</span><span class="va">addRel</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -289,32 +334,502 @@ structure.</p>
 <span>    <span class="va">r</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The simulated data reflect a known variance structure: additive
-genetic covariance = .4, genetic correlation = 0.125, no shared
+genetic covariance = .4, genetic relatedness of 0.125, no shared
 environment, and residual (unique environment) variance = 0.4. Latent
-component scores are excluded from the final dataset, but they can be
+component scores are dropped from the final dataset, but they can be
 useful for debugging and understanding the underlying structure of the
 data.</p>
-<p>We bind the simulated outcome data to the cousin link data to prepare
-it for modeling.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>We bind the simulated outcome data to the links data to prepare it
+for modeling.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df_cousin</span>, <span class="va">syn_df</span><span class="op">)</span></span>
 <span></span>
-<span></span>
+<span><span class="va">data_demo</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">ID1</span>, <span class="va">ID2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      ID1  ID2 addRel cnuRel        y1_1        y1_2         y2_1        y2_2</span></span>
+<span><span class="co">#&gt; 1      3   21  0.125      0  0.69846814 -0.94636348  0.920375422  0.87956344</span></span>
+<span><span class="co">#&gt; 2      3   22  0.125      0  3.40823165  0.17476391  4.545797248  0.27764247</span></span>
+<span><span class="co">#&gt; 3      3   23  0.125      0 -1.94372204 -1.45718300  2.836008802  2.43565764</span></span>
+<span><span class="co">#&gt; 4      6    7  0.125      0  3.01882933  5.15425162  0.704106398  0.93334805</span></span>
+<span><span class="co">#&gt; 5     21   24  0.125      0  0.50565312  0.07001350  1.127500331  4.28525278</span></span>
+<span><span class="co">#&gt; 6     21   25  0.125      0 -0.32320318 -0.33395629  4.726914459  1.85020416</span></span>
+<span><span class="co">#&gt; 7     21   26  0.125      0  0.63227002  0.62905494  2.260364719  1.32571921</span></span>
+<span><span class="co">#&gt; 8     21   27  0.125      0 -0.31606328  3.82847961 -0.928464875  2.00919033</span></span>
+<span><span class="co">#&gt; 9     21   28  0.125      0  4.08069628  1.50350387  2.867664982  1.77157482</span></span>
+<span><span class="co">#&gt; 10    21   29  0.125      0 -1.95737955  0.70051737  0.008410092  2.07361756</span></span>
+<span><span class="co">#&gt; 11    21   30  0.125      0  1.70970996  1.05415555  1.782903640  1.79155270</span></span>
+<span><span class="co">#&gt; 12    21  103  0.125      0  2.06682749  1.65011592  2.187000009  1.20469998</span></span>
+<span><span class="co">#&gt; 13    21  104  0.125      0  1.14229170 -0.19141877  0.792392616  1.18283278</span></span>
+<span><span class="co">#&gt; 14    22   24  0.125      0  0.10668397  1.59669587 -0.487594881  1.75466144</span></span>
+<span><span class="co">#&gt; 15    22   25  0.125      0  1.16168365  0.41534542  2.608283934  1.47646921</span></span>
+<span><span class="co">#&gt; 16    22   26  0.125      0  1.31783290 -0.03437594  4.609091853  0.89717615</span></span>
+<span><span class="co">#&gt; 17    22   27  0.125      0  0.60695320  2.18907810  1.287713853  2.57998769</span></span>
+<span><span class="co">#&gt; 18    22   28  0.125      0  0.64517182 -0.84749188  3.601714590  1.49074954</span></span>
+<span><span class="co">#&gt; 19    22   29  0.125      0  0.23819640  0.22751924  2.347311337  3.30945449</span></span>
+<span><span class="co">#&gt; 20    22   30  0.125      0  0.29585492  2.68083606  1.255927432  1.32303233</span></span>
+<span><span class="co">#&gt; 21    22  103  0.125      0  0.61098830  1.71517941  3.044302316  1.84972968</span></span>
+<span><span class="co">#&gt; 22    22  104  0.125      0 -0.38405444  4.37461931  0.133794183  2.12651574</span></span>
+<span><span class="co">#&gt; 23    23   24  0.125      0  1.22764109  2.47305999  1.091900867  0.94020534</span></span>
+<span><span class="co">#&gt; 24    23   25  0.125      0  2.02299360  1.76964074  3.246089835 -0.67759088</span></span>
+<span><span class="co">#&gt; 25    23   26  0.125      0  2.65651806  3.13207779 -2.440870298  0.80347887</span></span>
+<span><span class="co">#&gt; 26    23   27  0.125      0  3.20883406  4.97559692  5.728700996  4.79207586</span></span>
+<span><span class="co">#&gt; 27    23   28  0.125      0  2.14002232  1.77686133  1.561928173 -2.27507118</span></span>
+<span><span class="co">#&gt; 28    23   29  0.125      0  1.97789035  3.61150936  2.540224327  4.89868499</span></span>
+<span><span class="co">#&gt; 29    23   30  0.125      0 -0.28597900  2.31880167  1.522478333  3.15312027</span></span>
+<span><span class="co">#&gt; 30    23  103  0.125      0  1.25830077  2.56570250  2.124383422  0.94834372</span></span>
+<span><span class="co">#&gt; 31    23  104  0.125      0 -1.73002590  0.25970615  1.968454264  1.74940144</span></span>
+<span><span class="co">#&gt; 32    24   26  0.125      0  4.63606567  3.17611587  4.046641787 -0.37020995</span></span>
+<span><span class="co">#&gt; 33    24   27  0.125      0  3.91419476  5.21805811  3.353984387  3.64524852</span></span>
+<span><span class="co">#&gt; 34    24   28  0.125      0  1.18870807  2.46329166  1.085839815  5.59984940</span></span>
+<span><span class="co">#&gt; 35    24   29  0.125      0  2.63545918  4.55539599  0.987938143  3.17816912</span></span>
+<span><span class="co">#&gt; 36    24   30  0.125      0 -1.73645162 -0.66918356  0.620498160  1.31457695</span></span>
+<span><span class="co">#&gt; 37    25   26  0.125      0  4.40528856  2.56768987  4.316321007  1.81883759</span></span>
+<span><span class="co">#&gt; 38    25   27  0.125      0  4.39406665  4.45812180  5.449926010  6.78769670</span></span>
+<span><span class="co">#&gt; 39    25   28  0.125      0  1.92473158  2.92607522  1.028981788  3.65074244</span></span>
+<span><span class="co">#&gt; 40    25   29  0.125      0  1.44725719 -0.68754952  1.918919094  3.20822306</span></span>
+<span><span class="co">#&gt; 41    25   30  0.125      0 -0.77502103  0.35202165 -1.142066713  1.83747531</span></span>
+<span><span class="co">#&gt; 42    26   29  0.125      0  2.86533392  1.38588316  5.783580786  4.02286105</span></span>
+<span><span class="co">#&gt; 43    26   30  0.125      0  1.83054314  4.36852908  0.538535089  1.01900506</span></span>
+<span><span class="co">#&gt; 44    27   29  0.125      0  1.14203289  2.45824537  1.908453123  0.88470985</span></span>
+<span><span class="co">#&gt; 45    27   30  0.125      0  1.77537479  0.87306128  1.751892601  3.49409381</span></span>
+<span><span class="co">#&gt; 46    28   29  0.125      0  2.59893560  3.57686790  1.249120243  2.53547824</span></span>
+<span><span class="co">#&gt; 47    28   30  0.125      0  3.60956359  2.12462877  4.330495330  3.48404661</span></span>
+<span><span class="co">#&gt; 48  1003 1021  0.125      0  1.97005047  0.86691992  3.631197656  2.20815334</span></span>
+<span><span class="co">#&gt; 49  1003 1022  0.125      0 -0.15759982 -0.41923324  3.150476415  1.38444915</span></span>
+<span><span class="co">#&gt; 50  1003 1023  0.125      0  1.58157176  1.07812202  3.368944830  0.58233747</span></span>
+<span><span class="co">#&gt; 51  1006 1007  0.125      0  1.02561600  1.18820265  4.839705156  4.11321093</span></span>
+<span><span class="co">#&gt; 52  1021 1024  0.125      0  4.09898798  4.41780710  2.356276650  2.48734185</span></span>
+<span><span class="co">#&gt; 53  1021 1025  0.125      0  0.61923263  0.52475541  0.386341967  2.27451119</span></span>
+<span><span class="co">#&gt; 54  1021 1026  0.125      0  0.27188594  4.59616061  2.220132171  3.46335522</span></span>
+<span><span class="co">#&gt; 55  1021 1027  0.125      0  3.24118586  4.52126835  1.310222584  3.60144597</span></span>
+<span><span class="co">#&gt; 56  1021 1028  0.125      0  2.76422054  0.34599818  0.207905244  0.24019578</span></span>
+<span><span class="co">#&gt; 57  1021 1029  0.125      0  2.45912415  4.00315580  1.252753115  0.49789009</span></span>
+<span><span class="co">#&gt; 58  1021 1030  0.125      0  1.14402607  2.88778769  1.089960632  2.33271469</span></span>
+<span><span class="co">#&gt; 59  1021 1103  0.125      0  0.25594259  1.17784922  0.770764924  4.41577350</span></span>
+<span><span class="co">#&gt; 60  1021 1104  0.125      0  0.32445587  1.81049085 -0.244551632  4.44735120</span></span>
+<span><span class="co">#&gt; 61  1022 1024  0.125      0 -1.24667825  2.85584665 -2.959229330  4.02400566</span></span>
+<span><span class="co">#&gt; 62  1022 1025  0.125      0  2.05539924  3.66501205  2.013244451  1.86203992</span></span>
+<span><span class="co">#&gt; 63  1022 1026  0.125      0  3.65491976  6.15431123 -0.202493502  0.32969429</span></span>
+<span><span class="co">#&gt; 64  1022 1027  0.125      0  1.16406220  3.81316688  1.276968823  0.90232357</span></span>
+<span><span class="co">#&gt; 65  1022 1028  0.125      0  0.86448282  2.95959568  0.599598152  0.71448731</span></span>
+<span><span class="co">#&gt; 66  1022 1029  0.125      0  3.58532908  3.99371218  6.378181325  5.47584129</span></span>
+<span><span class="co">#&gt; 67  1022 1030  0.125      0  1.69497955  2.86669091 -0.225854290 -0.81749862</span></span>
+<span><span class="co">#&gt; 68  1022 1103  0.125      0  1.40431244  2.88463385  4.607148200  5.91609649</span></span>
+<span><span class="co">#&gt; 69  1022 1104  0.125      0  4.27152819  0.30722793  4.872168397  3.64951112</span></span>
+<span><span class="co">#&gt; 70  1023 1024  0.125      0  3.59158082  3.38144551  0.952843381  3.40585862</span></span>
+<span><span class="co">#&gt; 71  1023 1025  0.125      0  3.88499849  3.19639146  0.586539169 -0.14286518</span></span>
+<span><span class="co">#&gt; 72  1023 1026  0.125      0  0.67531549  2.15256522  1.948371322 -0.07765736</span></span>
+<span><span class="co">#&gt; 73  1023 1027  0.125      0  4.26096106  3.81601896  1.691358704  1.77031286</span></span>
+<span><span class="co">#&gt; 74  1023 1028  0.125      0  2.99906768  1.35737104  3.195730118 -0.13214421</span></span>
+<span><span class="co">#&gt; 75  1023 1029  0.125      0  2.88522812  2.58155270  3.001070723  4.76937503</span></span>
+<span><span class="co">#&gt; 76  1023 1030  0.125      0  1.75123355  2.96488921 -1.035578410  0.03823606</span></span>
+<span><span class="co">#&gt; 77  1023 1103  0.125      0  2.43846989  3.06971490  0.123468616  3.32049729</span></span>
+<span><span class="co">#&gt; 78  1023 1104  0.125      0  1.93017752  1.39917782  2.433469579  2.16233863</span></span>
+<span><span class="co">#&gt; 79  1024 1026  0.125      0 -0.43374688 -0.06272909  4.982572634  2.60994865</span></span>
+<span><span class="co">#&gt; 80  1024 1027  0.125      0  2.21803221  1.23787061  1.126569563  0.93694929</span></span>
+<span><span class="co">#&gt; 81  1024 1028  0.125      0  1.38870183  4.16369227 -0.692760735  0.71367105</span></span>
+<span><span class="co">#&gt; 82  1024 1029  0.125      0  1.58310104 -1.26832941  1.329082525  1.95908061</span></span>
+<span><span class="co">#&gt; 83  1024 1030  0.125      0  1.32035834  4.85643317  3.302375894  2.51316624</span></span>
+<span><span class="co">#&gt; 84  1025 1026  0.125      0  3.59676436  2.04180467  2.912525670  5.15465238</span></span>
+<span><span class="co">#&gt; 85  1025 1027  0.125      0  1.10099308  1.46007986  3.710292891  5.09908936</span></span>
+<span><span class="co">#&gt; 86  1025 1028  0.125      0  4.59312035  4.36154651  1.681457524  2.28199151</span></span>
+<span><span class="co">#&gt; 87  1025 1029  0.125      0  0.61848274  0.36035748  6.497993750  2.50039040</span></span>
+<span><span class="co">#&gt; 88  1025 1030  0.125      0  3.48832726  3.34003451  0.362942463 -2.32757983</span></span>
+<span><span class="co">#&gt; 89  1026 1029  0.125      0 -1.08618410 -0.24153814  0.913675780  0.44234687</span></span>
+<span><span class="co">#&gt; 90  1026 1030  0.125      0  0.35884886  3.88177318 -0.681890293  1.36569217</span></span>
+<span><span class="co">#&gt; 91  1027 1029  0.125      0  1.52733343  2.64921283  5.646962827  3.72562085</span></span>
+<span><span class="co">#&gt; 92  1027 1030  0.125      0  3.16252779  4.33411425  2.979207093  5.05642709</span></span>
+<span><span class="co">#&gt; 93  1028 1029  0.125      0 -0.10878472  0.21797880  1.635037625  1.67453784</span></span>
+<span><span class="co">#&gt; 94  1028 1030  0.125      0  3.11922568  1.69961400  4.270490471  0.15978179</span></span>
+<span><span class="co">#&gt; 95  2003 2021  0.125      0  0.01008397  2.44158723  1.322590152  2.33622972</span></span>
+<span><span class="co">#&gt; 96  2003 2022  0.125      0  2.01934447  2.95303985  1.236639184  2.02773182</span></span>
+<span><span class="co">#&gt; 97  2003 2023  0.125      0  0.26860603  1.67712628  1.516460509  2.66787015</span></span>
+<span><span class="co">#&gt; 98  2006 2007  0.125      0  1.44467994 -0.68939671  3.430320437  1.73366172</span></span>
+<span><span class="co">#&gt; 99  2021 2024  0.125      0  2.23342467  0.59073535  2.527318154  2.72603021</span></span>
+<span><span class="co">#&gt; 100 2021 2025  0.125      0  1.80353492  1.90511687  2.797104308  2.21214100</span></span>
+<span><span class="co">#&gt; 101 2021 2026  0.125      0  1.10039888  0.87537897 -2.108694064 -0.20026249</span></span>
+<span><span class="co">#&gt; 102 2021 2027  0.125      0  1.48005433  0.54139392  4.939996901 -1.53868372</span></span>
+<span><span class="co">#&gt; 103 2021 2028  0.125      0  3.40507461  1.87489676  5.818278830  3.72290982</span></span>
+<span><span class="co">#&gt; 104 2021 2029  0.125      0  1.02992789  1.01430745  0.633210514  0.77333629</span></span>
+<span><span class="co">#&gt; 105 2021 2030  0.125      0  0.73843784  3.41853478  1.370284646  2.40891773</span></span>
+<span><span class="co">#&gt; 106 2021 2103  0.125      0  1.83515087 -0.24408870  0.519215576  0.73095029</span></span>
+<span><span class="co">#&gt; 107 2021 2104  0.125      0  1.86076376  2.11784844  0.261609339 -1.86684480</span></span>
+<span><span class="co">#&gt; 108 2022 2024  0.125      0  6.03581109  0.87870788  2.163792006  1.93584311</span></span>
+<span><span class="co">#&gt; 109 2022 2025  0.125      0  2.20781859  2.22768530  5.595201840  2.57560949</span></span>
+<span><span class="co">#&gt; 110 2022 2026  0.125      0  2.16656823  3.14739351  1.401375351 -0.82456389</span></span>
+<span><span class="co">#&gt; 111 2022 2027  0.125      0  0.33960815  0.50426109 -0.033185453  1.63945645</span></span>
+<span><span class="co">#&gt; 112 2022 2028  0.125      0  2.59337726  2.53547772  1.422447358  1.06792557</span></span>
+<span><span class="co">#&gt; 113 2022 2029  0.125      0  3.53585567  2.72955386  4.309858841  2.00404090</span></span>
+<span><span class="co">#&gt; 114 2022 2030  0.125      0  0.24191951  1.61860826  2.961277893  2.97456886</span></span>
+<span><span class="co">#&gt; 115 2022 2103  0.125      0  2.76259013  2.99805201  2.879406044  2.04825804</span></span>
+<span><span class="co">#&gt; 116 2022 2104  0.125      0  0.17863724  2.32111598  0.989582532  1.90574311</span></span>
+<span><span class="co">#&gt; 117 2023 2024  0.125      0  0.85413022 -0.32477344  2.001552441 -0.80069432</span></span>
+<span><span class="co">#&gt; 118 2023 2025  0.125      0 -0.14438991  3.88321536  1.891014193  2.00181430</span></span>
+<span><span class="co">#&gt; 119 2023 2026  0.125      0  0.95286359  3.43715198  0.916249062  5.10745059</span></span>
+<span><span class="co">#&gt; 120 2023 2027  0.125      0 -1.10226117  2.05078301  0.946049664  1.99646315</span></span>
+<span><span class="co">#&gt; 121 2023 2028  0.125      0 -0.19377461  0.62219590  5.828265237  1.96073720</span></span>
+<span><span class="co">#&gt; 122 2023 2029  0.125      0  2.01484951  1.85046488  2.381261527  1.20398637</span></span>
+<span><span class="co">#&gt; 123 2023 2030  0.125      0 -0.74965765  1.64923567 -0.539468692  3.38459278</span></span>
+<span><span class="co">#&gt; 124 2023 2103  0.125      0  0.50969692  2.64555462  3.120357717  2.98949647</span></span>
+<span><span class="co">#&gt; 125 2023 2104  0.125      0  3.04450676  2.46671868 -0.403829763  0.10458979</span></span>
+<span><span class="co">#&gt; 126 2024 2026  0.125      0  2.51986484  3.93154528  1.113910477  1.61168605</span></span>
+<span><span class="co">#&gt; 127 2024 2027  0.125      0  2.53019627  1.60585604  1.988084132  0.47649356</span></span>
+<span><span class="co">#&gt; 128 2024 2028  0.125      0  4.27475318  0.95053455  0.029041203 -1.17864367</span></span>
+<span><span class="co">#&gt; 129 2024 2029  0.125      0  1.15161991  5.78313763  3.294968782  6.23941239</span></span>
+<span><span class="co">#&gt; 130 2024 2030  0.125      0 -0.34503000 -1.06570049 -0.395208953  3.52886851</span></span>
+<span><span class="co">#&gt; 131 2025 2026  0.125      0  2.11080593 -1.31638895  2.620668208  0.60045839</span></span>
+<span><span class="co">#&gt; 132 2025 2027  0.125      0  4.72982427  1.59253143  4.793803346  3.02691709</span></span>
+<span><span class="co">#&gt; 133 2025 2028  0.125      0  2.20746340  1.16728822 -0.897716639  1.87890973</span></span>
+<span><span class="co">#&gt; 134 2025 2029  0.125      0  3.94616445  3.05117068  5.174353420  0.94910996</span></span>
+<span><span class="co">#&gt; 135 2025 2030  0.125      0  1.06814719  1.79692613  1.494132136 -0.30824558</span></span>
+<span><span class="co">#&gt; 136 2026 2029  0.125      0  3.55379258  2.54987701  1.553701091  2.76705626</span></span>
+<span><span class="co">#&gt; 137 2026 2030  0.125      0  1.62559671  0.41623414  1.798336555  3.35331044</span></span>
+<span><span class="co">#&gt; 138 2027 2029  0.125      0  1.51625614  1.58330224  0.548875650  1.22092007</span></span>
+<span><span class="co">#&gt; 139 2027 2030  0.125      0  3.12610673  1.79950357  4.002116182  3.44915127</span></span>
+<span><span class="co">#&gt; 140 2028 2029  0.125      0 -0.37933517  1.20077497  1.034803595  2.59159702</span></span>
+<span><span class="co">#&gt; 141 2028 2030  0.125      0  0.08028772  2.54972068  0.673647068  3.34630930</span></span>
+<span><span class="co">#&gt; 142 3003 3021  0.125      0  4.65901585  2.46208313  1.147799043  0.30225144</span></span>
+<span><span class="co">#&gt; 143 3003 3022  0.125      0  3.81028920  4.59435753  6.783472656  4.26143539</span></span>
+<span><span class="co">#&gt; 144 3003 3023  0.125      0  2.84216887  4.63638366  2.467818845  3.39928514</span></span>
+<span><span class="co">#&gt; 145 3006 3007  0.125      0  5.95134313  3.09842371  2.636060952  2.19043814</span></span>
+<span><span class="co">#&gt; 146 3021 3024  0.125      0  2.54173633  3.11894396  2.295140123  3.32239768</span></span>
+<span><span class="co">#&gt; 147 3021 3025  0.125      0 -0.38298492 -1.52546840  3.515103858  2.67872699</span></span>
+<span><span class="co">#&gt; 148 3021 3026  0.125      0  4.28584353  2.57547280  2.922155461 -0.70478093</span></span>
+<span><span class="co">#&gt; 149 3021 3027  0.125      0  4.52202218  2.28168026  4.512342523  0.45095853</span></span>
+<span><span class="co">#&gt; 150 3021 3028  0.125      0 -0.41458214  2.25220537  2.808565102  1.17027626</span></span>
+<span><span class="co">#&gt; 151 3021 3029  0.125      0  2.87024861  0.51652949  0.846841149  0.83058299</span></span>
+<span><span class="co">#&gt; 152 3021 3030  0.125      0  3.15793736  2.67247992  4.027732834  2.32755332</span></span>
+<span><span class="co">#&gt; 153 3021 3103  0.125      0  3.86904319  2.71737770  5.120842228  5.99486488</span></span>
+<span><span class="co">#&gt; 154 3021 3104  0.125      0  5.04816052  4.30687146  0.408299557  3.22804038</span></span>
+<span><span class="co">#&gt; 155 3022 3024  0.125      0  4.96152870  5.14451023  4.345665353  6.28411321</span></span>
+<span><span class="co">#&gt; 156 3022 3025  0.125      0 -0.50561122  2.79024989 -1.934272383  2.14916384</span></span>
+<span><span class="co">#&gt; 157 3022 3026  0.125      0  2.10739233  1.25059764  0.719657134 -0.37070075</span></span>
+<span><span class="co">#&gt; 158 3022 3027  0.125      0  1.84457902  4.53345514  4.933572109  3.35250856</span></span>
+<span><span class="co">#&gt; 159 3022 3028  0.125      0 -0.38268250  0.93948816  0.220654492  2.91992787</span></span>
+<span><span class="co">#&gt; 160 3022 3029  0.125      0  3.26987253  2.79825318  4.058094835  2.69270426</span></span>
+<span><span class="co">#&gt; 161 3022 3030  0.125      0  3.06442615  2.35015794  0.863525982  1.61770401</span></span>
+<span><span class="co">#&gt; 162 3022 3103  0.125      0  1.10394236  1.93109335  4.753874204  4.37904371</span></span>
+<span><span class="co">#&gt; 163 3022 3104  0.125      0  1.98892023  2.81513896  1.929299889  1.44441959</span></span>
+<span><span class="co">#&gt; 164 3023 3024  0.125      0  2.22884773  1.32953739  1.904015405  4.14374992</span></span>
+<span><span class="co">#&gt; 165 3023 3025  0.125      0  0.59670275 -0.52636417  1.875099550  1.93705955</span></span>
+<span><span class="co">#&gt; 166 3023 3026  0.125      0  0.13376614  4.01233588 -0.207419145  2.19578293</span></span>
+<span><span class="co">#&gt; 167 3023 3027  0.125      0  0.46220675  1.85183681  1.771619127  1.58463867</span></span>
+<span><span class="co">#&gt; 168 3023 3028  0.125      0  2.27410594  1.20729710  4.138487409  2.16666481</span></span>
+<span><span class="co">#&gt; 169 3023 3029  0.125      0  2.19700574  4.02109917  2.364186913  3.11850319</span></span>
+<span><span class="co">#&gt; 170 3023 3030  0.125      0 -0.20670768  1.21616472 -0.573181452  1.87992379</span></span>
+<span><span class="co">#&gt; 171 3023 3103  0.125      0  1.86976958  0.75346005  3.090506914  1.51927796</span></span>
+<span><span class="co">#&gt; 172 3023 3104  0.125      0 -0.58662320  1.25401426  0.468282479  3.36337822</span></span>
+<span><span class="co">#&gt; 173 3024 3026  0.125      0  2.23071444  2.66227080  0.768315712 -1.31241064</span></span>
+<span><span class="co">#&gt; 174 3024 3027  0.125      0  0.16077848 -0.77550135  0.287979143  2.83815333</span></span>
+<span><span class="co">#&gt; 175 3024 3028  0.125      0  1.92010853  1.89998323  2.435850076  2.50709028</span></span>
+<span><span class="co">#&gt; 176 3024 3029  0.125      0  3.00350049 -0.56041797 -0.738078918 -0.24161493</span></span>
+<span><span class="co">#&gt; 177 3024 3030  0.125      0  4.47708078  2.08467606  2.710970064 -0.36804116</span></span>
+<span><span class="co">#&gt; 178 3025 3026  0.125      0  1.90456281  4.43778148  1.819197036  4.97611898</span></span>
+<span><span class="co">#&gt; 179 3025 3027  0.125      0  1.55562773  3.20476645  2.720820270  3.56492634</span></span>
+<span><span class="co">#&gt; 180 3025 3028  0.125      0  1.22874118  0.75472499  1.676522705  1.23371711</span></span>
+<span><span class="co">#&gt; 181 3025 3029  0.125      0  4.12084706  1.74583890  0.929460845  1.70657868</span></span>
+<span><span class="co">#&gt; 182 3025 3030  0.125      0  3.81292620  0.16066754  4.547564942  3.57377017</span></span>
+<span><span class="co">#&gt; 183 3026 3029  0.125      0  1.66493817  4.36855933  4.154288057  0.90363406</span></span>
+<span><span class="co">#&gt; 184 3026 3030  0.125      0  2.70899631  5.30832010  0.056656084  0.02094620</span></span>
+<span><span class="co">#&gt; 185 3027 3029  0.125      0  0.28073869  4.89326313  3.318536893  6.72969712</span></span>
+<span><span class="co">#&gt; 186 3027 3030  0.125      0 -3.36720075  0.08347487  1.310483533  2.89885735</span></span>
+<span><span class="co">#&gt; 187 3028 3029  0.125      0  0.82986781  3.71128780  2.182342996  2.88598385</span></span>
+<span><span class="co">#&gt; 188 3028 3030  0.125      0  0.94215452  1.76695164 -0.323438087  4.02811982</span></span>
+<span><span class="co">#&gt;      id</span></span>
+<span><span class="co">#&gt; 1     2</span></span>
+<span><span class="co">#&gt; 2     3</span></span>
+<span><span class="co">#&gt; 3     4</span></span>
+<span><span class="co">#&gt; 4     1</span></span>
+<span><span class="co">#&gt; 5     5</span></span>
+<span><span class="co">#&gt; 6     8</span></span>
+<span><span class="co">#&gt; 7    11</span></span>
+<span><span class="co">#&gt; 8    16</span></span>
+<span><span class="co">#&gt; 9    21</span></span>
+<span><span class="co">#&gt; 10   26</span></span>
+<span><span class="co">#&gt; 11   34</span></span>
+<span><span class="co">#&gt; 12   42</span></span>
+<span><span class="co">#&gt; 13   45</span></span>
+<span><span class="co">#&gt; 14    6</span></span>
+<span><span class="co">#&gt; 15    9</span></span>
+<span><span class="co">#&gt; 16   12</span></span>
+<span><span class="co">#&gt; 17   17</span></span>
+<span><span class="co">#&gt; 18   22</span></span>
+<span><span class="co">#&gt; 19   27</span></span>
+<span><span class="co">#&gt; 20   35</span></span>
+<span><span class="co">#&gt; 21   43</span></span>
+<span><span class="co">#&gt; 22   46</span></span>
+<span><span class="co">#&gt; 23    7</span></span>
+<span><span class="co">#&gt; 24   10</span></span>
+<span><span class="co">#&gt; 25   13</span></span>
+<span><span class="co">#&gt; 26   18</span></span>
+<span><span class="co">#&gt; 27   23</span></span>
+<span><span class="co">#&gt; 28   28</span></span>
+<span><span class="co">#&gt; 29   36</span></span>
+<span><span class="co">#&gt; 30   44</span></span>
+<span><span class="co">#&gt; 31   47</span></span>
+<span><span class="co">#&gt; 32   14</span></span>
+<span><span class="co">#&gt; 33   19</span></span>
+<span><span class="co">#&gt; 34   24</span></span>
+<span><span class="co">#&gt; 35   29</span></span>
+<span><span class="co">#&gt; 36   37</span></span>
+<span><span class="co">#&gt; 37   15</span></span>
+<span><span class="co">#&gt; 38   20</span></span>
+<span><span class="co">#&gt; 39   25</span></span>
+<span><span class="co">#&gt; 40   30</span></span>
+<span><span class="co">#&gt; 41   38</span></span>
+<span><span class="co">#&gt; 42   31</span></span>
+<span><span class="co">#&gt; 43   39</span></span>
+<span><span class="co">#&gt; 44   32</span></span>
+<span><span class="co">#&gt; 45   40</span></span>
+<span><span class="co">#&gt; 46   33</span></span>
+<span><span class="co">#&gt; 47   41</span></span>
+<span><span class="co">#&gt; 48   49</span></span>
+<span><span class="co">#&gt; 49   50</span></span>
+<span><span class="co">#&gt; 50   51</span></span>
+<span><span class="co">#&gt; 51   48</span></span>
+<span><span class="co">#&gt; 52   52</span></span>
+<span><span class="co">#&gt; 53   55</span></span>
+<span><span class="co">#&gt; 54   58</span></span>
+<span><span class="co">#&gt; 55   63</span></span>
+<span><span class="co">#&gt; 56   68</span></span>
+<span><span class="co">#&gt; 57   73</span></span>
+<span><span class="co">#&gt; 58   81</span></span>
+<span><span class="co">#&gt; 59   89</span></span>
+<span><span class="co">#&gt; 60   92</span></span>
+<span><span class="co">#&gt; 61   53</span></span>
+<span><span class="co">#&gt; 62   56</span></span>
+<span><span class="co">#&gt; 63   59</span></span>
+<span><span class="co">#&gt; 64   64</span></span>
+<span><span class="co">#&gt; 65   69</span></span>
+<span><span class="co">#&gt; 66   74</span></span>
+<span><span class="co">#&gt; 67   82</span></span>
+<span><span class="co">#&gt; 68   90</span></span>
+<span><span class="co">#&gt; 69   93</span></span>
+<span><span class="co">#&gt; 70   54</span></span>
+<span><span class="co">#&gt; 71   57</span></span>
+<span><span class="co">#&gt; 72   60</span></span>
+<span><span class="co">#&gt; 73   65</span></span>
+<span><span class="co">#&gt; 74   70</span></span>
+<span><span class="co">#&gt; 75   75</span></span>
+<span><span class="co">#&gt; 76   83</span></span>
+<span><span class="co">#&gt; 77   91</span></span>
+<span><span class="co">#&gt; 78   94</span></span>
+<span><span class="co">#&gt; 79   61</span></span>
+<span><span class="co">#&gt; 80   66</span></span>
+<span><span class="co">#&gt; 81   71</span></span>
+<span><span class="co">#&gt; 82   76</span></span>
+<span><span class="co">#&gt; 83   84</span></span>
+<span><span class="co">#&gt; 84   62</span></span>
+<span><span class="co">#&gt; 85   67</span></span>
+<span><span class="co">#&gt; 86   72</span></span>
+<span><span class="co">#&gt; 87   77</span></span>
+<span><span class="co">#&gt; 88   85</span></span>
+<span><span class="co">#&gt; 89   78</span></span>
+<span><span class="co">#&gt; 90   86</span></span>
+<span><span class="co">#&gt; 91   79</span></span>
+<span><span class="co">#&gt; 92   87</span></span>
+<span><span class="co">#&gt; 93   80</span></span>
+<span><span class="co">#&gt; 94   88</span></span>
+<span><span class="co">#&gt; 95   96</span></span>
+<span><span class="co">#&gt; 96   97</span></span>
+<span><span class="co">#&gt; 97   98</span></span>
+<span><span class="co">#&gt; 98   95</span></span>
+<span><span class="co">#&gt; 99   99</span></span>
+<span><span class="co">#&gt; 100 102</span></span>
+<span><span class="co">#&gt; 101 105</span></span>
+<span><span class="co">#&gt; 102 110</span></span>
+<span><span class="co">#&gt; 103 115</span></span>
+<span><span class="co">#&gt; 104 120</span></span>
+<span><span class="co">#&gt; 105 128</span></span>
+<span><span class="co">#&gt; 106 136</span></span>
+<span><span class="co">#&gt; 107 139</span></span>
+<span><span class="co">#&gt; 108 100</span></span>
+<span><span class="co">#&gt; 109 103</span></span>
+<span><span class="co">#&gt; 110 106</span></span>
+<span><span class="co">#&gt; 111 111</span></span>
+<span><span class="co">#&gt; 112 116</span></span>
+<span><span class="co">#&gt; 113 121</span></span>
+<span><span class="co">#&gt; 114 129</span></span>
+<span><span class="co">#&gt; 115 137</span></span>
+<span><span class="co">#&gt; 116 140</span></span>
+<span><span class="co">#&gt; 117 101</span></span>
+<span><span class="co">#&gt; 118 104</span></span>
+<span><span class="co">#&gt; 119 107</span></span>
+<span><span class="co">#&gt; 120 112</span></span>
+<span><span class="co">#&gt; 121 117</span></span>
+<span><span class="co">#&gt; 122 122</span></span>
+<span><span class="co">#&gt; 123 130</span></span>
+<span><span class="co">#&gt; 124 138</span></span>
+<span><span class="co">#&gt; 125 141</span></span>
+<span><span class="co">#&gt; 126 108</span></span>
+<span><span class="co">#&gt; 127 113</span></span>
+<span><span class="co">#&gt; 128 118</span></span>
+<span><span class="co">#&gt; 129 123</span></span>
+<span><span class="co">#&gt; 130 131</span></span>
+<span><span class="co">#&gt; 131 109</span></span>
+<span><span class="co">#&gt; 132 114</span></span>
+<span><span class="co">#&gt; 133 119</span></span>
+<span><span class="co">#&gt; 134 124</span></span>
+<span><span class="co">#&gt; 135 132</span></span>
+<span><span class="co">#&gt; 136 125</span></span>
+<span><span class="co">#&gt; 137 133</span></span>
+<span><span class="co">#&gt; 138 126</span></span>
+<span><span class="co">#&gt; 139 134</span></span>
+<span><span class="co">#&gt; 140 127</span></span>
+<span><span class="co">#&gt; 141 135</span></span>
+<span><span class="co">#&gt; 142 143</span></span>
+<span><span class="co">#&gt; 143 144</span></span>
+<span><span class="co">#&gt; 144 145</span></span>
+<span><span class="co">#&gt; 145 142</span></span>
+<span><span class="co">#&gt; 146 146</span></span>
+<span><span class="co">#&gt; 147 149</span></span>
+<span><span class="co">#&gt; 148 152</span></span>
+<span><span class="co">#&gt; 149 157</span></span>
+<span><span class="co">#&gt; 150 162</span></span>
+<span><span class="co">#&gt; 151 167</span></span>
+<span><span class="co">#&gt; 152 175</span></span>
+<span><span class="co">#&gt; 153 183</span></span>
+<span><span class="co">#&gt; 154 186</span></span>
+<span><span class="co">#&gt; 155 147</span></span>
+<span><span class="co">#&gt; 156 150</span></span>
+<span><span class="co">#&gt; 157 153</span></span>
+<span><span class="co">#&gt; 158 158</span></span>
+<span><span class="co">#&gt; 159 163</span></span>
+<span><span class="co">#&gt; 160 168</span></span>
+<span><span class="co">#&gt; 161 176</span></span>
+<span><span class="co">#&gt; 162 184</span></span>
+<span><span class="co">#&gt; 163 187</span></span>
+<span><span class="co">#&gt; 164 148</span></span>
+<span><span class="co">#&gt; 165 151</span></span>
+<span><span class="co">#&gt; 166 154</span></span>
+<span><span class="co">#&gt; 167 159</span></span>
+<span><span class="co">#&gt; 168 164</span></span>
+<span><span class="co">#&gt; 169 169</span></span>
+<span><span class="co">#&gt; 170 177</span></span>
+<span><span class="co">#&gt; 171 185</span></span>
+<span><span class="co">#&gt; 172 188</span></span>
+<span><span class="co">#&gt; 173 155</span></span>
+<span><span class="co">#&gt; 174 160</span></span>
+<span><span class="co">#&gt; 175 165</span></span>
+<span><span class="co">#&gt; 176 170</span></span>
+<span><span class="co">#&gt; 177 178</span></span>
+<span><span class="co">#&gt; 178 156</span></span>
+<span><span class="co">#&gt; 179 161</span></span>
+<span><span class="co">#&gt; 180 166</span></span>
+<span><span class="co">#&gt; 181 171</span></span>
+<span><span class="co">#&gt; 182 179</span></span>
+<span><span class="co">#&gt; 183 172</span></span>
+<span><span class="co">#&gt; 184 180</span></span>
+<span><span class="co">#&gt; 185 173</span></span>
+<span><span class="co">#&gt; 186 181</span></span>
+<span><span class="co">#&gt; 187 174</span></span>
+<span><span class="co">#&gt; 188 182</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_demo</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       ID1             ID2             addRel          cnuRel       y1_1        </span></span>
-<span><span class="co">#&gt;  Min.   : 3.00   Min.   :  7.00   Min.   :0.125   Min.   :0   Min.   :-3.6557  </span></span>
-<span><span class="co">#&gt;  1st Qu.:21.00   1st Qu.: 26.00   1st Qu.:0.125   1st Qu.:0   1st Qu.:-0.4007  </span></span>
-<span><span class="co">#&gt;  Median :23.00   Median : 28.00   Median :0.125   Median :0   Median : 0.3537  </span></span>
-<span><span class="co">#&gt;  Mean   :21.62   Mean   : 36.55   Mean   :0.125   Mean   :0   Mean   : 0.6055  </span></span>
-<span><span class="co">#&gt;  3rd Qu.:24.00   3rd Qu.: 30.00   3rd Qu.:0.125   3rd Qu.:0   3rd Qu.: 1.6073  </span></span>
-<span><span class="co">#&gt;  Max.   :28.00   Max.   :104.00   Max.   :0.125   Max.   :0   Max.   : 4.5506  </span></span>
-<span><span class="co">#&gt;       y1_2              y2_1              y2_2               id      </span></span>
-<span><span class="co">#&gt;  Min.   :-1.1505   Min.   :-2.2658   Min.   :-2.3618   Min.   : 1.0  </span></span>
-<span><span class="co">#&gt;  1st Qu.:-0.0983   1st Qu.:-0.4629   1st Qu.: 0.3215   1st Qu.:12.5  </span></span>
-<span><span class="co">#&gt;  Median : 1.1069   Median : 0.7087   Median : 1.4460   Median :24.0  </span></span>
-<span><span class="co">#&gt;  Mean   : 1.1957   Mean   : 0.9443   Mean   : 1.1523   Mean   :24.0  </span></span>
-<span><span class="co">#&gt;  3rd Qu.: 2.1121   3rd Qu.: 2.2073   3rd Qu.: 2.1726   3rd Qu.:35.5  </span></span>
-<span><span class="co">#&gt;  Max.   : 5.0089   Max.   : 5.3431   Max.   : 4.2828   Max.   :47.0</span></span></code></pre></div>
+<span><span class="co">#&gt;       ID1              ID2             addRel          cnuRel </span></span>
+<span><span class="co">#&gt;  Min.   :   3.0   Min.   :   7.0   Min.   :0.125   Min.   :0  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 759.2   1st Qu.: 781.2   1st Qu.:0.125   1st Qu.:0  </span></span>
+<span><span class="co">#&gt;  Median :1515.5   Median :1555.5   Median :0.125   Median :0  </span></span>
+<span><span class="co">#&gt;  Mean   :1521.6   Mean   :1536.6   Mean   :0.125   Mean   :0  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:2271.8   3rd Qu.:2329.8   3rd Qu.:0.125   3rd Qu.:0  </span></span>
+<span><span class="co">#&gt;  Max.   :3028.0   Max.   :3104.0   Max.   :0.125   Max.   :0  </span></span>
+<span><span class="co">#&gt;       y1_1              y1_2              y2_1             y2_2        </span></span>
+<span><span class="co">#&gt;  Min.   :-3.3672   Min.   :-1.5255   Min.   :-2.959   Min.   :-2.3276  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 0.6044   1st Qu.: 0.8779   1st Qu.: 0.787   1st Qu.: 0.9394  </span></span>
+<span><span class="co">#&gt;  Median : 1.7633   Median : 2.1013   Median : 1.847   Median : 2.0066  </span></span>
+<span><span class="co">#&gt;  Mean   : 1.7469   Mean   : 2.0855   Mean   : 2.039   Mean   : 2.1207  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: 2.9137   3rd Qu.: 3.1359   3rd Qu.: 3.208   3rd Qu.: 3.3210  </span></span>
+<span><span class="co">#&gt;  Max.   : 6.0358   Max.   : 6.1543   Max.   : 6.783   Max.   : 6.7877  </span></span>
+<span><span class="co">#&gt;        id        </span></span>
+<span><span class="co">#&gt;  Min.   :  1.00  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 47.75  </span></span>
+<span><span class="co">#&gt;  Median : 94.50  </span></span>
+<span><span class="co">#&gt;  Mean   : 94.50  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:141.25  </span></span>
+<span><span class="co">#&gt;  Max.   :188.00</span></span>
+<span></span>
+<span><span class="va">data_demo</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="5%">
+<col width="5%">
+<col width="10%">
+<col width="10%">
+<col width="16%">
+<col width="16%">
+<col width="14%">
+<col width="14%">
+<col width="4%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">ID1</th>
+<th align="right">ID2</th>
+<th align="right">addRel</th>
+<th align="right">cnuRel</th>
+<th align="right">y1_1</th>
+<th align="right">y1_2</th>
+<th align="right">y2_1</th>
+<th align="right">y2_2</th>
+<th align="right">id</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">7</td>
+<td align="right">0.125</td>
+<td align="right">0</td>
+<td align="right">3.0188293</td>
+<td align="right">5.1542516</td>
+<td align="right">0.7041064</td>
+<td align="right">0.9333481</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">21</td>
+<td align="right">0.125</td>
+<td align="right">0</td>
+<td align="right">0.6984681</td>
+<td align="right">-0.9463635</td>
+<td align="right">0.9203754</td>
+<td align="right">0.8795634</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">22</td>
+<td align="right">0.125</td>
+<td align="right">0</td>
+<td align="right">3.4082317</td>
+<td align="right">0.1747639</td>
+<td align="right">4.5457972</td>
+<td align="right">0.2776425</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">23</td>
+<td align="right">0.125</td>
+<td align="right">0</td>
+<td align="right">-1.9437220</td>
+<td align="right">-1.4571830</td>
+<td align="right">2.8360088</td>
+<td align="right">2.4356576</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">21</td>
+<td align="right">24</td>
+<td align="right">0.125</td>
+<td align="right">0</td>
+<td align="right">0.5056531</td>
+<td align="right">0.0700135</td>
+<td align="right">1.1275003</td>
+<td align="right">4.2852528</td>
+<td align="right">5</td>
+</tr>
+</tbody>
+</table>
 <p>The <code>data_demo</code> data frame now contains the kinship
 information along with the simulated outcome variables y1 and y2. Each
 row represents a pair of cousins, and the columns include the IDs of the
@@ -330,7 +845,7 @@ between the two outcome variables, as there is a known overlapping
 non-shared environment covariance.</p>
 <p>The model is fit using the <code><a href="../reference/discord_regression.html">discord_regression()</a></code>
 function, which takes the following arguments:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data_demo</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"y1"</span>,</span>
@@ -347,23 +862,155 @@ function, which takes the following arguments:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residuals:</span></span>
 <span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span><span class="co">#&gt; -1.6044 -0.9315 -0.1824  0.7204  2.7929 </span></span>
+<span><span class="co">#&gt; -1.8511 -0.8476 -0.1705  0.6317  3.6083 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
 <span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">#&gt; (Intercept)  1.21796    0.24153   5.043  8.8e-06 ***</span></span>
-<span><span class="co">#&gt; y1_mean      0.08375    0.13099   0.639   0.5260    </span></span>
-<span><span class="co">#&gt; y2_diff      0.27022    0.08830   3.060   0.0038 ** </span></span>
-<span><span class="co">#&gt; y2_mean      0.11734    0.11812   0.993   0.3261    </span></span>
+<span><span class="co">#&gt; (Intercept)  1.38903    0.17337   8.012 1.25e-13 ***</span></span>
+<span><span class="co">#&gt; y1_mean      0.06308    0.06038   1.045  0.29749    </span></span>
+<span><span class="co">#&gt; y2_diff      0.13111    0.04081   3.213  0.00155 ** </span></span>
+<span><span class="co">#&gt; y2_mean     -0.04300    0.05654  -0.761  0.44789    </span></span>
 <span><span class="co">#&gt; ---</span></span>
 <span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Residual standard error: 1.117 on 43 degrees of freedom</span></span>
-<span><span class="co">#&gt; Multiple R-squared:  0.2033, Adjusted R-squared:  0.1477 </span></span>
-<span><span class="co">#&gt; F-statistic: 3.657 on 3 and 43 DF,  p-value: 0.01959</span></span></code></pre></div>
+<span><span class="co">#&gt; Residual standard error: 1.108 on 184 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.06089,    Adjusted R-squared:  0.04557 </span></span>
+<span><span class="co">#&gt; F-statistic: 3.976 on 3 and 184 DF,  p-value: 0.00893</span></span></code></pre></div>
 <p>The output of the model includes estimates of the regression
 coefficients, standard errors, and p-values for the association between
 the two outcome variables.</p>
+</div>
+<div class="section level2">
+<h2 id="alternative-specifications">Alternative Specifications<a class="anchor" aria-label="anchor" href="#alternative-specifications"></a>
+</h2>
+<p>If desired, one can manually prepare the data using
+<code><a href="../reference/discord_data.html">discord_data()</a></code> and then fit separate models for the
+individual-level, between-pair, and within-pair effects. This approach
+provides more flexibility in specifying the models and allows for a
+deeper understanding of the different components of the association.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_data.html">discord_data</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_demo</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"y1"</span>,</span>
+<span>  predictors <span class="op">=</span> <span class="st">"y2"</span>,</span>
+<span>  id <span class="op">=</span> <span class="st">"id"</span>,</span>
+<span>  sex <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  race <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  demographics <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_1"</span>, <span class="st">"_2"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        id              y1_1             y1_2            y1_diff        </span></span>
+<span><span class="co">#&gt;  Min.   :  1.00   Min.   :-1.457   Min.   :-3.3672   Min.   :0.003215  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 47.75   1st Qu.: 1.643   1st Qu.: 0.1777   1st Qu.:0.707853  </span></span>
+<span><span class="co">#&gt;  Median : 94.50   Median : 2.723   Median : 1.1478   Median :1.311807  </span></span>
+<span><span class="co">#&gt;  Mean   : 94.50   Mean   : 2.679   Mean   : 1.1538   Mean   :1.524696  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:141.25   3rd Qu.: 3.882   3rd Qu.: 2.1351   3rd Qu.:2.207785  </span></span>
+<span><span class="co">#&gt;  Max.   :188.00   Max.   : 6.154   Max.   : 4.9615   Max.   :5.157103  </span></span>
+<span><span class="co">#&gt;     y1_mean            y2_1             y2_2           y2_diff       </span></span>
+<span><span class="co">#&gt;  Min.   :-1.700   Min.   :-2.109   Min.   :-2.959   Min.   :-3.9241  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 1.006   1st Qu.: 1.291   1st Qu.: 0.574   1st Qu.:-0.4878  </span></span>
+<span><span class="co">#&gt;  Median : 1.912   Median : 2.364   Median : 1.505   Median : 0.8402  </span></span>
+<span><span class="co">#&gt;  Mean   : 1.916   Mean   : 2.478   Mean   : 1.682   Mean   : 0.7951  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: 2.884   3rd Qu.: 3.602   3rd Qu.: 2.775   3rd Qu.: 2.0682  </span></span>
+<span><span class="co">#&gt;  Max.   : 5.053   Max.   : 6.788   Max.   : 6.783   Max.   : 6.9832  </span></span>
+<span><span class="co">#&gt;     y2_mean      </span></span>
+<span><span class="co">#&gt;  Min.   :-1.154  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 1.077  </span></span>
+<span><span class="co">#&gt;  Median : 1.936  </span></span>
+<span><span class="co">#&gt;  Mean   : 2.080  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: 2.911  </span></span>
+<span><span class="co">#&gt;  Max.   : 6.119</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="va">lm_ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y1_1</span> <span class="op">~</span> <span class="va">y2_1</span>, data <span class="op">=</span> <span class="va">data_df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lm_ind</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = y1_1 ~ y2_1, data = data_df)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span><span class="co">#&gt; -4.1295 -0.9876  0.0817  1.1612  3.7977 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)  2.30725    0.18995  12.146   &lt;2e-16 ***</span></span>
+<span><span class="co">#&gt; y2_1         0.14987    0.06282   2.386    0.018 *  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 1.493 on 186 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.0297, Adjusted R-squared:  0.02448 </span></span>
+<span><span class="co">#&gt; F-statistic: 5.692 on 1 and 186 DF,  p-value: 0.01804</span></span>
+<span></span>
+<span><span class="va">lm_ind2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y1_2</span> <span class="op">~</span> <span class="va">y2_2</span>, data <span class="op">=</span> <span class="va">data_df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lm_ind2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = y1_2 ~ y2_2, data = data_df)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span><span class="co">#&gt; -4.4598 -0.9950 -0.0377  0.9567  3.3692 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)  0.87682    0.14193   6.178    4e-09 ***</span></span>
+<span><span class="co">#&gt; y2_2         0.16466    0.05788   2.845  0.00494 ** </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 1.416 on 186 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.0417, Adjusted R-squared:  0.03655 </span></span>
+<span><span class="co">#&gt; F-statistic: 8.094 on 1 and 186 DF,  p-value: 0.004939</span></span>
+<span></span>
+<span></span>
+<span><span class="va">lm_between</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y1_mean</span> <span class="op">~</span> <span class="va">y2_mean</span>, data <span class="op">=</span> <span class="va">data_df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lm_between</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = y1_mean ~ y2_mean, data = data_df)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span><span class="co">#&gt; -3.7107 -0.8579  0.0237  0.9435  3.3296 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)   1.5642     0.1713   9.131   &lt;2e-16 ***</span></span>
+<span><span class="co">#&gt; y2_mean       0.1692     0.0675   2.507    0.013 *  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 1.346 on 186 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.03268,    Adjusted R-squared:  0.02748 </span></span>
+<span><span class="co">#&gt; F-statistic: 6.284 on 1 and 186 DF,  p-value: 0.01304</span></span>
+<span></span>
+<span><span class="va">lm_within</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y1_diff</span> <span class="op">~</span> <span class="va">y1_mean</span> <span class="op">+</span> <span class="va">y2_diff</span> <span class="op">+</span> <span class="va">y2_mean</span>, data <span class="op">=</span> <span class="va">data_df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lm_within</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = y1_diff ~ y1_mean + y2_diff + y2_mean, data = data_df)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span><span class="co">#&gt; -1.8511 -0.8476 -0.1705  0.6317  3.6083 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)  1.38903    0.17337   8.012 1.25e-13 ***</span></span>
+<span><span class="co">#&gt; y1_mean      0.06308    0.06038   1.045  0.29749    </span></span>
+<span><span class="co">#&gt; y2_diff      0.13111    0.04081   3.213  0.00155 ** </span></span>
+<span><span class="co">#&gt; y2_mean     -0.04300    0.05654  -0.761  0.44789    </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 1.108 on 184 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.06089,    Adjusted R-squared:  0.04557 </span></span>
+<span><span class="co">#&gt; F-statistic: 3.976 on 3 and 184 DF,  p-value: 0.00893</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
