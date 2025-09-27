@@ -114,7 +114,8 @@ We convert the component matrices into a long-form data frame of kin pairs using
 ```{r}
 df_links <- com2links(
   writetodisk = FALSE,
-  ad_ped_matrix = add, cn_ped_matrix = cn,
+  ad_ped_matrix = add,
+  cn_ped_matrix = cn,
   drop_upper_triangular = TRUE
 ) %>%
   filter(ID1 != ID2)
@@ -124,7 +125,18 @@ df_links %>%
   knitr::kable()
 ```
 
+As you can see, the `df_links` data frame contains pairs of individuals (ID1 and ID2) along with their additive genetic relatedness (`addRel`) and shared environment status (`cnuRel`). These data are in wide format, with each row representing a unique pair of individuals.
 
+Further, we can tally the number of pairs by relatedness and shared environment to understand the composition of the dataset.
+```{r}
+df_links %>%
+  group_by(addRel, cnuRel) %>%
+  tally()
+```
+
+As you can see, the dataset contains a variety of kinship pairs, including full siblings, parent-child, aunt-nephew, cousins, and unrelated individuals, with varying degrees of shared environment.
+
+For this demonstration, we will focus on cousins. Cousins share some genetic relatedness but typically do not share the same environment. (In contrast, full siblings share both genetic relatedness and environment. Half-siblings share genetic relatedness but sometimes do not share the same environment, making them less ideal for this demonstration.)
 
 We then extract two subsets:
 
@@ -133,7 +145,7 @@ We then extract two subsets:
 - Cousins: additive relatedness = 0.125 and shared environment = 0
 
 ```{r}
-df_sim <- df_links %>%
+df_siblings <- df_links %>%
   filter(addRel == .5) %>% # only full siblings %>%
   filter(cnuRel == 1) # only kin raised in the same home
 
@@ -142,18 +154,28 @@ df_cousin <- df_links %>%
   filter(cnuRel == 0) # only kin raised in separate homes
 ```
 
+Now for the rest of the vignette, we will use the cousin subset (`df_cousin`) to illustrate the process of simulating phenotypic data and fitting a discordant-kinship regression model.  However, given the small sample size of cousins in this dataset, we will simulate four datasets worth of cousins and combine them to increase the sample size.
+
+```{r}
+df_cousin <- rbind(
+  df_cousin,
+  df_cousin %>% mutate(ID1 = ID1 + 1000, ID2 = ID2 + 1000),
+  df_cousin %>% mutate(ID1 = ID1 + 2000, ID2 = ID2 + 2000),
+  df_cousin %>% mutate(ID1 = ID1 + 3000, ID2 = ID2 + 3000)
+)
+```
 
 # Simulate Phenotypic Data
 
-To simulate phenotypic data, we need to create a data frame that includes the kinship information and the outcome variables. We will simulate two outcome variables (y1 and y2) for each cousin pair in the dataset. The `kinsim()` function from {discord} is used to generate the simulated data based on the specified variance structure.
+To simulate phenotypic data, we need to create a data frame that includes the kinship information and the outcome variables. We will simulate two outcome variables (y1 and y2) for each kin pair in the dataset. The `kinsim()` function from {discord} is used to generate the simulated data based on the specified variance structure. For convenience, we will generate data for all the cousins in `df_links`. However, we could also generate data for the full siblings or any other kinship pairs.
 
 ```{r}
 set.seed(1234)
 syn_df <- discord::kinsim(
-  mu_all = c(1, 1),
+  mu_all = c(2, 2),
   cov_a = .4,
   cov_e = .4,
-  c_all = 0,
+  c_vector = df_cousin$cnuRel,
   r_vector = df_cousin$addRel
 ) %>%
   select(-c(
@@ -162,13 +184,11 @@ syn_df <- discord::kinsim(
     E1_1, E1_2, E2_1, E2_2,
     r
   ))
-
-
 ```
 
-The simulated data reflect a known variance structure: additive genetic covariance = .4, genetic correlation = 0.125, no shared environment, and residual (unique environment) variance = 0.4. Latent component scores are excluded from the final dataset, but they can be useful for debugging and understanding the underlying structure of the data.
+The simulated data reflect a known variance structure: additive genetic covariance = .4, genetic relatedness of  0.125, no shared environment, and residual (unique environment) variance = 0.4. Latent component scores are dropped from the final dataset, but they can be useful for debugging and understanding the underlying structure of the data.
 
-We bind the simulated outcome data to the cousin link data to prepare it for modeling.
+We bind the simulated outcome data to the links data to prepare it for modeling.
 
 ```{r}
 data_demo <- cbind(df_cousin, syn_df)
@@ -176,10 +196,12 @@ data_demo <- cbind(df_cousin, syn_df)
 data_demo %>% arrange(ID1, ID2)
 summary(data_demo)
 
-data_demo %>% slice(1:10) %>% knitr::kable()
+data_demo %>%
+  slice(1:5) %>%
+  knitr::kable()
 ```
 
-The `data_demo` data frame now contains the kinship information along with the simulated outcome variables y1 and y2. Each row represents a pair of cousins, and the columns include the IDs of the individuals, their relatedness, and the simulated phenotypic data.
+The `data_demo` data frame now contains the kinship information along with the simulated outcome variables y1 and y2. Each row represents a pair of cousins, and the columns include the IDs of the individuals, their relatedness, and the simulated phenotypic data. 
 
 
 # Fitting a Discordant-Kinship Regression Model
@@ -199,26 +221,43 @@ model_output <- discord_regression(
   pair_identifiers = c("_1", "_2")
 )
 summary(model_output)
-
 ```
 
 The output of the model includes estimates of the regression coefficients, standard errors, and p-values for the association between the two outcome variables.
 
 # Alternative Specifications
 
-```{r}
 
-model_output <- discord_data(
+If desired, one can manually prepare the data using `discord_data()` and then fit separate models for the individual-level, between-pair, and within-pair effects. This approach provides more flexibility in specifying the models and allows for a deeper understanding of the different components of the association.
+
+```{r}
+data_df <- discord_data(
   data = data_demo,
   outcome = "y1",
   predictors = "y2",
   id = "id",
   sex = NULL,
   race = NULL,
+  demographics = "none",
   pair_identifiers = c("_1", "_2")
 )
-summary(model_output)
+summary(data_df)
 
+
+
+lm_ind <- lm(y1_1 ~ y2_1, data = data_df)
+summary(lm_ind)
+
+lm_ind2 <- lm(y1_2 ~ y2_2, data = data_df)
+
+summary(lm_ind2)
+
+
+lm_between <- lm(y1_mean ~ y2_mean, data = data_df)
+summary(lm_between)
+
+lm_within <- lm(y1_diff ~ y1_mean + y2_diff + y2_mean, data = data_df)
+summary(lm_within)
 ```
 
 
