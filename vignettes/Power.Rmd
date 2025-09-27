@@ -233,11 +233,15 @@ final_results$cov_e <- factor(final_results$cov_e,
 ```{r plot-power, echo=FALSE}
 final_results_noc <- final_results[final_results$cov_c == "No Covariate C", ]
 
-p_noc <- ggplot(final_results_noc, aes(
-  x = total_pairs, y = power_xdiff,
-  fill = factor(relatedness),
-  color = factor(relatedness)
-)) +
+p_noc <- ggplot(
+  final_results_noc,
+  aes(
+    x = total_pairs,
+    y = power_xdiff,
+    fill = factor(relatedness),
+    color = factor(relatedness)
+  )
+) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(
     title = "Power Analysis for Discordant Sibling Designs",

@@ -1,10 +1,10 @@
 ---
-title: "Demonstrating Categorical Predictors in Discordant-Kinship Regressions"
+title: "Demonstrating categorical predictors"
 author: Yoo Ri Hwang and S. Mason Garrison
 bibliography: references.bib
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Demonstrating Categorical Predictors in Discordant-Kinship Regressions}
+  %\VignetteIndexEntry{Demonstrating categorical predictors}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

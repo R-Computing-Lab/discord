@@ -1,5 +1,5 @@
 ---
-title: "Regression demonstration"
+title: "Regression demonstration with Flu Vaccination and SES data"
 author: Jonathan Trattner
 output: rmarkdown::html_vignette
 bibliography: references.bib
