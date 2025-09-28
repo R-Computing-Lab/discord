@@ -1,0 +1,176 @@
+---
+title: "Full Data Workflow"
+author: S. Mason Garrison
+output: rmarkdown::html_vignette
+bibliography: references.bib
+vignette: >
+  %\VignetteIndexEntry{Full Data Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+
+# Introduction
+
+
+This vignette presents a fullly worked example of a discordant-kinship regression using the {discord} package. It walks through data cleaning, restructuring, and analysis. The example uses synthetic data to illustrate potential data structures and analysis steps. However, the principles and methods can be applied to real-world datasets with similar characteristics.
+
+
+We will demonstrate the underlying principles of discordant-kinship regression, data preparation, and analysis using a hypothetical dataset. 
+
+# Data Structures and Preparation
+
+Your data may come in various formats, including:
+- Wide format data
+- Long format data
+- Pedigree data
+
+The ideal dataset for discordant-kinship regression is a wide format data frame that contains information on kinship pairs, their relationships, and the variables of interest. Each row should represent a dyadic kinship pair, with columns for each individual's data, using suffixes to distinguish individuals. 
+
+In this vignette, we will show how to prepare data starting from each of these formats. But first, let us load the necessary packages and data.
+
+## Setup
+```{r discord-setup, message = FALSE}
+# For easy data manipulation
+library(dplyr)
+# For kinship linkages
+library(NlsyLinks)
+# For discordant-kinship regression
+library(discord)
+# To clean data frame names
+library(janitor)
+# tidy up output
+library(broom)
+# For pipe
+library(magrittr)
+# For pedigree data manipulation
+library(BGmisc) 
+# For pedigree plotting
+library(ggpedigree)
+library(ggplot2)
+```
+
+
+## Wide Format Data Example
+
+The wide format data is the most straightforward to work with. Each row represents a kinship pair, and each variable appears twice—once for each sibling—using suffixes to distinguish individuals. Below is an example of how such a dataset might look:
+
+```{r}
+df_wide <- data.frame(
+  pid = 1:5,
+  id_s1 = c(101, 102, 103, 104, 105),
+  id_s2 = c(201, 202, 203, 204, 205),
+  age_s1 = c(30, 25, 40, 35, 28),
+  age_s2 = c(28, 27, 38, 36, 30),
+  height_s1 = c(175, 160, 180, 170, 165),
+  height_s2 = c(170, 162, 178, 172, 168),
+  weight_s1 = c(70, 60, 80, 75, 65),
+  weight_s2 = c(68, 62, 78, 74, 66)
+) 
+df_wide  %>%
+  knitr::kable()
+```
+
+In this example, we have two siblings (S1 and S2) with their respective ages, heights, and weights. The `id` column uniquely identifies each kinship pair. 
+
+
+## Long Format Data Example
+
+The long format data can be transformed into a wide format suitable for analysis. In this format, each row represents an individual, and there are columns for the kinship pair identifier and the individual's data. Below is an example of how such a dataset might look:
+
+```{r}
+
+```
+
+In this example, each individual is represented in a separate row, with a `pair_id` column to identify the kinship pair. If your data does not already have a unique identifier for each kinship pair, you may need to create one based on the available information. The NLSY kinship links datasets, available in the {NlsyLinks} package, can be a valuable resource for this purpose, as they provide detailed kinship information for individuals in the NLSY79 and NLSY97 cohorts. This information can be used to restructure your data into a wide format suitable for discordant-kinship regression.
+
+If you have data in this format, you can use the `pivot_wider()` function from the {tidyr} package to reshape it into a wide format. Here is an example of how to do this:
+
+
+
+## Pedigree Data Example
+
+The pedigree data format is less common but can be transformed into a wide format suitable for analysis. This format typically includes a unique identifier for each individual, their mother's identifier, and their father's identifier, along with other relevant variables. Our team has developed tools to facilitate this transformation, in a sister package, {BGmisc}, available on CRAN and GitHub. Below is an example of how such a dataset might look:
+
+```{r echo=TRUE, fig.cap="Pedigree plot of the Potter dataset", fig.height=3, fig.width=4, message=FALSE, warning=FALSE}
+data(potter)
+ggpedigree(potter, config = list(
+  label_method = "geom_text",
+  label_nudge_y = .25
+)) +
+  labs(title = "Pedigree Plot of the Potter Dataset") +
+  theme(legend.position = "bottom")
+```
+
+
+```{r}
+data(potter)
+df_ped <- potter %>%
+  as.data.frame() %>%
+  select(personID, sex, famID, momID, dadID, spouseID, 
+         twinID, zygosity, first_name) %>% 
+  mutate (x_var = round(rnorm(nrow(.), mean = 0, sd = 1), digits = 2))
+
+df_ped %>% slice(1:5) %>%
+  knitr::kable()
+```
+
+As you can see, each individual is represented in a separate row, with columns for their unique identifier, mother's identifier, father's identifier, and other relevant variables. To transform this data into a wide format suitable for discordant-kinship regression, we need to create kinship links based on the pedigree information. There are several steps involved in this process, and requires the use of specialized functions from the {BGmisc} package.
+
+
+To extract the necessary kinship information, we need to compute two matrices: the additive genetic relatedness matrix and the shared environment matrix. Other matrices, such as mitochondrial, can also be computed if needed.
+
+Using {BGmisc}, we compute:
+
+- The additive genetic relatedness matrix (add).
+
+- The shared environment matrix (cn), indicating whether kin were raised together (1) or apart (0).
+
+
+```{r}
+add <- ped2add(df_ped)
+cn <- ped2cn(df_ped)
+```
+
+The `ped2add()` function computes the additive genetic relatedness matrix, which quantifies the genetic similarity between individuals based on their pedigree information. The `ped2cn()` function computes the shared environment matrix, which indicates whether individuals were raised in the same environment (1) or different environments (0).
+
+The resulting matrices are symmetric, with diagonal elements representing self-relatedness (1.0). The off-diagonal elements represent the relatedness between pairs of individuals, with values ranging from 0 (no relatedness) to 0.5 (full siblings) to 1 (themselves).
+
+We convert the component matrices into a wide-form dataf rame of kin pairs using `com2links()`. Self-pairs and duplicate entries are removed.
+
+```{r}
+df_links <- com2links(
+  writetodisk = FALSE,
+  ad_ped_matrix = add,
+  cn_ped_matrix = cn,
+  drop_upper_triangular = TRUE
+) %>%
+  filter(ID1 != ID2)
+
+df_links %>%
+  slice(1:5) %>%
+  knitr::kable()
+```
+
+As you can see, the `df_links` data frame contains pairs of individuals (ID1 and ID2) along with their additive genetic relatedness (`addRel`) and shared environment status (`cnuRel`). These data are in wide format, with each row representing a unique pair of individuals.
+
+Further, we can tally the number of pairs by relatedness and shared environment to understand the composition of the dataset.
+
+```{r}
+df_links %>%
+  group_by(addRel, cnuRel) %>%
+  tally()  %>%
+  knitr::kable()
+```
+
+This table shows the number of kinship pairs for each combination of genetic relatedness and shared environment status. Although the discord regression model can be used with any kin group, it is most interpretable when there is a single kinship group.
