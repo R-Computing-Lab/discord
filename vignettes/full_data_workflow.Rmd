@@ -9,8 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -23,7 +21,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 # Introduction
 
 
-This vignette presents a fullly worked example of a discordant-kinship regression using the {discord} package. It walks through data cleaning, restructuring, and analysis. The example uses synthetic data to illustrate potential data structures and analysis steps. However, the principles and methods can be applied to real-world datasets with similar characteristics.
+This vignette presents a fully worked example of a discordant-kinship regression using the {discord} package. It walks through data cleaning, restructuring, and analysis. The example uses synthetic data to illustrate potential data structures and analysis steps. However, the principles and methods can be applied to real-world datasets with similar characteristics.
 
 
 We will demonstrate the underlying principles of discordant-kinship regression, data preparation, and analysis using a hypothetical dataset. 
