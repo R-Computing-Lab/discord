@@ -20,20 +20,18 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
+This vignette provides a start-to-finish tutorial for applying discordant-kinship regression with the {discord} package. It shows how to move from typical data structures to a pair-wise file, that we then analyze with discordant-kinship regression. The vignette covers three common data structures: wide format, long format, and pedigree data. It includes code for data cleaning, restructuring, and analysis. Examples use simulated data so the document knits immediately; you can later substitute your own variables or linked records.
 
-This vignette presents a fully worked example of a discordant-kinship regression using the {discord} package. It walks through data cleaning, restructuring, and analysis. The example uses synthetic data to illustrate potential data structures and analysis steps. However, the principles and methods can be applied to real-world datasets with similar characteristics.
 
+What you'll do:
+- See the three common starting formats for your data: wide, long, and pedigree.
+- Convert your data into a wide format suitable for discordant-kinship regression.
+- Adapt our analysis pipeline to your data, including ordering the dyads as well as creating the pair means and differences.
 
-We will demonstrate the underlying principles of discordant-kinship regression, data preparation, and analysis using a hypothetical dataset. 
 
 # Data Structures and Preparation
 
-Your data may come in various formats, including:
-- Wide format data
-- Long format data
-- Pedigree data
-
-The ideal dataset for discordant-kinship regression is a wide format data frame that contains information on kinship pairs, their relationships, and the variables of interest. Each row should represent a dyadic kinship pair, with columns for each individual's data, using suffixes to distinguish individuals. 
+Your data may begin in wide, long, or pedigree form. Regardless of the starting point, the goal is to restructure the data into a wide format where each row represents a kinship pair, with variables for each member of the pair distinguished by suffixes (e.g., _1 and _2)
 
 In this vignette, we will show how to prepare data starting from each of these formats. But first, let us load the necessary packages and data.
 
@@ -59,9 +57,9 @@ library(ggplot2)
 ```
 
 
-## Wide Format Data Example
+## Wide Format Data
 
-The wide format data is the most straightforward to work with. Each row represents a kinship pair, and each variable appears twice—once for each sibling—using suffixes to distinguish individuals. Below is an example of how such a dataset might look:
+The wide format data is the most straightforward to work with. Each row represents a kinship pair, and each variable appears twice—once for each member of the pair—using suffixes to distinguish individuals. Below is an example of how such a dataset might look:
 
 ```{r}
 df_wide <- data.frame(
@@ -79,7 +77,7 @@ df_wide  %>%
   knitr::kable()
 ```
 
-In this example, we have two siblings (S1 and S2) with their respective ages, heights, and weights. The `id` column uniquely identifies each kinship pair. 
+Each row is a pair (pid), and columns ending _s1 and _s2 refer to the two members. If your outcome appears for both siblings (e.g., Y_s1, Y_s2) and your predictor appears for both siblings (e.g., X_s1, X_s2), you can proceed directly to the analysis section after conversion examples.
 
 
 ## Long Format Data Example
@@ -87,18 +85,45 @@ In this example, we have two siblings (S1 and S2) with their respective ages, he
 The long format data can be transformed into a wide format suitable for analysis. In this format, each row represents an individual, and there are columns for the kinship pair identifier and the individual's data. Below is an example of how such a dataset might look:
 
 ```{r}
+# Ok, so I cheated by converting from our wide example above
+# but you get the idea
 
+df_long <- df_wide %>%
+  tidyr::pivot_longer(
+    cols = -pid,
+    names_to = c(".value", "sibling"),
+    names_sep = "_s"
+  )
+df_long %>%
+  knitr::kable()
 ```
 
-In this example, each individual is represented in a separate row, with a `pair_id` column to identify the kinship pair. If your data does not already have a unique identifier for each kinship pair, you may need to create one based on the available information. The NLSY kinship links datasets, available in the {NlsyLinks} package, can be a valuable resource for this purpose, as they provide detailed kinship information for individuals in the NLSY79 and NLSY97 cohorts. This information can be used to restructure your data into a wide format suitable for discordant-kinship regression.
+In this example, each individual is represented in a separate row, with a `pid` column to identify the kinship pair. If your data does not already have a unique identifier for each kinship pair, you may need to create one based on the available information. (More on how to do this below for pedigree data.)
+
+The NLSY kinship links datasets, available in the {NlsyLinks} package, can be a valuable resource for this purpose, as they provide detailed kinship information for individuals in the NLSY79 and NLSY97 cohorts. This information can be used to restructure your data into a wide format suitable for discordant-kinship regression.
 
 If you have data in this format, you can use the `pivot_wider()` function from the {tidyr} package to reshape it into a wide format. Here is an example of how to do this:
 
+```{r}
+df_long2wide <- df_long %>%
+  tidyr::pivot_wider(
+    names_from = sibling,
+    values_from = c(id, age, height, weight),
+    names_sep = "_s"
+  )
 
+df_long2wide %>%
+  knitr::kable()
+```
+
+
+As you can see, each dyad is once again represented in a separate row, with columns for each member of the pair distinguished by suffixes (e.g., _s1 and _s2). You can now proceed to the analysis section.
 
 ## Pedigree Data Example
 
-The pedigree data format is less common but can be transformed into a wide format suitable for analysis. This format typically includes a unique identifier for each individual, their mother's identifier, and their father's identifier, along with other relevant variables. Our team has developed tools to facilitate this transformation, in a sister package, {BGmisc}, available on CRAN and GitHub. Below is an example of how such a dataset might look:
+The pedigree data format is less common but can be transformed into a wide format suitable for analysis. As an added bonus, we can leverage the information provided by the pedigree to create a kinship linking file.
+
+For those unfamilar, this format typically includes a unique identifier for each individual, their mother's identifier, and their father's identifier, along with other relevant variables. Our team has developed tools to facilitate this transformation, in a sister package, {BGmisc}, available on CRAN and GitHub. Below is an example of how such a dataset might look:
 
 ```{r echo=TRUE, fig.cap="Pedigree plot of the Potter dataset", fig.height=3, fig.width=4, message=FALSE, warning=FALSE}
 data(potter)
@@ -144,7 +169,7 @@ The `ped2add()` function computes the additive genetic relatedness matrix, which
 
 The resulting matrices are symmetric, with diagonal elements representing self-relatedness (1.0). The off-diagonal elements represent the relatedness between pairs of individuals, with values ranging from 0 (no relatedness) to 0.5 (full siblings) to 1 (themselves).
 
-We convert the component matrices into a wide-form dataf rame of kin pairs using `com2links()`. Self-pairs and duplicate entries are removed.
+We convert the component matrices into a wide-form dataframe of kin pairs using `com2links()`. Self-pairs and duplicate entries are removed.
 
 ```{r}
 df_links <- com2links(
@@ -172,3 +197,13 @@ df_links %>%
 ```
 
 This table shows the number of kinship pairs for each combination of genetic relatedness and shared environment status. Although the discord regression model can be used with any kin group, it is most interpretable when there is a single kinship group.
+
+
+
+The package bundles these steps, including correct sibling ordering, via discord_data() and discord_regression
+
+discord_data() reorders siblings so _1 has the higher outcome by default; you now have Y_mean, Y_diff, X_mean, X_diff ready to use.
+
+```{r}
+sessionInfo()
+```
