@@ -30,7 +30,6 @@ The tutorial covers three common starting data structures: wide format, long for
 Your data likely exists in one of three common formats (wide, long, or pedigree). Regardless of starting point, the goal is to create wide-format data where each row represents a kinship pair, with variables for each member of the pair distinguished by suffixes (e.g., _1 and _2). Understanding your data structure determines which transformation steps you'll need.
 
 
-Your data may begin in wide, long, or pedigree form. Regardless of the starting point, the goal is to restructure the data into a wide format where each row represents a kinship pair, with variables for each member of the pair distinguished by suffixes (e.g., _1 and _2)
 
 ## Setup
 
