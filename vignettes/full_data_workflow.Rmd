@@ -224,6 +224,28 @@ df_links %>%
 
 This table shows the number of kinship pairs for each combination of genetic relatedness and shared environment status. Although the discord regression model can be used with any kin group, it is most interpretable when there is a single kinship group.
 
+For demonstration, we'll focus on first cousins raised in separate homes from our pedigree data. This subset allows us to illustrate the process clearly.
+
+```{r}
+syn_df <- discord::kinsim(
+  mu_all = c(2, 2),
+  cov_a = .4,
+  cov_e = .4,
+  c_vector = df_links$cnuRel,
+  r_vector = df_links$addRel
+    #c(df_cousin$cnuRel,df_cousin$cnuRel,df_cousin$cnuRel),
+ # r_vector = c(df_cousin$addRel,df_cousin$addRel,df_cousin$addRel)
+) %>%
+  select(id,r, y1_1, y1_2, y2_1, y2_2) 
+
+
+
+df_cousin <- df_links %>%
+  filter(addRel == .125) %>% # only cousins %>%
+  filter(cnuRel == 0) # only kin raised in separate homes
+
+```
+
 # Ordering and Derived Variables
 
 Now that we have our data in wide format, we can proceed to order the pairs and create the derived variables needed for discordant-kinship regression. The key steps are:
@@ -268,7 +290,7 @@ Let's examine what `discord_data()` did to our variables:
 
 ```{r examine-transformation}
 DD %>%
-  select(pid, 
+  select(id, 
          weight_1, weight_2, weight_mean, weight_diff,
          height_1, height_2, height_mean, height_diff) %>%
   slice(1:8) %>%
@@ -298,13 +320,14 @@ For our baseline analysis, we select one sibling from each pair. We'll have to r
 
 
 ```{r select-for-ols}
-df_for_ols <- DD %>%
-  select(
-    pid,
-    weight = weight_1,
-    height = height_1,
-    age = age_1
-  )
+
+df_for_ols <- df_long2wide %>%
+    dplyr::select(
+    weight = weight_s1,
+    height = height_s1,
+    age = age_s1
+    )
+
 
 df_for_ols %>%
   slice(1:5) %>%
@@ -344,6 +367,7 @@ tidy(discord_model_manual, conf.int = TRUE) %>%
 
 
 ### Using the Helper Function
+
 Alternatively, we can use the `discord_regression()` function, which simplifies the process:
 
 
