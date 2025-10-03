@@ -264,9 +264,16 @@ syn_df <- discord::kinsim(
     #c(df_cousin$cnuRel,df_cousin$cnuRel,df_cousin$cnuRel),
  # r_vector = c(df_cousin$addRel,df_cousin$addRel,df_cousin$addRel)
 ) %>%
-  select(id,r, y1_1 = weight_1,
-         y1_2 = weight_2,
-         y1_2, y2_1, y2_2) 
+  select(id,r, weight_1 =y1_1,
+         weight_2= y1_2,
+         height_1 = y2_1,
+         height_2 = y2_2)# %>%
+  
+
+
+
+#%>%
+# cbind(df_links,.)
 
 
 
@@ -341,9 +348,7 @@ With our data prepared, we can now perform both standard OLS regression and disc
 
 ## Standard OLS Regression
 
-First, let's run a standard OLS regression using the original wide-format data. This will serve as a baseline for comparison with the discordant-kinship regression.
-
-## Standard OLS Regression
+First, let's run a standard OLS regression using the original wide-format data. This will serve as a baseline for comparison with the family-based analyses.
 
 For our baseline analysis, we select one sibling from each pair. In the original dataset, s1 was defined as the older sibling, so we can simply choose the sibling labeled `_s1`. But, another way to select the oldest sibling is to use the `discord_data()` function with the `outcome` argument set to the age variable. This will ensure that `_1` is always the oldest sibling within the pair. In the case of ties, one sibling is randomly assigned as `_1`.
 
@@ -447,6 +452,9 @@ discord_model <- discord_regression(
   data = source_wide,
   outcome = "weight",
   predictors = c("height", "age"),
+  demographics = "none",
+  sex = NULL,
+  race = NULL,
   pair_identifiers = c("_s1", "_s2"),
   id = "pid"
 )
