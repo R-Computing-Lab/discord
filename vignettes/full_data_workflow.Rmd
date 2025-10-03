@@ -266,7 +266,7 @@ syn_df <- discord::kinsim(
 ) %>%
   select(id,r, y1_1 = weight_1,
          y1_2 = weight_2,
-         , y1_2, y2_1, y2_2) 
+         y1_2, y2_1, y2_2) 
 
 
 
