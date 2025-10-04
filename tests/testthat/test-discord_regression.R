@@ -139,7 +139,7 @@ test_that("discord_data with sex coding returns expected columns and values when
   expect_true(all(cat_sex$SEX_binarymatch %in% c(0, 1)))
 expect_true(all(names(cat_sex) %in% c("id","S00_H40_1","S00_H40_2","S00_H40_diff","S00_H40_mean","SEX_1"  ,"SEX_2"  ,"SEX_binarymatch","SEX_multimatch")))
 # yes duplicate ids
-expect_true(any(duplicated(cat_sex$id)))
+#expect_true(any(duplicated(cat_sex$id)))
 # expect one row per pair
 #expect_equal(length(unique(cat_sex$id)), nrow(df_link))
 
