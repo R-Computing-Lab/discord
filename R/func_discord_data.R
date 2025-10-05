@@ -4,13 +4,13 @@
 #' @param outcome A character string containing the outcome variable of
 #'   interest.
 #' @param predictors A character vector containing the column names for
-#'   predicting the outcome.
+#'   predicting the outcome. Can be NULL if no predictors are desired.
 #' @param id Default's to NULL. If supplied, must specify the column name
 #'   corresponding to unique kinship pair identifiers.
 #' @param sex A character string for the sex column name.
 #' @param race A character string for the race column name.
 #' @param pair_identifiers A character vector of length two that contains the
-#'   variable identifier for each kinship pair
+#'   variable identifier for each kinship pair. Default is c("_s1","_s2").
 #' @param demographics Indicator variable for if the data has the sex and race
 #'   demographics. If both are present (default, and recommended), value should
 #'   be "both". Other options include "sex", "race", or "none".
@@ -41,12 +41,14 @@ discord_data <- function(data,
                          id = NULL,
                          sex = "sex",
                          race = "race",
-                         pair_identifiers,
+                         pair_identifiers = c("_s1","_s2"),
                          demographics = "both",
                          coding_method = "none",
                          fast = TRUE,
                          ...) {
-  if (fast) {
+
+
+  if (fast==TRUE) {
     unique(discord_data_fast(
       data = data,
       outcome = outcome,
@@ -222,8 +224,10 @@ discord_data_fast <- function(data,
   if (!valid_ids(orderedOnOutcome,
     id = id
   )) {
+    id_orginal <- id
     id <- "rowwise_id"
-    orderedOnOutcome <- cbind(orderedOnOutcome, rowwise_id = 1:nrow(data))
+    orderedOnOutcome <- cbind(orderedOnOutcome, id_orginal = data[id_orginal],
+                              rowwise_id = 1:nrow(data))
   }
 
   #-------------------------------------------
