@@ -3,11 +3,12 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   categorical_predictors: categorical_predictors.html
+  full_data_workflow: full_data_workflow.html
   links: links.html
   plots: plots.html
   Power: Power.html
   regression: regression.html
-last_built: 2025-09-27T23:58Z
+last_built: 2025-10-05T00:31Z
 urls:
   reference: https://r-computing-lab.github.io/discord/reference
   article: https://r-computing-lab.github.io/discord/articles
