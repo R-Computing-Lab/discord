@@ -77,7 +77,7 @@ df_wide <- data.frame(
   weight_s1 = c(70, 60, 80, 75, 65),
   weight_s2 = c(68, 62, 78, 74, 66)
 ) 
-df_wide  %>%
+df_wide  %>% slice(1:5) %>%
   knitr::kable()
 ```
 
@@ -100,7 +100,7 @@ df_long <- df_wide %>%
     names_sep = "_s" # original suffix delimiter in column names
   )
 
-df_long %>%
+df_long %>% slice(1:10) %>%
   knitr::kable()
 ```
 
@@ -122,7 +122,7 @@ df_long2wide <- df_long %>%
     names_sep = "_s" # ensures id_s1, id_s2,etc
   )
 
-df_long2wide %>%
+df_long2wide %>% slice(1:5) %>%
   knitr::kable()
 ```
 
@@ -176,7 +176,6 @@ ggpedigree(potter, config = list(
     focal_fill_component = "additive",
     focal_fill_method =  "steps",#
    # focal_fill_method = "viridis_c",
-   
     focal_fill_use_log = FALSE,
     focal_fill_n_breaks = 10,
     sex_color_include = TRUE,
@@ -198,7 +197,7 @@ df_ped <- potter %>%
   mutate (x_var = round(rnorm(nrow(.), mean = 0, sd = 1), digits = 2))
 
 df_ped %>% slice(1:5) %>%
-  knitr::kable()
+  knitr::kable(digits = 2)
 ```
 
 As you can see, each individual is represented in a separate row, with columns for their unique identifier, mother's identifier, father's identifier, and other relevant variables. 
@@ -236,7 +235,7 @@ df_links <- com2links(
 
 df_links %>%
   slice(1:5) %>%
-  knitr::kable()
+  knitr::kable(digits = 3)
 ```
 
 As you can see, the `df_links` data frame contains pairs of individuals (ID1 and ID2) along with their additive genetic relatedness (`addRel`) and shared environment status (`cnuRel`). These data are in wide format, with each row representing a unique pair of individuals.
@@ -255,31 +254,31 @@ This table shows the number of kinship pairs for each combination of genetic rel
 For demonstration, we'll focus on first cousins raised in separate homes from our pedigree data. This subset allows us to illustrate the process clearly.
 
 ```{r}
-syn_df <- discord::kinsim(
-  mu_all = c(2, 2),
-  cov_a = .4,
-  cov_e = .4,
-  c_vector = df_links$cnuRel,
-  r_vector = df_links$addRel
-    #c(df_cousin$cnuRel,df_cousin$cnuRel,df_cousin$cnuRel),
- # r_vector = c(df_cousin$addRel,df_cousin$addRel,df_cousin$addRel)
-) %>%
-  select(id,r, weight_1 =y1_1,
-         weight_2= y1_2,
-         height_1 = y2_1,
-         height_2 = y2_2)# %>%
-  
-
-
-
-#%>%
-# cbind(df_links,.)
-
-
-
+set.seed(2024)
 df_cousin <- df_links %>%
   filter(addRel == .125) %>% # only cousins %>%
   filter(cnuRel == 0) # only kin raised in separate homes
+
+df_synthetic <- discord::kinsim(
+  mu_all = c(2, 2),
+  cov_a = .4,
+  cov_e = .3,
+  c_vector = c(df_cousin$cnuRel,df_cousin$cnuRel,df_cousin$cnuRel),
+  r_vector = c(df_cousin$addRel,df_cousin$addRel,df_cousin$addRel)
+) %>%
+  select(pid = id,
+         r, 
+         weight_s1 = y1_1,
+         weight_s2 = y1_2,
+         height_s1 = y2_1,
+         height_s2 = y2_2)%>%
+  mutate(
+    age_s1 = round(rnorm(nrow(.), mean = 30, sd = 5), digits = 0),
+    age_s2 = age_s1 - sample(1:5, nrow(.), replace = TRUE)
+  )
+  
+df_synthetic %>% glimpse() %>% slice(1:5) %>%
+  knitr::kable(digits = 2)
 
 ```
 
@@ -298,8 +297,8 @@ Below we default to the long path for reproducibility. Replace with your chosen 
 ```{r}
 # CHOOSE ONE based on your path
 # source_wide <- df_wide
-source_wide <- df_long2wide
-# source_wide <- pairs_wide   # if you followed the pedigree path
+#source_wide <- df_long2wide
+source_wide <- df_synthetic   # if you followed the pedigree path
 ```
 
 Now call `discord_data()` specifying the outcome and predictor present for both siblings. Here we use `Y` as the outcome and `X` as the predictor, with your `_S1` / `_S2` suffix convention.
@@ -315,8 +314,8 @@ df_discord_weight <- discord::discord_data(
 )
 
 df_discord_weight %>%
-  slice(1:5) %>%
-  knitr::kable()
+ glimpse() %>% slice(1:5) %>%
+  knitr::kable(digits = 2, caption = "Transformed data ready for discordant-kinship regression")
 ```
 
 
@@ -329,7 +328,7 @@ df_discord_weight %>%
   select(id, 
          weight_1, weight_2, weight_mean, weight_diff,
          height_1, height_2, height_mean, height_diff) %>%
-  slice(1:8) %>%
+  slice(1:5) %>%
   knitr::kable(digits = 2)
 ```
 
@@ -355,7 +354,7 @@ For our baseline analysis, we select one sibling from each pair. In the original
 
 ```{r select-for-ols}
 
-df_for_ols <- df_wide %>%
+df_for_ols <- df_synthetic %>%
     dplyr::select(
     id = pid,
     weight = weight_s1,
@@ -374,26 +373,33 @@ df_discord_age <- discord::discord_data(
 )
 
 df_discord_age %>%
-  slice(1:5) %>% select(id, age_1, age_2, age_mean, age_diff, weight_1,	height_1	) %>%
-  knitr::kable(caption = "One sibling per pair for OLS regression, selecting by age")
+   select(id, age_1, age_2, 
+              age_mean, age_diff, weight_1,	height_1	)  %>%
+  slice(1:5) %>%
+  knitr::kable(caption = "One sibling per pair for OLS regression, selecting by age", digits = 2)
 
 df_for_ols %>%
+  select(id, age, weight, height) %>%
   slice(1:5) %>%
-  knitr::kable(caption = "One sibling per pair for OLS regression using orginal wide data")
+  knitr::kable(caption = "One sibling per pair for OLS regression using orginal wide data", digits = 2)
 
 
 ```
 
 As you can see, `df_for_ols` and `df_discord_age` both resulted in the same individuals being selected for analysis. The `df_discord_age` dataset was created by ordering siblings based on age, ensuring that `_1` is always the older sibling. The `df_for_ols` dataset directly selects the older sibling from the original wide data. 
 
+
 By selecting one sibling per pair, we're analyzing the same number of observations as we have kinship pairs. This represents the standard individual-level approach used in most research:
+
+$$ Y = \\beta_0 + \\beta_1 X1 + \\beta_2 X2 + \\epsilon $$
+
 
 ```{r ols-regression}
 ols_model <- lm(weight ~ height + age, data = df_for_ols)
-
-
-stargazer::stargazer(ols_model, type = "html"
-                       , digits = 3, single.row = TRUE, title = "Standard OLS Regression Results")
+```
+```{r ols-output, message=FALSE, warning=FALSE, results='asis'}
+stargazer::stargazer(ols_model, type = "html",
+                      digits = 3, single.row = TRUE, title = "Standard OLS Regression Results")
 ```
 
 This standard regression shows associations between our variables while controlling only for measured covariates. 
@@ -403,17 +409,21 @@ This standard regression shows associations between our variables while controll
 
 Next, we run a between-family regression using the discordant data. This model regresses the outcome mean on predictor means, capturing between-family variation:
 
-```{r between-family}
+$$ Y_{mean} = \\beta_0 + \\beta_1 X1_{mean} + \\beta_2 X2_{mean} + \\epsilon $$
 
+
+```{r between-family}
 between_model <- lm(
   weight_mean ~ height_mean + age_mean,
   data = df_discord_weight
 )
-
-stargazer::stargazer(between_model, type = "text"
-                       , digits = 3, single.row = TRUE, title = "Between-Family Regression Results")
+```
+```{r between-output, results='asis', message=FALSE, warning=FALSE}
+stargazer::stargazer(between_model, type = "html",
+                     digits = 3, single.row = TRUE, title = "Between-Family Regression Results")
 
 ```
+
 
 This between-family regression captures how differences in average height and age across families relate to average weight. However, it does not account for within-family differences, which is where discordant-kinship regression comes in.
 
@@ -425,7 +435,7 @@ Now we return to our prepared data to run discordant-kinship regression. We can 
 
 The discordant model regresses the outcome difference on outcome mean, predictor means, and predictor differences:
 
-
+$$ Y_{diff} = \\beta_0 + \\beta_1 Y_{mean} + \\beta_2 X1_{mean} + \\beta_3 X1_{diff} + \\beta_4 X2_{mean} + \\beta_5 X2_{diff} + \\epsilon $$
 
 ```{r discord-manual}
 discord_model_manual <- lm(
@@ -435,17 +445,20 @@ discord_model_manual <- lm(
 
 tidy(discord_model_manual, conf.int = TRUE) %>%
   knitr::kable(digits = 3, caption = "Discordant Regression (Manual)")
-
-
-stargazer::stargazer(between_model,discord_model_manual, type = "text"
+```
+```{r discord-manual-output, results='asis', message=FALSE, warning=FALSE}
+stargazer::stargazer(between_model,discord_model_manual, type = "html"
                        , digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results")
 ```
 
+
+Note that we are using the df_discord_weight dataset created earlier with `discord_data()`. This dataset is ordered such that within a pair, the sibling with the higher weight is always `_1`. This ordering ensures that `weight_diff` is always non-negative, which is a key feature of discordant-kinship regression.
 
 ### Using the Helper Function
 
 Alternatively, we can use the `discord_regression()` function, which simplifies the process:
 
+By default, `discord_regression()` orders siblings by the outcome variable, creates the necessary derived variables, and fits the discordant regression model in one step. This function also allows for easy inclusion of demographic covariates if needed. See the function documentation for more details on these options, as well as a vignette focused on demographic controls.
 
 ```{r discord-function}
 discord_model <- discord_regression(
@@ -466,7 +479,12 @@ glance(discord_model) %>%
   select(r.squared, adj.r.squared, sigma, p.value, nobs) %>%
   knitr::kable(digits = 3)
 ```
-
+```{r discord-compare, results='asis'}
+stargazer::stargazer(discord_model, discord_model_manual, 
+                     type = "html", 
+                     digits = 3, single.row = TRUE, 
+                     title = "Discordant Regression Results Comparison")
+```
 ```{r}
 sessionInfo()
 ```
