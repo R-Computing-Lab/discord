@@ -278,7 +278,8 @@ df_synthetic <- discord::kinsim(
     age_s2 = age_s1 - sample(1:5, nrow(.), replace = TRUE)
   )
   
-df_synthetic %>% glimpse() %>% slice(1:5) %>%
+df_synthetic %>% 
+  slice(1:5) %>%
   knitr::kable(digits = 2)
 
 ```
@@ -315,7 +316,7 @@ df_discord_weight <- discord::discord_data(
 )
 
 df_discord_weight %>%
- glimpse() %>% slice(1:5) %>%
+  slice(1:5) %>%
   knitr::kable(digits = 2, caption = "Transformed data ready for discordant-kinship regression")
 ```
 
