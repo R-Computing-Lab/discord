@@ -383,7 +383,7 @@ df_discord_age %>%
 df_for_ols %>%
   select(id, age, weight, height) %>%
   slice(1:5) %>%
-  knitr::kable(caption = "One sibling per pair for OLS regression using orginal wide data", digits = 2)
+  knitr::kable(caption = "One sibling per pair for OLS regression using original wide data", digits = 2)
 
 
 ```
