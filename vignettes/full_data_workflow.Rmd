@@ -448,8 +448,8 @@ tidy(discord_model_manual, conf.int = TRUE) %>%
   knitr::kable(digits = 3, caption = "Discordant Regression (Manual)")
 ```
 ```{r discord-manual-output, results='asis', message=FALSE, warning=FALSE}
-stargazer::stargazer(between_model,discord_model_manual, type = "html"
-                       , digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results")
+stargazer::stargazer(between_model,discord_model_manual, type = "html",
+                     digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results")
 ```
 
 
@@ -482,10 +482,8 @@ glance(discord_model) %>%
 ```
 ```{r discord-compare, results='asis'}
 stargazer::stargazer(discord_model, 
-                     discord_model_manual, 
-                     type = "html", 
-                     digits = 3, single.row = TRUE, 
-                     title = "Discordant Regression Results Comparison")
+                     discord_model_manual, type = "html",
+                     digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison")
 ```
 ```{r}
 sessionInfo()
