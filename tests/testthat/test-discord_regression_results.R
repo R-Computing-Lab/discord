@@ -162,4 +162,3 @@ test_that("half siblings nonsignificant is as expected", {
   expect_gt(object = get_p_value(results_ram), expected = signif_threshold)
   expect_equal(get_p_value(results_fast), get_p_value(results_ram), tolerance = 0.005)
 })
-

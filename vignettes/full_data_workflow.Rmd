@@ -50,7 +50,7 @@ library(broom)
 # For pipe
 library(magrittr)
 # For pedigree data manipulation
-library(BGmisc) 
+library(BGmisc)
 # For pedigree plotting
 library(ggpedigree)
 library(ggplot2)
@@ -76,8 +76,9 @@ df_wide <- data.frame(
   height_s2 = c(170, 162, 178, 172, 168),
   weight_s1 = c(70, 60, 80, 75, 65),
   weight_s2 = c(68, 62, 78, 74, 66)
-) 
-df_wide  %>% slice(1:5) %>%
+)
+df_wide %>%
+  slice(1:5) %>%
   knitr::kable()
 ```
 
@@ -92,15 +93,15 @@ Long format structures data with one row per individual. In other words, each pe
 We can demonstrate long format by reshaping our wide data from above:
 
 ```{r}
-
 df_long <- df_wide %>%
   tidyr::pivot_longer(
-    cols = -pid,  # keep the dyad identifier intact
+    cols = -pid, # keep the dyad identifier intact
     names_to = c(".value", "sibling"), # split base names and the sibling marker
     names_sep = "_s" # original suffix delimiter in column names
   )
 
-df_long %>% slice(1:10) %>%
+df_long %>%
+  slice(1:10) %>%
   knitr::kable()
 ```
 
@@ -118,11 +119,12 @@ To convert long format data for discordant-kinship analysis, use `pivot_wider()`
 df_long2wide <- df_long %>%
   tidyr::pivot_wider(
     names_from = sibling, # the column that indicates the sibling number
-    values_from = c(id, age, height, weight),  # variables to spread into paired columns
+    values_from = c(id, age, height, weight), # variables to spread into paired columns
     names_sep = "_s" # ensures id_s1, id_s2,etc
   )
 
-df_long2wide %>% slice(1:5) %>%
+df_long2wide %>%
+  slice(1:5) %>%
   knitr::kable()
 ```
 
@@ -139,14 +141,16 @@ For NLSY data specifically, the {NlsyLinks} package provides validated kinship l
 library(NlsyLinks)
 data(Links79PairExpanded)
 
-Links79PairExpanded %>% 
-  arrange(ExtendedID) %>% 
-   filter(RelationshipPath == "Gen1Housemates" & RFull == 0.5) %>%
-  slice_head(n=5) %>% 
-  select(ExtendedID, 
-         SubjectTag_S1, SubjectTag_S2, 
-         RelationshipPath, RFull, IsMz ,
-         EverSharedHouse) %>%
+Links79PairExpanded %>%
+  arrange(ExtendedID) %>%
+  filter(RelationshipPath == "Gen1Housemates" & RFull == 0.5) %>%
+  slice_head(n = 5) %>%
+  select(
+    ExtendedID,
+    SubjectTag_S1, SubjectTag_S2,
+    RelationshipPath, RFull, IsMz,
+    EverSharedHouse
+  ) %>%
   knitr::kable()
 ```
 
@@ -165,21 +169,21 @@ data(potter)
 ggpedigree(potter, config = list(
   label_method = "geom_text",
   label_nudge_y = .25,
-      focal_fill_personID = 7,
-    focal_fill_include = TRUE,
-    focal_fill_force_zero = TRUE,
-    focal_fill_na_value = "grey50",
-    focal_fill_low_color = "darkred",
-    focal_fill_high_color = "gold",
-    focal_fill_mid_color = "orange",
-    focal_fill_scale_midpoint = .65,
-    focal_fill_component = "additive",
-    focal_fill_method =  "steps",#
-   # focal_fill_method = "viridis_c",
-    focal_fill_use_log = FALSE,
-    focal_fill_n_breaks = 10,
-    sex_color_include = TRUE,
-    focal_fill_legend_title = "Genetic Relatives \nof Harry Potter"
+  focal_fill_personID = 7,
+  focal_fill_include = TRUE,
+  focal_fill_force_zero = TRUE,
+  focal_fill_na_value = "grey50",
+  focal_fill_low_color = "darkred",
+  focal_fill_high_color = "gold",
+  focal_fill_mid_color = "orange",
+  focal_fill_scale_midpoint = .65,
+  focal_fill_component = "additive",
+  focal_fill_method = "steps", #
+  # focal_fill_method = "viridis_c",
+  focal_fill_use_log = FALSE,
+  focal_fill_n_breaks = 10,
+  sex_color_include = TRUE,
+  focal_fill_legend_title = "Genetic Relatives \nof Harry Potter"
 )) +
   labs(title = "Potter Pedigree Plot") +
   theme(legend.position = "right")
@@ -192,11 +196,14 @@ The pedigree tree above illustrates the family relationships among individuals i
 data(potter)
 df_ped <- potter %>%
   as.data.frame() %>%
-  select(personID, sex, famID, momID, dadID, spouseID, 
-         twinID, zygosity) %>% 
-  mutate (x_var = round(rnorm(nrow(.), mean = 0, sd = 1), digits = 2))
+  select(
+    personID, sex, famID, momID, dadID, spouseID,
+    twinID, zygosity
+  ) %>%
+  mutate(x_var = round(rnorm(nrow(.), mean = 0, sd = 1), digits = 2))
 
-df_ped %>% slice(1:5) %>%
+df_ped %>%
+  slice(1:5) %>%
   knitr::kable(digits = 2)
 ```
 
@@ -245,7 +252,7 @@ Further, we can tally the number of pairs by relatedness and shared environment 
 ```{r}
 df_links %>%
   group_by(addRel, cnuRel) %>%
-  tally()  %>%
+  tally() %>%
   knitr::kable()
 ```
 
@@ -264,24 +271,25 @@ df_synthetic <- discord::kinsim(
   cov_a = .5,
   cov_c = .1,
   cov_e = .3,
-  c_vector = c(df_cousin$cnuRel,df_cousin$cnuRel,df_cousin$cnuRel),
-  r_vector = c(df_cousin$addRel,df_cousin$addRel,df_cousin$addRel)
+  c_vector = c(df_cousin$cnuRel, df_cousin$cnuRel, df_cousin$cnuRel),
+  r_vector = c(df_cousin$addRel, df_cousin$addRel, df_cousin$addRel)
 ) %>%
-  select(pid = id,
-         r, 
-         weight_s1 = y1_1,
-         weight_s2 = y1_2,
-         height_s1 = y2_1,
-         height_s2 = y2_2)%>%
+  select(
+    pid = id,
+    r,
+    weight_s1 = y1_1,
+    weight_s2 = y1_2,
+    height_s1 = y2_1,
+    height_s2 = y2_2
+  ) %>%
   mutate(
     age_s1 = round(rnorm(nrow(.), mean = 30, sd = 5), digits = 0),
     age_s2 = age_s1 - sample(1:5, nrow(.), replace = TRUE)
   )
-  
-df_synthetic %>% 
+
+df_synthetic %>%
   slice(1:5) %>%
   knitr::kable(digits = 2)
-
 ```
 
 
@@ -299,8 +307,8 @@ Below we default to the long path for reproducibility. Replace with your chosen 
 ```{r}
 # CHOOSE ONE based on your path
 # source_wide <- df_wide
-#source_wide <- df_long2wide
-source_wide <- df_synthetic   # if you followed the pedigree path
+# source_wide <- df_long2wide
+source_wide <- df_synthetic # if you followed the pedigree path
 ```
 
 Now call `discord_data()` specifying the outcome and predictor present for both siblings. Here we use `Y` as the outcome and `X` as the predictor, with your `_S1` / `_S2` suffix convention.
@@ -311,7 +319,7 @@ df_discord_weight <- discord::discord_data(
   outcome = "weight",
   predictors = c("height", "age"),
   demographics = "none",
-  pair_identifiers = c("_s1","_s2"),
+  pair_identifiers = c("_s1", "_s2"),
   id = "pid" # or "famID" if you followed the pedigree path
 )
 
@@ -327,9 +335,11 @@ Let's examine what `discord_data()` did to our variables:
 
 ```{r examine-transformation}
 df_discord_weight %>%
-  select(id, 
-         weight_1, weight_2, weight_mean, weight_diff,
-         height_1, height_2, height_mean, height_diff) %>%
+  select(
+    id,
+    weight_1, weight_2, weight_mean, weight_diff,
+    height_1, height_2, height_mean, height_diff
+  ) %>%
   slice(1:5) %>%
   knitr::kable(digits = 2)
 ```
@@ -355,14 +365,13 @@ For our baseline analysis, we select one sibling from each pair. In the original
 
 
 ```{r select-for-ols}
-
 df_for_ols <- df_synthetic %>%
-    dplyr::select(
+  dplyr::select(
     id = pid,
     weight = weight_s1,
     height = height_s1,
     age = age_s1
-    )
+  )
 
 
 df_discord_age <- discord::discord_data(
@@ -370,13 +379,15 @@ df_discord_age <- discord::discord_data(
   outcome = "age",
   predictors = c("height", "weight"),
   demographics = "none",
-  pair_identifiers = c("_s1","_s2"),
+  pair_identifiers = c("_s1", "_s2"),
   id = "pid" # or "famID" if you followed the pedigree path
 )
 
 df_discord_age %>%
-   select(id, age_1, age_2, 
-              age_mean, age_diff, weight_1,	height_1	)  %>%
+  select(
+    id, age_1, age_2,
+    age_mean, age_diff, weight_1, height_1
+  ) %>%
   slice(1:5) %>%
   knitr::kable(caption = "One sibling per pair for OLS regression, selecting by age", digits = 2)
 
@@ -384,8 +395,6 @@ df_for_ols %>%
   select(id, age, weight, height) %>%
   slice(1:5) %>%
   knitr::kable(caption = "One sibling per pair for OLS regression using original wide data", digits = 2)
-
-
 ```
 
 As you can see, `df_for_ols` and `df_discord_age` both resulted in the same individuals being selected for analysis. The `df_discord_age` dataset was created by ordering siblings based on age, ensuring that `_1` is always the older sibling. The `df_for_ols` dataset directly selects the older sibling from the original wide data. 
@@ -400,8 +409,10 @@ $$ Y = \\beta_0 + \\beta_1 X1 + \\beta_2 X2 + \\epsilon $$
 ols_model <- lm(weight ~ height + age, data = df_for_ols)
 ```
 ```{r ols-output, message=FALSE, warning=FALSE, results='asis'}
-stargazer::stargazer(ols_model, type = "html",
-                      digits = 3, single.row = TRUE, title = "Standard OLS Regression Results")
+stargazer::stargazer(ols_model,
+  type = "html",
+  digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
+)
 ```
 
 This standard regression shows associations between our variables while controlling only for measured covariates. 
@@ -421,9 +432,10 @@ between_model <- lm(
 )
 ```
 ```{r between-output, results='asis', message=FALSE, warning=FALSE}
-stargazer::stargazer(between_model, type = "html",
-                     digits = 3, single.row = TRUE, title = "Between-Family Regression Results")
-
+stargazer::stargazer(between_model,
+  type = "html",
+  digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
+)
 ```
 
 
@@ -449,8 +461,10 @@ tidy(discord_model_manual, conf.int = TRUE) %>%
   knitr::kable(digits = 3, caption = "Discordant Regression (Manual)")
 ```
 ```{r discord-manual-output, results='asis', message=FALSE, warning=FALSE}
-stargazer::stargazer(between_model,discord_model_manual, type = "html",
-                     digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results")
+stargazer::stargazer(between_model, discord_model_manual,
+  type = "html",
+  digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results"
+)
 ```
 
 
@@ -482,9 +496,11 @@ glance(discord_model) %>%
   knitr::kable(digits = 3)
 ```
 ```{r discord-compare, results='asis'}
-stargazer::stargazer(discord_model, 
-                     discord_model_manual, type = "html",
-                     digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison")
+stargazer::stargazer(discord_model,
+  discord_model_manual,
+  type = "html",
+  digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison"
+)
 ```
 
 # Session Info
