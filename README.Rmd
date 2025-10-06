@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # discord
 
 <!-- badges: start -->
-<a href="https://r-computing-lab.github.io/discord/"><img src="man/figures/logo.png" align="right" height="139" alt="discord website" /></a>
+<a href="https://r-computing-lab.github.io/discord/"><img src="man/figures/logo.png" alt="discord website" align="right" height="139"/></a>
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R package version](https://www.r-pkg.org/badges/version/discord)](https://cran.r-project.org/package=discord)
 [![Package downloads](https://cranlogs.r-pkg.org/badges/grand-total/discord)](https://cran.r-project.org/package=discord)</br>
@@ -34,42 +34,114 @@ genetically-informed data. The package is designed to facilitate the
 implementation of discordant sibling designs in research, allowing for
 the control of shared familial confounding factors.
 
-Visit the [discord website](https://r-computing-lab.github.io/discord/) for
-more information and detailed documentation. Below is a brief overview of the package, its features, and vignettes to get you started.
+Visit the [discord website](https://r-computing-lab.github.io/discord/)
+for more information and detailed documentation. Below is a brief
+overview of the package, its features, and vignettes to get you started.
 
 ## Features
-- **Data Preparation**: Functions to prepare and structure data for discordant sibling analysis, including handling of kinship pairs and demographic variables.
-- **Regression Analysis**: Tools to perform discordant regression analyses, allowing for the examination of within-family effects while controlling for shared familial confounders.
-- **Simulation**: Functions to simulate genetically-informed data, enabling researchers to test and validate their models.
+
+-   **Data Preparation**: Functions to prepare and structure data for
+    discordant sibling analysis, including handling of kinship pairs and
+    demographic variables.
+-   **Regression Analysis**: Tools to perform discordant regression
+    analyses, allowing for the examination of within-family effects
+    while controlling for shared familial confounders.
+-   **Simulation**: Functions to simulate genetically-informed data,
+    enabling researchers to test and validate their models.
 
 ## Vignettes
 
-The package includes several vignettes to help users understand and utilize its features effectively. These vignettes can be accessed  [online](https://r-computing-lab.github.io/discord/articles/) or by selecting them from the RStudio "Vignettes" tab after installing the package.
+The package includes several vignettes to help users understand and
+utilize its features effectively. These vignettes can be accessed
+[online](https://r-computing-lab.github.io/discord/articles/) or by
+selecting them from the RStudio "Vignettes" tab after installing the
+package.
 
 The following vignettes are available:
-- [Power Analysis with discord](https://r-computing-lab.github.io/discord/articles/Power.html)
-- [Regression Analysis with discord](https://r-computing-lab.github.io/discord/articles/regression.html)
-- [Data Preparation with discord](https://r-computing-lab.github.io/discord/articles/data_preparation.html)
-- [Handling Categorical Predictors](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
-- [Full Data Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
-- [Creating Plots](https://r-computing-lab.github.io/discord/articles/plots.html)
-- [Simulating Genetically-Informed Data](https://r-computing-lab.github.io/discord/articles/links.html)
 
+-   [Power Analysis with discord](https://r-computing-lab.github.io/discord/articles/Power.html)
+    -   Use this vignette when you need to plan sample sizes or evaluate
+        detectability by running simulation grids that vary effect
+        sizes, kin types, and Ns using kinsim, then re-fitting
+        discord_regression under each condition. It reports empirical
+        power, writes tidy summaries, and includes code to visualize
+        power curves across conditions to support design decisions.
 
+-   [Regression Analysis with  discord](https://r-computing-lab.github.io/discord/articles/regression.html) 
+    -   Use this if you want an end-to-end applied example that links
+        NLSY79 relatives, cleans variables for flu vaccination and SES,
+        constructs dyads, and then fits within-family models. You will
+        learn how to specify discord_regression correctly and interpret
+        coefficients when predictors vary within pairs versus only
+        between pairs.
+
+-   [Handling Categorical Predictors](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html) 
+    -   This vignette formalizes categorical predictors in discord
+        designs by separating mixed from between-dyad variables and
+        making the implied contrasts explicit. It implements
+        binary-match and multi-category match encodings on concrete
+        examples (e.g., sex, race), fits the corresponding
+        discord_regression specifications, and contrasts estimates to
+        show how encoding choices change interpretation.
+
+-   [Full Data Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html) 
+    -   Starting from raw wide and long person-level inputs, this
+        vignette builds kin links, aligns IDs, and constructs the
+        discord_data object with sibling-specific columns ready for
+        modeling. It then fits a conventional between-family regression
+        alongside a discord model on the same variables, so you can see
+        where the within-family estimate diverges and adopt the pipeline
+        as a template.
+
+-   [Creating Plots](https://r-computing-lab.github.io/discord/articles/plots.html)
+    -   This vignette takes fitted discord_regression outputs and
+        produces publication-ready ggplot figures of effect estimates
+        and within-family contrasts with minimal transformation of the
+        model results. It includes complete plotting code paths you can
+        reuse, from extracting estimates to saving figures that clearly
+        communicate within-family findings. 
+ 
+-   [No Database? No Problem: Using discord with Simple Family Structures](https://r-computing-lab.github.io/discord/articles/links.html)
+    -   This vignette is particularly useful for situations when you do
+        not have existing kinship links and need to build link tables
+        directly from simple family identifiers. It shows how to
+        construct the links, optionally simulate phenotypes under
+        specified structures, and fit discord_regression with
+        alternative specifications for small or bespoke datasets.
 
 ## External Reproducible Examples
 
-Beyond the vignettes, you can find additional examples that fully reproduce analyses from our other publications (Garrison et al 2025, etc). These examples can be accessed via the following links:
+Beyond the vignettes, you can find additional examples that fully
+reproduce analyses from our other publications (Garrison et al 2025,
+etc). These examples can be accessed via the following links:
 
-- National Longitudinal Survey of Youth (NLSY) dataset
-  - [Intelligence](https://github.com/R-Computing-Lab/Project_AFI_Intelligence): Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting doubt on the causal link between intelligence and age at first intercourse: A cross-generational sibling comparison design using the NLSY. Intelligence, 59, 139-156. https://doi.org/10.1016/j.intell.2016.08.008
-  - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024): Reproduces Sims, E. E., Trattner, J. D., & Garrison, S. M. (2024). Exploring the relationship between depression and delinquency: a sibling comparison design using the NLSY. Frontiers in psychology, 15, 1430978. https://doi.org/10.3389/fpsyg.2024.1430978
-  
-  - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims): Reproduces analyses from  Garrison et al 2025, using `targets` for workflow management. Garrison, S. M., Trattner, J. D., Lyu, X., Prillaman, H. R., McKinzie, L., Thompson, S. H. E., & Rodgers, J. L. (2025). Sibling Models Can Test Causal Claims without Experiments: Applications for Psychology. https://doi.org/10.1101/2025.08.25.25334395
-  
-- China Family Panel Studies (CFPS) dataset
-  - [AMPPS](https://github.com/R-Computing-Lab/discord_CFPS): Reproduces analyses from the China Family Panel Studies (CFPS) dataset, focusing on the association between adolescent depression and math achievement.
+-   National Longitudinal Survey of Youth (NLSY) dataset
+    -   [Intelligence](https://github.com/R-Computing-Lab/Project_AFI_Intelligence):
+        Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting
+        doubt on the causal link between intelligence and age at first
+        intercourse: A cross-generational sibling comparison design
+        using the NLSY. Intelligence, 59, 139-156.
+        <https://doi.org/10.1016/j.intell.2016.08.008>
 
+    -   [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024):
+        Reproduces Sims, E. E., Trattner, J. D., & Garrison, S. M.
+        (2024). Exploring the relationship between depression and
+        delinquency: a sibling comparison design using the NLSY.
+        Frontiers in psychology, 15, 1430978.
+        <https://doi.org/10.3389/fpsyg.2024.1430978>
+
+    -   [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims):
+        Reproduces analyses from Garrison et al 2025, using `targets`
+        for workflow management. Garrison, S. M., Trattner, J. D., Lyu,
+        X., Prillaman, H. R., McKinzie, L., Thompson, S. H. E., &
+        Rodgers, J. L. (2025). Sibling Models Can Test Causal Claims
+        without Experiments: Applications for Psychology.
+        <https://doi.org/10.1101/2025.08.25.25334395>
+-   China Family Panel Studies (CFPS) dataset
+    -   [AMPPS](https://github.com/R-Computing-Lab/discord_CFPS):
+        Reproduces analyses from the China Family Panel Studies (CFPS)
+        dataset, focusing on the association between adolescent
+        depression and math achievement.
 
 ## Installation
 
@@ -79,7 +151,9 @@ You can install the official version from CRAN
 # Install/update discord with the release version from CRAN.
 install.packages('discord')
 ```
-You can also install/update discord with the development version of discord from [GitHub](https://github.com/) with:
+
+You can also install/update discord with the development version of
+discord from [GitHub](https://github.com/) with:
 
 ``` r
 # If devtools is not installed, uncomment the line below.
@@ -89,15 +163,24 @@ devtools::install_github('R-Computing-Lab/discord')
 
 ## Citation
 
-If you use `discord` in your research or wish to refer to it, please cite the following paper:
+If you use `discord` in your research or wish to refer to it, please
+cite the following paper:
 
 ```{r eval=TRUE, comment=NA,warning=FALSE, message=FALSE}
 citation(package = "discord")
 ```
 
-
 ## Contributing
-Contributions to the `discord` project are welcome. For guidelines on how to contribute, please refer to the [Contributing Guidelines](https://github.com/R-Computing-Lab/discord/blob/main/CONTRIBUTING.md). Issues and pull requests should be submitted on the GitHub repository. For support, please use the GitHub issues page.
+
+Contributions to the `discord` project are welcome. For guidelines on
+how to contribute, please refer to the [Contributing
+Guidelines](https://github.com/R-Computing-Lab/discord/blob/main/CONTRIBUTING.md).
+Issues and pull requests should be submitted on the GitHub repository.
+For support, please use the GitHub issues page.
 
 ## License
-`discord` is licensed under the GNU General Public License v3.0. For more details, see the [LICENSE](https://github.com/R-Computing-Lab/discord/blob/main/LICENSE) file.
+
+`discord` is licensed under the GNU General Public License v3.0. For
+more details, see the
+[LICENSE](https://github.com/R-Computing-Lab/discord/blob/main/LICENSE)
+file.

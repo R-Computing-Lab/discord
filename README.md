@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-<a href="https://r-computing-lab.github.io/discord/"><img src="man/figures/logo.png" align="right" height="139" alt="discord website" /></a>
+<a href="https://r-computing-lab.github.io/discord/"><img src="man/figures/logo.png" alt="discord website" align="right" height="139"/></a>
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -47,7 +47,61 @@ overview of the package, its features, and vignettes to get you started.
 ## Vignettes
 
 The package includes several vignettes to help users understand and
-utilize its features effectively.
+utilize its features effectively. These vignettes can be accessed
+[online](https://r-computing-lab.github.io/discord/articles/) or by
+selecting them from the RStudio “Vignettes” tab after installing the
+package.
+
+The following vignettes are available:
+
+- [Power Analysis with
+  discord](https://r-computing-lab.github.io/discord/articles/Power.html)
+  - Use this vignette when you need to plan sample sizes or evaluate
+    detectability by running simulation grids that vary effect sizes,
+    kin types, and Ns using kinsim, then re-fitting discord_regression
+    under each condition. It reports empirical power, writes tidy
+    summaries, and includes code to visualize power curves across
+    conditions to support design decisions.
+- [Regression Analysis with
+  discord](https://r-computing-lab.github.io/discord/articles/regression.html)
+  - Use this if you want an end-to-end applied example that links NLSY79
+    relatives, cleans variables for flu vaccination and SES, constructs
+    dyads, and then fits within-family models. You will learn how to
+    specify discord_regression correctly and interpret coefficients when
+    predictors vary within pairs versus only between pairs.
+- [Handling Categorical
+  Predictors](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
+  - This vignette formalizes categorical predictors in discord designs
+    by separating mixed from between-dyad variables and making the
+    implied contrasts explicit. It implements binary-match and
+    multi-category match encodings on concrete examples (e.g., sex,
+    race), fits the corresponding discord_regression specifications, and
+    contrasts estimates to show how encoding choices change
+    interpretation.
+- [Full Data
+  Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
+  - Starting from raw wide and long person-level inputs, this vignette
+    builds kin links, aligns IDs, and constructs the discord_data object
+    with sibling-specific columns ready for modeling. It then fits a
+    conventional between-family regression alongside a discord model on
+    the same variables, so you can see where the within-family estimate
+    diverges and adopt the pipeline as a template.
+- [Creating
+  Plots](https://r-computing-lab.github.io/discord/articles/plots.html)
+  - This vignette takes fitted discord_regression outputs and produces
+    publication-ready ggplot figures of effect estimates and
+    within-family contrasts with minimal transformation of the model
+    results. It includes complete plotting code paths you can reuse,
+    from extracting estimates to saving figures that clearly communicate
+    within-family findings.
+- [No Database? No Problem: Using discord with Simple Family
+  Structures](https://r-computing-lab.github.io/discord/articles/links.html)
+  - This vignette is particularly useful for situations when you do not
+    have existing kinship links and need to build link tables directly
+    from simple family identifiers. It shows how to construct the links,
+    optionally simulate phenotypes under specified structures, and fit
+    discord_regression with alternative specifications for small or
+    bespoke datasets.
 
 ## External Reproducible Examples
 
@@ -107,8 +161,6 @@ cite the following paper:
 
 ``` r
 citation(package = "discord")
-Warning in citation(package = "discord"): could not determine year for
-'discord' from package DESCRIPTION file
 To cite package 'discord' in publications use:
 
   Garrison S, Trattner J, Hwang Y (????). _discord: Functions for
