@@ -9,7 +9,7 @@ following the classical ACE model (Additive genetic, Common environment, unique 
 
     <a class="navbar-brand me-2" href="../index.html">discord</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +25,7 @@ following the classical ACE model (Additive genetic, Common environment, unique 
     <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
     <li><a class="dropdown-item" href="../articles/plots.html">Plots</a></li>
     <li><a class="dropdown-item" href="../articles/Power.html">Power</a></li>
-    <li><a class="dropdown-item" href="../articles/regression.html">Regression demonstration with Flu Vaccination and SES data</a></li>
+    <li><a class="dropdown-item" href="../articles/regression.html">NLSY: Regression demonstration with Flu Vaccination and SES data</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -59,6 +59,7 @@ following the classical ACE model (Additive genetic, Common environment, unique 
 <span>  ace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  r_vector <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  c_vector <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -93,7 +94,16 @@ default is c(1, 1, 1).</p></dd>
 
 <dt id="arg-r-vector">r_vector<a class="anchor" aria-label="anchor" href="#arg-r-vector"></a></dt>
 <dd><p>Numeric vector. Alternative specification method providing relatedness
-coefficients for the entire sample; default is NULL.</p></dd>
+coefficients for the entire sample; default is NULL. If provided, <code>r_vector</code> overrides <code>r</code> and <code>npergroup</code>.</p></dd>
+
+
+<dt id="arg-c-vector">c_vector<a class="anchor" aria-label="anchor" href="#arg-c-vector"></a></dt>
+<dd><p>Numeric vector. Optional vector of shared environmental correlations. for each kinship pair. If provided, <code>c_vector</code> overrides <code>c_rel</code> and <code>npergroup</code>. The length of <code>c_vector</code> must match that of <code>r_vector</code> (if provided), or the total number of pairs implied by <code>r</code> and <code>npergroup</code>. Values should be in the range [0, 1].</p></dd>
+
+
+<dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
+<dd><p>Numeric vector. Optional unique identifiers for each kinship pair;
+default is NULL, in which case IDs are assigned sequentially.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

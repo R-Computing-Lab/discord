@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">discord</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@
     <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
     <li><a class="dropdown-item" href="../articles/plots.html">Plots</a></li>
     <li><a class="dropdown-item" href="../articles/Power.html">Power</a></li>
-    <li><a class="dropdown-item" href="../articles/regression.html">Regression demonstration with Flu Vaccination and SES data</a></li>
+    <li><a class="dropdown-item" href="../articles/regression.html">NLSY: Regression demonstration with Flu Vaccination and SES data</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -103,18 +103,19 @@ determines which transformation steps you’ll need.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For easy data manipulation</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># For kinship linkages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlsy-links.github.io/NlsyLinks/" class="external-link">NlsyLinks</a></span><span class="op">)</span></span>
 <span><span class="co"># For discordant-kinship regression</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/discord" class="external-link">discord</a></span><span class="op">)</span></span>
-<span><span class="co"># To clean data frame names</span></span>
+<span><span class="co"># To clean data frames</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor" class="external-link">janitor</a></span><span class="op">)</span></span>
-<span><span class="co"># tidy up output</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/" class="external-link">broom</a></span><span class="op">)</span></span>
 <span><span class="co"># For pipe</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
 <span><span class="co"># For pedigree data manipulation</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/BGmisc/" class="external-link">BGmisc</a></span><span class="op">)</span> </span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/BGmisc/" class="external-link">BGmisc</a></span><span class="op">)</span></span>
 <span><span class="co"># For pedigree plotting</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/ggpedigree/" class="external-link">ggpedigree</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
@@ -140,8 +141,9 @@ identify which sibling’s data appears in each column.</p>
 <span>  height_s2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">170</span>, <span class="fl">162</span>, <span class="fl">178</span>, <span class="fl">172</span>, <span class="fl">168</span><span class="op">)</span>,</span>
 <span>  weight_s1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">60</span>, <span class="fl">80</span>, <span class="fl">75</span>, <span class="fl">65</span><span class="op">)</span>,</span>
 <span>  weight_s2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">68</span>, <span class="fl">62</span>, <span class="fl">78</span>, <span class="fl">74</span>, <span class="fl">66</span><span class="op">)</span></span>
-<span><span class="op">)</span> </span>
-<span><span class="va">df_wide</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">df_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
@@ -246,15 +248,15 @@ by default provide data in long format.</p>
 <p>We can demonstrate long format by reshaping our wide data from
 above:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">df_long</span> <span class="op">&lt;-</span> <span class="va">df_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">df_long</span> <span class="op">&lt;-</span> <span class="va">df_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
-<span>    cols <span class="op">=</span> <span class="op">-</span><span class="va">pid</span>,  <span class="co"># keep the dyad identifier intact</span></span>
+<span>    cols <span class="op">=</span> <span class="op">-</span><span class="va">pid</span>, <span class="co"># keep the dyad identifier intact</span></span>
 <span>    names_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">".value"</span>, <span class="st">"sibling"</span><span class="op">)</span>, <span class="co"># split base names and the sibling marker</span></span>
 <span>    names_sep <span class="op">=</span> <span class="st">"_s"</span> <span class="co"># original suffix delimiter in column names</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_long</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -362,16 +364,17 @@ or apart. (More on how to do this below for pedigree data.)</p>
 <h4 id="converting-long-to-wide">Converting Long to Wide<a class="anchor" aria-label="anchor" href="#converting-long-to-wide"></a>
 </h4>
 <p>To convert long format data for discordant-kinship analysis, use
-<code>pivot_wider()</code> from the {tidyr} package:</p>
+<code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider()</a></code> from the {tidyr} package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_long2wide</span> <span class="op">&lt;-</span> <span class="va">df_long</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span></span>
 <span>    names_from <span class="op">=</span> <span class="va">sibling</span>, <span class="co"># the column that indicates the sibling number</span></span>
-<span>    values_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">age</span>, <span class="va">height</span>, <span class="va">weight</span><span class="op">)</span>,  <span class="co"># variables to spread into paired columns</span></span>
+<span>    values_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">age</span>, <span class="va">height</span>, <span class="va">weight</span><span class="op">)</span>, <span class="co"># variables to spread into paired columns</span></span>
 <span>    names_sep <span class="op">=</span> <span class="st">"_s"</span> <span class="co"># ensures id_s1, id_s2,etc</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_long2wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
@@ -480,14 +483,16 @@ analyses in the primary paper (Garrison et al., 2025).</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlsy-links.github.io/NlsyLinks/" class="external-link">NlsyLinks</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Links79PairExpanded</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">Links79PairExpanded</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">ExtendedID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>   <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RelationshipPath</span> <span class="op">==</span> <span class="st">"Gen1Housemates"</span> <span class="op">&amp;</span> <span class="va">RFull</span> <span class="op">==</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ExtendedID</span>, </span>
-<span>         <span class="va">SubjectTag_S1</span>, <span class="va">SubjectTag_S2</span>, </span>
-<span>         <span class="va">RelationshipPath</span>, <span class="va">RFull</span>, <span class="va">IsMz</span> ,</span>
-<span>         <span class="va">EverSharedHouse</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">Links79PairExpanded</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">ExtendedID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RelationshipPath</span> <span class="op">==</span> <span class="st">"Gen1Housemates"</span> <span class="op">&amp;</span> <span class="va">RFull</span> <span class="op">==</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>    <span class="va">ExtendedID</span>,</span>
+<span>    <span class="va">SubjectTag_S1</span>, <span class="va">SubjectTag_S2</span>,</span>
+<span>    <span class="va">RelationshipPath</span>, <span class="va">RFull</span>, <span class="va">IsMz</span>,</span>
+<span>    <span class="va">EverSharedHouse</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -586,22 +591,21 @@ forms:</p>
 <span><span class="fu"><a href="https://r-computing-lab.github.io/ggpedigree/reference/ggPedigree.html" class="external-link">ggpedigree</a></span><span class="op">(</span><span class="va">potter</span>, config <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  label_method <span class="op">=</span> <span class="st">"geom_text"</span>,</span>
 <span>  label_nudge_y <span class="op">=</span> <span class="fl">.25</span>,</span>
-<span>      focal_fill_personID <span class="op">=</span> <span class="fl">7</span>,</span>
-<span>    focal_fill_include <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    focal_fill_force_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    focal_fill_na_value <span class="op">=</span> <span class="st">"grey50"</span>,</span>
-<span>    focal_fill_low_color <span class="op">=</span> <span class="st">"darkred"</span>,</span>
-<span>    focal_fill_high_color <span class="op">=</span> <span class="st">"gold"</span>,</span>
-<span>    focal_fill_mid_color <span class="op">=</span> <span class="st">"orange"</span>,</span>
-<span>    focal_fill_scale_midpoint <span class="op">=</span> <span class="fl">.65</span>,</span>
-<span>    focal_fill_component <span class="op">=</span> <span class="st">"additive"</span>,</span>
-<span>    focal_fill_method <span class="op">=</span>  <span class="st">"steps"</span>,<span class="co">#</span></span>
-<span>   <span class="co"># focal_fill_method = "viridis_c",</span></span>
-<span>   </span>
-<span>    focal_fill_use_log <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    focal_fill_n_breaks <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>    sex_color_include <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    focal_fill_legend_title <span class="op">=</span> <span class="st">"Genetic Relatives \nof Harry Potter"</span></span>
+<span>  focal_fill_personID <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>  focal_fill_include <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  focal_fill_force_zero <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  focal_fill_na_value <span class="op">=</span> <span class="st">"grey50"</span>,</span>
+<span>  focal_fill_low_color <span class="op">=</span> <span class="st">"darkred"</span>,</span>
+<span>  focal_fill_high_color <span class="op">=</span> <span class="st">"gold"</span>,</span>
+<span>  focal_fill_mid_color <span class="op">=</span> <span class="st">"orange"</span>,</span>
+<span>  focal_fill_scale_midpoint <span class="op">=</span> <span class="fl">.65</span>,</span>
+<span>  focal_fill_component <span class="op">=</span> <span class="st">"additive"</span>,</span>
+<span>  focal_fill_method <span class="op">=</span> <span class="st">"steps"</span>, <span class="co">#</span></span>
+<span>  <span class="co"># focal_fill_method = "viridis_c",</span></span>
+<span>  focal_fill_use_log <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  focal_fill_n_breaks <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  sex_color_include <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  focal_fill_legend_title <span class="op">=</span> <span class="st">"Genetic Relatives \nof Harry Potter"</span></span>
 <span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Potter Pedigree Plot"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
@@ -618,12 +622,15 @@ parent-child and sibling connections.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">potter</span><span class="op">)</span></span>
 <span><span class="va">df_ped</span> <span class="op">&lt;-</span> <span class="va">potter</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">personID</span>, <span class="va">sex</span>, <span class="va">famID</span>, <span class="va">momID</span>, <span class="va">dadID</span>, <span class="va">spouseID</span>, </span>
-<span>         <span class="va">twinID</span>, <span class="va">zygosity</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span> <span class="op">(</span>x_var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>    <span class="va">personID</span>, <span class="va">sex</span>, <span class="va">famID</span>, <span class="va">momID</span>, <span class="va">dadID</span>, <span class="va">spouseID</span>,</span>
+<span>    <span class="va">twinID</span>, <span class="va">zygosity</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>x_var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">df_ped</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">df_ped</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">personID</th>
@@ -738,7 +745,7 @@ are removed.</p>
 <span></span>
 <span><span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">ID1</th>
@@ -789,7 +796,7 @@ environment to understand the composition of the dataset.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">addRel</span>, <span class="va">cnuRel</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -833,31 +840,99 @@ interpretable when there is a single kinship group.</p>
 homes from our pedigree data. This subset allows us to illustrate the
 process clearly.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">syn_df</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
-<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span>  cov_a <span class="op">=</span> <span class="fl">.4</span>,</span>
-<span>  cov_e <span class="op">=</span> <span class="fl">.4</span>,</span>
-<span>  c_vector <span class="op">=</span> <span class="va">df_links</span><span class="op">$</span><span class="va">cnuRel</span>,</span>
-<span>  r_vector <span class="op">=</span> <span class="va">df_links</span><span class="op">$</span><span class="va">addRel</span></span>
-<span>    <span class="co">#c(df_cousin$cnuRel,df_cousin$cnuRel,df_cousin$cnuRel),</span></span>
-<span> <span class="co"># r_vector = c(df_cousin$addRel,df_cousin$addRel,df_cousin$addRel)</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>,<span class="va">r</span>, weight_1 <span class="op">=</span><span class="va">y1_1</span>,</span>
-<span>         weight_2<span class="op">=</span> <span class="va">y1_2</span>,</span>
-<span>         height_1 <span class="op">=</span> <span class="va">y2_1</span>,</span>
-<span>         height_2 <span class="op">=</span> <span class="va">y2_2</span><span class="op">)</span><span class="co"># %&gt;%</span></span>
-<span>  </span>
-<span></span>
-<span></span>
-<span></span>
-<span><span class="co">#%&gt;%</span></span>
-<span><span class="co"># cbind(df_links,.)</span></span>
-<span></span>
-<span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
 <span><span class="va">df_cousin</span> <span class="op">&lt;-</span> <span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">addRel</span> <span class="op">==</span> <span class="fl">.125</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># only cousins %&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnuRel</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># only kin raised in separate homes</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnuRel</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># only kin raised in separate homes</span></span>
+<span></span>
+<span><span class="va">df_synthetic</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
+<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  cov_a <span class="op">=</span> <span class="fl">.5</span>,</span>
+<span>  cov_c <span class="op">=</span> <span class="fl">.1</span>,</span>
+<span>  cov_e <span class="op">=</span> <span class="fl">.3</span>,</span>
+<span>  c_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">$</span><span class="va">cnuRel</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  r_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">$</span><span class="va">addRel</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>    pid <span class="op">=</span> <span class="va">id</span>,</span>
+<span>    <span class="va">r</span>,</span>
+<span>    weight_s1 <span class="op">=</span> <span class="va">y1_1</span>,</span>
+<span>    weight_s2 <span class="op">=</span> <span class="va">y1_2</span>,</span>
+<span>    height_s1 <span class="op">=</span> <span class="va">y2_1</span>,</span>
+<span>    height_s2 <span class="op">=</span> <span class="va">y2_2</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    age_s1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">30</span>, sd <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    age_s2 <span class="op">=</span> <span class="va">age_s1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_synthetic</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">pid</th>
+<th align="right">r</th>
+<th align="right">weight_s1</th>
+<th align="right">weight_s2</th>
+<th align="right">height_s1</th>
+<th align="right">height_s2</th>
+<th align="right">age_s1</th>
+<th align="right">age_s2</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">0.12</td>
+<td align="right">2.09</td>
+<td align="right">-1.30</td>
+<td align="right">4.54</td>
+<td align="right">-0.66</td>
+<td align="right">31</td>
+<td align="right">30</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">0.12</td>
+<td align="right">1.21</td>
+<td align="right">0.40</td>
+<td align="right">1.20</td>
+<td align="right">0.26</td>
+<td align="right">32</td>
+<td align="right">28</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">0.12</td>
+<td align="right">1.03</td>
+<td align="right">2.53</td>
+<td align="right">2.76</td>
+<td align="right">0.58</td>
+<td align="right">29</td>
+<td align="right">27</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0.12</td>
+<td align="right">1.46</td>
+<td align="right">4.92</td>
+<td align="right">0.93</td>
+<td align="right">-0.67</td>
+<td align="right">30</td>
+<td align="right">29</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">0.12</td>
+<td align="right">2.69</td>
+<td align="right">2.78</td>
+<td align="right">0.95</td>
+<td align="right">-0.54</td>
+<td align="right">23</td>
+<td align="right">18</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section level2">
@@ -892,8 +967,8 @@ your chosen source as needed.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># CHOOSE ONE based on your path</span></span>
 <span><span class="co"># source_wide &lt;- df_wide</span></span>
-<span><span class="va">source_wide</span> <span class="op">&lt;-</span> <span class="va">df_long2wide</span></span>
-<span><span class="co"># source_wide &lt;- pairs_wide   # if you followed the pedigree path</span></span></code></pre></div>
+<span><span class="co"># source_wide &lt;- df_long2wide</span></span>
+<span><span class="va">source_wide</span> <span class="op">&lt;-</span> <span class="va">df_synthetic</span> <span class="co"># if you followed the pedigree path</span></span></code></pre></div>
 <p>Now call <code><a href="../reference/discord_data.html">discord_data()</a></code> specifying the outcome and
 predictor present for both siblings. Here we use <code>Y</code> as the
 outcome and <code>X</code> as the predictor, with your <code>_S1</code>
@@ -904,14 +979,16 @@ outcome and <code>X</code> as the predictor, with your <code>_S1</code>
 <span>  outcome <span class="op">=</span> <span class="st">"weight"</span>,</span>
 <span>  predictors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"height"</span>, <span class="st">"age"</span><span class="op">)</span>,</span>
 <span>  demographics <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_s1"</span>,<span class="st">"_s2"</span><span class="op">)</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_s1"</span>, <span class="st">"_s2"</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"pid"</span> <span class="co"># or "famID" if you followed the pedigree path</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_discord_weight</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span>, caption <span class="op">=</span> <span class="st">"Transformed data ready for discordant-kinship regression"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<caption>Transformed data ready for discordant-kinship
+regression</caption>
 <colgroup>
 <col width="2%">
 <col width="7%">
@@ -945,78 +1022,78 @@ outcome and <code>X</code> as the predictor, with your <code>_S1</code>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">70</td>
-<td align="right">68</td>
-<td align="right">2</td>
-<td align="right">69.0</td>
-<td align="right">175</td>
-<td align="right">170</td>
-<td align="right">5</td>
-<td align="right">172.5</td>
+<td align="right">2.09</td>
+<td align="right">-1.30</td>
+<td align="right">3.39</td>
+<td align="right">0.39</td>
+<td align="right">4.54</td>
+<td align="right">-0.66</td>
+<td align="right">5.20</td>
+<td align="right">1.94</td>
+<td align="right">31</td>
 <td align="right">30</td>
-<td align="right">28</td>
-<td align="right">2</td>
-<td align="right">29.0</td>
+<td align="right">1</td>
+<td align="right">30.5</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">62</td>
-<td align="right">60</td>
-<td align="right">2</td>
-<td align="right">61.0</td>
-<td align="right">162</td>
-<td align="right">160</td>
-<td align="right">2</td>
-<td align="right">161.0</td>
-<td align="right">25</td>
-<td align="right">27</td>
-<td align="right">-2</td>
-<td align="right">26.0</td>
+<td align="right">1.21</td>
+<td align="right">0.40</td>
+<td align="right">0.81</td>
+<td align="right">0.80</td>
+<td align="right">1.20</td>
+<td align="right">0.26</td>
+<td align="right">0.94</td>
+<td align="right">0.73</td>
+<td align="right">32</td>
+<td align="right">28</td>
+<td align="right">4</td>
+<td align="right">30.0</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">80</td>
-<td align="right">78</td>
-<td align="right">2</td>
-<td align="right">79.0</td>
-<td align="right">180</td>
-<td align="right">178</td>
-<td align="right">2</td>
-<td align="right">179.0</td>
-<td align="right">40</td>
-<td align="right">38</td>
-<td align="right">2</td>
-<td align="right">39.0</td>
+<td align="right">2.53</td>
+<td align="right">1.03</td>
+<td align="right">1.51</td>
+<td align="right">1.78</td>
+<td align="right">0.58</td>
+<td align="right">2.76</td>
+<td align="right">-2.18</td>
+<td align="right">1.67</td>
+<td align="right">27</td>
+<td align="right">29</td>
+<td align="right">-2</td>
+<td align="right">28.0</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">75</td>
-<td align="right">74</td>
-<td align="right">1</td>
-<td align="right">74.5</td>
-<td align="right">170</td>
-<td align="right">172</td>
-<td align="right">-2</td>
-<td align="right">171.0</td>
-<td align="right">36</td>
-<td align="right">35</td>
-<td align="right">1</td>
-<td align="right">35.5</td>
+<td align="right">4.92</td>
+<td align="right">1.46</td>
+<td align="right">3.46</td>
+<td align="right">3.19</td>
+<td align="right">-0.67</td>
+<td align="right">0.93</td>
+<td align="right">-1.60</td>
+<td align="right">0.13</td>
+<td align="right">29</td>
+<td align="right">30</td>
+<td align="right">-1</td>
+<td align="right">29.5</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">66</td>
-<td align="right">65</td>
-<td align="right">1</td>
-<td align="right">65.5</td>
-<td align="right">168</td>
-<td align="right">165</td>
-<td align="right">3</td>
-<td align="right">166.5</td>
-<td align="right">28</td>
-<td align="right">30</td>
-<td align="right">-2</td>
-<td align="right">29.0</td>
+<td align="right">2.78</td>
+<td align="right">2.69</td>
+<td align="right">0.09</td>
+<td align="right">2.74</td>
+<td align="right">-0.54</td>
+<td align="right">0.95</td>
+<td align="right">-1.49</td>
+<td align="right">0.21</td>
+<td align="right">18</td>
+<td align="right">23</td>
+<td align="right">-5</td>
+<td align="right">20.5</td>
 </tr>
 </tbody>
 </table>
@@ -1027,10 +1104,12 @@ outcome and <code>X</code> as the predictor, with your <code>_S1</code>
 variables:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_discord_weight</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, </span>
-<span>         <span class="va">weight_1</span>, <span class="va">weight_2</span>, <span class="va">weight_mean</span>, <span class="va">weight_diff</span>,</span>
-<span>         <span class="va">height_1</span>, <span class="va">height_2</span>, <span class="va">height_mean</span>, <span class="va">height_diff</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>    <span class="va">id</span>,</span>
+<span>    <span class="va">weight_1</span>, <span class="va">weight_2</span>, <span class="va">weight_mean</span>, <span class="va">weight_diff</span>,</span>
+<span>    <span class="va">height_1</span>, <span class="va">height_2</span>, <span class="va">height_mean</span>, <span class="va">height_diff</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -1058,58 +1137,58 @@ variables:</p>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">70</td>
-<td align="right">68</td>
-<td align="right">69.0</td>
-<td align="right">2</td>
-<td align="right">175</td>
-<td align="right">170</td>
-<td align="right">172.5</td>
-<td align="right">5</td>
+<td align="right">2.09</td>
+<td align="right">-1.30</td>
+<td align="right">0.39</td>
+<td align="right">3.39</td>
+<td align="right">4.54</td>
+<td align="right">-0.66</td>
+<td align="right">1.94</td>
+<td align="right">5.20</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">62</td>
-<td align="right">60</td>
-<td align="right">61.0</td>
-<td align="right">2</td>
-<td align="right">162</td>
-<td align="right">160</td>
-<td align="right">161.0</td>
-<td align="right">2</td>
+<td align="right">1.21</td>
+<td align="right">0.40</td>
+<td align="right">0.80</td>
+<td align="right">0.81</td>
+<td align="right">1.20</td>
+<td align="right">0.26</td>
+<td align="right">0.73</td>
+<td align="right">0.94</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">80</td>
-<td align="right">78</td>
-<td align="right">79.0</td>
-<td align="right">2</td>
-<td align="right">180</td>
-<td align="right">178</td>
-<td align="right">179.0</td>
-<td align="right">2</td>
+<td align="right">2.53</td>
+<td align="right">1.03</td>
+<td align="right">1.78</td>
+<td align="right">1.51</td>
+<td align="right">0.58</td>
+<td align="right">2.76</td>
+<td align="right">1.67</td>
+<td align="right">-2.18</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">75</td>
-<td align="right">74</td>
-<td align="right">74.5</td>
-<td align="right">1</td>
-<td align="right">170</td>
-<td align="right">172</td>
-<td align="right">171.0</td>
-<td align="right">-2</td>
+<td align="right">4.92</td>
+<td align="right">1.46</td>
+<td align="right">3.19</td>
+<td align="right">3.46</td>
+<td align="right">-0.67</td>
+<td align="right">0.93</td>
+<td align="right">0.13</td>
+<td align="right">-1.60</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">66</td>
-<td align="right">65</td>
-<td align="right">65.5</td>
-<td align="right">1</td>
-<td align="right">168</td>
-<td align="right">165</td>
-<td align="right">166.5</td>
-<td align="right">3</td>
+<td align="right">2.78</td>
+<td align="right">2.69</td>
+<td align="right">2.74</td>
+<td align="right">0.09</td>
+<td align="right">-0.54</td>
+<td align="right">0.95</td>
+<td align="right">0.21</td>
+<td align="right">-1.49</td>
 </tr>
 </tbody>
 </table>
@@ -1157,14 +1236,13 @@ This will ensure that <code>_1</code> is always the oldest sibling
 within the pair. In the case of ties, one sibling is randomly assigned
 as <code>_1</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">df_for_ols</span> <span class="op">&lt;-</span> <span class="va">df_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">df_for_ols</span> <span class="op">&lt;-</span> <span class="va">df_synthetic</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
 <span>    id <span class="op">=</span> <span class="va">pid</span>,</span>
 <span>    weight <span class="op">=</span> <span class="va">weight_s1</span>,</span>
 <span>    height <span class="op">=</span> <span class="va">height_s1</span>,</span>
 <span>    age <span class="op">=</span> <span class="va">age_s1</span></span>
-<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="va">df_discord_age</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/discord_data.html">discord_data</a></span><span class="op">(</span></span>
@@ -1172,13 +1250,17 @@ as <code>_1</code>.</p>
 <span>  outcome <span class="op">=</span> <span class="st">"age"</span>,</span>
 <span>  predictors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"height"</span>, <span class="st">"weight"</span><span class="op">)</span>,</span>
 <span>  demographics <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_s1"</span>,<span class="st">"_s2"</span><span class="op">)</span>,</span>
+<span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_s1"</span>, <span class="st">"_s2"</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"pid"</span> <span class="co"># or "famID" if you followed the pedigree path</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_discord_age</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">age_1</span>, <span class="va">age_2</span>, <span class="va">age_mean</span>, <span class="va">age_diff</span>, <span class="va">weight_1</span>, <span class="va">height_1</span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"One sibling per pair for OLS regression, selecting by age"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>    <span class="va">id</span>, <span class="va">age_1</span>, <span class="va">age_2</span>,</span>
+<span>    <span class="va">age_mean</span>, <span class="va">age_diff</span>, <span class="va">weight_1</span>, <span class="va">height_1</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"One sibling per pair for OLS regression, selecting by age"</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <caption>One sibling per pair for OLS regression, selecting by
 age</caption>
@@ -1194,95 +1276,96 @@ age</caption>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
+<td align="right">31</td>
 <td align="right">30</td>
-<td align="right">28</td>
-<td align="right">29.0</td>
-<td align="right">2</td>
-<td align="right">70</td>
-<td align="right">175</td>
+<td align="right">30.5</td>
+<td align="right">1</td>
+<td align="right">2.09</td>
+<td align="right">4.54</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">27</td>
-<td align="right">25</td>
-<td align="right">26.0</td>
-<td align="right">2</td>
-<td align="right">60</td>
-<td align="right">160</td>
+<td align="right">32</td>
+<td align="right">28</td>
+<td align="right">30.0</td>
+<td align="right">4</td>
+<td align="right">1.21</td>
+<td align="right">1.20</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">40</td>
-<td align="right">38</td>
-<td align="right">39.0</td>
+<td align="right">29</td>
+<td align="right">27</td>
+<td align="right">28.0</td>
 <td align="right">2</td>
-<td align="right">80</td>
-<td align="right">180</td>
+<td align="right">1.03</td>
+<td align="right">2.76</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">36</td>
-<td align="right">35</td>
-<td align="right">35.5</td>
+<td align="right">30</td>
+<td align="right">29</td>
+<td align="right">29.5</td>
 <td align="right">1</td>
-<td align="right">75</td>
-<td align="right">170</td>
+<td align="right">1.46</td>
+<td align="right">0.93</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">30</td>
-<td align="right">28</td>
-<td align="right">29.0</td>
-<td align="right">2</td>
-<td align="right">65</td>
-<td align="right">165</td>
+<td align="right">23</td>
+<td align="right">18</td>
+<td align="right">20.5</td>
+<td align="right">5</td>
+<td align="right">2.69</td>
+<td align="right">0.95</td>
 </tr>
 </tbody>
 </table>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">df_for_ols</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">age</span>, <span class="va">weight</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"One sibling per pair for OLS regression using orginal wide data"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"One sibling per pair for OLS regression using original wide data"</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
-<caption>One sibling per pair for OLS regression using orginal wide
+<caption>One sibling per pair for OLS regression using original wide
 data</caption>
 <thead><tr class="header">
 <th align="right">id</th>
+<th align="right">age</th>
 <th align="right">weight</th>
 <th align="right">height</th>
-<th align="right">age</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">70</td>
-<td align="right">175</td>
-<td align="right">30</td>
+<td align="right">31</td>
+<td align="right">2.09</td>
+<td align="right">4.54</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">60</td>
-<td align="right">160</td>
-<td align="right">27</td>
+<td align="right">32</td>
+<td align="right">1.21</td>
+<td align="right">1.20</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">80</td>
-<td align="right">180</td>
-<td align="right">40</td>
+<td align="right">29</td>
+<td align="right">1.03</td>
+<td align="right">2.76</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">75</td>
-<td align="right">170</td>
-<td align="right">36</td>
+<td align="right">30</td>
+<td align="right">1.46</td>
+<td align="right">0.93</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">65</td>
-<td align="right">165</td>
-<td align="right">30</td>
+<td align="right">23</td>
+<td align="right">2.69</td>
+<td align="right">0.95</td>
 </tr>
 </tbody>
 </table>
@@ -1295,27 +1378,129 @@ directly selects the older sibling from the original wide data.</p>
 <p>By selecting one sibling per pair, we’re analyzing the same number of
 observations as we have kinship pairs. This represents the standard
 individual-level approach used in most research:</p>
+<p><span class="math display">$$ Y = \\beta_0 + \\beta_1 X1 + \\beta_2
+X2 + \\epsilon $$</span></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ols_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">height</span> <span class="op">+</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">df_for_ols</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">ols_model</span>, type <span class="op">=</span> <span class="st">"html"</span></span>
-<span>                       , digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Standard OLS Regression Results"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; &lt;table style="text-align:center"&gt;&lt;caption&gt;&lt;strong&gt;Standard OLS Regression Results&lt;/strong&gt;&lt;/caption&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan="1" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;weight&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;height&lt;/td&gt;&lt;td&gt;0.387 (0.161)&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td style="text-align:left"&gt;age&lt;/td&gt;&lt;td&gt;0.986&lt;sup&gt;*&lt;/sup&gt; (0.242)&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td style="text-align:left"&gt;Constant&lt;/td&gt;&lt;td&gt;-27.968 (21.832)&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td style="text-align:left"&gt;R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.980&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td style="text-align:left"&gt;Adjusted R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.959&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td style="text-align:left"&gt;Residual Std. Error&lt;/td&gt;&lt;td&gt;1.596 (df = 2)&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td style="text-align:left"&gt;F Statistic&lt;/td&gt;&lt;td&gt;48.099&lt;sup&gt;**&lt;/sup&gt; (df = 2; 2)&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td style="text-align:right"&gt;&lt;sup&gt;*&lt;/sup&gt;p&lt;0.1; &lt;sup&gt;**&lt;/sup&gt;p&lt;0.05; &lt;sup&gt;***&lt;/sup&gt;p&lt;0.01&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span><span class="co">#&gt; &lt;/table&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ols_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">height</span> <span class="op">+</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">df_for_ols</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">ols_model</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Standard OLS Regression Results"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table style="text-align:center" class="table">
+<caption>
+<strong>Standard OLS Regression Results</strong>
+</caption>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+weight
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+height
+</td>
+<td>
+0.287<sup>***</sup> (0.078)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age
+</td>
+<td>
+-0.073<sup>**</sup> (0.029)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+2.788<sup>***</sup> (0.871)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+141
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.125
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.112
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+1.573 (df = 138)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+9.857<sup>***</sup> (df = 2; 138)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></em></sup>p&lt;0.1; <sup><strong></strong></sup>p&lt;0.05;
+<sup></sup>p&lt;0.01
+</td>
+</tr>
+</table>
 <p>This standard regression shows associations between our variables
 while controlling only for measured covariates.</p>
 </div>
@@ -1325,33 +1510,132 @@ while controlling only for measured covariates.</p>
 <p>Next, we run a between-family regression using the discordant data.
 This model regresses the outcome mean on predictor means, capturing
 between-family variation:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">between_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
+<p><span class="math display">$$ Y_{mean} = \\beta_0 + \\beta_1
+X1_{mean} + \\beta_2 X2_{mean} + \\epsilon $$</span></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">between_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">weight_mean</span> <span class="op">~</span> <span class="va">height_mean</span> <span class="op">+</span> <span class="va">age_mean</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">df_discord_weight</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>, type <span class="op">=</span> <span class="st">"text"</span></span>
-<span>                       , digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family Regression Results"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Between-Family Regression Results</span></span>
-<span><span class="co">#&gt; ===============================================</span></span>
-<span><span class="co">#&gt;                         Dependent variable:    </span></span>
-<span><span class="co">#&gt;                     ---------------------------</span></span>
-<span><span class="co">#&gt;                             weight_mean        </span></span>
-<span><span class="co">#&gt; -----------------------------------------------</span></span>
-<span><span class="co">#&gt; height_mean                0.401 (0.151)       </span></span>
-<span><span class="co">#&gt; age_mean                  0.866** (0.190)      </span></span>
-<span><span class="co">#&gt; Constant                 -25.845 (20.742)      </span></span>
-<span><span class="co">#&gt; -----------------------------------------------</span></span>
-<span><span class="co">#&gt; Observations                     5             </span></span>
-<span><span class="co">#&gt; R2                             0.989           </span></span>
-<span><span class="co">#&gt; Adjusted R2                    0.978           </span></span>
-<span><span class="co">#&gt; Residual Std. Error       1.052 (df = 2)       </span></span>
-<span><span class="co">#&gt; F Statistic            90.819** (df = 2; 2)    </span></span>
-<span><span class="co">#&gt; ===============================================</span></span>
-<span><span class="co">#&gt; Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family Regression Results"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table style="text-align:center" class="table">
+<caption>
+<strong>Between-Family Regression Results</strong>
+</caption>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+weight_mean
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+height_mean
+</td>
+<td>
+0.199<sup>**</sup> (0.077)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age_mean
+</td>
+<td>
+-0.044<sup>*</sup> (0.023)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+2.064<sup>***</sup> (0.666)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+141
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.067
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.054
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+1.284 (df = 138)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+4.970<sup>***</sup> (df = 2; 138)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></em></sup>p&lt;0.1; <sup><strong></strong></sup>p&lt;0.05;
+<sup></sup>p&lt;0.01
+</td>
+</tr>
+</table>
 <p>This between-family regression captures how differences in average
 height and age across families relate to average weight. However, it
 does not account for within-family differences, which is where
@@ -1373,15 +1657,17 @@ regression. We can specify the models manually or use the
 produce identical results.</p>
 <p>The discordant model regresses the outcome difference on outcome
 mean, predictor means, and predictor differences:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p><span class="math display">$$ Y_{diff} = \\beta_0 + \\beta_1 Y_{mean}
++ \\beta_2 X1_{mean} + \\beta_3 X1_{diff} + \\beta_4 X2_{mean} +
+\\beta_5 X2_{diff} + \\epsilon $$</span></p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_model_manual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">weight_diff</span> <span class="op">~</span> <span class="va">weight_mean</span> <span class="op">+</span> <span class="va">height_mean</span> <span class="op">+</span> <span class="va">height_diff</span> <span class="op">+</span> <span class="va">age_mean</span> <span class="op">+</span> <span class="va">age_diff</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">df_discord_weight</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">discord_model_manual</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span>, caption <span class="op">=</span> <span class="st">"Discordant Regression (Manual)"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in qt(a, object$df.residual): NaNs produced</span></span></code></pre></div>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span>, caption <span class="op">=</span> <span class="st">"Discordant Regression (Manual)"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <caption>Discordant Regression (Manual)</caption>
 <colgroup>
@@ -1405,93 +1691,264 @@ mean, predictor means, and predictor differences:</p>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">3323.429</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">0.500</td>
+<td align="right">0.528</td>
+<td align="right">0.948</td>
+<td align="right">0.345</td>
+<td align="right">-0.544</td>
+<td align="right">1.544</td>
 </tr>
 <tr class="even">
 <td align="left">weight_mean</td>
-<td align="right">43.143</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">-0.043</td>
+<td align="right">0.065</td>
+<td align="right">-0.660</td>
+<td align="right">0.511</td>
+<td align="right">-0.171</td>
+<td align="right">0.086</td>
 </tr>
 <tr class="odd">
 <td align="left">height_mean</td>
-<td align="right">-35.714</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">0.041</td>
+<td align="right">0.060</td>
+<td align="right">0.680</td>
+<td align="right">0.498</td>
+<td align="right">-0.078</td>
+<td align="right">0.159</td>
 </tr>
 <tr class="even">
 <td align="left">height_diff</td>
-<td align="right">32.143</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">0.141</td>
+<td align="right">0.043</td>
+<td align="right">3.254</td>
+<td align="right">0.001</td>
+<td align="right">0.055</td>
+<td align="right">0.226</td>
 </tr>
 <tr class="odd">
 <td align="left">age_mean</td>
-<td align="right">-10.286</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">0.031</td>
+<td align="right">0.018</td>
+<td align="right">1.742</td>
+<td align="right">0.084</td>
+<td align="right">-0.004</td>
+<td align="right">0.066</td>
 </tr>
 <tr class="even">
 <td align="left">age_diff</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">-0.026</td>
+<td align="right">0.024</td>
+<td align="right">-1.092</td>
+<td align="right">0.277</td>
+<td align="right">-0.074</td>
+<td align="right">0.021</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span></span>
-<span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>,<span class="va">discord_model_manual</span>, type <span class="op">=</span> <span class="st">"text"</span></span>
-<span>                       , digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family and Discordant Regression Results"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Between-Family and Discordant Regression Results</span></span>
-<span><span class="co">#&gt; ====================================================</span></span>
-<span><span class="co">#&gt;                           Dependent variable:       </span></span>
-<span><span class="co">#&gt;                     --------------------------------</span></span>
-<span><span class="co">#&gt;                         weight_mean      weight_diff</span></span>
-<span><span class="co">#&gt;                             (1)              (2)    </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------</span></span>
-<span><span class="co">#&gt; weight_mean                                43.143   </span></span>
-<span><span class="co">#&gt; height_mean            0.401 (0.151)       -35.714  </span></span>
-<span><span class="co">#&gt; height_diff                                32.143   </span></span>
-<span><span class="co">#&gt; age_mean              0.866** (0.190)      -10.286  </span></span>
-<span><span class="co">#&gt; age_diff                                            </span></span>
-<span><span class="co">#&gt; Constant              -25.845 (20.742)    3,323.429 </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------</span></span>
-<span><span class="co">#&gt; Observations                 5                5     </span></span>
-<span><span class="co">#&gt; R2                         0.989            1.000   </span></span>
-<span><span class="co">#&gt; Adjusted R2                0.978                    </span></span>
-<span><span class="co">#&gt; Residual Std. Error    1.052 (df = 2)               </span></span>
-<span><span class="co">#&gt; F Statistic         90.819** (df = 2; 2)            </span></span>
-<span><span class="co">#&gt; ====================================================</span></span>
-<span><span class="co">#&gt; Note:                    *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>, <span class="va">discord_model_manual</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family and Discordant Regression Results"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table style="text-align:center" class="table">
+<caption>
+<strong>Between-Family and Discordant Regression Results</strong>
+</caption>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+weight_mean
+</td>
+<td>
+weight_diff
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+weight_mean
+</td>
+<td>
+</td>
+<td>
+-0.043 (0.065)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+height_mean
+</td>
+<td>
+0.199<sup>**</sup> (0.077)
+</td>
+<td>
+0.041 (0.060)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+height_diff
+</td>
+<td>
+</td>
+<td>
+0.141<sup>***</sup> (0.043)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age_mean
+</td>
+<td>
+-0.044<sup>*</sup> (0.023)
+</td>
+<td>
+0.031<sup>*</sup> (0.018)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age_diff
+</td>
+<td>
+</td>
+<td>
+-0.026 (0.024)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+2.064<sup>***</sup> (0.666)
+</td>
+<td>
+0.500 (0.528)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+141
+</td>
+<td>
+141
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.067
+</td>
+<td>
+0.102
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.054
+</td>
+<td>
+0.069
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+1.284 (df = 138)
+</td>
+<td>
+0.978 (df = 135)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+4.970<sup>***</sup> (df = 2; 138)
+</td>
+<td>
+3.060<sup>**</sup> (df = 5; 135)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></em></sup>p&lt;0.1; <sup><strong></strong></sup>p&lt;0.05;
+<sup></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<p>Note that we are using the df_discord_weight dataset created earlier
+with <code><a href="../reference/discord_data.html">discord_data()</a></code>. This dataset is ordered such that
+within a pair, the sibling with the higher weight is always
+<code>_1</code>. This ordering ensures that <code>weight_diff</code> is
+always non-negative, which is a key feature of discordant-kinship
+regression.</p>
 <div class="section level4">
 <h4 id="using-the-helper-function">Using the Helper Function<a class="anchor" aria-label="anchor" href="#using-the-helper-function"></a>
 </h4>
 <p>Alternatively, we can use the <code><a href="../reference/discord_regression.html">discord_regression()</a></code>
 function, which simplifies the process:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<p>By default, <code><a href="../reference/discord_regression.html">discord_regression()</a></code> orders siblings by the
+outcome variable, creates the necessary derived variables, and fits the
+discordant regression model in one step. This function also allows for
+easy inclusion of demographic covariates if needed. See the function
+documentation for more details on these options, as well as a vignette
+focused on demographic controls.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">source_wide</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"weight"</span>,</span>
@@ -1504,8 +1961,7 @@ function, which simplifies the process:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">discord_model</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span>, caption <span class="op">=</span> <span class="st">"Discordant Regression Results"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in qt(a, object$df.residual): NaNs produced</span></span></code></pre></div>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span>, caption <span class="op">=</span> <span class="st">"Discordant Regression Results"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <caption>Discordant Regression Results</caption>
 <colgroup>
@@ -1529,61 +1985,61 @@ function, which simplifies the process:</p>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">315.663</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">0.500</td>
+<td align="right">0.528</td>
+<td align="right">0.948</td>
+<td align="right">0.345</td>
+<td align="right">-0.544</td>
+<td align="right">1.544</td>
 </tr>
 <tr class="even">
 <td align="left">weight_mean</td>
-<td align="right">2.867</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">-0.043</td>
+<td align="right">0.065</td>
+<td align="right">-0.660</td>
+<td align="right">0.511</td>
+<td align="right">-0.171</td>
+<td align="right">0.086</td>
 </tr>
 <tr class="odd">
 <td align="left">height_diff</td>
-<td align="right">2.928</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">0.141</td>
+<td align="right">0.043</td>
+<td align="right">3.254</td>
+<td align="right">0.001</td>
+<td align="right">0.055</td>
+<td align="right">0.226</td>
 </tr>
 <tr class="even">
 <td align="left">age_diff</td>
-<td align="right">0.867</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">-0.026</td>
+<td align="right">0.024</td>
+<td align="right">-1.092</td>
+<td align="right">0.277</td>
+<td align="right">-0.074</td>
+<td align="right">0.021</td>
 </tr>
 <tr class="odd">
 <td align="left">height_mean</td>
-<td align="right">-3.060</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
+<td align="right">0.041</td>
+<td align="right">0.060</td>
+<td align="right">0.680</td>
+<td align="right">0.498</td>
+<td align="right">-0.078</td>
+<td align="right">0.159</td>
 </tr>
 <tr class="even">
 <td align="left">age_mean</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0.031</td>
+<td align="right">0.018</td>
+<td align="right">1.742</td>
+<td align="right">0.084</td>
+<td align="right">-0.004</td>
+<td align="right">0.066</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance</a></span><span class="op">(</span><span class="va">discord_model</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">r.squared</span>, <span class="va">adj.r.squared</span>, <span class="va">sigma</span>, <span class="va">p.value</span>, <span class="va">nobs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -1597,57 +2053,113 @@ function, which simplifies the process:</p>
 <th align="right">nobs</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td align="right">1</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">NaN</td>
-<td align="right">5</td>
+<td align="right">0.102</td>
+<td align="right">0.069</td>
+<td align="right">0.978</td>
+<td align="right">0.012</td>
+<td align="right">141</td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; R version 4.5.1 (2025-06-13)</span></span>
-<span><span class="co">#&gt; Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">#&gt; Running under: Ubuntu 24.04.3 LTS</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Matrix products: default</span></span>
-<span><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
-<span><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; locale:</span></span>
-<span><span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
-<span><span class="co">#&gt;  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span></span>
-<span><span class="co">#&gt;  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span></span>
-<span><span class="co">#&gt; [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; time zone: UTC</span></span>
-<span><span class="co">#&gt; tzcode source: system (glibc)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attached base packages:</span></span>
-<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt; [1] ggplot2_4.0.0    ggpedigree_0.9.0 BGmisc_1.5.0     magrittr_2.0.4  </span></span>
-<span><span class="co">#&gt; [5] broom_1.0.10     janitor_2.2.1    discord_1.2.4.1  NlsyLinks_2.2.3 </span></span>
-<span><span class="co">#&gt; [9] dplyr_1.1.4     </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] sass_0.4.10        generics_0.1.4     tidyr_1.3.1        stringi_1.8.7     </span></span>
-<span><span class="co">#&gt;  [5] lattice_0.22-7     digest_0.6.37      RColorBrewer_1.1-3 evaluate_1.0.5    </span></span>
-<span><span class="co">#&gt;  [9] grid_4.5.1         timechange_0.3.0   fastmap_1.2.0      jsonlite_2.0.0    </span></span>
-<span><span class="co">#&gt; [13] Matrix_1.7-3       backports_1.5.0    purrr_1.1.0        scales_1.4.0      </span></span>
-<span><span class="co">#&gt; [17] textshaping_1.0.3  jquerylib_0.1.4    stargazer_5.2.3    cli_3.6.5         </span></span>
-<span><span class="co">#&gt; [21] rlang_1.1.6        withr_3.0.2        cachem_1.1.0       yaml_2.3.10       </span></span>
-<span><span class="co">#&gt; [25] tools_4.5.1        kinship2_1.9.6.2   vctrs_0.6.5        R6_2.6.1          </span></span>
-<span><span class="co">#&gt; [29] lifecycle_1.0.4    lubridate_1.9.4    snakecase_0.11.1   stringr_1.5.2     </span></span>
-<span><span class="co">#&gt; [33] fs_1.6.6           htmlwidgets_1.6.4  ragg_1.5.0         pkgconfig_2.0.3   </span></span>
-<span><span class="co">#&gt; [37] desc_1.4.3         gtable_0.3.6       pkgdown_2.1.3      pillar_1.11.1     </span></span>
-<span><span class="co">#&gt; [41] bslib_0.9.0        glue_1.8.0         data.table_1.17.8  systemfonts_1.3.1 </span></span>
-<span><span class="co">#&gt; [45] xfun_0.53          tibble_3.3.0       tidyselect_1.2.1   knitr_1.50        </span></span>
-<span><span class="co">#&gt; [49] farver_2.1.2       htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.30    </span></span>
-<span><span class="co">#&gt; [53] compiler_4.5.1     quadprog_1.5-8     S7_0.2.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">discord_model</span>,</span>
+<span>  <span class="va">discord_model_manual</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Discordant Regression Results Comparison"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>% Error: Unrecognized object type.</p>
 </div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">sessioninfo</span><span class="fu">::</span><span class="fu"><a href="https://sessioninfo.r-lib.org/reference/session_info.html" class="external-link">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
+<span><span class="co">#&gt;  version  R version 4.5.1 (2025-06-13)</span></span>
+<span><span class="co">#&gt;  os       Ubuntu 24.04.3 LTS</span></span>
+<span><span class="co">#&gt;  system   x86_64, linux-gnu</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language en</span></span>
+<span><span class="co">#&gt;  collate  C.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    C.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       UTC</span></span>
+<span><span class="co">#&gt;  date     2025-10-06</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  quarto   NA</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package     </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version</span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
+<span><span class="co">#&gt;  backports      1.5.0   <span style="color: #555555;">2024-05-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  BGmisc       * 1.5.0   <span style="color: #555555;">2025-07-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  broom        * 1.0.10  <span style="color: #555555;">2025-09-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  bslib          0.9.0   <span style="color: #555555;">2025-01-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  cachem         1.1.0   <span style="color: #555555;">2024-05-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  cli            3.6.5   <span style="color: #555555;">2025-04-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  data.table     1.17.8  <span style="color: #555555;">2025-07-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  desc           1.4.3   <span style="color: #555555;">2023-12-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  digest         0.6.37  <span style="color: #555555;">2024-08-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  discord      * 1.3     <span style="color: #555555;">2025-10-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  dplyr        * 1.1.4   <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  evaluate       1.0.5   <span style="color: #555555;">2025-08-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  farver         2.1.2   <span style="color: #555555;">2024-05-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  fastmap        1.2.0   <span style="color: #555555;">2024-05-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  fs             1.6.6   <span style="color: #555555;">2025-04-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  generics       0.1.4   <span style="color: #555555;">2025-05-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  ggpedigree   * 0.9.0   <span style="color: #555555;">2025-09-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  ggplot2      * 4.0.0   <span style="color: #555555;">2025-09-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  glue           1.8.0   <span style="color: #555555;">2024-09-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  gtable         0.3.6   <span style="color: #555555;">2024-10-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  htmltools      0.5.8.1 <span style="color: #555555;">2024-04-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  htmlwidgets    1.6.4   <span style="color: #555555;">2023-12-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  janitor      * 2.2.1   <span style="color: #555555;">2024-12-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  jquerylib      0.1.4   <span style="color: #555555;">2021-04-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  jsonlite       2.0.0   <span style="color: #555555;">2025-03-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  kinship2       1.9.6.2 <span style="color: #555555;">2025-09-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  knitr          1.50    <span style="color: #555555;">2025-03-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  labeling       0.4.3   <span style="color: #555555;">2023-08-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  lattice        0.22-7  <span style="color: #555555;">2025-04-02</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.5.1)</span></span></span>
+<span><span class="co">#&gt;  lifecycle      1.0.4   <span style="color: #555555;">2023-11-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  lubridate      1.9.4   <span style="color: #555555;">2024-12-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  magrittr     * 2.0.4   <span style="color: #555555;">2025-09-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  Matrix         1.7-3   <span style="color: #555555;">2025-03-11</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.5.1)</span></span></span>
+<span><span class="co">#&gt;  NlsyLinks    * 2.2.3   <span style="color: #555555;">2025-08-31</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  pillar         1.11.1  <span style="color: #555555;">2025-09-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  pkgconfig      2.0.3   <span style="color: #555555;">2019-09-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  pkgdown        2.1.3   <span style="color: #555555;">2025-05-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">any (@2.1.3)</span></span></span>
+<span><span class="co">#&gt;  purrr          1.1.0   <span style="color: #555555;">2025-07-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  quadprog       1.5-8   <span style="color: #555555;">2019-11-20</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  R6             2.6.1   <span style="color: #555555;">2025-02-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  ragg           1.5.0   <span style="color: #555555;">2025-09-02</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  RColorBrewer   1.1-3   <span style="color: #555555;">2022-04-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  rlang          1.1.6   <span style="color: #555555;">2025-04-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  rmarkdown      2.30    <span style="color: #555555;">2025-09-28</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  S7             0.2.0   <span style="color: #555555;">2024-11-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  sass           0.4.10  <span style="color: #555555;">2025-04-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  scales         1.4.0   <span style="color: #555555;">2025-04-24</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  sessioninfo    1.2.3   <span style="color: #555555;">2025-02-05</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">any (@1.2.3)</span></span></span>
+<span><span class="co">#&gt;  snakecase      0.11.1  <span style="color: #555555;">2023-08-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  stargazer      5.2.3   <span style="color: #555555;">2022-03-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  stringi        1.8.7   <span style="color: #555555;">2025-03-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  stringr        1.5.2   <span style="color: #555555;">2025-09-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  systemfonts    1.3.1   <span style="color: #555555;">2025-10-01</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  textshaping    1.0.3   <span style="color: #555555;">2025-09-02</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  tibble         3.3.0   <span style="color: #555555;">2025-06-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  tidyr        * 1.3.1   <span style="color: #555555;">2024-01-24</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  tidyselect     1.2.1   <span style="color: #555555;">2024-03-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  timechange     0.3.0   <span style="color: #555555;">2024-01-18</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  vctrs          0.6.5   <span style="color: #555555;">2023-12-01</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  withr          3.0.2   <span style="color: #555555;">2024-10-28</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  xfun           0.53    <span style="color: #555555;">2025-08-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  yaml           2.3.10  <span style="color: #555555;">2024-07-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [1] /home/runner/work/_temp/Library</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [2] /opt/R/4.5.1/lib/R/site-library</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [3] /opt/R/4.5.1/lib/R/library</span></span></span>
+<span><span class="co">#&gt;  <span style="color: #BBBBBB; background-color: #BB0000;">*</span> ── Packages attached to the search path.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">──────────────────────────────────────────────────────────────────────────────</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -9,7 +9,7 @@ genetic, Common environment, unique Environment) parameters with covariance stru
 
     <a class="navbar-brand me-2" href="../index.html">discord</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +25,7 @@ genetic, Common environment, unique Environment) parameters with covariance stru
     <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
     <li><a class="dropdown-item" href="../articles/plots.html">Plots</a></li>
     <li><a class="dropdown-item" href="../articles/Power.html">Power</a></li>
-    <li><a class="dropdown-item" href="../articles/regression.html">Regression demonstration with Flu Vaccination and SES data</a></li>
+    <li><a class="dropdown-item" href="../articles/regression.html">NLSY: Regression demonstration with Flu Vaccination and SES data</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -65,6 +65,7 @@ genetic, Common environment, unique Environment) parameters with covariance stru
 <span>  cov_a <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  cov_c <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  cov_e <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -136,6 +137,10 @@ default repeats <code>ace_all</code> for each variable.</p></dd>
 
 <dt id="arg-cov-e">cov_e<a class="anchor" aria-label="anchor" href="#arg-cov-e"></a></dt>
 <dd><p>Numeric. Shared variance for non-shared-environment between variables; default is 0.</p></dd>
+
+
+<dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
+<dd><p>Numeric vector. Optional unique identifiers for each kinship pair;</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
