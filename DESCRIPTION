@@ -39,6 +39,7 @@ Suggests:
     stargazer,
     snakecase,
     testthat,
-    tidyverse
+    tidyverse,
+    sessioninfo
 VignetteBuilder: 
     knitr

@@ -18,7 +18,7 @@ discord_regression_legacy(
 interest.}
 
 \item{predictors}{A character vector containing the column names for
-predicting the outcome.}
+predicting the outcome. Can be NULL if no predictors are desired.}
 
 \item{more_args}{Optional string to add additional inputs to formula}
 

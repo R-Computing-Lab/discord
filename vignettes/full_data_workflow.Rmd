@@ -486,6 +486,8 @@ stargazer::stargazer(discord_model,
                      discord_model_manual, type = "html",
                      digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison")
 ```
+
+# Session Info
 ```{r}
-sessionInfo()
+sessioninfo::sessionInfo()
 ```

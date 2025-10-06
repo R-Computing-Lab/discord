@@ -27,11 +27,36 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of discord is to provide functions for discordant kinship
-modeling and other sibling-based quasi-experimental designs. It has
-highly customizable, efficient code for generating genetically-informed
-simulations and provides user-friendly functions to perform
-discordant-kinship regressions.
+`discord` is an R package that provides functions for discordant kinship
+modeling and other sibling-based quasi-experimental designs. It includes
+functions for data preparation, regression analysis, and simulation of
+genetically-informed data. The package is designed to facilitate the
+implementation of discordant sibling designs in research, allowing for
+the control of shared familial confounding factors.
+
+Visit the [discord website](https://r-computing-lab.github.io/discord/) for
+more information and detailed documentation. Below is a brief overview of the package, its features, and vignettes to get you started.
+
+## Features
+- **Data Preparation**: Functions to prepare and structure data for discordant sibling analysis, including handling of kinship pairs and demographic variables.
+- **Regression Analysis**: Tools to perform discordant regression analyses, allowing for the examination of within-family effects while controlling for shared familial confounders.
+- **Simulation**: Functions to simulate genetically-informed data, enabling researchers to test and validate their models.
+
+## Vignettes
+
+The package includes several vignettes to help users understand and utilize its features effectively. 
+
+## External Reproducible Examples
+
+Beyond the vignettes, you can find additional examples that fully reproduce analyses from our other publications (Garrison et al 2025, etc). These examples can be accessed via the following links:
+
+- National Longitudinal Survey of Youth (NLSY) dataset
+  - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024): Reproduces exploring the relationship between depression and delinquency from Sims et al 2024.
+  - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims): Reproduces analyses from  Garrison et al 2025, using `targets` for workflow management.
+
+- China Family Panel Studies (CFPS) dataset
+  - [AMPPS](https://github.com/R-Computing-Lab/discord_AMPSS_CFPS): Reproduces analyses from the China Family Panel Studies (CFPS) dataset, focusing on the association between adolescent depression and math achievement.
+
 
 ## Installation
 

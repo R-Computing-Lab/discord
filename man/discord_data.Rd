@@ -11,7 +11,7 @@ discord_data(
   id = NULL,
   sex = "sex",
   race = "race",
-  pair_identifiers,
+  pair_identifiers = c("_s1", "_s2"),
   demographics = "both",
   coding_method = "none",
   fast = TRUE,
@@ -25,7 +25,7 @@ discord_data(
 interest.}
 
 \item{predictors}{A character vector containing the column names for
-predicting the outcome.}
+predicting the outcome. Can be NULL if no predictors are desired.}
 
 \item{id}{Default's to NULL. If supplied, must specify the column name
 corresponding to unique kinship pair identifiers.}
@@ -35,7 +35,7 @@ corresponding to unique kinship pair identifiers.}
 \item{race}{A character string for the race column name.}
 
 \item{pair_identifiers}{A character vector of length two that contains the
-variable identifier for each kinship pair}
+variable identifier for each kinship pair. Default is c("_s1","_s2").}
 
 \item{demographics}{Indicator variable for if the data has the sex and race
 demographics. If both are present (default, and recommended), value should
