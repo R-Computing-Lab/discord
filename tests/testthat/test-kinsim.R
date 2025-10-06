@@ -125,12 +125,34 @@ test_that("kinsim returns correct number of rows based on sample sizes", {
 })
 
 test_that("kinsim works with a single variable", {
+  set.seed(123)
   df <- kinsim(variables = 1)
   expected_cols <- c(
     "A1_1", "A1_2", "C1_1", "C1_2", "E1_1", "E1_2", "y1_1", "y1_2", "r", "id"
   )
   expect_true(all(expected_cols %in% names(df)))
+ # expect_equal(ncol(df), length(expected_cols))
+
+   expect_true(all(df$id == 1:nrow(df)))
+
+
+
 })
+
+test_that("kinsim works with a single variable and provided ID", {
+  set.seed(123)
+  df <- kinsim(variables = 1, id = 1001:2000)
+  expected_cols <- c(
+    "A1_1", "A1_2", "C1_1", "C1_2", "E1_1", "E1_2", "y1_1", "y1_2", "r", "id"
+  )
+  expect_true(all(expected_cols %in% names(df)))
+ # expect_equal(ncol(df), length(expected_cols))
+  expect_true(all(df$id == 1001:2000))
+
+   expect_false(all(df$id == 1:nrow(df)))
+
+})
+
 
 test_that("kinsim fails if more than 2 variables are requested", {
   expect_error(kinsim(variables = 3), "generate data beyond the current limitations")
@@ -173,4 +195,7 @@ test_that("kinsim handles r_vector and c_vecttor input correctly", {
 test_that("output has correct ID range", {
   df <- kinsim(npergroup_all = c(50, 50))
   expect_equal(df$id, 1:100)
+
+    df <- kinsim(npergroup_all = c(50, 50), id = 101:200)
+  expect_equal(df$id, 101:200)
 })

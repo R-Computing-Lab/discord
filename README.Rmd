@@ -44,17 +44,29 @@ more information and detailed documentation. Below is a brief overview of the pa
 
 ## Vignettes
 
-The package includes several vignettes to help users understand and utilize its features effectively. 
+The package includes several vignettes to help users understand and utilize its features effectively. These vignettes can be accessed  [online](https://r-computing-lab.github.io/discord/articles/) or by selecting them from the RStudio "Vignettes" tab after installing the package.
+
+The following vignettes are available:
+- [Power Analysis with discord](https://r-computing-lab.github.io/discord/articles/Power.html)
+- [Regression Analysis with discord](https://r-computing-lab.github.io/discord/articles/regression.html)
+- [Data Preparation with discord](https://r-computing-lab.github.io/discord/articles/data_preparation.html)
+- [Handling Categorical Predictors](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
+- [Full Data Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
+- [Creating Plots](https://r-computing-lab.github.io/discord/articles/plots.html)
+- [Simulating Genetically-Informed Data](https://r-computing-lab.github.io/discord/articles/links.html)
+
+
 
 ## External Reproducible Examples
 
 Beyond the vignettes, you can find additional examples that fully reproduce analyses from our other publications (Garrison et al 2025, etc). These examples can be accessed via the following links:
 
 - National Longitudinal Survey of Youth (NLSY) dataset
-  - [Intelligence](https://github.com/R-Computing-Lab/Project_AFI_Intelligence): Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting doubt on the causal link between intelligence and age at first intercourse: A cross-generational sibling comparison design using the NLSY. Intelligence, 59, 139-156.
-  - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024): Reproduces exploring the relationship between depression and delinquency from Sims et al 2024.
-  - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims): Reproduces analyses from  Garrison et al 2025, using `targets` for workflow management.
-
+  - [Intelligence](https://github.com/R-Computing-Lab/Project_AFI_Intelligence): Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting doubt on the causal link between intelligence and age at first intercourse: A cross-generational sibling comparison design using the NLSY. Intelligence, 59, 139-156. https://doi.org/10.1016/j.intell.2016.08.008
+  - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024): Reproduces Sims, E. E., Trattner, J. D., & Garrison, S. M. (2024). Exploring the relationship between depression and delinquency: a sibling comparison design using the NLSY. Frontiers in psychology, 15, 1430978. https://doi.org/10.3389/fpsyg.2024.1430978
+  
+  - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims): Reproduces analyses from  Garrison et al 2025, using `targets` for workflow management. Garrison, S. M., Trattner, J. D., Lyu, X., Prillaman, H. R., McKinzie, L., Thompson, S. H. E., & Rodgers, J. L. (2025). Sibling Models Can Test Causal Claims without Experiments: Applications for Psychology. https://doi.org/10.1101/2025.08.25.25334395
+  
 - China Family Panel Studies (CFPS) dataset
   - [AMPPS](https://github.com/R-Computing-Lab/discord_CFPS): Reproduces analyses from the China Family Panel Studies (CFPS) dataset, focusing on the association between adolescent depression and math achievement.
 
@@ -79,7 +91,7 @@ devtools::install_github('R-Computing-Lab/discord')
 
 If you use `discord` in your research or wish to refer to it, please cite the following paper:
 
-```{r eval=TRUE, comment=NA}
+```{r eval=TRUE, comment=NA,warning=FALSE, message=FALSE}
 citation(package = "discord")
 ```
 

@@ -39,13 +39,14 @@ First, load the necessary packages:
 ```{r discord-setup, message = FALSE}
 # For easy data manipulation
 library(dplyr)
+library(tidyr)
+
 # For kinship linkages
 library(NlsyLinks)
 # For discordant-kinship regression
 library(discord)
-# To clean data frame names
+# To clean data frames
 library(janitor)
-# tidy up output
 library(broom)
 # For pipe
 library(magrittr)
@@ -271,8 +272,8 @@ df_synthetic <- discord::kinsim(
   cov_a = .5,
   cov_c = .1,
   cov_e = .3,
-  c_vector = c(df_cousin$cnuRel, df_cousin$cnuRel, df_cousin$cnuRel),
-  r_vector = c(df_cousin$addRel, df_cousin$addRel, df_cousin$addRel)
+  c_vector = rep(df_cousin$cnuRel, 3),
+  r_vector = rep(df_cousin$addRel, 3)
 ) %>%
   select(
     pid = id,

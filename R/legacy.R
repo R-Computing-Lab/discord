@@ -60,8 +60,8 @@ discord_data_legacy <- function(
 
   if (!doubleentered) {
     outcome2x <- outcome2
-    outcome2 <- c(outcome2[, 1], outcome1[, 1])
-    outcome1 <- c(outcome1[, 1], outcome2x[, 1])
+    outcome2 <- c(outcome2, outcome1) #c(outcome2[, 1], outcome1[, 1])
+    outcome1 <- c(outcome1, outcome2x) #  c(outcome1[, 1], outcome2x[, 1])
 
     if (scale & is.numeric(outcome1)) {
       outcome1 <- scale(outcome1)
@@ -78,8 +78,10 @@ discord_data_legacy <- function(
     for (i in 1:length(predictors)) {
       predictor1x <- predictor1 <- subset(df, select = paste0(predictors[i], sep, "1"))[, 1]
       predictor2 <- subset(df, select = paste0(predictors[i], sep, "2"))[, 1]
-      predictor1 <- c(predictor1[, 1], predictor2[, 1])
-      predictor2 <- c(predictor2[, 1], predictor1x[, 1])
+      predictor1 <- c(predictor1, predictor2)
+        #c(predictor1[, 1], predictor2[, 1])
+      predictor2 <- c(predictor2, predictor1x)
+        #c(predictor2[, 1], predictor1x[, 1])
       if (scale & is.numeric(predictor1)) {
         predictor1 <- scale(predictor1)
         predictor2 <- scale(predictor2)

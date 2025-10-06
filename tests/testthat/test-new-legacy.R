@@ -34,6 +34,16 @@ test_that("monozygotic significant: new & legacy regression code results are equ
   )
 
   set.seed(18)
+
+    old_results_nde <- discord_data_legacy(
+    df = mz_signif[,c("id","y1_1","y1_2","y2_1","y2_2")],
+    outcome = "y1",
+    predictors = "y2",
+    id = "id",
+    sep = "_",
+    doubleentered = FALSE
+  )
+
   old_results <- discord_data_legacy(
     df = make_double_entered(mz_signif),
     outcome = "y1",
@@ -47,8 +57,14 @@ test_that("monozygotic significant: new & legacy regression code results are equ
     outcome = "y1",
     predictors = "y2"
   )
-
+  old_results_nde <- discord_regression_legacy(
+    df = old_results_nde,
+    outcome = "y1",
+    predictors = "y2"
+  )
   expect_equal(summarize_results(new_results), summarize_results(old_results))
+  expect_equal(summarize_results(new_results), summarize_results(old_results_nde))
+    expect_equal(summarize_results(old_results), summarize_results(old_results_nde))
 })
 
 test_that("monozygotic significant: new & legacy data prep code results are equal", {

@@ -19,6 +19,7 @@ kinsim(
   cov_a = 0,
   cov_c = 0,
   cov_e = 0,
+  id = NULL,
   ...
 )
 }
@@ -59,6 +60,8 @@ default repeats \code{ace_all} for each variable.}
 \item{cov_c}{Numeric. Shared variance for shared-environment between variables; default is 0.}
 
 \item{cov_e}{Numeric. Shared variance for non-shared-environment between variables; default is 0.}
+
+\item{id}{Numeric vector. Optional unique identifiers for each kinship pair;}
 
 \item{...}{Additional arguments passed to other methods.}
 }

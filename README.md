@@ -61,12 +61,21 @@ etc). These examples can be accessed via the following links:
     on the causal link between intelligence and age at first
     intercourse: A cross-generational sibling comparison design using
     the NLSY. Intelligence, 59, 139-156.
+    <https://doi.org/10.1016/j.intell.2016.08.008>
+
   - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024):
-    Reproduces exploring the relationship between depression and
-    delinquency from Sims et al 2024.
+    Reproduces Sims, E. E., Trattner, J. D., & Garrison, S. M. (2024).
+    Exploring the relationship between depression and delinquency: a
+    sibling comparison design using the NLSY. Frontiers in psychology,
+    15, 1430978. <https://doi.org/10.3389/fpsyg.2024.1430978>
+
   - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims):
     Reproduces analyses from Garrison et al 2025, using `targets` for
-    workflow management.
+    workflow management. Garrison, S. M., Trattner, J. D., Lyu, X.,
+    Prillaman, H. R., McKinzie, L., Thompson, S. H. E., & Rodgers, J. L.
+    (2025). Sibling Models Can Test Causal Claims without Experiments:
+    Applications for Psychology.
+    <https://doi.org/10.1101/2025.08.25.25334395>
 - China Family Panel Studies (CFPS) dataset
   - [AMPPS](https://github.com/R-Computing-Lab/discord_CFPS): Reproduces
     analyses from the China Family Panel Studies (CFPS) dataset,

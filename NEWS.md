@@ -1,6 +1,8 @@
 # discord 1.3
 * Adding new full data tutorial in response to reviewers
 * Adding links to external repositories for reproducible examples from publications
+* Added smarter id handling to `discord_data()`
+* Added more tests to legacy comparisons and ids
 
 # discord 1.2.4.1
 * Added a new vignette demonstrating ways to visualize discordant kinship data using the `ggplot2` package. 
