@@ -22,11 +22,56 @@ coverage](https://codecov.io/gh/R-Computing-Lab/discord/graph/badge.svg)](https:
 
 <!-- badges: end -->
 
-The goal of discord is to provide functions for discordant kinship
-modeling and other sibling-based quasi-experimental designs. It has
-highly customizable, efficient code for generating genetically-informed
-simulations and provides user-friendly functions to perform
-discordant-kinship regressions.
+`discord` is an R package that provides functions for discordant kinship
+modeling and other sibling-based quasi-experimental designs. It includes
+functions for data preparation, regression analysis, and simulation of
+genetically-informed data. The package is designed to facilitate the
+implementation of discordant sibling designs in research, allowing for
+the control of shared familial confounding factors.
+
+Visit the [discord website](https://r-computing-lab.github.io/discord/)
+for more information and detailed documentation. Below is a brief
+overview of the package, its features, and vignettes to get you started.
+
+## Features
+
+- **Data Preparation**: Functions to prepare and structure data for
+  discordant sibling analysis, including handling of kinship pairs and
+  demographic variables.
+- **Regression Analysis**: Tools to perform discordant regression
+  analyses, allowing for the examination of within-family effects while
+  controlling for shared familial confounders.
+- **Simulation**: Functions to simulate genetically-informed data,
+  enabling researchers to test and validate their models.
+
+## Vignettes
+
+The package includes several vignettes to help users understand and
+utilize its features effectively.
+
+## External Reproducible Examples
+
+Beyond the vignettes, you can find additional examples that fully
+reproduce analyses from our other publications (Garrison et al 2025,
+etc). These examples can be accessed via the following links:
+
+- National Longitudinal Survey of Youth (NLSY) dataset
+  - [Intelligence](https://github.com/R-Computing-Lab/Project_AFI_Intelligence):
+    Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting doubt
+    on the causal link between intelligence and age at first
+    intercourse: A cross-generational sibling comparison design using
+    the NLSY. Intelligence, 59, 139-156.
+  - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024):
+    Reproduces exploring the relationship between depression and
+    delinquency from Sims et al 2024.
+  - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims):
+    Reproduces analyses from Garrison et al 2025, using `targets` for
+    workflow management.
+- China Family Panel Studies (CFPS) dataset
+  - [AMPPS](https://github.com/R-Computing-Lab/discord_CFPS): Reproduces
+    analyses from the China Family Panel Studies (CFPS) dataset,
+    focusing on the association between adolescent depression and math
+    achievement.
 
 ## Installation
 
@@ -53,22 +98,21 @@ cite the following paper:
 
 ``` r
 citation(package = "discord")
+Warning in citation(package = "discord"): could not determine year for
+'discord' from package DESCRIPTION file
 To cite package 'discord' in publications use:
 
-  Garrison S, Trattner J, Hwang Y (2025). _discord: Functions for
-  Discordant Kinship Modeling_. doi:10.32614/CRAN.package.discord
-  <https://doi.org/10.32614/CRAN.package.discord>, R package version
-  1.2.4.1, <https://CRAN.R-project.org/package=discord>.
+  Garrison S, Trattner J, Hwang Y (????). _discord: Functions for
+  Discordant Kinship Modeling_. R package version 1.2.4.1,
+  <https://github.com/R-Computing-Lab/discord>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {discord: Functions for Discordant Kinship Modeling},
     author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
-    year = {2025},
     note = {R package version 1.2.4.1},
-    url = {https://CRAN.R-project.org/package=discord},
-    doi = {10.32614/CRAN.package.discord},
+    url = {https://github.com/R-Computing-Lab/discord},
   }
 ```
 

@@ -489,5 +489,5 @@ stargazer::stargazer(discord_model,
 
 # Session Info
 ```{r}
-sessioninfo::sessionInfo()
+sessioninfo::session_info()
 ```

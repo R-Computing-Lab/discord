@@ -51,11 +51,12 @@ The package includes several vignettes to help users understand and utilize its 
 Beyond the vignettes, you can find additional examples that fully reproduce analyses from our other publications (Garrison et al 2025, etc). These examples can be accessed via the following links:
 
 - National Longitudinal Survey of Youth (NLSY) dataset
+  - [Intelligence](https://github.com/R-Computing-Lab/Project_AFI_Intelligence): Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting doubt on the causal link between intelligence and age at first intercourse: A cross-generational sibling comparison design using the NLSY. Intelligence, 59, 139-156.
   - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024): Reproduces exploring the relationship between depression and delinquency from Sims et al 2024.
   - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims): Reproduces analyses from  Garrison et al 2025, using `targets` for workflow management.
 
 - China Family Panel Studies (CFPS) dataset
-  - [AMPPS](https://github.com/R-Computing-Lab/discord_AMPSS_CFPS): Reproduces analyses from the China Family Panel Studies (CFPS) dataset, focusing on the association between adolescent depression and math achievement.
+  - [AMPPS](https://github.com/R-Computing-Lab/discord_CFPS): Reproduces analyses from the China Family Panel Studies (CFPS) dataset, focusing on the association between adolescent depression and math achievement.
 
 
 ## Installation
