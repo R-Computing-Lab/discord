@@ -185,7 +185,7 @@ make_mean_diffs_ram_optimized <- function(data, id, sex, race, demographics,
 recode_demographics <- function(demographics, data, raceS1, raceS2,
                                 race, sexS1, sexS2, sex, coding_method, output, fast = FALSE) {
   # check for whether or not race and sex are defined
-  if (fast==TRUE) {
+  if (fast == TRUE) {
     if (demographics == "race") {
       output_demographics <- data.frame(
         race_1 = data[[raceS1]],

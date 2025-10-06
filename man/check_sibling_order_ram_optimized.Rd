@@ -13,7 +13,7 @@ check_sibling_order_ram_optimized(data, outcome, pair_identifiers, row)
 interest.}
 
 \item{pair_identifiers}{A character vector of length two that contains the
-variable identifier for each kinship pair}
+variable identifier for each kinship pair. Default is c("_s1","_s2").}
 
 \item{row}{The row number of the data frame}
 }

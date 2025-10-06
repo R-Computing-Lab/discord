@@ -41,14 +41,12 @@ discord_data <- function(data,
                          id = NULL,
                          sex = "sex",
                          race = "race",
-                         pair_identifiers = c("_s1","_s2"),
+                         pair_identifiers = c("_s1", "_s2"),
                          demographics = "both",
                          coding_method = "none",
                          fast = TRUE,
                          ...) {
-
-
-  if (fast==TRUE) {
+  if (fast == TRUE) {
     unique(discord_data_fast(
       data = data,
       outcome = outcome,
@@ -224,10 +222,12 @@ discord_data_fast <- function(data,
   if (!valid_ids(orderedOnOutcome,
     id = id
   )) {
-    id_orginal <- id
+    id_original <- id
     id <- "rowwise_id"
-    orderedOnOutcome <- cbind(orderedOnOutcome, id_orginal = data[id_orginal],
-                              rowwise_id = 1:nrow(data))
+    orderedOnOutcome <- cbind(orderedOnOutcome,
+      id_original = data[id_original],
+      rowwise_id = 1:nrow(data)
+    )
   }
 
   #-------------------------------------------

@@ -38,7 +38,10 @@
 #'   a = additive genetic, c = shared environment, e = non-shared environment;
 #'   default is c(1, 1, 1).
 #' @param r_vector Numeric vector. Alternative specification method providing relatedness
-#'   coefficients for the entire sample; default is NULL.
+#'   coefficients for the entire sample; default is NULL. If provided, \code{r_vector} overrides \code{r} and \code{npergroup}.
+#' @param c_vector Numeric vector. Optional vector of shared environmental correlations. for each kinship pair. If provided, \code{c_vector} overrides \code{c_rel} and \code{npergroup}. The length of \code{c_vector} must match that of \code{r_vector} (if provided), or the total number of pairs implied by \code{r} and \code{npergroup}. Values should be in the range [0, 1].
+#' @param id Numeric vector. Optional unique identifiers for each kinship pair;
+#'   default is NULL, in which case IDs are assigned sequentially.
 #' @param ... Additional arguments passed to other methods.
 #' @keywords internal
 #' @return A data frame with the following columns:
@@ -66,6 +69,7 @@ kinsim_internal <- function(
     ace = c(1, 1, 1),
     r_vector = NULL,
     c_vector = NULL,
+    id = NULL,
     ...) {
   # Calculate standard deviations from variance components
   sA <- ace[1]^0.5
@@ -85,7 +89,10 @@ kinsim_internal <- function(
 
   # Handle standard case with groups of different relatedness
   if (is.null(r_vector)) {
-    id <- 1:sum(npergroup)
+
+    if(is.null(id)){
+      id <- 1:sum(npergroup)
+      }
 
 
     # Generate data for each relatedness group
@@ -129,7 +136,9 @@ kinsim_internal <- function(
     merged.data.frame$id <- id
   } else {
     # Handle case with custom relatedness vector
-    id <- 1:length(r_vector)
+    if(is.null(id)){
+       id <- 1:length(r_vector)
+    }
 
     data_vector <- data.frame(id, r_vector)
     data_vector$A.r1 <- as.numeric(NA)

@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-<a href="https://r-computing-lab.github.io/discord/"><img src="man/figures/logo.png" align="right" height="139" alt="discord website" /></a>
+<a href="https://r-computing-lab.github.io/discord/"><img src="man/figures/logo.png" alt="discord website" align="right" height="139"/></a>
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -22,11 +22,119 @@ coverage](https://codecov.io/gh/R-Computing-Lab/discord/graph/badge.svg)](https:
 
 <!-- badges: end -->
 
-The goal of discord is to provide functions for discordant kinship
-modeling and other sibling-based quasi-experimental designs. It has
-highly customizable, efficient code for generating genetically-informed
-simulations and provides user-friendly functions to perform
-discordant-kinship regressions.
+`discord` is an R package that provides functions for discordant kinship
+modeling and other sibling-based quasi-experimental designs. It includes
+functions for data preparation, regression analysis, and simulation of
+genetically-informed data. The package is designed to facilitate the
+implementation of discordant sibling designs in research, allowing for
+the control of shared familial confounding factors.
+
+Visit the [discord website](https://r-computing-lab.github.io/discord/)
+for more information and detailed documentation. Below is a brief
+overview of the package, its features, and vignettes to get you started.
+
+## Features
+
+- **Data Preparation**: Functions to prepare and structure data for
+  discordant sibling analysis, including handling of kinship pairs and
+  demographic variables.
+- **Regression Analysis**: Tools to perform discordant regression
+  analyses, allowing for the examination of within-family effects while
+  controlling for shared familial confounders.
+- **Simulation**: Functions to simulate genetically-informed data,
+  enabling researchers to test and validate their models.
+
+## Vignettes
+
+The package includes several vignettes to help users understand and
+utilize its features effectively. These vignettes can be accessed
+[online](https://r-computing-lab.github.io/discord/articles/) or by
+selecting them from the RStudio “Vignettes” tab after installing the
+package.
+
+The following vignettes are available:
+
+- [Power Analysis with
+  discord](https://r-computing-lab.github.io/discord/articles/Power.html)
+  - Use this vignette when you need to plan sample sizes or evaluate
+    detectability by running simulation grids that vary effect sizes,
+    kin types, and Ns using kinsim, then re-fitting discord_regression
+    under each condition. It reports empirical power, writes tidy
+    summaries, and includes code to visualize power curves across
+    conditions to support design decisions.
+- [Regression Analysis with
+  discord](https://r-computing-lab.github.io/discord/articles/regression.html)
+  - Use this if you want an end-to-end applied example that links NLSY79
+    relatives, cleans variables for flu vaccination and SES, constructs
+    dyads, and then fits within-family models. You will learn how to
+    specify discord_regression correctly and interpret coefficients when
+    predictors vary within pairs versus only between pairs.
+- [Handling Categorical
+  Predictors](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
+  - This vignette formalizes categorical predictors in discord designs
+    by separating mixed from between-dyad variables and making the
+    implied contrasts explicit. It implements binary-match and
+    multi-category match encodings on concrete examples (e.g., sex,
+    race), fits the corresponding discord_regression specifications, and
+    contrasts estimates to show how encoding choices change
+    interpretation.
+- [Full Data
+  Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
+  - Starting from raw wide and long person-level inputs, this vignette
+    builds kin links, aligns IDs, and constructs the discord_data object
+    with sibling-specific columns ready for modeling. It then fits a
+    conventional between-family regression alongside a discord model on
+    the same variables, so you can see where the within-family estimate
+    diverges and adopt the pipeline as a template.
+- [Creating
+  Plots](https://r-computing-lab.github.io/discord/articles/plots.html)
+  - This vignette takes fitted discord_regression outputs and produces
+    publication-ready ggplot figures of effect estimates and
+    within-family contrasts with minimal transformation of the model
+    results. It includes complete plotting code paths you can reuse,
+    from extracting estimates to saving figures that clearly communicate
+    within-family findings.
+- [No Database? No Problem: Using discord with Simple Family
+  Structures](https://r-computing-lab.github.io/discord/articles/links.html)
+  - This vignette is particularly useful for situations when you do not
+    have existing kinship links and need to build link tables directly
+    from simple family identifiers. It shows how to construct the links,
+    optionally simulate phenotypes under specified structures, and fit
+    discord_regression with alternative specifications for small or
+    bespoke datasets.
+
+## External Reproducible Examples
+
+Beyond the vignettes, you can find additional examples that fully
+reproduce analyses from our other publications (Garrison et al 2025,
+etc). These examples can be accessed via the following links:
+
+- National Longitudinal Survey of Youth (NLSY) dataset
+  - [Intelligence](https://github.com/R-Computing-Lab/Project_AFI_Intelligence):
+    Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting doubt
+    on the causal link between intelligence and age at first
+    intercourse: A cross-generational sibling comparison design using
+    the NLSY. Intelligence, 59, 139-156.
+    <https://doi.org/10.1016/j.intell.2016.08.008>
+
+  - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024):
+    Reproduces Sims, E. E., Trattner, J. D., & Garrison, S. M. (2024).
+    Exploring the relationship between depression and delinquency: a
+    sibling comparison design using the NLSY. Frontiers in psychology,
+    15, 1430978. <https://doi.org/10.3389/fpsyg.2024.1430978>
+
+  - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims):
+    Reproduces analyses from Garrison et al 2025, using `targets` for
+    workflow management. Garrison, S. M., Trattner, J. D., Lyu, X.,
+    Prillaman, H. R., McKinzie, L., Thompson, S. H. E., & Rodgers, J. L.
+    (2025). Sibling Models Can Test Causal Claims without Experiments:
+    Applications for Psychology.
+    <https://doi.org/10.1101/2025.08.25.25334395>
+- China Family Panel Studies (CFPS) dataset
+  - [AMPPS](https://github.com/R-Computing-Lab/discord_CFPS): Reproduces
+    analyses from the China Family Panel Studies (CFPS) dataset,
+    focusing on the association between adolescent depression and math
+    achievement.
 
 ## Installation
 
@@ -55,20 +163,17 @@ cite the following paper:
 citation(package = "discord")
 To cite package 'discord' in publications use:
 
-  Garrison S, Trattner J, Hwang Y (2025). _discord: Functions for
-  Discordant Kinship Modeling_. doi:10.32614/CRAN.package.discord
-  <https://doi.org/10.32614/CRAN.package.discord>, R package version
-  1.2.4.1, <https://CRAN.R-project.org/package=discord>.
+  Garrison S, Trattner J, Hwang Y (????). _discord: Functions for
+  Discordant Kinship Modeling_. R package version 1.2.4.1,
+  <https://github.com/R-Computing-Lab/discord>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {discord: Functions for Discordant Kinship Modeling},
     author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
-    year = {2025},
     note = {R package version 1.2.4.1},
-    url = {https://CRAN.R-project.org/package=discord},
-    doi = {10.32614/CRAN.package.discord},
+    url = {https://github.com/R-Computing-Lab/discord},
   }
 ```
 

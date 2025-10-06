@@ -1,5 +1,5 @@
 ---
-title: "Regression demonstration with Flu Vaccination and SES data"
+title: "NLSY: Regression demonstration with Flu Vaccination and SES data"
 author: Jonathan Trattner
 output: rmarkdown::html_vignette
 bibliography: references.bib
@@ -22,11 +22,11 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
+This vignette shows how to run a **discordant-kinship regression** with the `{discord}` package and the `{NLSYLinks}` package. The example uses data on flu vaccination and socioeconomic status (SES) from the National Longitudinal Survey of Youth 1979 (NLSY79). The goal of this analysis is to examine whether SES at age 40 predicts the number of flu vaccinations received between 2006 and 2016, while controlling for genetic and shared environmental factors by leveraging a discordant-kinship design.
 
-This vignette presents a simple example of a discordant-kinship regression using the `discord` package. 
+## Data Description
 
-The analysis draws from work presented by Trattner et al (2020) [@jonathantrattner2020], which was initially motivated by reports of health disparities among ethnic minority groups during the COVID-19 pandemic [@hooper2020].
-The data come from the 1979 National Longitudinal Survey of Youth (NLSY79), a nationally-representative household probability sample jointly sponsored by the U.S. Bureau of Labor Statistics and the Department of Defense. Participants were surveyed annually from 1979 until 1994 at which point surveys occurred biennially. The data are publicly available at <https://www.nlsinfo.org/> and include responses from a biennial flu vaccine survey administered between 2006 and 2016. 
+We build on Trattner et al. (2020) [@jonathantrattner2020], originally motivated by reports of health disparities among ethnic minority groups during the COVID-19 pandemic [@hooper2020]. The data come from the 1979 National Longitudinal Survey of Youth (NLSY79), a nationally-representative household probability sample jointly sponsored by the U.S. Bureau of Labor Statistics and the Department of Defense. Participants were surveyed annually from 1979 until 1994 at which point surveys occurred biennially. The data are publicly available at <https://www.nlsinfo.org/> and include responses from a biennial flu vaccine survey administered between 2006 and 2016. 
 
 The original analysis examined whether socioeconomic status (SES) at age 40 predicted flu vaccination rates, using a discordant kinship design. For this vignette, the data were downloaded using the [NLS Investigator](https://www.nlsinfo.org/investigator/pages/login) and are available [here](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/flu_shot.dat). SES at age 40 values can be found [here](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/nlsy-ses.csv). For clarity and to emphasize the functionality of {discord}, the data has been pre-processed using [this script](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/preprocess-discord-flu.R). This analysis is enabled by recent work that inferred genetic relatedness for approximately 95% of kin pairs in the NLSY79 cohort [@rodgers2016]. These kinship links are provided in the [{NlsyLinks}](https://nlsy-links.github.io/NlsyLinks/index.html) R package [@beasley2016], and can be easily utilized with the {discord} package.
 
@@ -35,7 +35,9 @@ The original analysis examined whether socioeconomic status (SES) at age 40 pred
 
 ## Data Cleaning
 
-For this example, we will load the following packages:
+### Prepare person-level data
+
+To perform a discordant-kinship regression, we first need to preprocess the data. For this example, we will load the following packages:
 
 ```{r discord-setup, message = FALSE}
 # For easy data manipulation
@@ -91,7 +93,10 @@ link_vars <- c(
 )
 ```
 
-We now link the subjects by the specified variables using `CreatePairLinksSingleEntered()`, from the {NlsyLinks} package.
+
+### Create kinship-linked data
+
+We now link the subjects by the specified variables using `CreatePairLinksSingleEntered()`, from the {NlsyLinks} package. We filter full siblings (RFull == .5) and use RelationshipPath == "Gen1Housemates"; see {NlsyLinks} docs for other kin types.
 
 ```{r create-linked-data}
 # Specify NLSY database and kin relatedness
@@ -105,7 +110,7 @@ df_link <- CreatePairLinksSingleEntered(
 )
 ```
 
-We have saved this data frame as `df_link`. A random subset of this data is shown below::[^discord-2]
+We have saved this data frame as `df_link`. A random subset of this data is shown below:[^discord-2]
 
 ```{r preview-linked-dat, echo = FALSE, eval = knitr::is_html_output(),error=FALSE}
 df_link %>%
@@ -277,15 +282,21 @@ The goal of performing a discordant-kinship regression is to see whether there i
 
 
 
-
 # Conclusion
 
-In its current implementation, the {discord} package encourages best practices for performing discordant-kinship regressions. For example, the main function has the default expectation that sex and race indicators will be supplied. These measures are both important covariates **when testing for causality between familial background and psychological characteristics.**
+In its current implementation, the {discord} package encourages best practices for performing discordant-kinship regressions. For example, the main function has the default expectation that demographic covariates (sex and race) will be supplied. These measures are both important covariates **when testing for causality between familial background and psychological characteristics.**
 
 This, and other design choices, are crucial to facilitating transparent and reproducible results. Software ever-evolves, however, and to further support reproducible research we plan to provide improved documentation and allow for easier inspection of the underlying model implementation and results.
 
 # Acknowledgments
 
 We acknowledge contributions from Cermet Ream, Joe Rodgers, and support from Lucy D'Agostino McGowan on this project.
+
+
+# Session Info
+
+```{r session-info, echo = FALSE}
+sessioninfo::session_info()
+```
 
 # References
