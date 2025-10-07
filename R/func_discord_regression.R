@@ -157,7 +157,11 @@ discord_between_model <- function(data,
                                   data_processed = FALSE,
                                   coding_method = "none",
                                   fast = TRUE) {
-  check_discord_errors(data = data, id = id, sex = sex, race = race, pair_identifiers = pair_identifiers)
+  check_discord_errors(
+    data = data, id = id,
+    sex = sex, race = race,
+    pair_identifiers = pair_identifiers
+  )
 
   # if no demographics provided
   if (is.null(demographics)) {

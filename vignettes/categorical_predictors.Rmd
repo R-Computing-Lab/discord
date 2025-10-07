@@ -1,10 +1,10 @@
 ---
-title: "Demonstrating categorical predictors"
+title: "Handling categorical predictors with discord"
 author: Yoo Ri Hwang and S. Mason Garrison
 bibliography: references.bib
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Demonstrating categorical predictors}
+  %\VignetteIndexEntry{03Handling categorical predictors with discord}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,7 +21,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ## Purpose
 
-This vignette demonstrates how to incorporate categorical predictors in discordant-kinship regression analyses using the `discord` package.  Building on dyadic modeling strategies from Kenny et al. [@kenny2006] and extensions to kinship models in our prior work [@Hwang2022], we present several approaches for incorporating categorical variables into these specialized regression models.
+This vignette demonstrates how to incorporate categorical predictors into discordant-kinship regression analyses using the `discord` package.  Building on dyadic modeling strategies from Kenny et al. [@kenny2006] and extensions to kinship models in our prior work [@Hwang2022], we present several approaches for incorporating categorical variables into these specialized regression models.
 
 We focus on:
 
@@ -79,7 +79,7 @@ Multi-match coding retains specific category information:
 
 - Male-male pairs → "MALE" 
 - Female-female pairs → "FEMALE"
-- Mixed pairs → "mixed"
+- Mixed pairs → "MIXED"
 
 **Use case**: When distinct effects for specific categories are hypothesized (e.g., male pairs vs. female pairs).
 
@@ -284,7 +284,7 @@ The race compositions in the dataset are as follows:
 ```{r preview-race, echo = FALSE, eval = knitr::is_html_output()}
 cat_race <- cat_race %>%
   dplyr::mutate(RACE_binarymatch = case_when(
-    RACE_binarymatch == 0 ~ "mixed-race",
+    RACE_binarymatch == 0 ~ "diff-race",
     RACE_binarymatch == 1 ~ "same-race"
   ))
 
@@ -300,15 +300,13 @@ cat_race %>%
 
 Because we filtered for same-race pairs, all pairs have RACE_binarymatch = "same-race." When using NLSY data, the RACE_multimatch variable distinguishes between the three categories used by the Bureau of Labor Statistics (Black, Hispanic, and Non-Black, Non-Hispanic).
 
-The `RACE_binarymatch` variable indicates whether the pair is same-race or mixed-race. As all pairs are same-race in this sample, this variable does not vary. The `RACE_multimatch` variable classifies pairs into one of three categories:
-The RACE_binarymatch variable indicates whether the pair is same-race or mixed-race. As all pairs are same-race in this sample, this variable does not vary. The RACE_multimatch variable classifies pairs into one of three categories:
+The `RACE_binarymatch` variable indicates whether the pair is same-race or different-race. As all pairs are same-race in this sample, this variable does not vary. The `RACE_multimatch` variable classifies pairs into one of three categories:
+The RACE_binarymatch variable indicates whether the pair is same-race or different-race. As all pairs are same-race in this sample, this variable does not vary. The RACE_multimatch variable classifies pairs into one of three categories:
 Since we filtered for same-race pairs only, all pairs have RACE_binarymatch = "same-race". When using NLSY data, the RACE_multimatch variable distinguishes between the three groupings that the bureau of labor statistics uses (Black, Hispanic, and Non-Black, Non-Hispanic).
 
-The `RACE_binarymatch` variable indicates whether the pair is the same-race pair or mixed-race pair .As all pairs are same-race in this sample, this variable does not vary within dyad. The `RACE_multimatch`  The RACE_multimatch variable classifies pairs into one of three categories:
+The `RACE_binarymatch` variable indicates whether the pair is the same-race pair or different-race pair. As all pairs are same-race in this sample, this variable does not vary within dyad. The `RACE_multimatch`  The RACE_multimatch variable classifies pairs into one of three categories:
 - Minority-minority,
-
 - Nonminority-nonminority,
-
 - Discordant (unused in this restricted sample).
 
 ### Combining Binary and Multi-match Variables
@@ -338,7 +336,7 @@ The demographic variables can be used in the same regression model.
 cat_both <- cat_both %>%
   dplyr::mutate(
     RACE_binarymatch = case_when(
-      RACE_binarymatch == 0 ~ "mixed-race",
+      RACE_binarymatch == 0 ~ "diff-race",
       RACE_binarymatch == 1 ~ "same-race"
     ),
     SEX_binarymatch = case_when(

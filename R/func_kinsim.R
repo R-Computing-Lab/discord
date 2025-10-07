@@ -128,7 +128,7 @@ kinsim <- function(
     stop("You have tried to generate data beyond the current limitations of this program. Maximum variables 2.")
   }
   if (is.null(r_vector)) {
-    if(is.null(id)){
+    if (is.null(id)) {
       id <- 1:sum(npergroup_all)
     }
 
@@ -162,9 +162,11 @@ kinsim <- function(
       sigma_c[4, 1] <- cov_c * 1
       sigma_c[3, 2] <- cov_c * 1
       sigma_c[2, 3] <- cov_c * 1
+
       C.r <- .rmvn(n,
         sigma = sigma_c
       )
+
       C.r[, 1:2] <- C.r[, 1:2] * sC[1]
       C.r[, 3:4] <- C.r[, 3:4] * sC[2]
 
@@ -208,7 +210,7 @@ kinsim <- function(
     merged.data.frame <- Reduce(function(...) merge(..., all = TRUE), datalist)
     merged.data.frame$id <- id
   } else {
-    if(is.null(id)){
+    if (is.null(id)) {
       id <- seq_along(r_vector)
     }
 
@@ -258,6 +260,11 @@ kinsim <- function(
 
       # Shared E
       sigma_e <- diag(4) + S2 * 0
+
+      # probably can optimize by only doing this in one
+      # however it doesn't seem to actual behave when I try to do that
+      # sigma_e[c(1, 3,4,2), c(3, 1,4,2)] <- cov_e
+
       sigma_e[1, 3] <- cov_e
       sigma_e[3, 1] <- cov_e
       sigma_e[2, 4] <- cov_e
