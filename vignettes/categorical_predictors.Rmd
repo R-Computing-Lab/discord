@@ -178,7 +178,7 @@ df_link <- df_link %>%
 ```
 
 
-Here, slice_sample() randomly selects one pair per household. In practice, researchers may choose to select the oldest or youngest pair instead.
+Here, `slice_sample()` randomly selects one pair per household. In practice, researchers may choose to select the oldest or youngest pair instead by using `slice_min()` or `slice_max()`.
 
 ## Handling Categorical Predictors
 
@@ -278,7 +278,8 @@ cat_race <- discord_data(
 )
 ```
 
-The race compositions in the dataset are as follows:
+
+The table below reports the race composition of pairs.
 
 
 ```{r preview-race, echo = FALSE, eval = knitr::is_html_output()}
