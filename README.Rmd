@@ -65,7 +65,7 @@ The following vignettes are available:
         discord_data objects with sibling-specific columns ready for
         modeling. It then fits a conventional between-family regression
         alongside a discord model on the same variables, so you can see
-        where the within-family estimate diverges and adopt the pipeline
+        where the within-family estimate diverges and adapt the pipeline
         as a template.
 
 -   [NLSY regression analysis with  discord](https://r-computing-lab.github.io/discord/articles/regression.html) 
@@ -73,8 +73,7 @@ The following vignettes are available:
         NLSY79 relatives, cleans variables for flu vaccination and SES,
         constructs dyads, and then fits within-family models. You will
         learn how to specify discord_regression correctly and interpret
-        coefficients when predictors vary within pairs versus only
-        between pairs.
+        coefficients.
 
 -   [Handling categorical predictors with discord ](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html) 
     -   This vignette formalizes categorical predictors in discord
@@ -95,11 +94,10 @@ The following vignettes are available:
 
 -   [Power Analysis with discord](https://r-computing-lab.github.io/discord/articles/Power.html)
     -   Use this vignette when you need to plan sample sizes or evaluate
-        detectability by running simulation grids that vary effect
+        power by running simulation grids that vary effect
         sizes, kin types, and Ns using kinsim, then re-fitting
         discord_regression under each condition. It reports empirical
-        power, writes tidy summaries, and includes code to visualize
-        power curves across conditions to support design decisions.
+        power and writes tidy summaries.
         
 -   [No Database? No Problem: Using discord with simple family Structures](https://r-computing-lab.github.io/discord/articles/links.html)
     -   This vignette is particularly useful for situations when you do
