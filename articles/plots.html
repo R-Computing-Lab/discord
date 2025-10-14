@@ -33,7 +33,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/categorical_predictors.html">Demonstrating categorical predictors</a></li>
+<li><a class="dropdown-item" href="../articles/categorical_predictors.html">Handling categorical predictors with discord</a></li>
     <li><a class="dropdown-item" href="../articles/full_data_workflow.html">Full Data Workflow</a></li>
     <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
     <li><a class="dropdown-item" href="../articles/plots.html">Plots</a></li>
@@ -75,9 +75,10 @@ Garrison</h4>
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>This vignette walks through the steps needed to recreate a figure
-from Garrison and Rodgers (2016). The example uses kinship pair data
-prepared with the discord package and visualizes the results using
-updated <code>ggplot2</code> tools.</p>
+from <a href="https://www.sciencedirect.com/science/article/pii/S0160289616300162" class="external-link">Garrison
+and Rodgers (2016)</a>. The example uses kinship pair data prepared with
+the discord package and visualizes the results using updated
+<code>ggplot2</code> tools.</p>
 </div>
 <div class="section level2">
 <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
@@ -86,21 +87,20 @@ updated <code>ggplot2</code> tools.</p>
 <h3 id="data-cleaning">Data Cleaning<a class="anchor" aria-label="anchor" href="#data-cleaning"></a>
 </h3>
 <p>This section reuses the data preparation pipeline developed in the
-regression vignette.<br>
-That vignette demonstrated how to set up data for discordant regression
-analysis by using discord data processing tools. Those tools facilitate
-the construction of kinship links, including identifying sibling pairs,
-merging sibling characteristics, and calculating pair-level
-variables.</p>
-<p>Here, we reuse that same pipeline to prepare the data for
-plotting.<br>
+regression vignette.</p>
+<p>That vignette demonstrated how to set up data for discordant
+regression analysis by using discord data processing tools. Those tools
+facilitate the construction of kinship links, including identifying
+sibling pairs, merging sibling characteristics, and calculating
+pair-level variables.</p>
+<p>Here, we reuse that same pipeline to prepare the data for plotting.
 Specifically, we apply the same kinship pairing, data merging, and
 cleaning procedures, but our focus is now on visualizing patterns rather
 than fitting regression models.</p>
 <p>The underlying dataset is the NLSY79, which includes measures of flu
-vaccination and socioeconomic status (SES) for kinship pairs.<br>
-As in the regression vignette, we restrict the sample to individuals who
-are housemates and have a relatedness of 0.5.</p>
+vaccination and socioeconomic status (SES) for kinship pairs. As in the
+regression vignette, we restrict the sample to individuals who are
+housemates and have a relatedness of 0.5.</p>
 <p>For full details on the data processing and kinship link
 construction, see the <a href="https://r-computing-lab.github.io/discord/articles/regression.html">regression
 vignette</a>.</p>

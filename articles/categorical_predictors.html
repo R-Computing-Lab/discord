@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Demonstrating categorical predictors • discord</title>
+<title>Handling categorical predictors with discord • discord</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Demonstrating categorical predictors">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Handling categorical predictors with discord">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,7 +33,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/categorical_predictors.html">Demonstrating categorical predictors</a></li>
+<li><a class="dropdown-item" href="../articles/categorical_predictors.html">Handling categorical predictors with discord</a></li>
     <li><a class="dropdown-item" href="../articles/full_data_workflow.html">Full Data Workflow</a></li>
     <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
     <li><a class="dropdown-item" href="../articles/plots.html">Plots</a></li>
@@ -60,7 +60,7 @@
 <script src="categorical_predictors_files/kePrint-0.0.1/kePrint.js"></script><link href="categorical_predictors_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Demonstrating categorical predictors</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Handling categorical predictors with discord</h1>
                         <h4 data-toc-skip class="author">Yoo Ri Hwang
 and S. Mason Garrison</h4>
             
@@ -78,11 +78,12 @@ and S. Mason Garrison</h4>
 <h3 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
 </h3>
 <p>This vignette demonstrates how to incorporate categorical predictors
-in discordant-kinship regression analyses using the <code>discord</code>
-package. Building on dyadic modeling strategies from Kenny et al. <span class="citation">(Kenny, Kashy, and Cook 2006)</span> and extensions to
-kinship models in our prior work <span class="citation">(Hwang
-2022)</span>, we present several approaches for incorporating
-categorical variables into these specialized regression models.</p>
+into discordant-kinship regression analyses using the
+<code>discord</code> package. Building on dyadic modeling strategies
+from Kenny et al. <span class="citation">(Kenny, Kashy, and Cook
+2006)</span> and extensions to kinship models in our prior work <span class="citation">(Hwang 2022)</span>, we present several approaches for
+incorporating categorical variables into these specialized regression
+models.</p>
 <p>We focus on:</p>
 <ol style="list-style-type: decimal">
 <li>How to code and interpret categorical variables at different levels
@@ -93,8 +94,8 @@ vs. multi-match)</li>
 </ol>
 <p>To illustrate these concepts, we examine whether sex and race predict
 socioeconomic status (SES) at age 40, using different categorical coding
-schemes applied to data from the 1979 National Longitudinal Survey of
-Youth (NLSY79).</p>
+schemes applied to the 1979 National Longitudinal Survey of Youth
+(NLSY79).</p>
 </div>
 <div class="section level3">
 <h3 id="understanding-variable-types-in-dyadic-analysis">Understanding Variable Types in Dyadic Analysis<a class="anchor" aria-label="anchor" href="#understanding-variable-types-in-dyadic-analysis"></a>
@@ -103,26 +104,26 @@ Youth (NLSY79).</p>
 levels:</p>
 <ul>
 <li>
-<strong>Between-dyad variables</strong>: Variables that are constant
-within dyads.
+<strong>Between-dyad variables</strong> are constant within dyads.
 <ul>
 <li>Example: For full siblings, race is often a between-dyad
 variable.</li>
 </ul>
 </li>
 <li>
-<strong>Within-dyad variables</strong>: Variables that vary within
-dyads but remain constant across dyads (rare for categorical variables).
+<strong>Within-dyad variables</strong> vary within dyads but remain
+constant across dyads (rare for categorical variables).
 <ul>
 <li>Example: Division of chores between roommates (must sum to
-100%)</li>
+100%).</li>
 </ul>
 </li>
 <li>
-<strong>Mixed variables</strong>: Vary both within and across dyads
+<strong>Mixed variables</strong> can vary both within and across
+dyads.
 <ul>
 <li>Example: Biological sex in non-MZ twin siblings; age; personality
-traits</li>
+traits.</li>
 </ul>
 </li>
 </ul>
@@ -162,55 +163,63 @@ traits</li>
 </tbody>
 </table>
 <p>For continuous predictors, researchers typically compute mean and
-difference scores. However, as noted by Kenny et al. <span class="citation">(Kenny, Kashy, and Cook 2006)</span>, these
-calculations are not meaningful for categorical variables and should
-instead be replaced with appropriate coding strategies.</p>
+difference scores. For categorical variables, these operations are not
+meaningful <span class="citation">(Kenny, Kashy, and Cook 2006)</span>.
+Use coding strategies designed for categories instead.</p>
 </div>
 <div class="section level3">
 <h3 id="coding-approaches-for-categorical-variables">Coding Approaches for Categorical Variables<a class="anchor" aria-label="anchor" href="#coding-approaches-for-categorical-variables"></a>
 </h3>
-<p>The <code>discord</code> package implements two primary coding
+<p>The <code>discord</code> package implements two main coding
 strategies for categorical predictors:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Binary Match Coding</strong>: Creates a binary indicator
-of whether pairs match (1) or differ (0) on the categorical
-variable.</p></li>
-<li><p><strong>Multi-Match Coding</strong>: Retains specific category
-combinations</p></li>
+<li><p><strong>Binary-match coding</strong> collapses all category
+pairings into a single indicator showing whether two members of a dyad
+share the same category (1) or differ (0).</p></li>
+<li><p><strong>Multi-match coding</strong> preserves information about
+which category the pair matches on. So rather than coding all
+same-category pairs identically, it distinguishes, for example,
+male–male from female–female pairings.</p></li>
 </ol>
 <div class="section level4">
-<h4 id="binary-match-coding">Binary Match Coding<a class="anchor" aria-label="anchor" href="#binary-match-coding"></a>
+<h4 id="binary-match-coding">Binary-match Coding<a class="anchor" aria-label="anchor" href="#binary-match-coding"></a>
 </h4>
 <p>Binary match coding creates a simple indicator of whether pairs match
-(1) or differ (0) on a categorical variable: - Same-sex pairs (male-male
-or female-female) → 1 - Mixed-sex pairs (male-female) → 0</p>
+(1) or differ (0) on a single categorical variable: - Same-sex pairs
+(male-male or female-female) → 1 - Mixed-sex pairs (male-female) → 0</p>
 <p><strong>Use case</strong>: When the research question focuses on
 similarity versus difference, rather than effects of specific
 categories.</p>
 </div>
 <div class="section level4">
-<h4 id="multi-match-coding">Multi-Match Coding<a class="anchor" aria-label="anchor" href="#multi-match-coding"></a>
+<h4 id="multi-match-coding">Multi-match Coding<a class="anchor" aria-label="anchor" href="#multi-match-coding"></a>
 </h4>
-<p>Multi-match coding retains specific category information:</p>
+<p>Multi-match coding preserves the identity of the specific category
+shared within each pair, allowing distinctions among same-category
+matches:</p>
 <ul>
 <li>Male-male pairs → “MALE”</li>
 <li>Female-female pairs → “FEMALE”</li>
-<li>Mixed pairs → “mixed”</li>
+<li>Mixed pairs → “MIXED”</li>
 </ul>
-<p><strong>Use case</strong>: When distinct effects for specific
-categories are hypothesized (e.g., male pairs vs. female pairs).</p>
-<p>Following Hwang and Garrison <span class="citation">(Hwang
-2022)</span>, the coding approach you select should align with your
-research questions and theoretical framework.</p>
+<p><strong>Use case</strong>: when the goal is to compare
+category-specific effects (for example, male-male versus female-female
+pairs) rather than simply testing for similarity or difference.</p>
+<p>As noted by Hwang and Garrison <span class="citation">(Hwang
+2022)</span>, the appropriate coding strategy should follow the
+conceptual level of your research question and the theoretical
+justification for distinguishing categories.</p>
 </div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h2>
-<p>We demonstrate how to handle categorical predictors using sibling
-data from the NLSY79. We begin by loading the necessary packages and
-preparing the dataset.</p>
+<p>To illustrate these coding approaches, we use sibling data from the
+1979 National Longitudinal Survey of Youth (NLSY79). The example begins
+by loading the required packages and preparing an analysis dataset that
+links siblings, filters relevant variables, and recodes categorical
+predictors.</p>
 <div class="section level3">
 <h3 id="package-loading-and-data-setup">Package Loading and Data Setup<a class="anchor" aria-label="anchor" href="#package-loading-and-data-setup"></a>
 </h3>
@@ -227,9 +236,9 @@ preparing the dataset.</p>
 <span></span>
 <span><span class="co"># data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_flu_ses</span><span class="op">)</span></span></code></pre></div>
-<p>We then filter and clean the dataset, create kinship links, and
-recode the categorical variables. This example uses full siblings (R =
-0.5) from the Gen1 cohort.</p>
+<p>Next, we filter and clean the NLSY79 data, construct kinship links,
+and recode the categorical variables. In this example, we restrict to
+full siblings (R = 0.5) from the Gen1 cohort.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
@@ -241,18 +250,18 @@ recode the categorical variables. This example uses full siblings (R =
 <span><span class="va">link_pairs</span> <span class="op">&lt;-</span> <span class="va">Links79PairExpanded</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RelationshipPath</span> <span class="op">==</span> <span class="st">"Gen1Housemates"</span> <span class="op">&amp;</span> <span class="va">RFull</span> <span class="op">==</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 <p>We use <code><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered()</a></code> from the
-<code>NlsyLinks</code> package to merge kinship links with our target
-variables. This merge creates a sibling-pair dataset in wide format.
-Suffixes distinguish the two individuals in each pair.</p>
+<code>NlsyLinks</code>package to merge the kinship linkage data with the
+target variables. The resulting dataset is structured in wide format,
+with suffixes identifying the two siblings within each pair.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlsy-links.github.io/NlsyLinks/reference/CreatePairLinks.html" class="external-link">CreatePairLinksSingleEntered</a></span><span class="op">(</span></span>
 <span>  outcomeDataset <span class="op">=</span> <span class="va">data_flu_ses</span>,</span>
 <span>  linksPairDataset <span class="op">=</span> <span class="va">link_pairs</span>,</span>
 <span>  outcomeNames <span class="op">=</span> <span class="va">link_vars</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>To ensure the dependent variable (SES at age 40) is available for
-both siblings, we remove cases with missing values. We also recode sex
-and race into factors.</p>
+<p>To ensure that the dependent variable, SES at age 40, is available
+for both siblings, we remove cases with missing values. Sex and race are
+recoded as factors to prepare them for analysis.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># We removed the pair when the Dependent Variable is missing.</span></span>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -275,8 +284,9 @@ and race into factors.</p>
 <span>      <span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"MINORITY"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>For full siblings, race is a between-dyad variable. In this example,
-we restrict the analyses to same-race pairs.</p>
+<p>Because race is typically constant within families of full siblings,
+it functions as a between-dyad variable. For illustration purposes, we
+restrict the analytic sample to same-race pairs.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">RACE_S1</span> <span class="op">==</span> <span class="va">RACE_S2</span><span class="op">)</span></span></code></pre></div>
@@ -287,6 +297,10 @@ sibling pair per household:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">ExtendedID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Here, <code><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample()</a></code> randomly selects one pair per
+household. In practice, researchers may choose to select the oldest or
+youngest pair instead by using <code><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_min()</a></code> or
+<code><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_max()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="handling-categorical-predictors">Handling Categorical Predictors<a class="anchor" aria-label="anchor" href="#handling-categorical-predictors"></a>
@@ -294,9 +308,9 @@ sibling pair per household:</p>
 <div class="section level4">
 <h4 id="mixed-variables-sex-as-an-example">Mixed Variables: Sex as an Example<a class="anchor" aria-label="anchor" href="#mixed-variables-sex-as-an-example"></a>
 </h4>
-<p>Sex is a classic example of a mixed variable in sibling studies
-because it can vary both within and between dyads. Siblings may be of
-the same or different sexes, and the composition varies across
+<p>Sex is a mixed variable in sibling studies because it can vary within
+some pairs and also across pairs. Families may include same-sex or
+mixed-sex sibling pairs, and that composition varies across
 families.</p>
 <p>We use the <code><a href="../reference/discord_data.html">discord_data()</a></code> function to prepare the data
 for analysis.</p>
@@ -593,7 +607,7 @@ If we put the individual's sex in the pair as a predictor in the regression mode
 
 So, how to force the sex variable to be a sex-composition variable? The above table shows all the possible combinations of sex composition: 1) male-male, 2) male-female, 3) female-male, and 4) female-female. However, it is hard to believe that the distinction between "female-male" pairs and the "male-female" is meaningful unless there are strong theoretical reasons behind it because the "_S1" and "_S2" were assigned by the DV value of the participants. Specifically, the "female-male" pair means that the one with a higher DV in the pair is "female" and the other one was "male", and the "male-female" pair means that the one with a higher DV in the pair was "male" and the other one was "female". 
 
-Thus, we can utilize the following sex-composition variables. First, we can use sex-composition variables that have three factors: 1) female-female,2) "male-female" and "female-male", and 3) "male-male".  Or, we can also use sex-composition variables that have two factors: 1) "same-sex", and 2) mixed sex. The `discord_data()` function and `discord_regression()` function utilize these two options; the binary match variable utilizes the former categorizations, and the multi-match variable utilizes the latter categorization. 
+Thus, we can utilize the following sex-composition variables. First, we can use sex-composition variables that have three factors: 1) female-female,2) "male-female" and "female-male", and 3) "male-male". Or, we can also use sex-composition variables that have two factors: 1) "same-sex", and 2) mixed sex. The `discord_data()` function and `discord_regression()` function utilize these two options; the binary match variable utilizes the former categorizations, and the multi-match variable utilizes the latter categorization. 
 -->
 <p>As shown, the <code><a href="../reference/discord_data.html">discord_data()</a></code> function generates both
 <code>SEX_binarymatch</code> and <code>SEX_multimatch</code> variables.
@@ -714,7 +728,7 @@ differences in SES discordance.</p>
 <span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_S1"</span>, <span class="st">"_S2"</span><span class="op">)</span>,</span>
 <span>  coding_method <span class="op">=</span> <span class="st">"both"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The race compositions in the dataset are as follows:</p>
+<p>The table below reports the race composition of pairs.</p>
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -776,26 +790,24 @@ RACE_multimatch variable distinguishes between the three categories used
 by the Bureau of Labor Statistics (Black, Hispanic, and Non-Black,
 Non-Hispanic).</p>
 <p>The <code>RACE_binarymatch</code> variable indicates whether the pair
-is same-race or mixed-race. As all pairs are same-race in this sample,
-this variable does not vary. The <code>RACE_multimatch</code> variable
-classifies pairs into one of three categories: The RACE_binarymatch
-variable indicates whether the pair is same-race or mixed-race. As all
-pairs are same-race in this sample, this variable does not vary. The
-RACE_multimatch variable classifies pairs into one of three categories:
-Since we filtered for same-race pairs only, all pairs have
-RACE_binarymatch = “same-race”. When using NLSY data, the
+is same-race or different-race. As all pairs are same-race in this
+sample, this variable does not vary. The <code>RACE_multimatch</code>
+variable classifies pairs into one of three categories: The
+RACE_binarymatch variable indicates whether the pair is same-race or
+different-race. As all pairs are same-race in this sample, this variable
+does not vary. The RACE_multimatch variable classifies pairs into one of
+three categories: Since we filtered for same-race pairs only, all pairs
+have RACE_binarymatch = “same-race”. When using NLSY data, the
 RACE_multimatch variable distinguishes between the three groupings that
 the bureau of labor statistics uses (Black, Hispanic, and Non-Black,
 Non-Hispanic).</p>
 <p>The <code>RACE_binarymatch</code> variable indicates whether the pair
-is the same-race pair or mixed-race pair .As all pairs are same-race in
-this sample, this variable does not vary within dyad. The
+is the same-race pair or different-race pair. As all pairs are same-race
+in this sample, this variable does not vary within dyad. The
 <code>RACE_multimatch</code> The RACE_multimatch variable classifies
-pairs into one of three categories: - Minority-minority,</p>
-<ul>
-<li><p>Nonminority-nonminority,</p></li>
-<li><p>Discordant (unused in this restricted sample).</p></li>
-</ul>
+pairs into one of three categories: - Minority-minority, -
+Nonminority-nonminority, - Discordant (unused in this restricted
+sample).</p>
 </div>
 <div class="section level4">
 <h4 id="combining-binary-and-multi-match-variables">Combining Binary and Multi-match Variables<a class="anchor" aria-label="anchor" href="#combining-binary-and-multi-match-variables"></a>
@@ -823,7 +835,7 @@ model.</p>
 <code class="sourceCode R"><span><span class="va">cat_both</span> <span class="op">&lt;-</span> <span class="va">cat_both</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    RACE_binarymatch <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
-<span>      <span class="va">RACE_binarymatch</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"mixed-race"</span>,</span>
+<span>      <span class="va">RACE_binarymatch</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"diff-race"</span>,</span>
 <span>      <span class="va">RACE_binarymatch</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"same-race"</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    SEX_binarymatch <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>

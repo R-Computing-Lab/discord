@@ -33,7 +33,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/categorical_predictors.html">Demonstrating categorical predictors</a></li>
+<li><a class="dropdown-item" href="../articles/categorical_predictors.html">Handling categorical predictors with discord</a></li>
     <li><a class="dropdown-item" href="../articles/full_data_workflow.html">Full Data Workflow</a></li>
     <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
     <li><a class="dropdown-item" href="../articles/plots.html">Plots</a></li>
@@ -57,15 +57,19 @@
 
 
 
-
-<div class="row">
+<link href="Power_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="Power_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="Power_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="Power_files/datatables-binding-0.34.0/datatables.js"></script><link href="Power_files/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="Power_files/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="Power_files/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="Power_files/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="Power_files/crosstalk-1.2.2/js/crosstalk.min.js"></script><div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Power</h1>
                         <h4 data-toc-skip class="author">S. Mason
 Garrison</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/R-Computing-Lab/discord/blob/main/vignettes/Power.Rmd" class="external-link"><code>vignettes/Power.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/R-Computing-Lab/discord/blob/main/vignettes/articles/Power.Rmd" class="external-link"><code>vignettes/articles/Power.Rmd</code></a></small>
       <div class="d-none name"><code>Power.Rmd</code></div>
     </div>
 
@@ -108,25 +112,30 @@ covariance structures.</p>
 <code>0.5</code>, <code>0.25</code>, <code>0</code>)</td>
 </tr>
 <tr class="even">
+<td><code>c_all</code></td>
+<td>Vector of shared environmental correlations (e.g., <code>1</code>,
+<code>1</code>,<code>0</code>, <code>0</code>)</td>
+</tr>
+<tr class="odd">
 <td><code>npergroup_all</code></td>
 <td>Sample sizes for each level of relatedness</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>ace_list</code></td>
 <td>Matrix of ACE parameters per variable (rows = traits; columns = a,
 c, e)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>
 <code>cov_a</code>, <code>cov_c</code>, <code>cov_e</code>
 </td>
 <td>Cross-variable covariance for A, C, and E components</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>mu_list</code></td>
 <td>Mean values for each phenotype</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>r_vector</code></td>
 <td>Optional: pairwise relatedness at the observation level</td>
 </tr>
@@ -166,41 +175,61 @@ relatedness, ACE variance components, and genetic correlations.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>scipen <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></span>
 <span></span>
 <span></span>
-<span></span>
 <span><span class="va">conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span></span>
+<span>  id <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  total_pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">750</span>, <span class="fl">1000</span><span class="op">)</span>,</span>
 <span>  relatedness <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.5</span><span class="op">)</span>,</span>
+<span>  raised_together <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="co"># 1 if raised together, 0 if apart</span></span>
 <span>  cov_a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>  cov_c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>  cov_e <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.25</span><span class="op">)</span>,</span>
 <span>  ace_a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  ace_c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  ace_e <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="va">conditions</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">)</span></span></code></pre></div>
+<p>Here, we vary the total number of sibling pairs, genetic relatedness
+(MZ vs. DZ), and the presence/absence of covariates influencing the
+phenotypes through A, C, and E pathways. The ACE variance components are
+held constant at 1 for simplicity. This results in a total of 80 unique
+conditions to evaluate.</p>
 </div>
 <div class="section level3">
 <h3 id="step-2-run-simulations">Step 2: Run Simulations<a class="anchor" aria-label="anchor" href="#step-2-run-simulations"></a>
 </h3>
 <p>For each condition, we simulate 100 replications of fitting
 discordant sibling models. We have kept the number of trials low for
-demonstration purposes, but you can increase <code>n_trials</code> for
-more robust power estimates.</p>
+demonstration purposes, but you can and <em>should</em> increase
+<code>n_trials</code> for more robust power estimates, the normal
+recommendation is at least 1000 trials.</p>
+<p>Please note that the simulations may take some time to run,
+especially with larger sample sizes and more trials. Also note that the
+<code>FAST</code> option can be set to <code>TRUE</code> for quicker,
+less detailed analyses, or <code>FALSE</code> for more thorough
+analyses. The <code>FAST</code> option drops pairs that are tied on the
+outcome, because it filters only to pairs where the outcome difference
+is greater than zero.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1492</span><span class="op">)</span> <span class="co"># Set seed for reproducibility</span></span>
-<span><span class="va">n_trials</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<code class="sourceCode R"><span><span class="co"># Set number of trials (increase for more robust estimates)</span></span>
+<span><span class="va">n_trials</span> <span class="op">&lt;-</span> <span class="fl">100</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1492</span><span class="op">)</span> <span class="co"># Set seed for reproducibility</span></span>
 <span><span class="va">FAST</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span> <span class="co"># Set to FALSE for slower, more detailed analysis</span></span>
 <span><span class="va">results_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">name.results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"coef_xdiff"</span>, <span class="st">"p_xdiff"</span>, <span class="st">"r.squared"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">cond</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">cond</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">conditions</span><span class="op">$</span><span class="va">id</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">current</span> <span class="op">&lt;-</span> <span class="va">conditions</span><span class="op">[</span><span class="va">cond</span>, <span class="op">]</span></span>
 <span>  <span class="va">temp_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="va">n_trials</span>, ncol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">name.results</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">temp_results</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">name.results</span></span>
 <span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_trials</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">trial</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
-<span>      r_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">current</span><span class="op">$</span><span class="va">relatedness</span>, each <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">total_pairs</span><span class="op">)</span>,</span>
+<span>      r_all <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">relatedness</span>,</span>
+<span>      c_all <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">raised_together</span>,</span>
 <span>      npg_all <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">total_pairs</span>,</span>
+<span>      mu_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>      ace_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">current</span><span class="op">$</span><span class="va">ace_a</span>, <span class="va">current</span><span class="op">$</span><span class="va">ace_c</span>, <span class="va">current</span><span class="op">$</span><span class="va">ace_e</span><span class="op">)</span>,</span>
 <span>      cov_a <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">cov_a</span>,</span>
 <span>      cov_c <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">cov_c</span>,</span>
@@ -213,10 +242,10 @@ more robust power estimates.</p>
 <span>      y_s1 <span class="op">=</span> <span class="va">trial</span><span class="op">$</span><span class="va">y1_1</span>, y_s2 <span class="op">=</span> <span class="va">trial</span><span class="op">$</span><span class="va">y1_2</span>,</span>
 <span>      x_s1 <span class="op">=</span> <span class="va">trial</span><span class="op">$</span><span class="va">y2_1</span>, x_s2 <span class="op">=</span> <span class="va">trial</span><span class="op">$</span><span class="va">y2_2</span></span>
 <span>    <span class="op">)</span></span>
-<span></span>
+<span><span class="co"># </span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">FAST</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="co"># faster</span></span>
-<span>      <span class="co"># double enter the data</span></span>
+<span>      <span class="co"># double enter the data and subset to ydiff &gt; 0</span></span>
 <span>      <span class="va">extract2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">extract</span>,</span>
 <span>          y_s1 <span class="op">=</span> <span class="va">y_s2</span>, y_s2 <span class="op">=</span> <span class="va">y_s1</span>,</span>
@@ -272,11 +301,14 @@ more robust power estimates.</p>
 calculate the proportion of trials where the p-value for the difference
 in means (<code>p_xdiff</code>) is less than 0.05, and we also report
 the median R-squared value from the regression models. Note that we’ve
-limited the number of trials to 10 for demonstration purposes, but you
+limited the number of trials to 100 for demonstration purposes, but you
 can (and should) increase this for more robust estimates.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">power_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">results_list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    effect_detected <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">p_xdiff</span> <span class="op">&lt;</span> <span class="fl">0.05</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    effect_notdetected <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">p_xdiff</span> <span class="op">&gt;=</span> <span class="fl">0.05</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">p_xdiff</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    power_xdiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">p_xdiff</span> <span class="op">&lt;</span> <span class="fl">0.05</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    median_r2   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">r.squared</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -296,6 +328,12 @@ level and covariate settings. In the plots below, we visualize the power
 estimates across different conditions, focusing on the impact of
 covariates and relatedness levels.</p>
 <p><img src="Power_files/figure-html/plot-power-1.png" width="672"><img src="Power_files/figure-html/plot-power-2.png" width="672"></p>
+<p>In the plots above, we see how power varies with the number of
+sibling pairs, relatedness levels, and the presence of covariates. The
+dashed lines indicate common benchmarks for power (0.80) and false
+positive rate (0.05). As expected, power increases with the number of
+pairs and is influenced by the relatedness level and covariate
+settings.</p>
 <div class="section level4">
 <h4 id="power-table">Power Table<a class="anchor" aria-label="anchor" href="#power-table"></a>
 </h4>
@@ -305,994 +343,8 @@ of trials where the p-value for the difference in means
 (<code>p_xdiff</code>) is less than 0.05, and the <code>median_r2</code>
 column reports the median R-squared value from the regression
 models.</p>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="9%">
-<col width="9%">
-<col width="15%">
-<col width="15%">
-<col width="15%">
-<col width="4%">
-<col width="4%">
-<col width="4%">
-<col width="9%">
-<col width="8%">
-</colgroup>
-<thead><tr class="header">
-<th align="right">total_pairs</th>
-<th align="right">relatedness</th>
-<th align="left">cov_a</th>
-<th align="left">cov_c</th>
-<th align="left">cov_e</th>
-<th align="right">ace_a</th>
-<th align="right">ace_c</th>
-<th align="right">ace_e</th>
-<th align="right">power_xdiff</th>
-<th align="right">median_r2</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">No Covariate E</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">No Covariate C</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">No Covariate A</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">250</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-<tr class="odd">
-<td align="right">500</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.03</td>
-<td align="right">0.0201218</td>
-</tr>
-<tr class="even">
-<td align="right">750</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0089694</td>
-</tr>
-<tr class="odd">
-<td align="right">1000</td>
-<td align="right">1.0</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.02</td>
-<td align="right">0.0045342</td>
-</tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0038589</td>
-</tr>
-<tr class="odd">
-<td align="right">250</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0018504</td>
-</tr>
-<tr class="even">
-<td align="right">500</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.04</td>
-<td align="right">0.0238725</td>
-</tr>
-<tr class="odd">
-<td align="right">750</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.05</td>
-<td align="right">0.0105100</td>
-</tr>
-<tr class="even">
-<td align="right">1000</td>
-<td align="right">0.5</td>
-<td align="left">Covariate A (0.25)</td>
-<td align="left">Covariate C (0.25)</td>
-<td align="left">Covariate E (0.25)</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.06</td>
-<td align="right">0.0056736</td>
-</tr>
-</tbody>
-</table>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80"],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80],[100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000,100,250,500,750,1000],[1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5,1,1,1,1,1,0.5,0.5,0.5,0.5,0.5],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],["No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","No Covariate A","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)","Covariate A (0.25)"],["No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","No Covariate C","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)","Covariate C (0.25)"],["No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","No Covariate E","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)","Covariate E (0.25)"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[3,4,2,6,4,4,5,6,6,6,6,3,6,3,5,8,12,17,22,44,7,5,5,2,5,3,4,3,6,4,7,3,3,9,9,6,11,18,27,36,34,67,98,98,100,12,27,59,79,95,32,69,93,99,100,45,66,95,100,100,21,69,95,100,100,14,30,68,80,88,29,65,90,100,99,29,72,98,100,100],[97,96,98,94,96,96,95,94,94,94,94,97,94,97,95,92,88,83,78,56,93,95,95,98,95,97,96,97,94,96,93,97,97,91,91,94,89,82,73,64,66,33,2,2,0,88,73,41,21,5,68,31,7,1,0,55,34,5,0,0,79,31,5,0,0,86,70,32,20,12,71,35,10,0,1,71,28,2,0,0],[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],[0.03,0.04,0.02,0.06,0.04,0.04,0.05,0.06,0.06,0.06,0.06,0.03,0.06,0.03,0.05,0.08,0.12,0.17,0.22,0.44,0.07000000000000001,0.05,0.05,0.02,0.05,0.03,0.04,0.03,0.06,0.04,0.07000000000000001,0.03,0.03,0.09,0.09,0.06,0.11,0.18,0.27,0.36,0.34,0.67,0.98,0.98,1,0.12,0.27,0.59,0.79,0.95,0.32,0.6899999999999999,0.93,0.99,1,0.45,0.66,0.95,1,1,0.21,0.6899999999999999,0.95,1,1,0.14,0.3,0.68,0.8,0.88,0.29,0.65,0.9,1,0.99,0.29,0.72,0.98,1,1],[0.02012175604387576,0.008969362633310917,0.004534176506215998,0.003858914091322677,0.001850395175114267,0.02387254757522268,0.01051002345403738,0.00567360272554985,0.003125998139848761,0.002480666513003857,0.02646807804925495,0.00756133689939629,0.004929341680301654,0.003470352387994257,0.00258279015657795,0.02399434656423474,0.0107727924967684,0.006151344166878208,0.004283295350824581,0.005476826527084856,0.02414228649984743,0.00999447127949942,0.005130957574104127,0.00302799090359264,0.002793033835073162,0.03027516714645258,0.008316470679728551,0.004798095104225053,0.003171230348485791,0.002819482958644347,0.02703370081118964,0.007524658445190542,0.004994158979325813,0.003464608783812238,0.002538232577639962,0.02219808932582446,0.01180932101395971,0.006135888109987673,0.005855673311428075,0.004542227307791879,0.04222149709900005,0.02886532482022841,0.02996278553555231,0.02911071005672219,0.02615390997187949,0.02824582611190293,0.01621114572127524,0.01519325981132244,0.01318099885636523,0.01215556157678852,0.04357901736313112,0.03322003506826482,0.02754959100694519,0.02708831013066507,0.02856193322876363,0.04749812383319894,0.03362412242135498,0.02700677199488503,0.02762853120274085,0.02740894558592878,0.04199094029130465,0.03024733419771996,0.02590483754117733,0.02790828524649086,0.02476720107442392,0.03045044326547766,0.0190707066647484,0.01566145790467151,0.01284112892634883,0.01200946547625477,0.05064993576841648,0.03058472408251065,0.02822624905721662,0.02702732663678158,0.02444868515146748,0.04701799547133859,0.03157005838462964,0.02630690251215257,0.02511149142280062,0.02734696945286668]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>id<\/th>\n      <th>total_pairs<\/th>\n      <th>relatedness<\/th>\n      <th>raised_together<\/th>\n      <th>cov_a<\/th>\n      <th>cov_c<\/th>\n      <th>cov_e<\/th>\n      <th>ace_a<\/th>\n      <th>ace_c<\/th>\n      <th>ace_e<\/th>\n      <th>effect_detected<\/th>\n      <th>effect_notdetected<\/th>\n      <th>total<\/th>\n      <th>power_xdiff<\/th>\n      <th>median_r2<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"scrollX":true,"columnDefs":[{"targets":14,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":15,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[1,2,3,4,8,9,10,11,12,13,14,15]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"id","targets":1},{"name":"total_pairs","targets":2},{"name":"relatedness","targets":3},{"name":"raised_together","targets":4},{"name":"cov_a","targets":5},{"name":"cov_c","targets":6},{"name":"cov_e","targets":7},{"name":"ace_a","targets":8},{"name":"ace_c","targets":9},{"name":"ace_e","targets":10},{"name":"effect_detected","targets":11},{"name":"effect_notdetected","targets":12},{"name":"total","targets":13},{"name":"power_xdiff","targets":14},{"name":"median_r2","targets":15}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="section level3">
