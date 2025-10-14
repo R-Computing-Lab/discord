@@ -41,6 +41,7 @@ The `kinsim()` function is designed to simulate data for kinship studies. It gen
 | Argument | Description |
 |----------|-------------|
 | `r_all` | Vector of genetic relatedness values (e.g., `1`, `0.5`, `0.25`, `0`) |
+| `c_all` | Vector of shared environmental correlations (e.g., `1`, `1`,`0`, `0`) |
 | `npergroup_all` | Sample sizes for each level of relatedness |
 | `ace_list` | Matrix of ACE parameters per variable (rows = traits; columns = a, c, e) |
 | `cov_a`, `cov_c`, `cov_e` | Cross-variable covariance for A, C, and E components |
@@ -83,6 +84,7 @@ conditions <- expand.grid(
   id = 1,
   total_pairs = c(100, 250, 500, 750, 1000),
   relatedness = c(1, .5),
+  raised_together = c(1), # 1 if raised together, 0 if apart
   cov_a = c(0, 0.25),
   cov_c = c(0, 0.25),
   cov_e = c(0, 0.25),
@@ -121,7 +123,7 @@ for (cond in seq_along(conditions$id)) {
   for (i in 1:n_trials) {
     trial <- kinsim(
       r_all = current$relatedness,
-      c_all = 1,
+      c_all = current$raised_together,
       npg_all = current$total_pairs,
       mu_list = c(1, 1),
       ace_all = c(current$ace_a, current$ace_c, current$ace_e),
@@ -278,6 +280,8 @@ p_noc <- ggplot(
     data = data.frame(cov_a = "Covariate A (0.25)", cov_e = "No Covariate E"),
     fontface = "italic", size = 3.5, inherit.aes = FALSE
   ) +
+  geom_abline(slope = 0, intercept = 0.05, linetype = "dashed", color = "black") +
+  geom_abline(slope = 0, intercept = 0.80, linetype = "dashed", color = "black") +
   facet_grid(cov_e ~ cov_a, labeller = labeller(facet_labels))
 
 p_noc
@@ -309,19 +313,24 @@ p_noa <- ggplot(final_results_noa, aes(
     data = data.frame(cov_c = "Covariate C (0.25)", cov_e = "No Covariate E"),
     fontface = "italic", size = 3.5, inherit.aes = FALSE
   ) +
+  geom_abline(slope = 0, intercept = 0.05, linetype = "dashed", color = "black") +
+  geom_abline(slope = 0, intercept = 0.80, linetype = "dashed", color = "black") +
   facet_grid(cov_e ~ cov_c, labeller = labeller(facet_labels))
 
 p_noa
 ```
+
+In the plots above, we see how power varies with the number of sibling pairs, relatedness levels, and the presence of covariates. The dashed lines indicate common benchmarks for power (0.80) and false positive rate (0.05). As expected, power increases with the number of pairs and is influenced by the relatedness level and covariate settings.
 
 ### Power Table
 
 The table below summarizes the power estimates across different conditions. The `power_xdiff` column indicates the proportion of trials where the p-value for the difference in means (`p_xdiff`) is less than 0.05, and the `median_r2` column reports the median R-squared value from the regression models.
 
 ```{r, echo=FALSE, message=FALSE}
-knitr::kable(final_results) %>%
-  kableExtra::kable_styling(full_width = FALSE) %>%
-  kableExtra::scroll_box(width = "100%", height = "400px")
+
+DT::formatRound(DT::datatable(final_results, 
+              options = list(pageLength = 10, scrollX = TRUE)), c('power_xdiff', 'median_r2'), 3)
+ 
 
 ```
 

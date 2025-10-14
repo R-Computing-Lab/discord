@@ -25,6 +25,7 @@ Suggests:
     NlsyLinks,
     ggpedigree,
     BGmisc,
+    DT,
     broom,
     dplyr,
     grid,
