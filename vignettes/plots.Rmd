@@ -11,19 +11,21 @@ vignette: >
 
 # Introduction
 
-This vignette walks through the steps needed to recreate a figure from Garrison and Rodgers (2016). The example uses kinship pair data prepared with the discord package and visualizes the results using updated `ggplot2` tools.
+This vignette walks through the steps needed to recreate a figure from [Garrison and Rodgers (2016)](https://www.sciencedirect.com/science/article/pii/S0160289616300162). The example uses kinship pair data prepared with the discord package and visualizes the results using updated `ggplot2` tools.
+
 
 # Data Preparation
 
 ## Data Cleaning
 
-This section reuses the data preparation pipeline developed in the regression vignette.\
+This section reuses the data preparation pipeline developed in the regression vignette.
+
 That vignette demonstrated how to set up data for discordant regression analysis by using discord data processing tools. Those tools facilitate the construction of kinship links, including identifying sibling pairs, merging sibling characteristics, and calculating pair-level variables.
 
-Here, we reuse that same pipeline to prepare the data for plotting.\
+Here, we reuse that same pipeline to prepare the data for plotting.
 Specifically, we apply the same kinship pairing, data merging, and cleaning procedures, but our focus is now on visualizing patterns rather than fitting regression models.
 
-The underlying dataset is the NLSY79, which includes measures of flu vaccination and socioeconomic status (SES) for kinship pairs.\
+The underlying dataset is the NLSY79, which includes measures of flu vaccination and socioeconomic status (SES) for kinship pairs.
 As in the regression vignette, we restrict the sample to individuals who are housemates and have a relatedness of 0.5.
 
 For full details on the data processing and kinship link construction, see the [regression vignette](https://r-computing-lab.github.io/discord/articles/regression.html).
@@ -128,7 +130,6 @@ values <- seq(-max_val, max_val, length = length(shading))
 ```
 
 # Plotting the Data
-
 
 
 ## Individual Level Plots
