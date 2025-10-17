@@ -1,3 +1,9 @@
+# discord 1.3 (Development)
+
+## New Features
+
+* Added support for non-numeric (categorical) predictors in `discord_data()` and `make_mean_diffs()`. When using categorical predictors (e.g., location = "south"/"north"), the individual values are preserved in `variable_1` and `variable_2` columns, while `variable_diff` and `variable_mean` are set to NA since differences and means are not meaningful for categorical data.
+
 # discord 1.3
 * Adding new full data tutorial in response to reviewers
 * Adding links to external repositories for reproducible examples from publications
