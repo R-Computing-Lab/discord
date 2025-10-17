@@ -100,6 +100,8 @@ check_sibling_order_fast <- function(data, outcome, pair_identifiers) {
 #' @description This function calculates differences and means of a given variable for each kinship pair. The order of subtraction and the variables' names in the output dataframe depend on the order column set by check_sibling_order().
 #' If the demographics parameter is set to "race", "sex", or "both", it also prepares demographic information accordingly,
 #' swapping the order of demographics as per the order column.
+#' 
+#' For numeric variables, this function computes the difference and mean between pairs. For non-numeric variables (e.g., categorical predictors like location = "south"/"north"), the individual values are preserved in _1 and _2 columns, while _diff and _mean are set to NA.
 #' @inheritParams discord_data
 #' @inheritParams check_sibling_order
 #'
