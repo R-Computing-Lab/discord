@@ -205,7 +205,7 @@ individual_plot  <- individual_plot +
     aes(
       x = s00_h40_s2,
       y = flu_total_s2,
-      color = s00_h40_s2 - s00_h40_s1 # this reverses the color difference for sibling 2
+      color = s00_h40_s2 - s00_h40_s1 # this reverses the color difference so sibling 2 points use the opposite color gradient compared to sibling 1, making it visually clear which sibling is being represented and how their SES difference is encoded
     )
   ) +
   scale_colour_gradientn(
