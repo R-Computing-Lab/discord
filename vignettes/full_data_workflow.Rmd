@@ -354,6 +354,42 @@ Third, the predictor differences can be positive or negative. Even though weight
 This structure lets us ask a key question: within sibling pairs, does the sibling with more of the predictor also have more of the outcome? If the taller sibling is systematically heavier even after controlling for family background, that suggests height may causally influence weight. If not, the association likely reflects familial confounding.
 
 
+## Visualizing the Ordering Process
+
+To make the ordering process more concrete, let's examine a specific pair before and after transformation:
+
+```{r visualize-ordering}
+# Show original data for first 3 pairs
+source_wide %>%
+  slice(1:3) %>%
+  select(pid, weight_s1, weight_s2, height_s1, height_s2) %>%
+  knitr::kable(
+    digits = 2,
+    caption = "Original data: siblings not yet ordered by outcome"
+  )
+
+# Show transformed data for same pairs
+df_discord_weight %>%
+  slice(1:3) %>%
+  select(
+    id, weight_1, weight_2, weight_diff,
+    height_1, height_2, height_diff
+  ) %>%
+  knitr::kable(
+    digits = 2,
+    caption = "After discord_data(): siblings ordered so weight_1 >= weight_2"
+  )
+```
+
+Notice how the ordering changes depending on which sibling has the higher outcome value:
+
+- If `weight_s1 > weight_s2` in the original data, sibling 1 becomes `_1` in the output
+- If `weight_s2 > weight_s1` in the original data, the siblings are swapped: sibling 2 becomes `_1` 
+- The predictor values (height) are reordered accordingly to stay matched with the correct sibling
+
+This ordering ensures that `weight_diff` is always positive (or zero in case of ties), which is essential for the interpretation of the difference scores in the regression model.
+
+
 # Analyzing the Data
 
 With our data prepared, we can now perform both standard OLS regression and discordant-kinship regression to compare results.
@@ -503,6 +539,96 @@ stargazer::stargazer(discord_model,
   digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison"
 )
 ```
+
+
+# Comparing the Three Approaches
+
+To fully understand the value of discordant-kinship regression, it's helpful to compare all three models side by side. Each approach answers a different question about the data:
+
+## Side-by-Side Model Comparison
+
+```{r all-models-comparison, results='asis', message=FALSE, warning=FALSE}
+stargazer::stargazer(
+  ols_model,
+  between_model,
+  discord_model,
+  type = "html",
+  digits = 3,
+  single.row = FALSE,
+  title = "Comparison of OLS, Between-Family, and Discordant Regression Models",
+  column.labels = c("Standard OLS", "Between-Family", "Discordant"),
+  model.names = FALSE
+)
+```
+
+## Interpreting the Differences
+
+Let's break down what each model tells us:
+
+### 1. Standard OLS Regression (Individual-Level)
+
+- **Data**: One sibling per family (e.g., first-born or older sibling)
+- **Level of analysis**: Individual level
+- **What it captures**: Total association between predictors and outcome, confounded by both genetic and environmental factors shared within families
+- **Interpretation**: "Individuals with higher height/age tend to have higher weight"
+- **Limitation**: Cannot distinguish whether the association is causal or due to shared family factors
+
+### 2. Between-Family Regression (Family-Level Means)
+
+- **Data**: Average values for each sibling pair
+- **Level of analysis**: Family level  
+- **What it captures**: How family-average predictors relate to family-average outcomes
+- **Interpretation**: "Families with higher average height/age tend to have higher average weight"
+- **Limitation**: Only captures between-family variation; tells us nothing about within-family effects
+
+### 3. Discordant-Kinship Regression (Within-Family Differences)
+
+- **Data**: Differences between siblings within families
+- **Level of analysis**: Within-family (controlling for between-family variation)
+- **What it captures**: Within-family effects after controlling for shared genetic and environmental factors
+- **Key coefficients**:
+  - `*_mean`: Between-family effects (similar to between-family model)
+  - `*_diff`: **Within-family effects** - the unique contribution of the predictor after controlling for familial confounding
+- **Interpretation**: "Within sibling pairs sharing family background, the sibling with higher height/age tends to have higher weight"
+- **Advantage**: Controls for unmeasured familial confounders, providing stronger evidence for (or against) causal effects
+
+## Understanding the Difference Scores
+
+The difference scores (`*_diff`) in the discordant model are the key to understanding within-family effects:
+
+```{r explain-diff-scores}
+# Show the relationship between individual values and difference scores
+df_discord_weight %>%
+  slice(1:3) %>%
+  select(id, height_1, height_2, height_mean, height_diff) %>%
+  mutate(
+    calculation_mean = (height_1 + height_2) / 2,
+    calculation_diff = height_1 - height_2,
+    mean_matches = abs(height_mean - calculation_mean) < 0.01,
+    diff_matches = abs(height_diff - calculation_diff) < 0.01
+  ) %>%
+  knitr::kable(
+    digits = 2,
+    caption = "Demonstrating calculation of mean and difference scores"
+  )
+```
+
+**Interpretation guide:**
+
+- **Positive `*_diff` coefficient**: The sibling with more of the predictor tends to have more of the outcome, even within the same family
+- **Non-significant `*_diff` coefficient**: No within-family effect; the association seen in OLS is likely due to familial confounding
+- **Negative `*_diff` coefficient**: The sibling with less of the predictor has more of the outcome (suggesting suppression effects)
+
+## Practical Implications
+
+The comparison of these three models helps researchers:
+
+1. **Assess confounding**: Large differences between OLS and discordant estimates suggest familial confounding
+2. **Test causality**: Significant within-family effects (difference scores) provide stronger evidence for causal relationships
+3. **Understand mechanisms**: Comparing between-family and within-family effects reveals whether effects operate at the family or individual level
+
+This multi-model approach is the essence of the discordant-kinship design, allowing researchers to separate within-family from between-family effects and better understand the nature of associations in their data.
+
 
 # Session Info
 ```{r}
