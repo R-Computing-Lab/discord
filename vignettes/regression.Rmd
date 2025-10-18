@@ -212,11 +212,145 @@ flu_modeling_data %>%
 
 ## Modeling and Interpretation
 
-To perform the regression using the {discord} package, we supply the data frame and specify the outcome and predictors. It also requires a kinship pair id, `extended_id` in our case, as well as pair identifiers -- the column name suffixes that identify to which kin a column's values correspond ("\_s1" and "\_s2" in our case).[^discord-3] Optional, although recommended, are columns containing sex and race information to control for as additional covariates. In our case, these columns are prefixed "race" and "sex". Per the [pre-processing script](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/preprocess-discord-flu.R), these columns contain dummy variables where the reference group for race is "non-Black, non-Hispanic" and the reference group for sex is female. 
+To fully understand the benefits of the discordant-kinship approach, we will compare three different regression models:
+
+1. **Standard OLS regression** - using one sibling per family (baseline individual-level analysis)
+2. **Between-family regression** - using family means (between-family variation)
+3. **Discordant-kinship regression** - using difference scores (within-family variation)
+
+This comparison will help illustrate what each approach reveals about the relationship between SES and flu vaccination.
+
+### Preparing Data for Standard OLS Regression
+
+For the standard OLS baseline, we select one sibling from each pair. We'll select the first sibling (s1) from each pair, similar to how many studies might select the first-born or oldest sibling:
+
+```{r prepare-ols-data}
+# Select one sibling per family for standard OLS
+flu_ols_data <- flu_modeling_data %>%
+  select(
+    extended_id,
+    flu_total = flu_total_s1,
+    ses_age40 = s00_h40_s1,
+    race = race_s1,
+    sex = sex_s1
+  ) %>%
+  # Remove missing data
+  filter(!is.na(ses_age40))
+```
+
+### Model 1: Standard OLS Regression
+
+First, let's run a standard individual-level regression to establish a baseline:
+
+```{r ols-model}
+ols_flu_model <- lm(
+  flu_total ~ ses_age40 + race + sex,
+  data = flu_ols_data
+)
+```
+
+```{r ols-output-html, echo = FALSE, eval = knitr::is_html_output(), error=FALSE}
+broom::tidy(ols_flu_model, conf.int = TRUE) %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic,
+    "Conf. Low" = conf.low,
+    "Conf. High" = conf.high
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c", caption = "Standard OLS Regression Results") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::column_spec(1:7, extra_css = "text-align: center;")
+```
+
+```{r ols-output-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
+broom::tidy(ols_flu_model, conf.int = TRUE) %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic,
+    "Conf. Low" = conf.low,
+    "Conf. High" = conf.high
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl(format = "latex", booktabs = TRUE, align = "c", caption = "Standard OLS Regression Results") %>%
+  kableExtra::kable_styling(latex_options = c("striped", "hold_position", "scale_down"))
+```
+
+This standard regression shows the typical individual-level association between SES and flu vaccination, controlling for race and sex. However, this estimate is potentially confounded by unmeasured family-level factors.
+
+### Model 2: Between-Family Regression  
+
+Next, we prepare data with family means and run a between-family model:
+
+```{r prepare-between-data}
+# Create family mean variables
+flu_between_data <- flu_modeling_data %>%
+  mutate(
+    flu_total_mean = (flu_total_s1 + flu_total_s2) / 2,
+    ses_mean = (s00_h40_s1 + s00_h40_s2) / 2
+  ) %>%
+  filter(!is.na(ses_mean))
+```
+
+```{r between-model}
+between_flu_model <- lm(
+  flu_total_mean ~ ses_mean,
+  data = flu_between_data
+)
+```
+
+```{r between-output-html, echo = FALSE, eval = knitr::is_html_output(), error=FALSE}
+broom::tidy(between_flu_model, conf.int = TRUE) %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic,
+    "Conf. Low" = conf.low,
+    "Conf. High" = conf.high
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl("html", align = "c", caption = "Between-Family Regression Results") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::column_spec(1:7, extra_css = "text-align: center;")
+```
+
+```{r between-output-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
+broom::tidy(between_flu_model, conf.int = TRUE) %>%
+  mutate(
+    p.value = scales::pvalue(p.value, add_p = TRUE),
+    across(.cols = where(is.numeric), ~ round(.x, 3))
+  ) %>%
+  rename(
+    "Standard Error" = std.error,
+    "T Statistic" = statistic,
+    "Conf. Low" = conf.low,
+    "Conf. High" = conf.high
+  ) %>%
+  rename_with(~ snakecase::to_title_case(.x)) %>%
+  kableExtra::kbl(format = "latex", booktabs = TRUE, align = "c", caption = "Between-Family Regression Results") %>%
+  kableExtra::kable_styling(latex_options = c("striped", "hold_position", "scale_down"))
+```
+
+This between-family model captures how family-average SES relates to family-average flu vaccination rates. It only uses between-family variation and cannot address within-family effects.
+
+### Model 3: Discordant-Kinship Regression
+
+Now we perform the discordant-kinship regression using the {discord} package. This model allows us to examine within-family effects while controlling for shared familial confounders.
+
+The discord package requires a kinship pair id (`extended_id`), pair identifiers ("\_s1" and "\_s2"), and allows for demographic covariates.[^discord-3] Per the [pre-processing script](https://github.com/R-Computing-Lab/discord/blob/main/data-raw/preprocess-discord-flu.R), race and sex columns contain dummy variables where the reference group for race is "non-Black, non-Hispanic" and the reference group for sex is female. 
 
 [^discord-3]: Note these ids were previously "\_S1" and "\_S2", however, we used the `clean_names()` function which coerced the column names to lowercase.
-
-By entering this information into the `discord_regression()` function, we can run the model as such:
 
 ```{r run-regression, cache = FALSE}
 # Setting a seed for reproducibility
@@ -280,6 +414,75 @@ The most important metric from the output, though, is the difference score, `s00
 
 The goal of performing a discordant-kinship regression is to see whether there is a significant difference in some behavioral measure while controlling for as much gene-and-environmental variance as possible. In this section, we walked through an analysis showing a statistically significant difference in the number of flu shots a sibling received and their socioeconomic status. From this finding, we *could not* claim the relationship is causal. However, we cannot eliminate causality because there are statistically significant within- and between-family differences in our predictors and outcomes.
 
+
+## Comparing All Three Models
+
+To fully appreciate the value of the discordant-kinship approach, let's compare all three models side by side:
+
+```{r all-models-table, results='asis', message=FALSE, warning=FALSE}
+# For stargazer comparison, we need the discord model as lm object
+# We already have flu_model_output from discord_regression() 
+# Let's recreate it as the lm object for stargazer
+discord_flu_model_lm <- discord_regression(
+  data = flu_modeling_data,
+  outcome = "flu_total",
+  predictors = "s00_h40",
+  id = "extended_id",
+  sex = "sex",
+  race = "race",
+  pair_identifiers = c("_s1", "_s2")
+)
+
+stargazer::stargazer(
+  ols_flu_model,
+  between_flu_model,
+  discord_flu_model_lm,
+  type = "html",
+  digits = 3,
+  single.row = FALSE,
+  title = "Comparison of Three Approaches to Modeling SES and Flu Vaccination",
+  column.labels = c("Standard OLS", "Between-Family", "Discordant"),
+  model.names = FALSE,
+  covariate.labels = c(
+    "Intercept",
+    "SES at Age 40",
+    "Race (Black)",
+    "Race (Hispanic)",
+    "Sex (Male)",
+    "Flu Total Mean",
+    "SES Mean",
+    "SES Difference",
+    "Race Mix (Black)",
+    "Race Mix (Hispanic)",
+    "Sex Mix"
+  ),
+  keep.stat = c("n", "rsq")
+)
+```
+
+### Key Insights from Model Comparison
+
+Comparing these three models reveals important insights about the SES-flu vaccination relationship:
+
+1. **Standard OLS Model**: Shows an individual-level association between SES and flu vaccination. However, this estimate includes both within-family (potentially causal) and between-family (potentially confounded) effects.
+
+2. **Between-Family Model**: Captures only family-level variation. The `ses_mean` coefficient shows how families with higher average SES differ in flu vaccination from families with lower average SES. This effect may be confounded by unmeasured family factors.
+
+3. **Discordant Model**: The key innovation is separating these effects:
+   - `s00_h40_mean`: Between-family effect (comparable to between-family model)
+   - `s00_h40_diff`: **Within-family effect** - this controls for all shared familial factors
+   
+The statistically significant `s00_h40_diff` coefficient in the discordant model tells us that even within sibling pairs who share family background, genes, and early environment, the sibling with higher SES receives more flu vaccinations. This provides much stronger evidence for a potential causal relationship than the OLS estimate alone.
+
+### Understanding the Practical Implications
+
+- **If the OLS effect is large but the within-family effect (diff) is near zero**: This suggests the OLS association is primarily due to familial confounding rather than a causal effect of SES.
+
+- **If both OLS and within-family effects are significant (as in our case)**: This suggests that SES has an effect both between and within families, providing stronger evidence for causality.
+
+- **Between-family vs. within-family discrepancies**: Large differences between these effects indicate that family-level factors play an important role in the relationship.
+
+This multi-model approach is essential for the discordant-kinship design, as it allows us to distinguish between associations that may be confounded by family background versus those that persist even when controlling for familial factors.
 
 
 # Conclusion
