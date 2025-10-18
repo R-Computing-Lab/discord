@@ -201,7 +201,7 @@ individual_plot  <- individual_plot +
   # added sibling 2 to the plot
   geom_point(
     size = 0.8, alpha = 0.8, na.rm = TRUE,
-    position = position_jitter(width= 0.2, height = 0.2),
+    position = position_jitter(width = 0.2, height = 0.2),
     aes(
       x = s00_h40_s2,
       y = flu_total_s2,
