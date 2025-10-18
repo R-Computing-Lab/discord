@@ -31,9 +31,53 @@ the control of shared familial confounding factors.
 
 Visit the [discord website](https://r-computing-lab.github.io/discord/)
 for more information and detailed documentation. Below is a brief
-overview of the package, its features, and vignettes to get you started.
+overview of the package, its features, and a roadmap to get you started.
 
-## Features
+## Quick Start Guide
+
+### Step 1: Install the Package
+
+``` r
+# Install from CRAN
+install.packages('discord')
+
+# Or install development version from GitHub
+# install.packages('devtools')
+devtools::install_github('R-Computing-Lab/discord')
+```
+
+### Step 2: Choose Your Starting Point
+
+Your workflow depends on your data structure and experience level:
+
+**🚀 New to discordant-kinship regression?** - Start with [Full Data
+Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html) -
+Shows all three models (OLS, Between-Family, Discordant) side-by-side -
+Demonstrates data preparation from wide, long, or pedigree formats
+
+**📊 Have NLSY data or existing kinship links?** - Use [NLSY Regression
+Analysis](https://r-computing-lab.github.io/discord/articles/regression.html) -
+Real-world example with flu vaccination and SES data - Complete workflow
+from kinship linking to interpretation
+
+**🔧 Need to build kinship links from scratch?** - See [Using discord
+with Simple Family
+Structures](https://r-computing-lab.github.io/discord/articles/links.html) -
+Construct links from basic family IDs (mother, father) - Works without
+pre-existing kinship databases
+
+### Step 3: Explore Advanced Topics
+
+Once you understand the basics, explore specialized topics:
+
+- **Categorical predictors** (sex, race): [Categorical Predictors
+  Vignette](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
+- **Visualizing results**: [Plotting
+  Vignette](https://r-computing-lab.github.io/discord/articles/plots.html)
+- **Sample size planning**: [Power Analysis
+  Vignette](https://r-computing-lab.github.io/discord/articles/Power.html)
+
+## Package Features
 
 - **Data Preparation**: Functions to prepare and structure data for
   discordant sibling analysis, including handling of kinship pairs and
@@ -44,24 +88,28 @@ overview of the package, its features, and vignettes to get you started.
 - **Simulation**: Functions to simulate genetically-informed data,
   enabling researchers to test and validate their models.
 
-## Vignettes
+## Complete Vignette Roadmap
 
-The package includes several vignettes to help users understand and
-utilize its features effectively. These vignettes can be accessed
-[online](https://r-computing-lab.github.io/discord/articles/) or by
-selecting them from the RStudio “Vignettes” tab after installing the
-package.
+The package includes several vignettes organized by user needs. All
+vignettes can be accessed
+[online](https://r-computing-lab.github.io/discord/articles/) or from
+the RStudio “Vignettes” tab after package installation.
 
-The following vignettes are available:
+### 📚 Start Here: Core Workflows
+
+These vignettes provide complete end-to-end examples and should be your
+first stop:
 
 - [Full data workflow for
   discord](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
-  - Starting from raw wide and long person-level inputs, this vignette
-    builds kinship links, aligns IDs, and constructs the discord_data
-    objects with sibling-specific columns ready for modeling. It then
-    fits a conventional between-family regression alongside a discord
-    model on the same variables, so you can see where the within-family
-    estimate diverges and adapt the pipeline as a template.
+  - **What you’ll learn:**
+  - How to transform data from wide, long, or pedigree formats
+  - How to select siblings for standard OLS regression
+  - How to order siblings for discordant-kinship analysis
+  - How to run and compare all three model types (OLS, Between-Family,
+    Discordant)
+  - How to interpret difference scores and mean scores
+  - Complete side-by-side model comparisons
 - [NLSY regression analysis with
   discord](https://r-computing-lab.github.io/discord/articles/regression.html)
   - Use this vignette if you want an end-to-end applied example that
@@ -69,15 +117,20 @@ The following vignettes are available:
     SES, constructs dyads, and then fits within-family models. You will
     learn how to specify discord_regression correctly and interpret
     coefficients.
-- [Handling categorical predictors with
-  discord](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
-  - This vignette formalizes categorical predictors in discord designs
-    by separating mixed from between-dyad variables and making the
-    implied contrasts explicit. It implements binary-match and
-    multi-category match encodings on concrete examples (e.g., sex,
-    race), fits the corresponding discord_regression specifications, and
-    contrasts estimates to show how encoding choices change
-    interpretation.
+
+### 🔧 Data Preparation
+
+- [No Database? No Problem: Using discord with simple family
+  Structures](https://r-computing-lab.github.io/discord/articles/links.html)
+  - This vignette is particularly useful for situations when you do not
+    have existing kinship links and need to build relationships directly
+    from simple family identifiers. It shows how to construct the links,
+    optionally simulate phenotypes under specified structures, and fit
+    discord_regression with alternative specifications for small or
+    bespoke datasets.
+
+### 📊 Advanced Topics
+
 - [Creating plots for
   discord](https://r-computing-lab.github.io/discord/articles/plots.html)
   - This vignette takes fitted discord_regression outputs and produces
@@ -87,93 +140,83 @@ The following vignettes are available:
     from extracting estimates to saving figures that clearly communicate
     within-family findings.
 - [Power Analysis with
-  discord](https://r-computing-lab.github.io/discord/articles/Power.html)
+  discord](https://r-computing-lab.github.io/discord/articles/power.html)
   - Use this vignette when you need to plan sample sizes or evaluate
     power by running simulation grids that vary effect sizes, kin types,
     and Ns using kinsim, then re-fitting discord_regression under each
     condition. It reports empirical power and writes tidy summaries.
-- [No Database? No Problem: Using discord with simple family
-  Structures](https://r-computing-lab.github.io/discord/articles/links.html)
-  - This vignette is particularly useful for situations when you do not
-    have existing kinship links and need to build link tables directly
-    from simple family identifiers. It shows how to construct the links,
-    optionally simulate phenotypes under specified structures, and fit
-    discord_regression with alternative specifications for small or
-    bespoke datasets.
+- [Handling categorical predictors with
+  discord](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
+  - This vignette formalizes categorical predictors in discord designs
+    by separating categorical variables into within-dyad and
+    between-dyad components. It makes the implied contrasts explicit. It
+    discusses the pitfalls of interpreting coefficients naively when
+    using categorical predictors, and reviews best practices for coding
+    and interpretation.
 
 ## External Reproducible Examples
 
 Beyond the vignettes, you can find additional examples that fully
 reproduce analyses from our other publications (Garrison et al 2025,
-etc). These examples can be accessed via the following links:
+etc). These examples can be accessed via the following links and are
+presented in reverse chronological order:
 
-- National Longitudinal Survey of Youth (NLSY) dataset
-  - [Intelligence](https://github.com/R-Computing-Lab/Project_AFI_Intelligence):
-    Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting doubt
-    on the causal link between intelligence and age at first
-    intercourse: A cross-generational sibling comparison design using
-    the NLSY. Intelligence, 59, 139-156.
-    <https://doi.org/10.1016/j.intell.2016.08.008>
+- National Longitudinal Survey of Youth (NLSY) datasets
+  - [NLSY AMPPS
+    repo](https://github.com/R-Computing-Lab/target-causalclaims):
+    Reproduces NLSY analyses from Garrison et al 2025, using `targets`
+    for workflow management. Garrison, S. M., Trattner, J. D., Lyu, X.,
+    Prillaman, H. R., McKinzie, L., Thompson, S. H. E., & Rodgers, J. L.
+    (2025). Sibling Models Can Test Causal Claims without Experiments:
+    Applications for Psychology.
+    <https://doi.org/10.1101/2025.08.25.25334395>
 
-  - [Frontiers](https://github.com/R-Computing-Lab/Sims-et-al-2024):
+  - [Frontiers
+    repo](https://github.com/R-Computing-Lab/Sims-et-al-2024):
     Reproduces Sims, E. E., Trattner, J. D., & Garrison, S. M. (2024).
     Exploring the relationship between depression and delinquency: a
     sibling comparison design using the NLSY. Frontiers in psychology,
     15, 1430978. <https://doi.org/10.3389/fpsyg.2024.1430978>
 
-  - [AMPPS](https://github.com/R-Computing-Lab/target-causalclaims):
-    Reproduces analyses from Garrison et al 2025, using `targets` for
-    workflow management. Garrison, S. M., Trattner, J. D., Lyu, X.,
+  - [Intelligence
+    repo](https://github.com/R-Computing-Lab/Project_AFI_Intelligence):
+    Reproduces Garrison, S. M., & Rodgers, J. L. (2016). Casting doubt
+    on the causal link between intelligence and age at first
+    intercourse: A cross-generational sibling comparison design using
+    the NLSY. Intelligence, 59, 139-156.
+    <https://doi.org/10.1016/j.intell.2016.08.008>
+- China Family Panel Studies (CFPS) dataset
+  - [CFPS AMPPS repo](https://github.com/R-Computing-Lab/discord_CFPS):
+    Reproduces analyses from the China Family Panel Studies (CFPS)
+    dataset, focusing on the association between adolescent depression
+    and math achievement. Garrison, S. M., Trattner, J. D., Lyu, X.,
     Prillaman, H. R., McKinzie, L., Thompson, S. H. E., & Rodgers, J. L.
     (2025). Sibling Models Can Test Causal Claims without Experiments:
     Applications for Psychology.
     <https://doi.org/10.1101/2025.08.25.25334395>
-- China Family Panel Studies (CFPS) dataset
-  - [AMPPS](https://github.com/R-Computing-Lab/discord_CFPS): Reproduces
-    analyses from the China Family Panel Studies (CFPS) dataset,
-    focusing on the association between adolescent depression and math
-    achievement.
-
-## Installation
-
-You can install the official version from CRAN
-
-``` r
-# Install/update discord with the release version from CRAN.
-install.packages('discord')
-```
-
-You can also install/update discord with the development version of
-discord from [GitHub](https://github.com/) with:
-
-``` r
-# If devtools is not installed, uncomment the line below.
-# install.packages('devtools')
-devtools::install_github('R-Computing-Lab/discord')
-```
 
 ## Citation
 
 If you use `discord` in your research or wish to refer to it, please
 cite the following paper:
 
-``` r
-citation(package = "discord")
-To cite package 'discord' in publications use:
+    To cite package 'discord' in publications use:
 
-  Garrison S, Trattner J, Hwang Y (2025). _discord: Functions for
-  Discordant Kinship Modeling_. R package version 1.3,
-  <https://github.com/R-Computing-Lab/discord>.
+      Garrison S, Trattner J, Hwang Y (2025). _discord: Functions for
+      Discordant Kinship Modeling_. doi:10.32614/CRAN.package.discord
+      <https://doi.org/10.32614/CRAN.package.discord>, R package version
+      1.3, <https://github.com/R-Computing-Lab/discord>.
 
-A BibTeX entry for LaTeX users is
+    A BibTeX entry for LaTeX users is
 
-  @Manual{,
-    title = {discord: Functions for Discordant Kinship Modeling},
-    author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
-    note = {R package version 1.3},
-    url = {https://github.com/R-Computing-Lab/discord},
-  }
-```
+      @Manual{,
+        title = {discord: Functions for Discordant Kinship Modeling},
+        author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
+        note = {R package version 1.3},
+        url = {https://github.com/R-Computing-Lab/discord},
+        year = {2025},
+        doi = {10.32614/CRAN.package.discord},
+      }
 
 ## Contributing
 
