@@ -36,9 +36,67 @@ the control of shared familial confounding factors.
 
 Visit the [discord website](https://r-computing-lab.github.io/discord/)
 for more information and detailed documentation. Below is a brief
-overview of the package, its features, and vignettes to get you started.
+overview of the package, its features, and a roadmap to get you started.
 
-## Features
+## What is Discordant-Kinship Regression?
+
+Discordant-kinship regression is a quasi-experimental design that uses differences between siblings (or other kin) to control for unmeasured familial confounders. By comparing siblings who share family background, genes, and early environment, researchers can better assess whether associations reflect causal relationships or are due to shared familial factors.
+
+**Key advantages:**
+
+- Controls for shared genetic and environmental factors without randomization
+- Provides stronger evidence for (or against) causal effects than standard regression
+- Separates within-family effects from between-family effects
+
+**The approach compares three models:**
+
+1. **Standard OLS**: Individual-level associations (potentially confounded)
+2. **Between-Family**: Associations across families using family means
+3. **Discordant (Within-Family)**: Associations within families using sibling differences
+
+When within-family effects differ from OLS estimates, it suggests familial confounding. When they persist, it provides stronger evidence for causal effects.
+
+## Quick Start Guide
+
+### Step 1: Install the Package
+
+```r
+# Install from CRAN
+install.packages('discord')
+
+# Or install development version from GitHub
+# install.packages('devtools')
+devtools::install_github('R-Computing-Lab/discord')
+```
+
+### Step 2: Choose Your Starting Point
+
+Your workflow depends on your data structure and experience level:
+
+**🚀 New to discordant-kinship regression?**
+- Start with [Full Data Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
+- Shows all three models (OLS, Between-Family, Discordant) side-by-side
+- Demonstrates data preparation from wide, long, or pedigree formats
+
+**📊 Have NLSY data or existing kinship links?**
+- Use [NLSY Regression Analysis](https://r-computing-lab.github.io/discord/articles/regression.html)
+- Real-world example with flu vaccination and SES data
+- Complete workflow from kinship linking to interpretation
+
+**🔧 Need to build kinship links from scratch?**
+- See [Using discord with Simple Family Structures](https://r-computing-lab.github.io/discord/articles/links.html)
+- Construct links from basic family IDs (mother, father)
+- Works without pre-existing kinship databases
+
+### Step 3: Explore Advanced Topics
+
+Once you understand the basics, explore specialized topics:
+
+- **Categorical predictors** (sex, race): [Categorical Predictors Vignette](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
+- **Visualizing results**: [Plotting Vignette](https://r-computing-lab.github.io/discord/articles/plots.html)
+- **Sample size planning**: [Power Analysis Vignette](https://r-computing-lab.github.io/discord/articles/Power.html)
+
+## Package Features
 
 -   **Data Preparation**: Functions to prepare and structure data for
     discordant sibling analysis, including handling of kinship pairs and
@@ -49,63 +107,173 @@ overview of the package, its features, and vignettes to get you started.
 -   **Simulation**: Functions to simulate genetically-informed data,
     enabling researchers to test and validate their models.
 
-## Vignettes
+## Core Functions
 
-The package includes several vignettes to help users understand and
-utilize its features effectively. These vignettes can be accessed
-[online](https://r-computing-lab.github.io/discord/articles/) or by
-selecting them from the RStudio "Vignettes" tab after installing the
-package.
+- `discord_data()`: Prepare sibling pair data with ordering and derived variables (means, differences)
+- `discord_regression()`: Fit discordant-kinship regression models in one step
+- `kinsim()`: Simulate genetically-informed data for testing and power analysis
 
-The following vignettes are available:
+## Complete Vignette Roadmap
 
--   [Full data workflow for discord](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html) 
-    -   Starting from raw wide and long person-level inputs, this
-        vignette builds kinship links, aligns IDs, and constructs the
-        discord_data objects with sibling-specific columns ready for
-        modeling. It then fits a conventional between-family regression
-        alongside a discord model on the same variables, so you can see
-        where the within-family estimate diverges and adapt the pipeline
-        as a template.
+The package includes comprehensive vignettes organized by user needs. All vignettes can be accessed [online](https://r-computing-lab.github.io/discord/articles/) or from the RStudio "Vignettes" tab after installation.
 
--   [NLSY regression analysis with  discord](https://r-computing-lab.github.io/discord/articles/regression.html) 
-    -   Use this vignette if you want an end-to-end applied example that links
-        NLSY79 relatives, cleans variables for flu vaccination and SES,
-        constructs dyads, and then fits within-family models. You will
-        learn how to specify discord_regression correctly and interpret
-        coefficients.
+### 📚 Start Here: Core Workflows
 
--   [Handling categorical predictors with discord ](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html) 
-    -   This vignette formalizes categorical predictors in discord
-        designs by separating mixed from between-dyad variables and
-        making the implied contrasts explicit. It implements
-        binary-match and multi-category match encodings on concrete
-        examples (e.g., sex, race), fits the corresponding
-        discord_regression specifications, and contrasts estimates to
-        show how encoding choices change interpretation.
+These vignettes provide complete end-to-end examples and should be your first stop:
 
--   [Creating plots for discord](https://r-computing-lab.github.io/discord/articles/plots.html)
-    -   This vignette takes fitted discord_regression outputs and
-        produces publication-ready ggplot figures of effect estimates
-        and within-family contrasts with minimal transformation of the
-        model results. It includes complete plotting code paths you can
-        reuse, from extracting estimates to saving figures that clearly
-        communicate within-family findings. 
+#### [Full Data Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html) - **Start here if you're new!**
 
--   [Power Analysis with discord](https://r-computing-lab.github.io/discord/articles/Power.html)
-    -   Use this vignette when you need to plan sample sizes or evaluate
-        power by running simulation grids that vary effect
-        sizes, kin types, and Ns using kinsim, then re-fitting
-        discord_regression under each condition. It reports empirical
-        power and writes tidy summaries.
-        
--   [No Database? No Problem: Using discord with simple family Structures](https://r-computing-lab.github.io/discord/articles/links.html)
-    -   This vignette is particularly useful for situations when you do
-        not have existing kinship links and need to build link tables
-        directly from simple family identifiers. It shows how to
-        construct the links, optionally simulate phenotypes under
-        specified structures, and fit discord_regression with
-        alternative specifications for small or bespoke datasets.
+**What you'll learn:**
+- How to transform data from wide, long, or pedigree formats
+- How to select siblings for standard OLS regression
+- How to order siblings for discordant-kinship analysis
+- How to run and compare all three model types (OLS, Between-Family, Discordant)
+- How to interpret difference scores and mean scores
+- Complete side-by-side model comparisons
+
+**Perfect for:** First-time users, understanding the methodology, comparing modeling approaches
+
+**Key sections:**
+- Visualization of sibling ordering process (before/after tables)
+- Explanation of first-born selection vs. outcome-based ordering
+- Three-model comparison with interpretation guide
+
+---
+
+#### [NLSY Regression Analysis](https://r-computing-lab.github.io/discord/articles/regression.html) - **Real-world application**
+
+**What you'll learn:**
+- Working with NLSY79 kinship links from {NlsyLinks}
+- Complete data cleaning and preparation workflow
+- Running standard OLS, between-family, and discordant models
+- Interpreting results in context of flu vaccination and SES
+
+**Perfect for:** NLSY users, applied researchers, understanding real data challenges
+
+**Key sections:**
+- Kinship linking with existing databases
+- Data cleaning for consistency
+- Three-model comparison with practical interpretation
+
+---
+
+### 🔧 Data Preparation
+
+#### [Using discord with Simple Family Structures](https://r-computing-lab.github.io/discord/articles/links.html)
+
+**What you'll learn:**
+- Building kinship links from basic family IDs (mother, father, spouse)
+- Working with pedigree data using {BGmisc}
+- Simulating phenotypes for testing
+
+**Perfect for:** Users without pre-existing kinship databases, pedigree data users
+
+---
+
+### 📊 Advanced Topics
+
+#### [Handling Categorical Predictors](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
+
+**What you'll learn:**
+- Binary-match vs. multi-match coding for categorical variables
+- Between-dyad vs. mixed variables
+- How coding choices affect interpretation
+
+**Perfect for:** Analyzing sex, race, or other categorical variables
+
+---
+
+#### [Creating Plots](https://r-computing-lab.github.io/discord/articles/plots.html)
+
+**What you'll learn:**
+- Publication-ready ggplot figures
+- Visualizing within-family contrasts
+- Extracting and formatting model results
+
+**Perfect for:** Preparing figures for papers or presentations
+
+---
+
+#### [Power Analysis](https://r-computing-lab.github.io/discord/articles/Power.html)
+
+**What you'll learn:**
+- Planning sample sizes for discordant designs
+- Running simulation grids
+- Evaluating power under different scenarios
+
+**Perfect for:** Study design, grant proposals, sample size justification
+
+---
+
+### 📖 Vignette Decision Tree
+
+**Not sure which vignette to start with?**
+
+```
+Are you new to discordant-kinship regression?
+├─ YES → Start with "Full Data Workflow"
+│         (comprehensive introduction with all three models)
+│
+└─ NO → What's your data source?
+    ├─ NLSY dataset → "NLSY Regression Analysis"
+    │                  (real-world example with kinship links)
+    │
+    ├─ Pedigree/family IDs → "Simple Family Structures"
+    │                          (build links from scratch)
+    │
+    └─ Already have prepared data → What do you need?
+        ├─ Categorical variables → "Categorical Predictors"
+        ├─ Visualizations → "Creating Plots"
+        └─ Sample size planning → "Power Analysis"
+```
+
+## Typical Workflow Example
+
+Here's a minimal example showing the typical workflow:
+
+```{r eval=FALSE}
+library(discord)
+
+# 1. Prepare your data
+# Start with wide-format data (one row per sibling pair)
+# Columns: pair_id, var_s1, var_s2 (where _s1 and _s2 denote siblings)
+
+# 2. Create discord data with ordering and derived variables
+discord_data <- discord_data(
+  data = my_data,
+  outcome = "outcome_variable",
+  predictors = c("predictor1", "predictor2"),
+  pair_identifiers = c("_s1", "_s2"),
+  id = "pair_id"
+)
+
+# This creates:
+# - outcome_1, outcome_2 (ordered so outcome_1 >= outcome_2)
+# - outcome_mean, outcome_diff (for between and within-family effects)
+# - predictor_mean, predictor_diff (for each predictor)
+
+# 3. Run discordant regression
+model <- discord_regression(
+  data = my_data,
+  outcome = "outcome_variable",
+  predictors = c("predictor1", "predictor2"),
+  pair_identifiers = c("_s1", "_s2"),
+  id = "pair_id"
+)
+
+# 4. Examine results
+summary(model)
+
+# Key coefficients:
+# - predictor_mean: Between-family effect
+# - predictor_diff: Within-family effect (controls for familial confounding)
+```
+
+**Interpreting the results:**
+
+- **Significant `predictor_diff`**: Within-family effect persists after controlling for shared factors → stronger evidence for causal effect
+- **Non-significant `predictor_diff` but significant OLS**: Association likely due to familial confounding
+- **Similar `predictor_mean` and `predictor_diff`**: Effect operates similarly across and within families
 
 ## External Reproducible Examples
 
