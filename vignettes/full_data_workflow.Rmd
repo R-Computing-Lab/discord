@@ -394,11 +394,80 @@ This ordering ensures that `weight_diff` is always positive (or zero in case of 
 
 With our data prepared, we can now perform both standard OLS regression and discordant-kinship regression to compare results.
 
+## Understanding Sibling Selection vs. Outcome-Based Ordering
+
+Before we proceed with the analyses, it's important to understand the distinction between two different ways of ordering siblings:
+
+### Selection for Standard OLS (First-Born or Oldest Sibling)
+
+When running a standard OLS regression, researchers typically select **one sibling per family** to avoid non-independence. Common approaches include:
+
+- **First-born sibling**: The child born first in the family
+- **Oldest sibling**: The sibling with the highest age at time of measurement  
+- **Random selection**: Randomly choosing one sibling from each pair
+
+This selection is fixed based on a **demographic characteristic** (birth order, age) and remains constant regardless of which outcome variable you're analyzing. This approach is used for individual-level regression to establish a baseline.
+
+### Ordering for Discordant Models (Outcome-Based)
+
+In contrast, `discord_data()` orders siblings based on the **outcome variable** itself:
+
+- The sibling with the **higher outcome value** becomes `_1`
+- The sibling with the **lower outcome value** becomes `_2`
+- This ordering is **specific to each outcome variable** you analyze
+
+**Why order by outcome?** This ensures that difference scores (`outcome_diff = outcome_1 - outcome_2`) are always positive (or zero), which:
+1. Simplifies interpretation of regression coefficients
+2. Makes the direction of effects clear (does the higher-outcome sibling also have higher predictors?)
+3. Maintains statistical properties of the model
+
+**Important:** The ordering is done separately for each outcome. If you analyze weight as an outcome, siblings are ordered by weight. If you analyze height as an outcome, they're ordered by height. The ordering will likely differ between analyses.
+
+### Example: First-Born vs. Outcome-Ordered
+
+Let's demonstrate both approaches:
+
+```{r demonstrate-selection}
+# Approach 1: Select first-born (or in this case, s1) for OLS
+# This is fixed - always the same sibling regardless of outcome
+df_fixed_selection <- df_synthetic %>%
+  select(pid, weight_s1, height_s1, age_s1) %>%
+  slice(1:3)
+
+# Approach 2: Order by outcome (weight) for discord model  
+# Changes based on who has higher weight
+df_weight_ordered <- df_discord_weight %>%
+  select(id, weight_1, weight_2, height_1, height_2) %>%
+  slice(1:3)
+
+# Approach 3: Order by different outcome (age) for different analysis
+df_age_ordered <- df_discord_age %>%
+  select(id, age_1, age_2, weight_1, height_1) %>%
+  slice(1:3)
+
+df_fixed_selection %>%
+  knitr::kable(digits = 2, caption = "Fixed selection: Always use s1 for OLS")
+
+df_weight_ordered %>%
+  knitr::kable(digits = 2, caption = "Weight-ordered: Sibling with higher weight is always _1")
+
+df_age_ordered %>%
+  knitr::kable(digits = 2, caption = "Age-ordered: Sibling with higher age is always _1")
+```
+
+Notice that:
+- In the fixed selection, we always use `_s1` (could represent first-born)
+- In the weight-ordered data, `_1` is whoever weighs more  
+- In the age-ordered data, `_1` is whoever is older
+- The person who is `_1` in weight-ordered may NOT be `_1` in age-ordered
+
+This distinction is crucial for understanding what each analysis tells us.
+
 ## Standard OLS Regression
 
 First, let's run a standard OLS regression using the original wide-format data. This will serve as a baseline for comparison with the family-based analyses.
 
-For our baseline analysis, we select one sibling from each pair. In the original dataset, s1 was defined as the older sibling, so we can simply choose the sibling labeled `_s1`. But, another way to select the oldest sibling is to use the `discord_data()` function with the `outcome` argument set to the age variable. This will ensure that `_1` is always the oldest sibling within the pair. In the case of ties, one sibling is randomly assigned as `_1`.
+For our baseline analysis, we select one sibling from each pair. In the original dataset, s1 was defined as the older sibling, so we can simply choose the sibling labeled `_s1`. This represents a **fixed selection strategy** - we're always choosing the same individual from each pair regardless of outcome.
 
 
 ```{r select-for-ols}
