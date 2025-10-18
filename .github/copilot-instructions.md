@@ -112,7 +112,7 @@ See CONTRIBUTING.md for full details:
 - Maintain author attribution in DESCRIPTION file
 
 ## External Resources
-
+- Academic paper: https://www.medrxiv.org/content/10.1101/2025.08.25.25334395v1
 - Package website: https://r-computing-lab.github.io/discord/
 - GitHub repository: https://github.com/R-Computing-Lab/discord
 - CRAN page: https://cran.r-project.org/package=discord
