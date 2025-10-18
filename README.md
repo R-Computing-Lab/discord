@@ -54,23 +54,23 @@ package.
 
 The following vignettes are available:
 
-- [Power Analysis with
-  discord](https://r-computing-lab.github.io/discord/articles/Power.html)
-  - Use this vignette when you need to plan sample sizes or evaluate
-    detectability by running simulation grids that vary effect sizes,
-    kin types, and Ns using kinsim, then re-fitting discord_regression
-    under each condition. It reports empirical power, writes tidy
-    summaries, and includes code to visualize power curves across
-    conditions to support design decisions.
-- [Regression Analysis with
+- [Full data workflow for
+  discord](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
+  - Starting from raw wide and long person-level inputs, this vignette
+    builds kinship links, aligns IDs, and constructs the discord_data
+    objects with sibling-specific columns ready for modeling. It then
+    fits a conventional between-family regression alongside a discord
+    model on the same variables, so you can see where the within-family
+    estimate diverges and adapt the pipeline as a template.
+- [NLSY regression analysis with
   discord](https://r-computing-lab.github.io/discord/articles/regression.html)
-  - Use this if you want an end-to-end applied example that links NLSY79
-    relatives, cleans variables for flu vaccination and SES, constructs
-    dyads, and then fits within-family models. You will learn how to
-    specify discord_regression correctly and interpret coefficients when
-    predictors vary within pairs versus only between pairs.
-- [Handling Categorical
-  Predictors](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
+  - Use this vignette if you want an end-to-end applied example that
+    links NLSY79 relatives, cleans variables for flu vaccination and
+    SES, constructs dyads, and then fits within-family models. You will
+    learn how to specify discord_regression correctly and interpret
+    coefficients.
+- [Handling categorical predictors with
+  discord](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
   - This vignette formalizes categorical predictors in discord designs
     by separating mixed from between-dyad variables and making the
     implied contrasts explicit. It implements binary-match and
@@ -78,23 +78,21 @@ The following vignettes are available:
     race), fits the corresponding discord_regression specifications, and
     contrasts estimates to show how encoding choices change
     interpretation.
-- [Full Data
-  Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
-  - Starting from raw wide and long person-level inputs, this vignette
-    builds kin links, aligns IDs, and constructs the discord_data object
-    with sibling-specific columns ready for modeling. It then fits a
-    conventional between-family regression alongside a discord model on
-    the same variables, so you can see where the within-family estimate
-    diverges and adopt the pipeline as a template.
-- [Creating
-  Plots](https://r-computing-lab.github.io/discord/articles/plots.html)
+- [Creating plots for
+  discord](https://r-computing-lab.github.io/discord/articles/plots.html)
   - This vignette takes fitted discord_regression outputs and produces
     publication-ready ggplot figures of effect estimates and
     within-family contrasts with minimal transformation of the model
     results. It includes complete plotting code paths you can reuse,
     from extracting estimates to saving figures that clearly communicate
     within-family findings.
-- [No Database? No Problem: Using discord with Simple Family
+- [Power Analysis with
+  discord](https://r-computing-lab.github.io/discord/articles/Power.html)
+  - Use this vignette when you need to plan sample sizes or evaluate
+    power by running simulation grids that vary effect sizes, kin types,
+    and Ns using kinsim, then re-fitting discord_regression under each
+    condition. It reports empirical power and writes tidy summaries.
+- [No Database? No Problem: Using discord with simple family
   Structures](https://r-computing-lab.github.io/discord/articles/links.html)
   - This vignette is particularly useful for situations when you do not
     have existing kinship links and need to build link tables directly
@@ -163,8 +161,8 @@ cite the following paper:
 citation(package = "discord")
 To cite package 'discord' in publications use:
 
-  Garrison S, Trattner J, Hwang Y (????). _discord: Functions for
-  Discordant Kinship Modeling_. R package version 1.2.4.1,
+  Garrison S, Trattner J, Hwang Y (2025). _discord: Functions for
+  Discordant Kinship Modeling_. R package version 1.3,
   <https://github.com/R-Computing-Lab/discord>.
 
 A BibTeX entry for LaTeX users is
@@ -172,7 +170,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {discord: Functions for Discordant Kinship Modeling},
     author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
-    note = {R package version 1.2.4.1},
+    note = {R package version 1.3},
     url = {https://github.com/R-Computing-Lab/discord},
   }
 ```
