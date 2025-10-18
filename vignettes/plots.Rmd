@@ -9,6 +9,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+
+```
+
 # Introduction
 
 This vignette walks through the steps needed to recreate a figure from [Garrison and Rodgers (2016)](https://www.sciencedirect.com/science/article/pii/S0160289616300162). The example uses kinship pair data prepared with the discord package and visualizes the results using updated `ggplot2` tools.
