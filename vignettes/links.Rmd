@@ -79,7 +79,7 @@ df_potter <- checkSex(df_potter,
 ```{r echo=TRUE, fig.cap="Pedigree plot of the Potter dataset", fig.height=3, fig.width=4, message=FALSE, warning=FALSE}
 ggpedigree(potter, config = list(
   label_method = "geom_text",
-  label_nudge_y = -.25
+  label_nudge_y = .25
 )) +
   labs(title = "Pedigree Plot of the Potter Dataset") +
   theme(legend.position = "bottom")
@@ -191,11 +191,12 @@ The simulated data reflect a known variance structure: additive genetic covarian
 We bind the simulated outcome data to the links data to prepare it for modeling.
 
 ```{r}
-data_demo <- cbind(df_cousin, syn_df)
+data_demo <- cbind(df_cousin, syn_df) %>% 
+  arrange(ID1, ID2)
 
-data_demo %>% arrange(ID1, ID2)
 summary(data_demo)
-
+```
+```{r}
 data_demo %>%
   slice(1:5) %>%
   knitr::kable()
