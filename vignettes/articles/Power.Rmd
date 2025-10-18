@@ -1,5 +1,5 @@
 ---
-title: "Power"
+title: "Power Analysis for Discordant Sibling Designs"
 author: S. Mason Garrison
 bibliography: references.bib
 output: rmarkdown::html_vignette
@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
   fig.width = 7,
   fig.height = 5
 )
+options(rmarkdown.html_vignette.check_title = FALSE)
+
 ```
 
 ```{r define-parameters, include=FALSE}
