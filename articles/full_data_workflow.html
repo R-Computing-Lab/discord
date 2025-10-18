@@ -36,8 +36,8 @@
 <li><a class="dropdown-item" href="../articles/categorical_predictors.html">Handling categorical predictors with discord</a></li>
     <li><a class="dropdown-item" href="../articles/full_data_workflow.html">Full Data Workflow</a></li>
     <li><a class="dropdown-item" href="../articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
-    <li><a class="dropdown-item" href="../articles/plots.html">Plots</a></li>
-    <li><a class="dropdown-item" href="../articles/Power.html">Power</a></li>
+    <li><a class="dropdown-item" href="../articles/plots.html">Visualizing Sibling Differences</a></li>
+    <li><a class="dropdown-item" href="../articles/power.html">Power Analysis for Discordant Sibling Designs</a></li>
     <li><a class="dropdown-item" href="../articles/regression.html">NLSY: Regression demonstration with Flu Vaccination and SES data</a></li>
   </ul>
 </li>
@@ -95,10 +95,8 @@ or pedigree). Regardless of starting point, the goal is to create
 wide-format data where each row represents a kinship pair, with
 variables for each member of the pair distinguished by suffixes (e.g.,
 <code>_1</code> and <code>_2</code>). Understanding your data structure
-determines which transformation steps you’ll need.</p>
-<div class="section level3">
-<h3 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
-</h3>
+determines which transformation steps you’ll need. Each section below
+outlines how to handle these formats.</p>
 <p>First, load the necessary packages:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For easy data manipulation</span></span>
@@ -119,7 +117,8 @@ determines which transformation steps you’ll need.</p>
 <span><span class="co"># For pedigree plotting</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/R-Computing-Lab/ggpedigree/" class="external-link">ggpedigree</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
-</div>
+<p>Once you load the necessary packages, feel free to skip to the
+relevant subsection for your data type.</p>
 <div class="section level3">
 <h3 id="wide-format-data">Wide Format Data<a class="anchor" aria-label="anchor" href="#wide-format-data"></a>
 </h3>
@@ -142,6 +141,7 @@ identify which sibling’s data appears in each column.</p>
 <span>  weight_s1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">60</span>, <span class="fl">80</span>, <span class="fl">75</span>, <span class="fl">65</span><span class="op">)</span>,</span>
 <span>  weight_s2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">68</span>, <span class="fl">62</span>, <span class="fl">78</span>, <span class="fl">74</span>, <span class="fl">66</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">df_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -604,20 +604,20 @@ forms:</p>
 <span>  <span class="co"># focal_fill_method = "viridis_c",</span></span>
 <span>  focal_fill_use_log <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  focal_fill_n_breaks <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  sex_color_include <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sex_color_include <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>  focal_fill_legend_title <span class="op">=</span> <span class="st">"Genetic Relatives \nof Harry Potter"</span></span>
 <span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Potter Pedigree Plot"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="full_data_workflow_files/figure-html/unnamed-chunk-6-1.png" alt="Pedigree plot of the Potter dataset" width="480"><p class="caption">
-Pedigree plot of the Potter dataset
-</p>
-</div>
+<p><img src="full_data_workflow_files/figure-html/unnamed-chunk-6-1.png" width="480"></p>
 <p>The pedigree tree above illustrates the family relationships among
 individuals in the Potter dataset. Each node represents an individual,
 and the lines connecting them indicate familial relationships such as
 parent-child and sibling connections.</p>
+<p>To work with pedigree data, we first need to convert it into a long
+format data frame. The following code extracts relevant columns from the
+<code>potter</code> dataset and adds a synthetic variable
+(<code>x_var</code>) for demonstration purposes:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">potter</span><span class="op">)</span></span>
 <span><span class="va">df_ped</span> <span class="op">&lt;-</span> <span class="va">potter</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -703,9 +703,14 @@ parent-child and sibling connections.</p>
 </table>
 <p>As you can see, each individual is represented in a separate row,
 with columns for their unique identifier, mother’s identifier, father’s
-identifier, and other relevant variables.</p>
-<p>{BGmisc} is available on CRAN and GitHub. It can create kinship links
-existing pedigree information.</p>
+identifier, and other relevant variables. The {BGmisc} package provides
+functions to compute kinship matrices from pedigree data. The package is
+available on CRAN and GitHub. The package ( and its documentation ) can
+be found at: <a href="https://cran.r-project.org/web/packages/BGmisc/BGmisc.pdf" class="external-link uri">https://cran.r-project.org/web/packages/BGmisc/BGmisc.pdf</a>
+as well as it’s accompanying Journal of Open Source Software paper: <a href="https://joss.theoj.org/papers/10.21105/joss.06203" class="external-link uri">https://joss.theoj.org/papers/10.21105/joss.06203</a></p>
+<div class="section level4">
+<h4 id="computing-kinship-matrices">Computing Kinship Matrices<a class="anchor" aria-label="anchor" href="#computing-kinship-matrices"></a>
+</h4>
 <p>To transform this data into a wide format suitable for
 discordant-kinship regression, we need to create kinship links based on
 the pedigree information. To extract the necessary kinship information,
@@ -731,6 +736,10 @@ which indicates whether individuals were raised in the same environment
 representing self-relatedness (1.0). The off-diagonal elements represent
 the relatedness between pairs of individuals, with values ranging from 0
 (no relatedness) to 0.5 (full siblings) to 1 (themselves).</p>
+</div>
+<div class="section level4">
+<h4 id="creating-wide-format-kinship-pairs">Creating Wide-Format Kinship Pairs<a class="anchor" aria-label="anchor" href="#creating-wide-format-kinship-pairs"></a>
+</h4>
 <p>We convert the component matrices into a wide-form dataframe of kin
 pairs using <code><a href="https://r-computing-lab.github.io/BGmisc/reference/com2links.html" class="external-link">com2links()</a></code>. Self-pairs and duplicate entries
 are removed.</p>
@@ -834,25 +843,57 @@ environment to understand the composition of the dataset.</p>
 </table>
 <p>This table shows the number of kinship pairs for each combination of
 genetic relatedness and shared environment status. Although the discord
-regression model can be used with any kin group, it is most
+regression models can be used with any kin group, it is most
 interpretable when there is a single kinship group.</p>
+<p>Feel free to merge this <code>df_links</code> data frame with your
+pedigree data to include additional variables for each individual in the
+pair.</p>
+<p>The following optional subsection demonstrates how to simulate
+outcome and predictor variables for these kinship pairs.</p>
+</div>
+<div class="section level4">
+<h4 id="simulating-outcome-and-predictor-variables">Simulating Outcome and Predictor Variables<a class="anchor" aria-label="anchor" href="#simulating-outcome-and-predictor-variables"></a>
+</h4>
+<p>To simulate outcome and predictor variables for our kinship pairs, we
+can use the <code><a href="../reference/kinsim.html">kinsim()</a></code> function from the {discord} package.
+This function allows us to generate synthetic data based on specified
+genetic and environmental parameters.</p>
 <p>For demonstration, we’ll focus on first cousins raised in separate
-homes from our pedigree data. This subset allows us to illustrate the
-process clearly.</p>
+homes from our pedigree data.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
-<span><span class="va">df_cousin</span> <span class="op">&lt;-</span> <span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">df_cousin</span> <span class="op">&lt;-</span> <span class="va">df_links</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">addRel</span> <span class="op">==</span> <span class="fl">.125</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># only cousins %&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnuRel</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># only kin raised in separate homes</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cnuRel</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># only kin raised in separate homes</span></span></code></pre></div>
+<p><code>kinsim</code> allows us to generate synthetic data based on
+specified genetic and environmental parameters or relatedness vectors.
+Here, we simulate data for first cousins raised apart (addRel = 0.125,
+cnuRel = 0) using the <code>df_links</code> data frame we created
+earlier.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_synthetic</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
-<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, <span class="co"># means </span></span>
 <span>  cov_a <span class="op">=</span> <span class="fl">.5</span>,</span>
-<span>  cov_c <span class="op">=</span> <span class="fl">.1</span>,</span>
+<span>  cov_c <span class="op">=</span> <span class="fl">.1</span>, <span class="co"># </span></span>
 <span>  cov_e <span class="op">=</span> <span class="fl">.3</span>,</span>
 <span>  c_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">$</span><span class="va">cnuRel</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  r_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">$</span><span class="va">addRel</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="op">)</span> </span></code></pre></div>
+<p>I now have a synthetic dataset containing pairs of first cousins
+raised apart, with simulated values for weight and height. Each row
+represents a unique pair of cousins, with variables for each cousin
+distinguished by the <code>_1</code> and <code>_2</code> suffixes. This
+data is designed such that our weight and height variables have genetic
+(cov_a=.5) and environmental correlations (cov_c=.1, cov_e=.3). By
+default, univariate ACE values are 1/3 genetic, 1/3 shared environment,
+and 1/3 unique environment. Also by default, <code><a href="../reference/kinsim.html">kinsim()</a></code>
+generates variables named <code>y1</code> and <code>y2</code> for the
+first and second variables, respectively. We can rename these to more
+meaningful names like <code>weight</code> and <code>height</code> for
+clarity.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_synthetic</span> <span class="op">&lt;-</span> <span class="va">df_synthetic</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
 <span>    pid <span class="op">=</span> <span class="va">id</span>,</span>
 <span>    <span class="va">r</span>,</span>
@@ -861,7 +902,7 @@ process clearly.</p>
 <span>    height_s1 <span class="op">=</span> <span class="va">y2_1</span>,</span>
 <span>    height_s2 <span class="op">=</span> <span class="va">y2_2</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> <span class="co"># simulates age such that the 2nd sibling is between 1 and 5 years younger.</span></span>
 <span>    age_s1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">30</span>, sd <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
 <span>    age_s2 <span class="op">=</span> <span class="va">age_s1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -933,6 +974,11 @@ process clearly.</p>
 </tr>
 </tbody>
 </table>
+<p>This synthetic dataset now contains pairs of first cousins raised
+apart, with simulated values for weight and height, as well as age. Each
+row represents a unique pair of cousins, with variables for each cousin
+distinguished by the <code>_s1</code> and <code>_s2</code> suffixes.</p>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -962,25 +1008,26 @@ ordering the pairs and creating the derived variables, ensuring that the
 data is ready for analysis. When using <code><a href="../reference/discord_data.html">discord_data()</a></code>, you
 will need to specify the outcome variable, predictor variables, and the
 identifiers for the two members of each pair.</p>
-<p>Below we default to the long path for reproducibility. Replace with
-your chosen source as needed.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>Below we default to pedigree data of cousins for reproducibility.
+Replace with your chosen source as needed.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># CHOOSE ONE based on your path</span></span>
 <span><span class="co"># source_wide &lt;- df_wide</span></span>
 <span><span class="co"># source_wide &lt;- df_long2wide</span></span>
 <span><span class="va">source_wide</span> <span class="op">&lt;-</span> <span class="va">df_synthetic</span> <span class="co"># if you followed the pedigree path</span></span></code></pre></div>
 <p>Now call <code><a href="../reference/discord_data.html">discord_data()</a></code> specifying the outcome and
-predictor present for both siblings. Here we use <code>Y</code> as the
-outcome and <code>X</code> as the predictor, with your <code>_S1</code>
-/ <code>_S2</code> suffix convention.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+predictor present for both siblings. Here we use <code>weight</code> as
+the outcome and <code>height</code> and <code>age</code> as the
+predictors, with the <code>_s1</code> / <code>_s2</code> suffix
+convention.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_discord_weight</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/discord_data.html">discord_data</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">source_wide</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"weight"</span>,</span>
 <span>  predictors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"height"</span>, <span class="st">"age"</span><span class="op">)</span>,</span>
 <span>  demographics <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_s1"</span>, <span class="st">"_s2"</span><span class="op">)</span>,</span>
-<span>  id <span class="op">=</span> <span class="st">"pid"</span> <span class="co"># or "famID" if you followed the pedigree path</span></span>
+<span>  id <span class="op">=</span> <span class="st">"pid"</span> <span class="co"># or "famID"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_discord_weight</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -1102,16 +1149,62 @@ regression</caption>
 </h3>
 <p>Let’s examine what <code><a href="../reference/discord_data.html">discord_data()</a></code> did to our
 variables:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df_discord_weight</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Show original data for first 3 pairs</span></span>
+<span><span class="va">source_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">pid</span>, <span class="va">weight_s1</span>, <span class="va">weight_s2</span>, <span class="va">height_s1</span>, <span class="va">height_s2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span></span>
+<span>    digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    caption <span class="op">=</span> <span class="st">"Original data: siblings not yet ordered by outcome"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>Original data: siblings not yet ordered by outcome</caption>
+<thead><tr class="header">
+<th align="right">pid</th>
+<th align="right">weight_s1</th>
+<th align="right">weight_s2</th>
+<th align="right">height_s1</th>
+<th align="right">height_s2</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">2.09</td>
+<td align="right">-1.30</td>
+<td align="right">4.54</td>
+<td align="right">-0.66</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1.21</td>
+<td align="right">0.40</td>
+<td align="right">1.20</td>
+<td align="right">0.26</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1.03</td>
+<td align="right">2.53</td>
+<td align="right">2.76</td>
+<td align="right">0.58</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">df_discord_weight</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
 <span>    <span class="va">id</span>,</span>
 <span>    <span class="va">weight_1</span>, <span class="va">weight_2</span>, <span class="va">weight_mean</span>, <span class="va">weight_diff</span>,</span>
 <span>    <span class="va">height_1</span>, <span class="va">height_2</span>, <span class="va">height_mean</span>, <span class="va">height_diff</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>      caption <span class="op">=</span> <span class="st">"After discord_data(): siblings ordered so weight_1 &gt;= weight_2"</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<caption>After discord_data(): siblings ordered so weight_1 &gt;=
+weight_2</caption>
 <colgroup>
 <col width="3%">
 <col width="10%">
@@ -1168,52 +1261,66 @@ variables:</p>
 <td align="right">1.67</td>
 <td align="right">-2.18</td>
 </tr>
-<tr class="even">
-<td align="right">4</td>
-<td align="right">4.92</td>
-<td align="right">1.46</td>
-<td align="right">3.19</td>
-<td align="right">3.46</td>
-<td align="right">-0.67</td>
-<td align="right">0.93</td>
-<td align="right">0.13</td>
-<td align="right">-1.60</td>
-</tr>
-<tr class="odd">
-<td align="right">5</td>
-<td align="right">2.78</td>
-<td align="right">2.69</td>
-<td align="right">2.74</td>
-<td align="right">0.09</td>
-<td align="right">-0.54</td>
-<td align="right">0.95</td>
-<td align="right">0.21</td>
-<td align="right">-1.49</td>
-</tr>
 </tbody>
 </table>
-<p>Notice several important patterns in this output. First,
-<code>weight_1</code> is always greater than or equal to
-<code>weight_2</code> because <code><a href="../reference/discord_data.html">discord_data()</a></code> ordered
-siblings by the outcome variable. The sibling with higher weight becomes
-<code>_1</code> and the sibling with lower weight becomes
-<code>_2</code>. This ordering ensures that <code>weight_diff</code>
-(calculated as <code>weight_1 - weight_2</code>) is always
-non-negative.</p>
-<p>Second, the mean scores represent each pair’s average. For example,
-<code>weight_mean</code> equals the average of <code>weight_1</code> and
-<code>weight_2</code>. These means capture between-family variation -
-how pairs differ from each other in average weight.</p>
+<p>Notice several important patterns in this output. First, the ordering
+changes depending on which sibling has the higher outcome value:</p>
+<ul>
+<li>If <code>weight_s1 &gt; weight_s2</code> in the original data,
+sibling 1 becomes <code>_1</code> in the output</li>
+<li>If <code>weight_s2 &gt; weight_s1</code> in the original data, the
+siblings are swapped: sibling 2 becomes <code>_1</code>
+</li>
+<li>The predictor values (height) are reordered accordingly to stay
+matched with the correct sibling</li>
+</ul>
+<p>The sibling with higher weight becomes <code>_1</code> and the
+sibling with lower weight becomes <code>_2</code>. This ordering ensures
+that <code>weight_diff</code> (calculated as
+<code>weight_1 - weight_2</code>) is always non-negative. In the case of
+ties, discord data randomly assigned one sibling as <code>_1</code> and
+perserves that ordering throughout the dataset. Extremely motivated
+readers can dive into the discord source code for exactly how this
+calculation is implemented</p>
+<p>Second, the mean scores represent each pair’s average weight. For
+example, <code>weight_mean</code> equals the average of
+<code>weight_1</code> and <code>weight_2</code>. These means capture
+between-family variation, reflecting differences across sibling pairs so
+that we can compare families to one another.</p>
 <p>Third, the predictor differences can be positive or negative. Even
-though weight differences are always positive (by construction), height
-differences vary. The taller sibling might be the heavier one, or the
-shorter sibling might be heavier. This variation is what we’ll test in
-our regression.</p>
+though weight differences are always non-negative (by construction),
+height differences vary. The taller sibling might be the heavier one, or
+the shorter sibling might be heavier. This variation is what we’ll test
+in our regression.</p>
 <p>This structure lets us ask a key question: within sibling pairs, does
 the sibling with more of the predictor also have more of the outcome? If
 the taller sibling is systematically heavier even after controlling for
 family background, that suggests height may causally influence weight.
 If not, the association likely reflects familial confounding.</p>
+</div>
+<div class="section level3">
+<h3 id="data-selection-for-standard-ols-regression">Data Selection for Standard OLS Regression<a class="anchor" aria-label="anchor" href="#data-selection-for-standard-ols-regression"></a>
+</h3>
+<p>For comparison, we also need to prepare data for a standard OLS
+regression. When running a standard OLS regression, researchers
+typically select one sibling per family to avoid non-independence.
+Common approaches include:</p>
+<ul>
+<li>
+<strong>First-born sibling</strong>: The child born first in the
+family</li>
+<li>
+<strong>Oldest sibling</strong>: The sibling with the highest age at
+time of measurement</li>
+<li>
+<strong>Random selection</strong>: Randomly choosing one sibling
+from each pair</li>
+</ul>
+<p>This selection is typically fixed based on a demographic
+characteristic (birth order, age) and remains constant regardless of
+which outcome variable you’re analyzing. In contrast, discordant-kinship
+regression dynamically orders siblings based on the outcome variable.
+Thus each analysis may involve different sibling orderings.</p>
 </div>
 </div>
 <div class="section level2">
@@ -1233,9 +1340,10 @@ simply choose the sibling labeled <code>_s1</code>. But, another way to
 select the oldest sibling is to use the <code><a href="../reference/discord_data.html">discord_data()</a></code>
 function with the <code>outcome</code> argument set to the age variable.
 This will ensure that <code>_1</code> is always the oldest sibling
-within the pair. In the case of ties, one sibling is randomly assigned
-as <code>_1</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+within the pair. In the case of ties, discord data randomly assigned one
+sibling as <code>_1</code>. This assignment is preserved thru the entire
+data management process.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_for_ols</span> <span class="op">&lt;-</span> <span class="va">df_synthetic</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
 <span>    id <span class="op">=</span> <span class="va">pid</span>,</span>
@@ -1252,9 +1360,13 @@ as <code>_1</code>.</p>
 <span>  demographics <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  pair_identifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_s1"</span>, <span class="st">"_s2"</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"pid"</span> <span class="co"># or "famID" if you followed the pedigree path</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">df_discord_age</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The dataframes <code>df_for_ols</code> and
+<code>df_discord_age</code> now both contain one sibling per pair,
+selected based on age. We can verify that they contain the same
+individuals:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_discord_age</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
 <span>    <span class="va">id</span>, <span class="va">age_1</span>, <span class="va">age_2</span>,</span>
 <span>    <span class="va">age_mean</span>, <span class="va">age_diff</span>, <span class="va">weight_1</span>, <span class="va">height_1</span></span>
@@ -1321,7 +1433,7 @@ age</caption>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">df_for_ols</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">age</span>, <span class="va">weight</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -1380,9 +1492,9 @@ observations as we have kinship pairs. This represents the standard
 individual-level approach used in most research:</p>
 <p><span class="math display">$$ Y = \\beta_0 + \\beta_1 X1 + \\beta_2
 X2 + \\epsilon $$</span></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ols_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">height</span> <span class="op">+</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">df_for_ols</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">ols_model</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Standard OLS Regression Results"</span></span>
@@ -1512,12 +1624,12 @@ This model regresses the outcome mean on predictor means, capturing
 between-family variation:</p>
 <p><span class="math display">$$ Y_{mean} = \\beta_0 + \\beta_1
 X1_{mean} + \\beta_2 X2_{mean} + \\epsilon $$</span></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">between_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">weight_mean</span> <span class="op">~</span> <span class="va">height_mean</span> <span class="op">+</span> <span class="va">age_mean</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">df_discord_weight</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family Regression Results"</span></span>
@@ -1660,7 +1772,7 @@ mean, predictor means, and predictor differences:</p>
 <p><span class="math display">$$ Y_{diff} = \\beta_0 + \\beta_1 Y_{mean}
 + \\beta_2 X1_{mean} + \\beta_3 X1_{diff} + \\beta_4 X2_{mean} +
 \\beta_5 X2_{diff} + \\epsilon $$</span></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_model_manual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">weight_diff</span> <span class="op">~</span> <span class="va">weight_mean</span> <span class="op">+</span> <span class="va">height_mean</span> <span class="op">+</span> <span class="va">height_diff</span> <span class="op">+</span> <span class="va">age_mean</span> <span class="op">+</span> <span class="va">age_diff</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">df_discord_weight</span></span>
@@ -1745,7 +1857,7 @@ mean, predictor means, and predictor differences:</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>, <span class="va">discord_model_manual</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family and Discordant Regression Results"</span></span>
@@ -1948,7 +2060,7 @@ discordant regression model in one step. This function also allows for
 easy inclusion of demographic covariates if needed. See the function
 documentation for more details on these options, as well as a vignette
 focused on demographic controls.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">source_wide</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"weight"</span>,</span>
@@ -2039,7 +2151,7 @@ focused on demographic controls.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance</a></span><span class="op">(</span><span class="va">discord_model</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">r.squared</span>, <span class="va">adj.r.squared</span>, <span class="va">sigma</span>, <span class="va">p.value</span>, <span class="va">nobs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -2060,7 +2172,7 @@ focused on demographic controls.</p>
 <td align="right">141</td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">discord_model</span>,</span>
 <span>  <span class="va">discord_model_manual</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
@@ -2071,9 +2183,132 @@ focused on demographic controls.</p>
 </div>
 </div>
 <div class="section level2">
+<h2 id="comparing-the-three-approaches">Comparing the Three Approaches<a class="anchor" aria-label="anchor" href="#comparing-the-three-approaches"></a>
+</h2>
+<p>To fully understand the value of discordant-kinship regression, it’s
+helpful to compare all three models side by side. Each approach answers
+a different question about the data:</p>
+<div class="section level3">
+<h3 id="side-by-side-model-comparison">Side-by-Side Model Comparison<a class="anchor" aria-label="anchor" href="#side-by-side-model-comparison"></a>
+</h3>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span></span>
+<span>  <span class="va">ols_model</span>,</span>
+<span>  <span class="va">between_model</span>,</span>
+<span>  <span class="va">discord_model</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  single.row <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Comparison of OLS, Between-Family, and Discordant Regression Models"</span>,</span>
+<span>  column.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Standard OLS"</span>, <span class="st">"Between-Family"</span>, <span class="st">"Discordant"</span><span class="op">)</span>,</span>
+<span>  model.names <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>% Error: Unrecognized object type.</p>
+</div>
+<div class="section level3">
+<h3 id="interpreting-the-differences">Interpreting the Differences<a class="anchor" aria-label="anchor" href="#interpreting-the-differences"></a>
+</h3>
+<p>Let’s break down what each model tells us:</p>
+<ul>
+<li>
+<strong>Standard OLS Regression</strong>: This model provides
+estimates of associations between variables at the individual level,
+controlling for measured covariates. However, it does not account for
+unmeasured familial confounding, which may bias the results.
+<ul>
+<li>
+<strong>Data</strong>: One sibling per family (e.g., first-born or
+older sibling)</li>
+<li>
+<strong>Level of analysis</strong>: Individual level</li>
+<li>
+<strong>What it captures</strong>: Total association between
+predictors and outcome, confounded by both genetic and environmental
+factors shared within families</li>
+<li>
+<strong>Interpretation</strong>: “Individuals with higher height/age
+tend to have higher weight”</li>
+<li>
+<strong>Limitation</strong>: Cannot distinguish whether the
+association is causal or due to shared family factors</li>
+</ul>
+</li>
+<li>
+<strong>Between-Family Regression</strong>: This model compares
+siblings from different families, effectively controlling for all
+family-level unobserved heterogeneity. While it provides a clearer
+picture of the effects of interest, it may miss important
+individual-level variation within families.
+<ul>
+<li>
+<strong>Data</strong>: Average values for each sibling pair</li>
+<li>
+<strong>Level of analysis</strong>: Family level<br>
+</li>
+<li>
+<strong>What it captures</strong>: How family-average predictors
+relate to family-average outcomes</li>
+<li>
+<strong>Interpretation</strong>: “Families with higher average
+height/age tend to have higher average weight”</li>
+<li>
+<strong>Limitation</strong>: Only captures between-family variation;
+tells us nothing about within-family effects</li>
+</ul>
+</li>
+<li>
+<strong>Discordant Regression</strong>: This approach focuses on
+within-family comparisons by examining siblings with differing outcomes.
+It allows for a nuanced understanding of how individual-level factors
+interact with family-level influences.
+<ul>
+<li>
+<strong>Data</strong>: Differences between siblings within
+families</li>
+<li>
+<strong>Level of analysis</strong>: Within-family (controlling for
+between-family variation)</li>
+<li>
+<strong>What it captures</strong>: Within-family effects after
+controlling for shared genetic and environmental factors</li>
+<li>
+<strong>Key coefficients</strong>:
+<ul>
+<li>
+<code>*_mean</code>: Between-family effects (similar to
+between-family model)</li>
+<li>
+<code>*_diff</code>: <strong>Within-family effects</strong> - the
+unique contribution of the predictor after controlling for familial
+confounding</li>
+</ul>
+</li>
+<li>
+<strong>Interpretation</strong>: “Within sibling pairs sharing
+family background, the sibling with higher height/age tends to have
+higher weight”</li>
+<li>
+<strong>Advantage</strong>: Controls for unmeasured familial
+confounders, providing stronger evidence for (or against) causal
+effects</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>Discordant-kinship regression offers a powerful tool for
+disentangling within-family effects from between-family confounding. By
+leveraging sibling and cousin comparisons, researchers can gain insights
+into causal relationships that are often obscured in traditional
+analyses.</p>
+</div>
+<div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sessioninfo</span><span class="fu">::</span><span class="fu"><a href="https://sessioninfo.r-lib.org/reference/session_info.html" class="external-link">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>

@@ -39,8 +39,8 @@
 <li><a class="dropdown-item" href="articles/categorical_predictors.html">Handling categorical predictors with discord</a></li>
     <li><a class="dropdown-item" href="articles/full_data_workflow.html">Full Data Workflow</a></li>
     <li><a class="dropdown-item" href="articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a></li>
-    <li><a class="dropdown-item" href="articles/plots.html">Plots</a></li>
-    <li><a class="dropdown-item" href="articles/Power.html">Power</a></li>
+    <li><a class="dropdown-item" href="articles/plots.html">Visualizing Sibling Differences</a></li>
+    <li><a class="dropdown-item" href="articles/power.html">Power Analysis for Discordant Sibling Designs</a></li>
     <li><a class="dropdown-item" href="articles/regression.html">NLSY: Regression demonstration with Flu Vaccination and SES data</a></li>
   </ul>
 </li>
@@ -87,37 +87,37 @@
 <p>The following vignettes are available:</p>
 <ul>
 <li>
-<a href="https://r-computing-lab.github.io/discord/articles/Power.html">Power Analysis with discord</a>
+<a href="https://r-computing-lab.github.io/discord/articles/full_data_workflow.html">Full data workflow for discord</a>
 <ul>
-<li>Use this vignette when you need to plan sample sizes or evaluate detectability by running simulation grids that vary effect sizes, kin types, and Ns using kinsim, then re-fitting discord_regression under each condition. It reports empirical power, writes tidy summaries, and includes code to visualize power curves across conditions to support design decisions.</li>
+<li>Starting from raw wide and long person-level inputs, this vignette builds kinship links, aligns IDs, and constructs the discord_data objects with sibling-specific columns ready for modeling. It then fits a conventional between-family regression alongside a discord model on the same variables, so you can see where the within-family estimate diverges and adapt the pipeline as a template.</li>
 </ul>
 </li>
 <li>
-<a href="https://r-computing-lab.github.io/discord/articles/regression.html">Regression Analysis with discord</a>
+<a href="https://r-computing-lab.github.io/discord/articles/regression.html">NLSY regression analysis with discord</a>
 <ul>
-<li>Use this if you want an end-to-end applied example that links NLSY79 relatives, cleans variables for flu vaccination and SES, constructs dyads, and then fits within-family models. You will learn how to specify discord_regression correctly and interpret coefficients when predictors vary within pairs versus only between pairs.</li>
+<li>Use this vignette if you want an end-to-end applied example that links NLSY79 relatives, cleans variables for flu vaccination and SES, constructs dyads, and then fits within-family models. You will learn how to specify discord_regression correctly and interpret coefficients.</li>
 </ul>
 </li>
 <li>
-<a href="https://r-computing-lab.github.io/discord/articles/categorical_predictors.html">Handling Categorical Predictors</a>
+<a href="https://r-computing-lab.github.io/discord/articles/categorical_predictors.html">Handling categorical predictors with discord</a>
 <ul>
 <li>This vignette formalizes categorical predictors in discord designs by separating mixed from between-dyad variables and making the implied contrasts explicit. It implements binary-match and multi-category match encodings on concrete examples (e.g., sex, race), fits the corresponding discord_regression specifications, and contrasts estimates to show how encoding choices change interpretation.</li>
 </ul>
 </li>
 <li>
-<a href="https://r-computing-lab.github.io/discord/articles/full_data_workflow.html">Full Data Workflow</a>
-<ul>
-<li>Starting from raw wide and long person-level inputs, this vignette builds kin links, aligns IDs, and constructs the discord_data object with sibling-specific columns ready for modeling. It then fits a conventional between-family regression alongside a discord model on the same variables, so you can see where the within-family estimate diverges and adopt the pipeline as a template.</li>
-</ul>
-</li>
-<li>
-<a href="https://r-computing-lab.github.io/discord/articles/plots.html">Creating Plots</a>
+<a href="https://r-computing-lab.github.io/discord/articles/plots.html">Creating plots for discord</a>
 <ul>
 <li>This vignette takes fitted discord_regression outputs and produces publication-ready ggplot figures of effect estimates and within-family contrasts with minimal transformation of the model results. It includes complete plotting code paths you can reuse, from extracting estimates to saving figures that clearly communicate within-family findings.</li>
 </ul>
 </li>
 <li>
-<a href="https://r-computing-lab.github.io/discord/articles/links.html">No Database? No Problem: Using discord with Simple Family Structures</a>
+<a href="https://r-computing-lab.github.io/discord/articles/Power.html">Power Analysis with discord</a>
+<ul>
+<li>Use this vignette when you need to plan sample sizes or evaluate power by running simulation grids that vary effect sizes, kin types, and Ns using kinsim, then re-fitting discord_regression under each condition. It reports empirical power and writes tidy summaries.</li>
+</ul>
+</li>
+<li>
+<a href="https://r-computing-lab.github.io/discord/articles/links.html">No Database? No Problem: Using discord with simple family Structures</a>
 <ul>
 <li>This vignette is particularly useful for situations when you do not have existing kinship links and need to build link tables directly from simple family identifiers. It shows how to construct the links, optionally simulate phenotypes under specified structures, and fit discord_regression with alternative specifications for small or bespoke datasets.</li>
 </ul>
@@ -164,8 +164,8 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="at">package =</span> <span class="st">"discord"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>To cite package <span class="st">'discord'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  Garrison S, Trattner J, Hwang <span class="fu">Y</span> (????). _discord<span class="sc">:</span> Functions <span class="cf">for</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  Discordant Kinship Modeling_. R package version <span class="dv">1</span>.<span class="dv">2</span>.<span class="fl">4.1</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  Garrison S, Trattner J, Hwang <span class="fu">Y</span> (<span class="dv">2025</span>). _discord<span class="sc">:</span> Functions <span class="cf">for</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  Discordant Kinship Modeling_. R package version <span class="fl">1.3</span>,</span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>R<span class="sc">-</span>Computing<span class="sc">-</span>Lab<span class="sc">/</span>discord<span class="sc">&gt;</span>.</span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
@@ -173,7 +173,7 @@
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>    title <span class="ot">=</span> {discord<span class="sc">:</span> Functions <span class="cf">for</span> Discordant Kinship Modeling},</span>
 <span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>    author <span class="ot">=</span> {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">1</span>.<span class="dv">2</span>.<span class="fl">4.1</span>},</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="fl">1.3</span>},</span>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>R<span class="sc">-</span>Computing<span class="sc">-</span>Lab<span class="sc">/</span>discord},</span>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
