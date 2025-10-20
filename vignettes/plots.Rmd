@@ -53,6 +53,7 @@ library(tidyverse)
 library(ggplot2)
 library(grid)
 library(gridExtra)
+library(ggExtra)
 library(janitor)
 
 # Load the data
@@ -129,9 +130,9 @@ df_discord_flu <- df_discord_flu %>%
         abs(scale(s00_h40_diff)) <= 0.33 ~ "Equally Advantaged"
       ),
       levels = c(
-        "Less Advantage",
-        "Equally Advantage",
-        "More Advantage"
+        "Less Advantaged",
+        "Equally Advantaged",
+        "More Advantaged"
       )
     )
   )
@@ -142,13 +143,20 @@ df_discord_flu <- df_discord_flu %>%
 
 ## Setting Up Color Palette
 
-To visually distinguish sibling differences in SES, we create a color palette that transitions from red (indicating lower SES) to blue (indicating higher SES). This palette is used in the scatter plots to color points based on the SES difference between siblings. That is the predictor variable in our discord data.
+To enhance the visualizations, we define a color palette that reflects the SES differences between siblings. Here, we use a gradient that transitions from red to blue. 
+
 
 ```{r}
 # Create a color palette for the shading
-shading <- c("firebrick4", "firebrick1", "dodgerblue1", "dodgerblue4")
+color_shading_4 <- c("firebrick4", "firebrick1", "dodgerblue1", "dodgerblue4")
+color_na <- "#AD78B6" # purple for missing values
+
+color_shading_3 = c(color_shading_4[2], color_na, color_shading_4[3])
+
+# Determine the range of SES differences for color scaling
 max_val <- max(abs(df_discord_flu$s00_h40_diff), na.rm = TRUE)
-values <- seq(-max_val, max_val, length = length(shading))
+
+#values <- seq(-max_val, max_val, length = length(color_shading_4))
 ```
 
 
@@ -164,7 +172,7 @@ The first step is to create the base plot with sibling 1 data. In the next code 
 
 ```{r individual, echo=TRUE, message=FALSE}
 # Individual level plot
-plot_indiv <- plot_indiv_sib1 <- ggplot(df_flu_modeling, 
+plot_indiv <- plot_indiv_sib1 <- ggplot(#df_flu_modeling, 
                                         aes(
   x = s00_h40_s1,
   y = flu_total_s1,
@@ -183,8 +191,8 @@ But if we only plot sibling 1, we can visualize that first.
 plot_indiv_sib1 +
   scale_colour_gradientn(
     name = "Sibling\nDifferences\nin SES",
-    colours = shading,
-    na.value = "#AD78B6",
+    colours = color_shading_4,
+    na.value = color_na,
     values = scales::rescale(c(-max_val, max_val))
   ) +
   labs(
@@ -212,8 +220,8 @@ plot_indiv  <- plot_indiv +
   ) +
   scale_colour_gradientn(
     name = "Sibling\nDifferences\nin SES",
-    colours = shading,
-    na.value = "#AD78B6",
+    colours = color_shading_4,
+    na.value = color_na,
     values = scales::rescale(c(-max_val, max_val))
   ) +
   labs(
@@ -226,6 +234,78 @@ plot_indiv  <- plot_indiv +
 plot_indiv +
   ggtitle("Individual Level Plot") +
   theme(plot.title = element_text(hjust = 0.5))
+
+
+
+```
+
+
+The individual level plot shows a positive association between SES and flu vaccinations. Higher SES individuals tend to have higher flu vaccination rates. The color gradient indicates the SES difference between siblings, providing additional context for interpreting the data.
+
+```{r}
+
+plot_indiv_s00 <- ggplot(df_flu_modeling, 
+                                        aes(
+  x = s00_h40_s1,
+  y = s00_h40_s2,
+  color = s00_h40_s1 - s00_h40_s2
+)) +
+  geom_point(
+    size = 0.8, alpha = 0.8, na.rm = TRUE,
+    position = position_jitter(width = 0.2, height = 0.2)
+  ) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+
+
+plot_indiv_s00 +
+  scale_colour_gradientn(
+    name = "Sibling\nDifferences\nin SES",
+    colours = color_shading_4,
+    na.value = color_na,
+    values = scales::rescale(c(-max_val, max_val))
+  ) +
+  labs(
+    x = "SES at Age 40 (Sibling 1)",
+    y = "SES at Age 40 (Sibling 2)"
+  ) +
+  theme_minimal() +
+  ggtitle("Individual Level Plot: SES Comparison Between Siblings") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r}
+
+plot_indiv_flu <- ggplot(df_flu_modeling, 
+                                        aes(
+  x = flu_total_s1,
+  y = flu_total_s2,
+  color = s00_h40_s1 - s00_h40_s2
+)) +
+  geom_point(
+    size = 0.8, alpha = 0.8, na.rm = TRUE,
+    position = position_jitter(width = 0.2, height = 0.2)
+  ) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+
+
+plot_indiv_flu +
+  scale_colour_gradientn(
+    name = "Sibling\nDifferences\nin SES",
+    colours = color_shading_4,
+    na.value = color_na,
+    values = scales::rescale(c(-max_val, max_val))
+  ) +
+  labs(
+    x = "Flu Vaccinations (Sibling 1)",
+    y = "Flu Vaccinations (Sibling 2)"
+  ) +
+  theme_minimal() +
+  ggtitle("Individual Level Plot: FLU Comparison Between Siblings") +
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+
+
 ```
 
 
@@ -239,22 +319,35 @@ Additionally, marginal density plots can be added to show the distribution of me
 # Main scatter plot
 plot_btwn <- ggplot(df_discord_flu, aes(
   x = s00_h40_mean,
-  y = flu_total_mean, colour = s00_h40_diff
+  y = flu_total_mean, fill = ses_diff_group#,
+ # group = ses_diff_group
 )) +
-  geom_point(
-    size = 0.8, alpha = 0.8, na.rm = TRUE,
+    geom_point(
+    size = 1.8, alpha = 0.5, na.rm = TRUE,
+   # aes(colour = s00_h40_diff),
     position = position_jitter(width = 0.2, height = 0.2)
   ) +
-  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  geom_point(
+    size = 0.8, alpha = 0.8, na.rm = TRUE,
+    aes(colour = s00_h40_diff),
+    group=1,
+    position = position_jitter(width = 0.2, height = 0.2)
+  ) +
+  geom_smooth(method = "lm", se = FALSE, color = "black",
+              fill="black",
+              group = 1) +
   scale_colour_gradientn(
     name = "Sibling\nDifferences\nin SES",
-    colours = shading,
-    na.value = "#AD78B6",
+    
+    colours = color_shading_4,
+    na.value = color_na,
     values = scales::rescale(c(
-      min(df_discord_flu$s00_h40_diff, na.rm = TRUE),
-      mean(df_discord_flu$s00_h40_diff, na.rm = TRUE),
-      max(df_discord_flu$s00_h40_diff, na.rm = TRUE)
+      -max_val,
+      0,
+      max_val 
     ))
+  ) +   scale_fill_manual(
+    values = color_shading_3
   ) +
   theme_minimal() +
   theme(legend.position = "left") +
@@ -263,6 +356,17 @@ plot_btwn <- ggplot(df_discord_flu, aes(
 
 ```{r echo=FALSE, message=FALSE}
 plot_btwn
+#ggMarginalGadget(plot_btwn)
+
+# Set relative size of marginal plots (main plot 10x bigger than marginals)
+ggMarginal(plot_btwn, type="histogram", size=10,groupColour = TRUE, groupFill = F)
+
+
+ggMarginal(plot_btwn, type="density", size=10,groupColour = F, groupFill = T, aes( color = ses_diff_group))                                                          
+#ggMarginal(plot_btwn, type="density", size=10,groupColour = T, groupFill = F)
+
+# to do, figure out why the ses-diff-group coloring isn't working in the marginal plots right now they are all black
+# this is also happening to the fake geom_point it should be colored by ses_diff_group but isn't
 ```
 Like the individual level plot, this between-family plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. 
 
@@ -280,7 +384,7 @@ plot_xdensity <- ggplot(df_discord_flu, aes(x = s00_h40_mean,
   geom_density(adjust = 2, linewidth = 1, fill = NA) +
   scale_colour_manual(
     name = "Sibling\nDifferences\nin SES",
-    values = c("firebrick1", "#AD78B6", "dodgerblue1")
+    values = color_shading_3
   ) +
   theme_minimal() +
   theme(
@@ -307,7 +411,7 @@ plot_ydensity <- ggplot(df_discord_flu, aes(x = flu_total_mean,
                linewidth = 1, 
                fill = NA) +
   scale_colour_manual(
-    values = c("firebrick1", "#AD78B6", "dodgerblue1")
+    values = color_shading_3
   ) +
   coord_flip() +
   theme_minimal() +
@@ -394,12 +498,12 @@ plot_within <- ggplot(df_discord_flu, aes(
               color = "black") +
   scale_colour_gradientn(
     name = "Sibling\nDifferences\nin SES",
-    colours = shading,
-    na.value = "#AD78B6",
+    colours = color_shading,
+    na.value = color_na,
     values = scales::rescale(c(
-      min(df_discord_flu$s00_h40_diff, na.rm = TRUE),
-      mean(df_discord_flu$s00_h40_diff, na.rm = TRUE),
-      max(df_discord_flu$s00_h40_diff, na.rm = TRUE)
+      -max_val,
+      0,
+      max_val
     ))
   ) +
   theme_minimal() +
