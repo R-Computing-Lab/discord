@@ -499,7 +499,7 @@ plot_within <- ggplot(df_discord_flu, aes(
               color = "black") +
   scale_colour_gradientn(
     name = "Sibling\nDifferences\nin SES",
-    colours = color_shading,
+    colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(
       -max_val,

@@ -1,12 +1,14 @@
 ---
 title: "Full Data Workflow"
 author: S. Mason Garrison
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette: default
+  word_document: default
 bibliography: references.bib
 vignette: >
   %\VignetteIndexEntry{Full Data Workflow}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r, include = FALSE}
@@ -154,7 +156,7 @@ Links79PairExpanded %>%
 As you can see, this dataset includes an extended family identifier (`ExtendedID`), individual IDs for each sibling in the pair (`R0000100` and `R0000200`), and their RelationshipPath (`RelationshipPath` = "Gen1Housemates" and genetic relatedness (`RFull` = 0.5). You can merge this dataset with your long-format data using the individual IDs.
 
 
-At this stage the long‑origin data are indistinguishable from the original wide example. Each analytic variable now appears exactly twice—once for `_s1` and once for `_s2`—and the dyad identifier `pid` continues to anchor the row. You can proceed directly to ordering and construction of `*_mean` and `*_diff` with `discord_data()`.
+At this stage the long‑origin data are indistinguishable from the wide-origin wide example. Each analytic variable now appears exactly twice—once for `_s1` and once for `_s2`—and the dyad identifier `pid` continues to anchor the row. You can proceed directly to ordering and construction of `*_mean` and `*_diff` with `discord_data()`.
 
 ## Pedigree Data
 
@@ -209,13 +211,7 @@ As you can see, each individual is represented in a separate row, with columns f
 
 ### Computing Kinship Matrices
 
-To transform this data into a wide format suitable for discordant-kinship regression, we need to create kinship links based on the pedigree information. To extract the necessary kinship information, we need to compute two matrices: the additive genetic relatedness matrix and the shared environment matrix. Other matrices, such as mitochondrial, can also be computed if needed.
-
-Using {BGmisc}, we compute:
-
-- The additive genetic relatedness matrix (add).
-
-- The shared environment matrix (cn), indicating whether kin were raised together (1) or apart (0).
+To transform this data into a wide format suitable for discordant-kinship regression, we need to create kinship links based on the pedigree information. To extract the necessary kinship information, we need to compute two matrices: the additive genetic relatedness matrix  (add) and the shared environment matrix (cn). Other matrices, such as mitochondrial, can also be computed if needed.
 
 
 ```{r}
@@ -245,7 +241,7 @@ df_links %>%
   knitr::kable(digits = 3)
 ```
 
-As you can see, the `df_links` data frame contains pairs of individuals (ID1 and ID2) along with their additive genetic relatedness (`addRel`) and shared environment status (`cnuRel`). These data are in wide format, with each row representing a unique pair of individuals. 
+As you can see, the `df_links` data frame contains pairs of individuals (ID1 and ID2) along with their additive genetic relatedness (`addRel`) and shared environment status (`cnuRel`). These data are in wide format, with each row representing a unique pair of individuals.
 
 Further, we can tally the number of pairs by relatedness and shared environment to understand the composition of the dataset.
 
@@ -349,8 +345,6 @@ df_discord_weight %>%
   knitr::kable(digits = 2, caption = "Transformed data ready for discordant-kinship regression")
 ```
 
-
-
 ## Understanding the Transformation
 
 Let's examine what `discord_data()` did to our variables:
@@ -401,7 +395,6 @@ For comparison, we also need to prepare data for a standard OLS regression. When
 This selection is typically fixed based on a demographic characteristic (birth order, age) and remains constant regardless of which outcome variable you're analyzing. In contrast, discordant-kinship regression dynamically orders siblings based on the outcome variable. Thus each analysis may involve different sibling orderings.
 
 
-
 # Analyzing the Data
 
 With our data prepared, we can now perform both standard OLS regression and discordant-kinship regression to compare results.
@@ -410,7 +403,7 @@ With our data prepared, we can now perform both standard OLS regression and disc
 
 First, let's run a standard OLS regression using the original wide-format data. This will serve as a baseline for comparison with the family-based analyses. 
 
-For our baseline analysis, we select one sibling from each pair. In the original dataset, s1 was defined as the older sibling, so we can simply choose the sibling labeled `_s1`. But, another way to select the oldest sibling is to use the `discord_data()` function with the `outcome` argument set to the age variable. This will ensure that `_1` is always the oldest sibling within the pair. In the case of ties, discord data randomly assigned one sibling as `_1`. This assignment is preserved thru the entire data management process. 
+For our baseline analysis, we select one sibling from each pair. In the original dataset, s1 was defined as the older sibling, so we can simply choose the sibling labeled `_s1`. But, another way to select the oldest sibling is to use the `discord_data()` function with the `outcome` argument set to the age variable. This approach will ensure that `_1` is always the oldest sibling within the pair. In the case of ties, discord data randomly assigned one sibling as `_1`. This assignment is preserved thru the entire data management process. 
 
 
 ```{r select-for-ols}
@@ -452,9 +445,11 @@ df_for_ols %>%
 
 As you can see, `df_for_ols` and `df_discord_age` both resulted in the same individuals being selected for analysis. The `df_discord_age` dataset was created by ordering siblings based on age, ensuring that `_1` is always the older sibling. The `df_for_ols` dataset directly selects the older sibling from the original wide data. 
 
-By selecting one sibling per pair, we're analyzing the same number of observations as we have kinship pairs. This represents the standard individual-level approach used in most research:
+By selecting one sibling per pair, we're analyzing the same number of observations as we have kinship pairs. This conrespondses with the standard individual-level approach used in most research:
 
-$$ Y = \\beta_0 + \\beta_1 X1 + \\beta_2 X2 + \\epsilon $$
+$$
+Y = \beta_0 + \beta_1 X1 + \beta_2 X2 + \epsilon 
+$$
 
 
 ```{r ols-regression}
@@ -474,7 +469,9 @@ This standard regression shows associations between our variables while controll
 
 Next, we run a between-family regression using the discordant data. This model regresses the outcome mean on predictor means, capturing between-family variation:
 
-$$ Y_{mean} = \\beta_0 + \\beta_1 X1_{mean} + \\beta_2 X2_{mean} + \\epsilon $$
+$$ 
+Y_{mean} = \beta_0 + \beta_1 X1_{mean} + \beta_2 X2_{mean} + \epsilon 
+$$
 
 
 ```{r between-family}
@@ -501,9 +498,11 @@ Now we return to our prepared data to run discordant-kinship regression. We can 
 
 The discordant model regresses the outcome difference on outcome mean, predictor means, and predictor differences:
 
-$$ Y_{diff} = \\beta_0 + \\beta_1 Y_{mean} + \\beta_2 X1_{mean} + \\beta_3 X1_{diff} + \\beta_4 X2_{mean} + \\beta_5 X2_{diff} + \\epsilon $$
+$$ Y_{diff} = \beta_0 + \beta_1 Y_{mean} + \beta_2 X1_{mean} + \beta_3 X1_{diff} + \beta_4 X2_{mean} + \beta_5 X2_{diff} + \epsilon $$
+When fitting the discordant regression model, the coefficient for each `*_mean` variable captures the between-family effect, while the coefficient for each `*_diff` variable captures the within-family effect. The within-family effects are of particular interest, as they provide insight into how differences between siblings relate to differences in the outcome, controlling for shared family background. Below you can see how this model is specified manually:
 
 ```{r discord-manual}
+
 discord_model_manual <- lm(
   weight_diff ~ weight_mean + height_mean + height_diff + age_mean + age_diff,
   data = df_discord_weight
@@ -554,9 +553,11 @@ stargazer::stargazer(discord_model,
 )
 ```
 
+Both the manual and helper function approaches yield identical results.
+
 # Comparing the Three Approaches
 
-To fully understand the value of discordant-kinship regression, it's helpful to compare all three models side by side. Each approach answers a different question about the data:
+To fully understand the value of discordant-kinship regression, it's helpful to compare all three models side by side. Each approach answers a different question about the data. 
 
 ## Side-by-Side Model Comparison
 
@@ -564,10 +565,10 @@ To fully understand the value of discordant-kinship regression, it's helpful to 
 stargazer::stargazer(
   ols_model,
   between_model,
-  discord_model,
+  discord_model_manual,
   type = "html",
   digits = 3,
-  single.row = FALSE,
+  single.row = TRUE, 
   title = "Comparison of OLS, Between-Family, and Discordant Regression Models",
   column.labels = c("Standard OLS", "Between-Family", "Discordant"),
   model.names = FALSE
@@ -576,31 +577,30 @@ stargazer::stargazer(
 
 ## Interpreting the Differences
 
-Let's break down what each model tells us:
+For each model, we can summarize the key features, what they capture, and how to interpret the results:
 
-- **Standard OLS Regression**: This model provides estimates of associations between variables at the individual level, controlling for measured covariates. However, it does not account for unmeasured familial confounding, which may bias the results.
+**Standard OLS Regression** provides estimates of associations between variables at the individual level, controlling for measured covariates. However, it does not account for unmeasured familial confounding, which may bias the results.
   - **Data**: One sibling per family (e.g., first-born or older sibling)
   - **Level of analysis**: Individual level
   - **What it captures**: Total association between predictors and outcome, confounded by both genetic and environmental factors shared within families
-  - **Interpretation**: "Individuals with higher height/age tend to have higher weight"
-  - **Limitation**: Cannot distinguish whether the association is causal or due to shared family factors
+  - **Interpretation**: "Individuals with higher height and age tend to have higher weight"
 
 
-- **Between-Family Regression**: This model compares siblings from different families, effectively controlling for all family-level unobserved heterogeneity. While it provides a clearer picture of the effects of interest, it may miss important individual-level variation within families.
-  - **Data**: Average values for each sibling pair
+**Between-Family Regression** compares kin from different families, effectively controlling for all family-level unobserved heterogeneity. While it provides a clearer picture of the effects of interest, it may miss important individual-level variation within families.
+  - **Data**: Average values for each kin pair
   - **Level of analysis**: Family level  
   - **What it captures**: How family-average predictors relate to family-average outcomes
-  - **Interpretation**: "Families with higher average height/age tend to have higher average weight"
-  - **Limitation**: Only captures between-family variation; tells us nothing about within-family effects
+  - **Interpretation**: "Cousin pairs with higher average height and age tend to have higher average weight"
 
-- **Discordant Regression**: This approach focuses on within-family comparisons by examining siblings with differing outcomes. It allows for a nuanced understanding of how individual-level factors interact with family-level influences.
-  - **Data**: Differences between siblings within families
+
+**Discordant Regression** focuses on within-family comparisons by examining kin with differing outcomes. It allows for a nuanced understanding of how individual-level factors interact above and beyond familial confounding.
+  - **Data**: Differences between cousins within families
   - **Level of analysis**: Within-family (controlling for between-family variation)
   - **What it captures**: Within-family effects after controlling for shared genetic and environmental factors
   - **Key coefficients**:
     - `*_mean`: Between-family effects (similar to between-family model)
-    - `*_diff`: **Within-family effects** - the unique contribution of the predictor after controlling for familial confounding
-  - **Interpretation**: "Within sibling pairs sharing family background, the sibling with higher height/age tends to have higher weight"
+    - `*_diff`: Within-family effects - the unique contribution of the predictor after controlling for familial confounding
+  - **Interpretation**: "The cousin with higher weight tends to have higher height and age"
   - **Advantage**: Controls for unmeasured familial confounders, providing stronger evidence for (or against) causal effects
 
 
