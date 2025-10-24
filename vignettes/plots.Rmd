@@ -172,7 +172,7 @@ The first step is to create the base plot with sibling 1 data. In the next code 
 
 ```{r individual, echo=TRUE, message=FALSE}
 # Individual level plot
-plot_indiv <- plot_indiv_sib1 <- ggplot(#df_flu_modeling, 
+plot_indiv <- plot_indiv_sib1 <- ggplot(df_flu_modeling, 
                                         aes(
   x = s00_h40_s1,
   y = flu_total_s1,
@@ -459,7 +459,8 @@ grid.arrange(
               widths = c(4, 1)),
   heights = c(1.5, 4),
   top = textGrob("Sibling Differences in SES and Flu Vaccinations",
-    gp = gpar(fontsize = 20, font = 3)
+    gp = gpar(fontsize = 20, 
+              font = 3)
   )
 )
 ```
@@ -491,7 +492,7 @@ plot_within <- ggplot(df_discord_flu, aes(
 )) +
   geom_point(
     size = 0.8, alpha = 0.8, na.rm = TRUE,
-    position = position_jitter(weight = 0.2, height = 0.2)
+    position = position_jitter(width = 0.2, height = 0.2)
   ) +
   geom_smooth(method = "lm", 
               se = FALSE, 
