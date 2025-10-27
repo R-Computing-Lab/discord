@@ -313,30 +313,32 @@ plot_indiv_flu +
 
 This section creates a between-family plot that visualizes mean SES at age 40 against mean flu vaccinations for sibling pairs. Points are colored based on the SES difference between siblings. Each point represents a sibling pair, with the x-axis showing the average SES of the pair and the y-axis showing the average flu vaccinations.
 
-Additionally, marginal density plots can be added to show the distribution of mean SES and mean flu vaccinations for different SES difference groups.
 
 ```{r scatter, message=FALSE, include=FALSE, echo=TRUE}
 # Main scatter plot
 plot_btwn <- ggplot(df_discord_flu, aes(
   x = s00_h40_mean,
-  y = flu_total_mean, fill = ses_diff_group#,
- # group = ses_diff_group
+  y = flu_total_mean, 
+  color = ses_diff_group,
 )) +
-    geom_point(
-    size = 1.8, alpha = 0.5, na.rm = TRUE,
-   # aes(colour = s00_h40_diff),
-    position = position_jitter(width = 0.2, height = 0.2)
+    geom_point( # this layer creates invisible points to all the marginal plots to align correctly
+    size = 1.8, alpha = 0.0, na.rm = TRUE,
+ shape = 21,
+    position = position_jitter(width = 0.2, height = 0.2,seed=1234)
   ) +
   geom_point(
-    size = 0.8, alpha = 0.8, na.rm = TRUE,
-    aes(colour = s00_h40_diff),
+    size = 1.8, alpha = 0.8, na.rm = TRUE,
+    shape = 21,
+    aes(fill = s00_h40_diff,
+        colour = ses_diff_group
+        ),
     group=1,
-    position = position_jitter(width = 0.2, height = 0.2)
+    position = position_jitter(width = 0.2, height = 0.2,seed=1234)
   ) +
   geom_smooth(method = "lm", se = FALSE, color = "black",
               fill="black",
               group = 1) +
-  scale_colour_gradientn(
+  scale_fill_gradientn(
     name = "Sibling\nDifferences\nin SES",
     
     colours = color_shading_4,
@@ -346,35 +348,45 @@ plot_btwn <- ggplot(df_discord_flu, aes(
       0,
       max_val 
     ))
-  ) +   scale_fill_manual(
-    values = color_shading_3
+  ) + 
+  scale_color_manual(
+    values = color_shading_3,
   ) +
   theme_minimal() +
   theme(legend.position = "left") +
   labs(x = "Mean SES at Age 40", y = "Mean Flu Vaccinations (2006–2016)")
 ```
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=TRUE, message=FALSE}
 plot_btwn
-#ggMarginalGadget(plot_btwn)
-
-# Set relative size of marginal plots (main plot 10x bigger than marginals)
-ggMarginal(plot_btwn, type="histogram", size=10,groupColour = TRUE, groupFill = F)
-
-
-ggMarginal(plot_btwn, type="density", size=10,groupColour = F, groupFill = T, aes( color = ses_diff_group))                                                          
-#ggMarginal(plot_btwn, type="density", size=10,groupColour = T, groupFill = F)
-
-# to do, figure out why the ses-diff-group coloring isn't working in the marginal plots right now they are all black
-# this is also happening to the fake geom_point it should be colored by ses_diff_group but isn't
 ```
+
+As you can see, the base scatter plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. Marginal plots can be added to further illustrate the distributions of mean SES and mean flu vaccinations. Below is the code to add marginal plots using the `ggExtra` package. Note that the marginal plots are histograms, density plots, or boxplots that show the distribution of mean SES and mean flu vaccinations, grouped by the SES difference category.
+
+
+```{r echo=TRUE, message=FALSE}}
+# Set relative size of marginal plots (main plot 10x bigger than marginals)
+ggMarginal(plot_btwn, type="histogram", size=10, #groupColour = TRUE, 
+           groupFill = T,
+           fill = color_shading_3
+           )
+
+
+ggMarginal(plot_btwn, type="density", size=10,groupColour = F, groupFill = T, aes( color = ses_diff_group,
+                                                                                   fill = ses_diff_group,
+                                                                                   alpha = 0.95
+                                                                                   ))                                                          
+ggMarginal(plot_btwn, type="boxplot", size=10,groupColour = F, groupFill = T)
+
+
+```
+
 Like the individual level plot, this between-family plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. 
 
 
 ### Adding Marginal Density Plots
 
-To enhance the visualization, we can add marginal density plots to the scatter plot. These plots show the distribution of mean SES and mean flu vaccinations, grouped by the SES difference category.
-
+And alternative way to implement marginal density plots is to create them separately and then arrange them with the main scatter plot using `gridExtra::grid.arrange()`.
 
 ```{r plot-raw-data, message=FALSE}
 # Marginal X density (SES mean)
@@ -438,7 +450,7 @@ plot_ydensity + theme_bw() + theme(
 ) + labs(title = "Mean Flu Vaccinations (2006–2016)")
 ```
 
-### Assembling the Final Plot
+#### Assembling the Final Plot
 
 Finally, we arrange the main scatter plot and the marginal density plots into a cohesive layout using `gridExtra::grid.arrange()`. The x-density plot is placed above the main scatter plot, and the y-density plot is placed to the right of the main scatter plot. We can do this by creating a blank placeholder plot to fill the empty space in the layout.
 
