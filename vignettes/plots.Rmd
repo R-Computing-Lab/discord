@@ -477,6 +477,8 @@ grid.arrange(
 )
 ```
 
+
+
 ### Bonus: Faceting by SES Difference Group
 
 Other ways to plot this data include using `facet_wrap` to create separate panels for each SES difference group. This can help visualize the differences in flu vaccinations across different SES categories.
@@ -494,22 +496,36 @@ This plot compares differences in SES at age 40 to differences in flu vaccinatio
 
 ```{r plot-within-family, echo=TRUE, message=FALSE}
 # Within Family
-## Setup: Use discord_data
+#
+
+# Main scatter plot
+
+# Setup: Use discord_data
 
 # Main scatter plot
 plot_within <- ggplot(df_discord_flu, aes(
   x = s00_h40_diff,
   y = flu_total_diff, 
-  colour = s00_h40_diff
+  color = ses_diff_group
 )) +
+    geom_point( # this layer creates invisible points to all the marginal plots to align correctly
+    size = 1.8, alpha = 0.0, na.rm = TRUE,
+ shape = 21,
+    position = position_jitter(width = 0.2, height = 0.2,seed=1234)
+  ) +
   geom_point(
-    size = 0.8, alpha = 0.8, na.rm = TRUE,
-    position = position_jitter(width = 0.2, height = 0.2)
+    size = 1.8, alpha = 0.9, na.rm = TRUE,
+    shape = 21,
+    aes(fill = s00_h40_diff,
+        colour = ses_diff_group
+        ),
+    group=1,
+    position = position_jitter(width = 0.2, height = 0.2,seed=1234)
   ) +
   geom_smooth(method = "lm", 
               se = FALSE, 
               color = "black") +
-  scale_colour_gradientn(
+  scale_fill_gradientn(
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
@@ -519,6 +535,9 @@ plot_within <- ggplot(df_discord_flu, aes(
       max_val
     ))
   ) +
+    scale_color_manual(
+    values = color_shading_3,
+  ) +
   theme_minimal() +
   theme(legend.position = "left") +
   labs(x = "Diff SES at Age 40", 
@@ -526,6 +545,27 @@ plot_within <- ggplot(df_discord_flu, aes(
 
 plot_within
 ```
+
+
+```{r echo=TRUE, message=FALSE}
+# Set relative size of marginal plots (main plot 10x bigger than marginals)
+ggMarginal(plot_within, type="histogram", size=10, #groupColour = TRUE, 
+           groupFill = T#,
+         #  color = color_shading_3
+           )
+
+
+ggMarginal(plot_within, type="density", size=10,groupColour = F, groupFill = T, aes( color = ses_diff_group,
+                                                                                   fill = ses_diff_group,
+                                                                                   alpha = 0.95
+                                                                                   ))                                                          
+ggMarginal(plot_within, type="boxplot", size=10,groupColour = F, groupFill = T)
+
+
+
+```
+
+
 
 You can further facet this plot by the difference in SES between kin to see how the relationship varies across different groups. The following code does this and adds a title to the plot.
 
