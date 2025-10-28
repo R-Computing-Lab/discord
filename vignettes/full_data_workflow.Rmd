@@ -17,6 +17,9 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
+
+# if local
+source("../data-raw/pretty_regression_tables.R")
 ```
 
 
@@ -454,12 +457,20 @@ $$
 ```{r ols-regression}
 ols_model <- lm(weight ~ height + age, data = df_for_ols)
 ```
-```{r ols-output, message=FALSE, warning=FALSE, results='asis'}
+
+```{r ols-output, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(ols_model,
   type = "html",
   digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
 )
 ```
+```{r ols-output-latex, message=FALSE, warning=FALSE,  eval = knitr::is_latex_output(), error=FALSE}
+stargazer::stargazer(ols_model,
+  type = "latex",
+  digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
+)
+```
+
 
 This standard regression shows associations between our variables while controlling only for measured covariates. 
 
@@ -485,7 +496,12 @@ stargazer::stargazer(between_model,
   digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
 )
 ```
-
+```{r between-output-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
+stargazer::stargazer(between_model,
+  type = "latex",
+  digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
+)
+```
 
 This between-family regression captures how differences in average height and age across families relate to average weight. However, it does not account for within-family differences, which is where discordant-kinship regression comes in.
 
@@ -510,12 +526,20 @@ discord_model_manual <- lm(
 tidy(discord_model_manual, conf.int = TRUE) %>%
   knitr::kable(digits = 3, caption = "Discordant Regression (Manual)")
 ```
-```{r discord-manual-output, results='asis', message=FALSE, warning=FALSE}
+```{r discord-manual-output, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(between_model, discord_model_manual,
   type = "html",
   digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results"
 )
 ```
+
+```{r discord-manual-output-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
+stargazer::stargazer(between_model, discord_model_manual,
+  type = "latex",
+  digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results"
+)
+```
+
 
 Note that we are using the df_discord_weight dataset created earlier with `discord_data()`. This dataset is ordered such that within a pair, the sibling with the higher weight is always `_1`. This ordering ensures that `weight_diff` is always non-negative, which is a key feature of discordant-kinship regression.
 
@@ -544,10 +568,18 @@ glance(discord_model) %>%
   select(r.squared, adj.r.squared, sigma, p.value, nobs) %>%
   knitr::kable(digits = 3)
 ```
-```{r discord-compare, results='asis'}
+
+```{r discord-compare, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(discord_model,
   discord_model_manual,
   type = "html",
+  digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison"
+)
+```
+```{r discord-compare-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
+stargazer::stargazer(discord_model,
+  discord_model_manual,
+  type =  "latex",
   digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison"
 )
 ```
@@ -560,7 +592,7 @@ To fully understand the value of discordant-kinship regression, it's helpful to 
 
 ## Side-by-Side Model Comparison
 
-```{r all-models-comparison, results='asis', message=FALSE, warning=FALSE}
+```{r all-models-comparison, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(
   ols_model,
   between_model,
@@ -573,6 +605,23 @@ stargazer::stargazer(
   model.names = FALSE
 )
 ```
+
+
+```{r all-models-comparison-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
+stargazer::stargazer(
+  ols_model,
+  between_model,
+  discord_model_manual,
+  type = "latex",
+  digits = 3,
+  single.row = TRUE, 
+  title = "Comparison of OLS, Between-Family, and Discordant Regression Models",
+  column.labels = c("Standard OLS", "Between-Family", "Discordant"),
+  model.names = FALSE
+)
+```
+
+
 
 ## Interpreting the Differences
 
