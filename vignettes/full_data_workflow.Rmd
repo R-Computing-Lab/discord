@@ -22,14 +22,14 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 # Introduction
 
-This vignette provides a complete workflow for conducting discordant-kinship regression using the {discord} package. We encourage you to read the accompanying paper (Garrison et al., 2025) for a full explanation of the methods and their applications. Here, we demonstrate how to transform your data from its original structure into a format suitable for analysis, then walk through both standard OLS regression (for comparison) and discordant-kinship regression. 
+This vignette provides a complete workflow for conducting discordant-kinship regression using the {discord} package. We encourage you to read the accompanying paper (Garrison et al., 2025) for a full explanation of the methods and their applications. We show how to transform data into a format suitable for analysis, then walk through standard OLS regression (for comparison) and discordant-kinship regression.
 
-The tutorial covers three common starting data structures: wide format, long format, and pedigree data. We show how to prepare each for analysis using simulated data for reproducibility. You can adapt our analysis pipeline to your own data by substituting your variables and kinship links.
 
+The tutorial covers three common data structures (wide, long, and pedigree formats) and uses simulated data for reproducibility. You can adapt our R-based analysis pipeline to your own data by substituting your variables and kinship links.
 
 # Data Structures and Preparation
 
-Your data likely exists in one of three common formats (wide, long, or pedigree). Regardless of starting point, the goal is to create wide-format data where each row represents a kinship pair, with variables for each member of the pair distinguished by suffixes (e.g., `_1` and `_2`). Understanding your data structure determines which transformation steps you'll need. Each section below outlines how to handle these formats. 
+Your data likely exists in one of three common formats: wide, long, or pedigree. Regardless of format, the goal is to create wide-format data where each row represents a kinship pair. Variables for each member of the pair are distinguished by suffixes (e.g., `_1` and `_2`). Understanding your data structure determines which transformation steps you'll need. Each subsection below outlines how to handle these formats.
 
 First, load the necessary packages:
 
@@ -59,10 +59,10 @@ Once you load the necessary packages, feel free to skip to the relevant subsecti
 
 ## Wide Format Data
 
-Wide format is the most direct structure for our analysis. Each row represents one kinship pair, with variables appearing twice—once for each member of the pair—using suffixes to distinguish the two individuals. You'll see columns like `age_s1` and `age_s2`, where `_s1` and `_s2` identify which sibling's data appears in each column.
+Wide format is the most direct structure for our analysis. Each row represents one kinship pair, with variables appearing twice—once for each member of the pair—using suffixes to distinguish the two individuals. For example, columns like `age_s1` and `age_s2`, where `_s1` and `_s2` identify which sibling's data appears in each column.
 
 
-Here's an example with simulated sibling data:
+The simulated sibling data below contains five sibling pairs with variables for ID, age, height, and weight for each sibling.
 
 ```{r}
 df_wide <- data.frame(
@@ -82,14 +82,14 @@ df_wide %>%
   knitr::kable()
 ```
 
-In this example, `pid` is a unique identifier for each sibling pair. Specifically, each row is anchored by a pair identifier. Variables ending in `_s1` refer to one sibling, while those ending in `_s2` refer to the other. In this case, the dataset is already arranged so that the older sibling is `_s1` and the younger is `_s2`, but this ordering will be adjusted later based on the outcome variable. If your data already has this structure, you can skip ahead to the "Ordering and Derived Variables" section.
+In this example, `pid` is a unique identifier for each sibling pair. Specifically, each row is anchored by a pair identifier. Variables ending in `_s1` refer to one sibling, while those ending in `_s2` refer to the other. In our case, the starting dataset is already arranged so that the older sibling is `_s1` and the younger is `_s2`. Nevertheless, this ordering will be adjusted later based on the outcome variable. If your data already has this structure, you can skip ahead to the "Ordering and Derived Variables" section.
 
 
-## Long Format Data Example
+## Long Format Data
 
-Long format structures data with one row per individual. In other words, each person appears in their own row, with a pair identifier column linking siblings together. This format is common in many datasets, particularly those downloaded from data repositories, but requires transformation for our analysis. For example, the NLSY datasets by default provide data in long format. 
+Long format structures data with one row per individual. In other words, each person appears in their own row, with a pair-identifier column linking siblings. This format is common in many datasets (such as the NLSY), but it requires transformation for our analysis.
 
-We can demonstrate long format by reshaping our wide data from above:
+We can demonstrate long format by reshaping our wide data from above into long format using `pivot_longer()` from the {tidyr} package:
 
 ```{r}
 df_long <- df_wide %>%
@@ -104,10 +104,9 @@ df_long %>%
   knitr::kable()
 ```
 
-Notice how each individual now occupies their own row, with the `sibling` column indicating whether they were originally labeled `1` or `2`. The `pid` column still identifies which individuals form a pair. 
+Notice how each individual now occupies their own row. The `sibling` column indicating whether each sibling was originally labeled `1` or `2`. The `pid` column still identifies which individuals form a pair.
 
-If your data does not already have a unique identifier for each kinship pair, you may need to construct your own based on the available information or download one from a kinship linkage resources. Ideally, you will also have information about the type of kinship (e.g., full siblings, half-siblings, cousins) and whether they were raised together or apart. (More on how to do this below for pedigree data.) 
-
+Suppose your data does not already have a unique identifier for each kinship pair. In that case, you may need to construct one based on the available information or download one from a kinship linkage resource. Ideally, you will also have information about the type of kinship (e.g., full siblings, half-siblings, cousins) and whether they were raised together or apart. (More on how to do this below for pedigree data.)
 
 ### Converting Long to Wide
 
