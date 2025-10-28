@@ -460,13 +460,13 @@ ols_model <- lm(weight ~ height + age, data = df_for_ols)
 
 ```{r ols-output, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(ols_model,
-  type = "html",
+  type = "html",ci=TRUE,
   digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
 )
 ```
 ```{r ols-output-latex, message=FALSE, warning=FALSE,  eval = knitr::is_latex_output(), error=FALSE}
 stargazer::stargazer(ols_model,
-  type = "latex",
+  type = "latex",ci=TRUE,
   digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
 )
 ```
@@ -492,13 +492,13 @@ between_model <- lm(
 ```
 ```{r between-output, results='asis', message=FALSE, warning=FALSE}
 stargazer::stargazer(between_model,
-  type = "html",
+  type = "html",ci=TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
 )
 ```
 ```{r between-output-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
 stargazer::stargazer(between_model,
-  type = "latex",
+  type = "latex",ci=TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
 )
 ```
@@ -528,14 +528,14 @@ tidy(discord_model_manual, conf.int = TRUE) %>%
 ```
 ```{r discord-manual-output, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(between_model, discord_model_manual,
-  type = "html",
+  type = "html",ci=TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results"
 )
 ```
 
 ```{r discord-manual-output-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
 stargazer::stargazer(between_model, discord_model_manual,
-  type = "latex",
+  type = "latex",ci=TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results"
 )
 ```
@@ -572,7 +572,7 @@ glance(discord_model) %>%
 ```{r discord-compare, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(discord_model,
   discord_model_manual,
-  type = "html",
+  type = "html",ci=TRUE,
   digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison"
 )
 ```
@@ -597,7 +597,7 @@ stargazer::stargazer(
   ols_model,
   between_model,
   discord_model_manual,
-  type = "html",
+  type = "html",ci=TRUE,
   digits = 3,
   single.row = TRUE, 
   title = "Comparison of OLS, Between-Family, and Discordant Regression Models",
@@ -612,7 +612,7 @@ stargazer::stargazer(
   ols_model,
   between_model,
   discord_model_manual,
-  type = "latex",
+  type = "latex",ci=TRUE,
   digits = 3,
   single.row = TRUE, 
   title = "Comparison of OLS, Between-Family, and Discordant Regression Models",
