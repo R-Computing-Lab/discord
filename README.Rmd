@@ -196,8 +196,7 @@ are presented in reverse chronological order:
 
 ## Citation
 
-If you use `discord` in your research or wish to refer to it, please
-cite the following package as well as the AMPPS paper:
+If you use `discord` in your research or wish to refer to it, please cite the following package as well as the AMPPS paper:
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, comment=NA}
 cite <- citation(package = "discord")
