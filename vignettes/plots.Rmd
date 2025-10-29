@@ -364,7 +364,7 @@ plot_btwn
 As you can see, the base scatter plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. Marginal plots can be added to further illustrate the distributions of mean SES and mean flu vaccinations. Below is the code to add marginal plots using the `ggExtra` package. Note that the marginal plots are histograms, density plots, or boxplots that show the distribution of mean SES and mean flu vaccinations, grouped by the SES difference category.
 
 
-```{r echo=TRUE, message=FALSE}}
+```{r echo=TRUE, message=FALSE}
 # Set relative size of marginal plots (main plot 10x bigger than marginals)
 ggMarginal(plot_btwn, type="histogram", size=10, #groupColour = TRUE, 
            groupFill = T,

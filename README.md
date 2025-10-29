@@ -52,8 +52,11 @@ Your workflow depends on your data structure and experience level:
 
 **🚀 New to discordant-kinship regression?** - Start with [Full Data
 Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html) -
-Shows all three models (OLS, Between-Family, Discordant) side-by-side -
-Demonstrates data preparation from wide, long, or pedigree formats
+Demonstrates complete end-to-end example for beginners - Transforms data
+from wide, long, or pedigree formats - Selects siblings for OLS and
+orders for discordant analysis - Shows all three models (OLS,
+Between-Family, Discordant) side-by-side - Includes equations, manually
+specified syntax, as well as function calls
 
 **📊 Have NLSY data or existing kinship links?** - Use [NLSY Regression
 Analysis](https://r-computing-lab.github.io/discord/articles/regression.html) -
@@ -108,15 +111,17 @@ first stop:
   - How to order siblings for discordant-kinship analysis
   - How to run and compare all three model types (OLS, Between-Family,
     Discordant)
+    - including specify models using equations, manual syntax, and
+      function calls
   - How to interpret difference scores and mean scores
   - Complete side-by-side model comparisons
 - [NLSY regression analysis with
   discord](https://r-computing-lab.github.io/discord/articles/regression.html)
   - Use this vignette if you want an end-to-end applied example that
     links NLSY79 relatives, cleans variables for flu vaccination and
-    SES, constructs dyads, and then fits within-family models. You will
-    learn how to specify discord_regression correctly and interpret
-    coefficients.
+    SES, constructs dyads, and then fits within-family models.
+  - You will learn how to specify discord_regression correctly and
+    interpret coefficients.
 
 ### 🔧 Data Preparation
 
@@ -124,10 +129,10 @@ first stop:
   Structures](https://r-computing-lab.github.io/discord/articles/links.html)
   - This vignette is particularly useful for situations when you do not
     have existing kinship links and need to build relationships directly
-    from simple family identifiers. It shows how to construct the links,
-    optionally simulate phenotypes under specified structures, and fit
-    discord_regression with alternative specifications for small or
-    bespoke datasets.
+    from simple family identifiers.
+  - It shows how to construct the links, optionally simulate phenotypes
+    under specified structures, and fit discord_regression with
+    alternative specifications for small or bespoke datasets.
 
 ### 📊 Advanced Topics
 
@@ -136,8 +141,9 @@ first stop:
   - This vignette takes fitted discord_regression outputs and produces
     publication-ready ggplot figures of effect estimates and
     within-family contrasts with minimal transformation of the model
-    results. It includes complete plotting code paths you can reuse,
-    from extracting estimates to saving figures that clearly communicate
+    results.
+  - It includes complete plotting code paths you can reuse, from
+    extracting estimates to saving figures that clearly communicate
     within-family findings.
 - [Power Analysis with
   discord](https://r-computing-lab.github.io/discord/articles/power.html)
@@ -198,7 +204,7 @@ presented in reverse chronological order:
 ## Citation
 
 If you use `discord` in your research or wish to refer to it, please
-cite the following paper:
+cite the following package as well as the AMPPS paper:
 
     To cite package 'discord' in publications use:
 
