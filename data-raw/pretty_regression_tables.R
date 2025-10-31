@@ -159,7 +159,7 @@ prettify_regression_results <- function(regression_object,
 #' @param transform.response Logical indicating whether to apply a transformation to the response variable.
 #' @param digits Integer specifying the number of significant digits to use in the summary.
 #' @param confint Logical indicating whether to include confidence intervals.
-#' @param export_tbl Logical
+#' @param export_tbl Logical indicating whether to export the regression summary as a formatted table using `jtools::export_summs`. If FALSE, returns a regular summary using `jtools::summ`.
 prettify_jtools <- function(regression_object,
                             scale = TRUE,
                             transform.response = TRUE,
