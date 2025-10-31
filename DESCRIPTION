@@ -31,6 +31,7 @@ Suggests:
     dplyr,
     grid,
     gridExtra,
+    ggExtra,
     ggplot2,
     janitor,
     kableExtra,
