@@ -77,26 +77,25 @@ Garrison</h4>
 <p>This vignette provides a complete workflow for conducting
 discordant-kinship regression using the {discord} package. We encourage
 you to read the accompanying paper (Garrison et al., 2025) for a full
-explanation of the methods and their applications. Here, we demonstrate
-how to transform your data from its original structure into a format
-suitable for analysis, then walk through both standard OLS regression
-(for comparison) and discordant-kinship regression.</p>
-<p>The tutorial covers three common starting data structures: wide
-format, long format, and pedigree data. We show how to prepare each for
-analysis using simulated data for reproducibility. You can adapt our
-analysis pipeline to your own data by substituting your variables and
-kinship links.</p>
+explanation of the methods and their applications. We show how to
+transform data into a format suitable for analysis, then walk through
+standard OLS regression (for comparison) and discordant-kinship
+regression.</p>
+<p>The tutorial covers three common data structures (wide, long, and
+pedigree formats) and uses simulated data for reproducibility. You can
+adapt our R-based analysis pipeline to your own data by substituting
+your variables and kinship links.</p>
 </div>
 <div class="section level2">
 <h2 id="data-structures-and-preparation">Data Structures and Preparation<a class="anchor" aria-label="anchor" href="#data-structures-and-preparation"></a>
 </h2>
-<p>Your data likely exists in one of three common formats (wide, long,
-or pedigree). Regardless of starting point, the goal is to create
-wide-format data where each row represents a kinship pair, with
-variables for each member of the pair distinguished by suffixes (e.g.,
-<code>_1</code> and <code>_2</code>). Understanding your data structure
-determines which transformation steps you’ll need. Each section below
-outlines how to handle these formats.</p>
+<p>Your data likely exists in one of three common formats: wide, long,
+or pedigree. Regardless of format, the goal is to create wide-format
+data where each row represents a kinship pair. Variables for each member
+of the pair are distinguished by suffixes (e.g., <code>_1</code> and
+<code>_2</code>). Understanding your data structure determines which
+transformation steps you’ll need. Each subsection below outlines how to
+handle these formats.</p>
 <p>First, load the necessary packages:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For easy data manipulation</span></span>
@@ -125,10 +124,11 @@ relevant subsection for your data type.</p>
 <p>Wide format is the most direct structure for our analysis. Each row
 represents one kinship pair, with variables appearing twice—once for
 each member of the pair—using suffixes to distinguish the two
-individuals. You’ll see columns like <code>age_s1</code> and
+individuals. For example, columns like <code>age_s1</code> and
 <code>age_s2</code>, where <code>_s1</code> and <code>_s2</code>
 identify which sibling’s data appears in each column.</p>
-<p>Here’s an example with simulated sibling data:</p>
+<p>The simulated sibling data below contains five sibling pairs with
+variables for ID, age, height, and weight for each sibling.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  pid <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
@@ -229,24 +229,23 @@ identify which sibling’s data appears in each column.</p>
 <p>In this example, <code>pid</code> is a unique identifier for each
 sibling pair. Specifically, each row is anchored by a pair identifier.
 Variables ending in <code>_s1</code> refer to one sibling, while those
-ending in <code>_s2</code> refer to the other. In this case, the dataset
-is already arranged so that the older sibling is <code>_s1</code> and
-the younger is <code>_s2</code>, but this ordering will be adjusted
-later based on the outcome variable. If your data already has this
-structure, you can skip ahead to the “Ordering and Derived Variables”
-section.</p>
+ending in <code>_s2</code> refer to the other. In our case, the starting
+dataset is already arranged so that the older sibling is
+<code>_s1</code> and the younger is <code>_s2</code>. Nevertheless, this
+ordering will be adjusted later based on the outcome variable. If your
+data already has this structure, you can skip ahead to the “Ordering and
+Derived Variables” section.</p>
 </div>
 <div class="section level3">
-<h3 id="long-format-data-example">Long Format Data Example<a class="anchor" aria-label="anchor" href="#long-format-data-example"></a>
+<h3 id="long-format-data">Long Format Data<a class="anchor" aria-label="anchor" href="#long-format-data"></a>
 </h3>
 <p>Long format structures data with one row per individual. In other
-words, each person appears in their own row, with a pair identifier
-column linking siblings together. This format is common in many
-datasets, particularly those downloaded from data repositories, but
-requires transformation for our analysis. For example, the NLSY datasets
-by default provide data in long format.</p>
-<p>We can demonstrate long format by reshaping our wide data from
-above:</p>
+words, each person appears in their own row, with a pair-identifier
+column linking siblings. This format is common in many datasets (such as
+the NLSY), but it requires transformation for our analysis.</p>
+<p>We can demonstrate long format by reshaping our wide data from above
+into long format using <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer()</a></code> from the {tidyr}
+package:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_long</span> <span class="op">&lt;-</span> <span class="va">df_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
@@ -350,16 +349,17 @@ above:</p>
 </tr>
 </tbody>
 </table>
-<p>Notice how each individual now occupies their own row, with the
-<code>sibling</code> column indicating whether they were originally
-labeled <code>1</code> or <code>2</code>. The <code>pid</code> column
-still identifies which individuals form a pair.</p>
-<p>If your data does not already have a unique identifier for each
-kinship pair, you may need to construct your own based on the available
-information or download one from a kinship linkage resources. Ideally,
-you will also have information about the type of kinship (e.g., full
-siblings, half-siblings, cousins) and whether they were raised together
-or apart. (More on how to do this below for pedigree data.)</p>
+<p>Notice how each individual now occupies their own row. The
+<code>sibling</code> column indicating whether each sibling was
+originally labeled <code>1</code> or <code>2</code>. The
+<code>pid</code> column still identifies which individuals form a
+pair.</p>
+<p>Suppose your data does not already have a unique identifier for each
+kinship pair. In that case, you may need to construct one based on the
+available information or download one from a kinship linkage resource.
+Ideally, you will also have information about the type of kinship (e.g.,
+full siblings, half-siblings, cousins) and whether they were raised
+together or apart. (More on how to do this below for pedigree data.)</p>
 <div class="section level4">
 <h4 id="converting-long-to-wide">Converting Long to Wide<a class="anchor" aria-label="anchor" href="#converting-long-to-wide"></a>
 </h4>
@@ -568,7 +568,7 @@ RelationshipPath (<code>RelationshipPath</code> = “Gen1Housemates” and
 genetic relatedness (<code>RFull</code> = 0.5). You can merge this
 dataset with your long-format data using the individual IDs.</p>
 <p>At this stage the long‑origin data are indistinguishable from the
-original wide example. Each analytic variable now appears exactly
+wide-origin wide example. Each analytic variable now appears exactly
 twice—once for <code>_s1</code> and once for <code>_s2</code>—and the
 dyad identifier <code>pid</code> continues to anchor the row. You can
 proceed directly to ordering and construction of <code>*_mean</code> and
@@ -715,14 +715,8 @@ as well as it’s accompanying Journal of Open Source Software paper: <a href="h
 discordant-kinship regression, we need to create kinship links based on
 the pedigree information. To extract the necessary kinship information,
 we need to compute two matrices: the additive genetic relatedness matrix
-and the shared environment matrix. Other matrices, such as
+(add) and the shared environment matrix (cn). Other matrices, such as
 mitochondrial, can also be computed if needed.</p>
-<p>Using {BGmisc}, we compute:</p>
-<ul>
-<li><p>The additive genetic relatedness matrix (add).</p></li>
-<li><p>The shared environment matrix (cn), indicating whether kin were
-raised together (1) or apart (0).</p></li>
-</ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">add</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/ped2add.html" class="external-link">ped2add</a></span><span class="op">(</span><span class="va">df_ped</span><span class="op">)</span></span>
 <span><span class="va">cn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-computing-lab.github.io/BGmisc/reference/ped2cn.html" class="external-link">ped2cn</a></span><span class="op">(</span><span class="va">df_ped</span><span class="op">)</span></span></code></pre></div>
@@ -1339,10 +1333,10 @@ the original dataset, s1 was defined as the older sibling, so we can
 simply choose the sibling labeled <code>_s1</code>. But, another way to
 select the oldest sibling is to use the <code><a href="../reference/discord_data.html">discord_data()</a></code>
 function with the <code>outcome</code> argument set to the age variable.
-This will ensure that <code>_1</code> is always the oldest sibling
-within the pair. In the case of ties, discord data randomly assigned one
-sibling as <code>_1</code>. This assignment is preserved thru the entire
-data management process.</p>
+This approach will ensure that <code>_1</code> is always the oldest
+sibling within the pair. In the case of ties, discord data randomly
+assigned one sibling as <code>_1</code>. This assignment is preserved
+thru the entire data management process.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_for_ols</span> <span class="op">&lt;-</span> <span class="va">df_synthetic</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
@@ -1488,15 +1482,16 @@ created by ordering siblings based on age, ensuring that <code>_1</code>
 is always the older sibling. The <code>df_for_ols</code> dataset
 directly selects the older sibling from the original wide data.</p>
 <p>By selecting one sibling per pair, we’re analyzing the same number of
-observations as we have kinship pairs. This represents the standard
-individual-level approach used in most research:</p>
-<p><span class="math display">$$ Y = \\beta_0 + \\beta_1 X1 + \\beta_2
-X2 + \\epsilon $$</span></p>
+observations as we have kinship pairs. This conrespondses with the
+standard individual-level approach used in most research:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><mi>X</mi><mn>1</mn><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><mi>X</mi><mn>2</mn><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">
+Y = \beta_0 + \beta_1 X1 + \beta_2 X2 + \epsilon 
+</annotation></semantics></math></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ols_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">height</span> <span class="op">+</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">df_for_ols</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">ols_model</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Standard OLS Regression Results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table style="text-align:center" class="table">
@@ -1536,7 +1531,7 @@ weight
 height
 </td>
 <td>
-0.287<sup>***</sup> (0.078)
+0.287<sup>***</sup> (0.134, 0.440)
 </td>
 </tr>
 <tr>
@@ -1544,7 +1539,7 @@ height
 age
 </td>
 <td>
--0.073<sup>**</sup> (0.029)
+-0.073<sup>**</sup> (-0.129, -0.017)
 </td>
 </tr>
 <tr>
@@ -1552,7 +1547,7 @@ age
 Constant
 </td>
 <td>
-2.788<sup>***</sup> (0.871)
+2.788<sup>***</sup> (1.081, 4.495)
 </td>
 </tr>
 <tr>
@@ -1613,6 +1608,11 @@ F Statistic
 </td>
 </tr>
 </table>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">ols_model</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"latex"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Standard OLS Regression Results"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>This standard regression shows associations between our variables
 while controlling only for measured covariates.</p>
 </div>
@@ -1622,16 +1622,17 @@ while controlling only for measured covariates.</p>
 <p>Next, we run a between-family regression using the discordant data.
 This model regresses the outcome mean on predictor means, capturing
 between-family variation:</p>
-<p><span class="math display">$$ Y_{mean} = \\beta_0 + \\beta_1
-X1_{mean} + \\beta_2 X2_{mean} + \\epsilon $$</span></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><mi>X</mi><msub><mn>1</mn><mrow><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi></mrow></msub><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><mi>X</mi><msub><mn>2</mn><mrow><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi></mrow></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex"> 
+Y_{mean} = \beta_0 + \beta_1 X1_{mean} + \beta_2 X2_{mean} + \epsilon 
+</annotation></semantics></math></p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">between_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">weight_mean</span> <span class="op">~</span> <span class="va">height_mean</span> <span class="op">+</span> <span class="va">age_mean</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">df_discord_weight</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family Regression Results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table style="text-align:center" class="table">
@@ -1671,7 +1672,7 @@ weight_mean
 height_mean
 </td>
 <td>
-0.199<sup>**</sup> (0.077)
+0.199<sup>**</sup> (0.049, 0.350)
 </td>
 </tr>
 <tr>
@@ -1679,7 +1680,7 @@ height_mean
 age_mean
 </td>
 <td>
--0.044<sup>*</sup> (0.023)
+-0.044<sup>*</sup> (-0.089, 0.001)
 </td>
 </tr>
 <tr>
@@ -1687,7 +1688,7 @@ age_mean
 Constant
 </td>
 <td>
-2.064<sup>***</sup> (0.666)
+2.064<sup>***</sup> (0.759, 3.368)
 </td>
 </tr>
 <tr>
@@ -1769,11 +1770,17 @@ regression. We can specify the models manually or use the
 produce identical results.</p>
 <p>The discordant model regresses the outcome difference on outcome
 mean, predictor means, and predictor differences:</p>
-<p><span class="math display">$$ Y_{diff} = \\beta_0 + \\beta_1 Y_{mean}
-+ \\beta_2 X1_{mean} + \\beta_3 X1_{diff} + \\beta_4 X2_{mean} +
-\\beta_5 X2_{diff} + \\epsilon $$</span></p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">discord_model_manual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>d</mi><mi>i</mi><mi>f</mi><mi>f</mi></mrow></msub><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>Y</mi><mrow><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi></mrow></msub><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><mi>X</mi><msub><mn>1</mn><mrow><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi></mrow></msub><mo>+</mo><msub><mi>β</mi><mn>3</mn></msub><mi>X</mi><msub><mn>1</mn><mrow><mi>d</mi><mi>i</mi><mi>f</mi><mi>f</mi></mrow></msub><mo>+</mo><msub><mi>β</mi><mn>4</mn></msub><mi>X</mi><msub><mn>2</mn><mrow><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi></mrow></msub><mo>+</mo><msub><mi>β</mi><mn>5</mn></msub><mi>X</mi><msub><mn>2</mn><mrow><mi>d</mi><mi>i</mi><mi>f</mi><mi>f</mi></mrow></msub><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex"> Y_{diff} = \beta_0 + \beta_1 Y_{mean} + \beta_2 X1_{mean} + \beta_3 X1_{diff} + \beta_4 X2_{mean} + \beta_5 X2_{diff} + \epsilon </annotation></semantics></math>
+When fitting the discordant regression model, the coefficient for each
+<code>*_mean</code> variable captures the between-family effect, while
+the coefficient for each <code>*_diff</code> variable captures the
+within-family effect. The within-family effects are of particular
+interest, as they provide insight into how differences between siblings
+relate to differences in the outcome, controlling for shared family
+background. Below you can see how this model is specified manually:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">discord_model_manual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">weight_diff</span> <span class="op">~</span> <span class="va">weight_mean</span> <span class="op">+</span> <span class="va">height_mean</span> <span class="op">+</span> <span class="va">height_diff</span> <span class="op">+</span> <span class="va">age_mean</span> <span class="op">+</span> <span class="va">age_diff</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">df_discord_weight</span></span>
 <span><span class="op">)</span></span>
@@ -1857,9 +1864,9 @@ mean, predictor means, and predictor differences:</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>, <span class="va">discord_model_manual</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family and Discordant Regression Results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table style="text-align:center" class="table">
@@ -1914,7 +1921,7 @@ weight_mean
 <td>
 </td>
 <td>
--0.043 (0.065)
+-0.043 (-0.170, 0.084)
 </td>
 </tr>
 <tr>
@@ -1922,10 +1929,10 @@ weight_mean
 height_mean
 </td>
 <td>
-0.199<sup>**</sup> (0.077)
+0.199<sup>**</sup> (0.049, 0.350)
 </td>
 <td>
-0.041 (0.060)
+0.041 (-0.077, 0.158)
 </td>
 </tr>
 <tr>
@@ -1935,7 +1942,7 @@ height_diff
 <td>
 </td>
 <td>
-0.141<sup>***</sup> (0.043)
+0.141<sup>***</sup> (0.056, 0.225)
 </td>
 </tr>
 <tr>
@@ -1943,10 +1950,10 @@ height_diff
 age_mean
 </td>
 <td>
--0.044<sup>*</sup> (0.023)
+-0.044<sup>*</sup> (-0.089, 0.001)
 </td>
 <td>
-0.031<sup>*</sup> (0.018)
+0.031<sup>*</sup> (-0.004, 0.066)
 </td>
 </tr>
 <tr>
@@ -1956,7 +1963,7 @@ age_diff
 <td>
 </td>
 <td>
--0.026 (0.024)
+-0.026 (-0.074, 0.021)
 </td>
 </tr>
 <tr>
@@ -1964,10 +1971,10 @@ age_diff
 Constant
 </td>
 <td>
-2.064<sup>***</sup> (0.666)
+2.064<sup>***</sup> (0.759, 3.368)
 </td>
 <td>
-0.500 (0.528)
+0.500 (-0.534, 1.534)
 </td>
 </tr>
 <tr>
@@ -2060,7 +2067,7 @@ discordant regression model in one step. This function also allows for
 easy inclusion of demographic covariates if needed. See the function
 documentation for more details on these options, as well as a vignette
 focused on demographic controls.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discord_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/discord_regression.html">discord_regression</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">source_wide</span>,</span>
 <span>  outcome <span class="op">=</span> <span class="st">"weight"</span>,</span>
@@ -2151,7 +2158,7 @@ focused on demographic controls.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance</a></span><span class="op">(</span><span class="va">discord_model</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">r.squared</span>, <span class="va">adj.r.squared</span>, <span class="va">sigma</span>, <span class="va">p.value</span>, <span class="va">nobs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -2172,13 +2179,15 @@ focused on demographic controls.</p>
 <td align="right">141</td>
 </tr></tbody>
 </table>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">discord_model</span>,</span>
 <span>  <span class="va">discord_model_manual</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Discordant Regression Results Comparison"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>% Error: Unrecognized object type.</p>
+<p>Both the manual and helper function approaches yield identical
+results.</p>
 </div>
 </div>
 </div>
@@ -2187,113 +2196,316 @@ focused on demographic controls.</p>
 </h2>
 <p>To fully understand the value of discordant-kinship regression, it’s
 helpful to compare all three models side by side. Each approach answers
-a different question about the data:</p>
+a different question about the data.</p>
 <div class="section level3">
 <h3 id="side-by-side-model-comparison">Side-by-Side Model Comparison<a class="anchor" aria-label="anchor" href="#side-by-side-model-comparison"></a>
 </h3>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span></span>
 <span>  <span class="va">ols_model</span>,</span>
 <span>  <span class="va">between_model</span>,</span>
-<span>  <span class="va">discord_model</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  <span class="va">discord_model_manual</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  single.row <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  single.row <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>  title <span class="op">=</span> <span class="st">"Comparison of OLS, Between-Family, and Discordant Regression Models"</span>,</span>
 <span>  column.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Standard OLS"</span>, <span class="st">"Between-Family"</span>, <span class="st">"Discordant"</span><span class="op">)</span>,</span>
 <span>  model.names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>% Error: Unrecognized object type.</p>
+<table style="text-align:center" class="table">
+<caption>
+<strong>Comparison of OLS, Between-Family, and Discordant Regression
+Models</strong>
+</caption>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+weight
+</td>
+<td>
+weight_mean
+</td>
+<td>
+weight_diff
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Standard OLS
+</td>
+<td>
+Between-Family
+</td>
+<td>
+Discordant
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+height
+</td>
+<td>
+0.287<sup>***</sup> (0.134, 0.440)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age
+</td>
+<td>
+-0.073<sup>**</sup> (-0.129, -0.017)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+weight_mean
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.043 (-0.170, 0.084)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+height_mean
+</td>
+<td>
+</td>
+<td>
+0.199<sup>**</sup> (0.049, 0.350)
+</td>
+<td>
+0.041 (-0.077, 0.158)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+height_diff
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.141<sup>***</sup> (0.056, 0.225)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age_mean
+</td>
+<td>
+</td>
+<td>
+-0.044<sup>*</sup> (-0.089, 0.001)
+</td>
+<td>
+0.031<sup>*</sup> (-0.004, 0.066)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age_diff
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.026 (-0.074, 0.021)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+2.788<sup>***</sup> (1.081, 4.495)
+</td>
+<td>
+2.064<sup>***</sup> (0.759, 3.368)
+</td>
+<td>
+0.500 (-0.534, 1.534)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+141
+</td>
+<td>
+141
+</td>
+<td>
+141
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.125
+</td>
+<td>
+0.067
+</td>
+<td>
+0.102
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.112
+</td>
+<td>
+0.054
+</td>
+<td>
+0.069
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+1.573 (df = 138)
+</td>
+<td>
+1.284 (df = 138)
+</td>
+<td>
+0.978 (df = 135)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+9.857<sup>***</sup> (df = 2; 138)
+</td>
+<td>
+4.970<sup>***</sup> (df = 2; 138)
+</td>
+<td>
+3.060<sup>**</sup> (df = 5; 135)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="3" style="text-align:right">
+<sup><em></em></sup>p&lt;0.1; <sup><strong></strong></sup>p&lt;0.05;
+<sup></sup>p&lt;0.01
+</td>
+</tr>
+</table>
 </div>
 <div class="section level3">
 <h3 id="interpreting-the-differences">Interpreting the Differences<a class="anchor" aria-label="anchor" href="#interpreting-the-differences"></a>
 </h3>
-<p>Let’s break down what each model tells us:</p>
-<ul>
-<li>
-<strong>Standard OLS Regression</strong>: This model provides
-estimates of associations between variables at the individual level,
-controlling for measured covariates. However, it does not account for
-unmeasured familial confounding, which may bias the results.
-<ul>
-<li>
-<strong>Data</strong>: One sibling per family (e.g., first-born or
-older sibling)</li>
-<li>
-<strong>Level of analysis</strong>: Individual level</li>
-<li>
-<strong>What it captures</strong>: Total association between
-predictors and outcome, confounded by both genetic and environmental
-factors shared within families</li>
-<li>
-<strong>Interpretation</strong>: “Individuals with higher height/age
-tend to have higher weight”</li>
-<li>
-<strong>Limitation</strong>: Cannot distinguish whether the
-association is causal or due to shared family factors</li>
-</ul>
-</li>
-<li>
-<strong>Between-Family Regression</strong>: This model compares
-siblings from different families, effectively controlling for all
-family-level unobserved heterogeneity. While it provides a clearer
-picture of the effects of interest, it may miss important
-individual-level variation within families.
-<ul>
-<li>
-<strong>Data</strong>: Average values for each sibling pair</li>
-<li>
-<strong>Level of analysis</strong>: Family level<br>
-</li>
-<li>
-<strong>What it captures</strong>: How family-average predictors
-relate to family-average outcomes</li>
-<li>
-<strong>Interpretation</strong>: “Families with higher average
-height/age tend to have higher average weight”</li>
-<li>
-<strong>Limitation</strong>: Only captures between-family variation;
-tells us nothing about within-family effects</li>
-</ul>
-</li>
-<li>
-<strong>Discordant Regression</strong>: This approach focuses on
-within-family comparisons by examining siblings with differing outcomes.
-It allows for a nuanced understanding of how individual-level factors
-interact with family-level influences.
-<ul>
-<li>
-<strong>Data</strong>: Differences between siblings within
-families</li>
-<li>
-<strong>Level of analysis</strong>: Within-family (controlling for
-between-family variation)</li>
-<li>
-<strong>What it captures</strong>: Within-family effects after
-controlling for shared genetic and environmental factors</li>
-<li>
-<strong>Key coefficients</strong>:
-<ul>
-<li>
-<code>*_mean</code>: Between-family effects (similar to
-between-family model)</li>
-<li>
-<code>*_diff</code>: <strong>Within-family effects</strong> - the
-unique contribution of the predictor after controlling for familial
-confounding</li>
-</ul>
-</li>
-<li>
-<strong>Interpretation</strong>: “Within sibling pairs sharing
-family background, the sibling with higher height/age tends to have
-higher weight”</li>
-<li>
-<strong>Advantage</strong>: Controls for unmeasured familial
-confounders, providing stronger evidence for (or against) causal
-effects</li>
-</ul>
-</li>
-</ul>
+<p>For each model, we can summarize the key features, what they capture,
+and how to interpret the results:</p>
+<p><strong>Standard OLS Regression</strong> provides estimates of
+associations between variables at the individual level, controlling for
+measured covariates. However, it does not account for unmeasured
+familial confounding, which may bias the results. -
+<strong>Data</strong>: One sibling per family (e.g., first-born or older
+sibling) - <strong>Level of analysis</strong>: Individual level -
+<strong>What it captures</strong>: Total association between predictors
+and outcome, confounded by both genetic and environmental factors shared
+within families - <strong>Interpretation</strong>: “Individuals with
+higher height and age tend to have higher weight”</p>
+<p><strong>Between-Family Regression</strong> compares kin from
+different families, effectively controlling for all family-level
+unobserved heterogeneity. While it provides a clearer picture of the
+effects of interest, it may miss important individual-level variation
+within families. - <strong>Data</strong>: Average values for each kin
+pair - <strong>Level of analysis</strong>: Family level<br>
+- <strong>What it captures</strong>: How family-average predictors
+relate to family-average outcomes - <strong>Interpretation</strong>:
+“Cousin pairs with higher average height and age tend to have higher
+average weight”</p>
+<p><strong>Discordant Regression</strong> focuses on within-family
+comparisons by examining kin with differing outcomes. It allows for a
+nuanced understanding of how individual-level factors interact above and
+beyond familial confounding. - <strong>Data</strong>: Differences
+between cousins within families - <strong>Level of analysis</strong>:
+Within-family (controlling for between-family variation) - <strong>What
+it captures</strong>: Within-family effects after controlling for shared
+genetic and environmental factors - <strong>Key coefficients</strong>: -
+<code>*_mean</code>: Between-family effects (similar to between-family
+model) - <code>*_diff</code>: Within-family effects - the unique
+contribution of the predictor after controlling for familial confounding
+- <strong>Interpretation</strong>: “The cousin with higher weight tends
+to have higher height and age” - <strong>Advantage</strong>: Controls
+for unmeasured familial confounders, providing stronger evidence for (or
+against) causal effects</p>
 </div>
 </div>
 <div class="section level2">
@@ -2308,11 +2520,11 @@ analyses.</p>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sessioninfo</span><span class="fu">::</span><span class="fu"><a href="https://sessioninfo.r-lib.org/reference/session_info.html" class="external-link">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
-<span><span class="co">#&gt;  version  R version 4.5.1 (2025-06-13)</span></span>
+<span><span class="co">#&gt;  version  R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">#&gt;  os       Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">#&gt;  system   x86_64, linux-gnu</span></span>
 <span><span class="co">#&gt;  ui       X11</span></span>
@@ -2320,7 +2532,7 @@ analyses.</p>
 <span><span class="co">#&gt;  collate  C.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    C.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       UTC</span></span>
-<span><span class="co">#&gt;  date     2025-10-18</span></span>
+<span><span class="co">#&gt;  date     2025-10-31</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt;  quarto   NA</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -2335,7 +2547,7 @@ analyses.</p>
 <span><span class="co">#&gt;  data.table     1.17.8  <span style="color: #555555;">2025-07-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  desc           1.4.3   <span style="color: #555555;">2023-12-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  digest         0.6.37  <span style="color: #555555;">2024-08-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  discord      * 1.3     <span style="color: #555555;">2025-10-18</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  discord      * 1.3     <span style="color: #555555;">2025-10-31</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  dplyr        * 1.1.4   <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  evaluate       1.0.5   <span style="color: #555555;">2025-08-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  farver         2.1.2   <span style="color: #555555;">2024-05-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -2354,11 +2566,11 @@ analyses.</p>
 <span><span class="co">#&gt;  kinship2       1.9.6.2 <span style="color: #555555;">2025-09-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  knitr          1.50    <span style="color: #555555;">2025-03-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  labeling       0.4.3   <span style="color: #555555;">2023-08-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  lattice        0.22-7  <span style="color: #555555;">2025-04-02</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.5.1)</span></span></span>
+<span><span class="co">#&gt;  lattice        0.22-7  <span style="color: #555555;">2025-04-02</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.5.2)</span></span></span>
 <span><span class="co">#&gt;  lifecycle      1.0.4   <span style="color: #555555;">2023-11-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  lubridate      1.9.4   <span style="color: #555555;">2024-12-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  magrittr     * 2.0.4   <span style="color: #555555;">2025-09-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  Matrix         1.7-3   <span style="color: #555555;">2025-03-11</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.5.1)</span></span></span>
+<span><span class="co">#&gt;  Matrix         1.7-4   <span style="color: #555555;">2025-08-28</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.5.2)</span></span></span>
 <span><span class="co">#&gt;  NlsyLinks    * 2.2.3   <span style="color: #555555;">2025-08-31</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  pillar         1.11.1  <span style="color: #555555;">2025-09-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  pkgconfig      2.0.3   <span style="color: #555555;">2019-09-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -2390,8 +2602,8 @@ analyses.</p>
 <span><span class="co">#&gt;  yaml           2.3.10  <span style="color: #555555;">2024-07-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #555555;"> [1] /home/runner/work/_temp/Library</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;"> [2] /opt/R/4.5.1/lib/R/site-library</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;"> [3] /opt/R/4.5.1/lib/R/library</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [2] /opt/R/4.5.2/lib/R/site-library</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [3] /opt/R/4.5.2/lib/R/library</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #BBBBBB; background-color: #BB0000;">*</span> ── Packages attached to the search path.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">──────────────────────────────────────────────────────────────────────────────</span></span></span></code></pre></div>

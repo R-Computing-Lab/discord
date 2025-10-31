@@ -86,7 +86,7 @@
 <h3 id="step-2-choose-your-starting-point">Step 2: Choose Your Starting Point<a class="anchor" aria-label="anchor" href="#step-2-choose-your-starting-point"></a>
 </h3>
 <p>Your workflow depends on your data structure and experience level:</p>
-<p><strong>🚀 New to discordant-kinship regression?</strong> - Start with <a href="https://r-computing-lab.github.io/discord/articles/full_data_workflow.html">Full Data Workflow</a> - Shows all three models (OLS, Between-Family, Discordant) side-by-side - Demonstrates data preparation from wide, long, or pedigree formats</p>
+<p><strong>🚀 New to discordant-kinship regression?</strong> - Start with <a href="https://r-computing-lab.github.io/discord/articles/full_data_workflow.html">Full Data Workflow</a> - Demonstrates complete end-to-end example for beginners - Transforms data from wide, long, or pedigree formats - Selects siblings for OLS and orders for discordant analysis - Shows all three models (OLS, Between-Family, Discordant) side-by-side - Includes equations, manually specified syntax, as well as function calls</p>
 <p><strong>📊 Have NLSY data or existing kinship links?</strong> - Use <a href="https://r-computing-lab.github.io/discord/articles/regression.html">NLSY Regression Analysis</a> - Real-world example with flu vaccination and SES data - Complete workflow from kinship linking to interpretation</p>
 <p><strong>🔧 Need to build kinship links from scratch?</strong> - See <a href="https://r-computing-lab.github.io/discord/articles/links.html">Using discord with Simple Family Structures</a> - Construct links from basic family IDs (mother, father) - Works without pre-existing kinship databases</p>
 </div>
@@ -135,7 +135,11 @@
 <li>How to transform data from wide, long, or pedigree formats</li>
 <li>How to select siblings for standard OLS regression</li>
 <li>How to order siblings for discordant-kinship analysis</li>
-<li>How to run and compare all three model types (OLS, Between-Family, Discordant)</li>
+<li>How to run and compare all three model types (OLS, Between-Family, Discordant)
+<ul>
+<li>including specify models using equations, manual syntax, and function calls</li>
+</ul>
+</li>
 <li>How to interpret difference scores and mean scores</li>
 <li>Complete side-by-side model comparisons</li>
 </ul>
@@ -143,7 +147,8 @@
 <li>
 <a href="https://r-computing-lab.github.io/discord/articles/regression.html">NLSY regression analysis with discord</a>
 <ul>
-<li>Use this vignette if you want an end-to-end applied example that links NLSY79 relatives, cleans variables for flu vaccination and SES, constructs dyads, and then fits within-family models. You will learn how to specify discord_regression correctly and interpret coefficients.</li>
+<li>Use this vignette if you want an end-to-end applied example that links NLSY79 relatives, cleans variables for flu vaccination and SES, constructs dyads, and then fits within-family models.</li>
+<li>You will learn how to specify discord_regression correctly and interpret coefficients.</li>
 </ul>
 </li>
 </ul>
@@ -155,7 +160,8 @@
 <li>
 <a href="https://r-computing-lab.github.io/discord/articles/links.html">No Database? No Problem: Using discord with simple family Structures</a>
 <ul>
-<li>This vignette is particularly useful for situations when you do not have existing kinship links and need to build relationships directly from simple family identifiers. It shows how to construct the links, optionally simulate phenotypes under specified structures, and fit discord_regression with alternative specifications for small or bespoke datasets.</li>
+<li>This vignette is particularly useful for situations when you do not have existing kinship links and need to build relationships directly from simple family identifiers.</li>
+<li>It shows how to construct the links, optionally simulate phenotypes under specified structures, and fit discord_regression with alternative specifications for small or bespoke datasets.</li>
 </ul>
 </li>
 </ul>
@@ -167,7 +173,8 @@
 <li>
 <a href="https://r-computing-lab.github.io/discord/articles/plots.html">Creating plots for discord</a>
 <ul>
-<li>This vignette takes fitted discord_regression outputs and produces publication-ready ggplot figures of effect estimates and within-family contrasts with minimal transformation of the model results. It includes complete plotting code paths you can reuse, from extracting estimates to saving figures that clearly communicate within-family findings.</li>
+<li>This vignette takes fitted discord_regression outputs and produces publication-ready ggplot figures of effect estimates and within-family contrasts with minimal transformation of the model results.</li>
+<li>It includes complete plotting code paths you can reuse, from extracting estimates to saving figures that clearly communicate within-family findings.</li>
 </ul>
 </li>
 <li>
@@ -209,7 +216,7 @@
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use <code>discord</code> in your research or wish to refer to it, please cite the following paper:</p>
+<p>If you use <code>discord</code> in your research or wish to refer to it, please cite the following package as well as the AMPPS paper:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>To cite package <span class="st">'discord'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  Garrison S, Trattner J, Hwang <span class="fu">Y</span> (<span class="dv">2025</span>). _discord<span class="sc">:</span> Functions <span class="cf">for</span></span>
