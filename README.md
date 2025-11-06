@@ -50,30 +50,36 @@ devtools::install_github('R-Computing-Lab/discord')
 
 Your workflow depends on your data structure and experience level:
 
-**🚀 New to discordant-kinship regression?** - Start with [Full Data
-Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html) -
-Demonstrates complete end-to-end example for beginners - Transforms data
-from wide, long, or pedigree formats - Selects siblings for OLS and
-orders for discordant analysis - Shows all three models (OLS,
-Between-Family, Discordant) side-by-side - Includes equations, manually
-specified syntax, as well as function calls
+**🚀 New to discordant-kinship regression?**
 
-**📊 Have NLSY data or existing kinship links?** - Use [NLSY Regression
-Analysis](https://r-computing-lab.github.io/discord/articles/regression.html) -
-Real-world example with flu vaccination and SES data - Complete workflow
-from kinship linking to interpretation
+- Start with [Full Data
+  Workflow](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
+- Demonstrates complete end-to-end example for beginners
+- Transforms data from wide, long, or pedigree formats
+- Selects siblings for OLS and orders for discordant analysis
+- Shows all three models (OLS, Between-Family, Discordant) side-by-side
+- Includes equations, manually specified syntax, as well as function
+  calls
 
-**🔧 Need to build kinship links from scratch?** - See [Using discord
-with Simple Family
-Structures](https://r-computing-lab.github.io/discord/articles/links.html) -
-Construct links from basic family IDs (mother, father) - Works without
-pre-existing kinship databases
+**📊 Have NLSY data or existing kinship links?**
+
+- Use [NLSY Regression
+  Analysis](https://r-computing-lab.github.io/discord/articles/regression.html)
+- Real-world example with flu vaccination and SES data
+- Complete workflow from kinship linking to interpretation
+
+**🔧 Need to build kinship links from scratch?**
+
+- See [Using discord with Simple Family
+  Structures](https://r-computing-lab.github.io/discord/articles/links.html)
+- Construct links from basic family IDs (mother, father)
+- Works without pre-existing kinship databases
 
 ### Step 3: Explore Advanced Topics
 
 Once you understand the basics, explore specialized topics:
 
-- **Categorical predictors** (sex, race): [Categorical Predictors
+- **Categorical predictors**: [Categorical Predictors
   Vignette](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
 - **Visualizing results**: [Plotting
   Vignette](https://r-computing-lab.github.io/discord/articles/plots.html)
@@ -106,15 +112,15 @@ first stop:
 - [Full data workflow for
   discord](https://r-computing-lab.github.io/discord/articles/full_data_workflow.html)
   - **What you’ll learn:**
-  - How to transform data from wide, long, or pedigree formats
-  - How to select siblings for standard OLS regression
-  - How to order siblings for discordant-kinship analysis
-  - How to run and compare all three model types (OLS, Between-Family,
-    Discordant)
-    - including specify models using equations, manual syntax, and
-      function calls
-  - How to interpret difference scores and mean scores
-  - Complete side-by-side model comparisons
+    - How to transform data from wide, long, or pedigree formats
+    - How to select siblings for standard OLS regression
+    - How to discord orders siblings for discordant-kinship analysis
+    - How to run and compare all three model types (OLS, Between-Family,
+      Discordant)
+      - including specify models using equations, manual syntax, and
+        function calls
+    - How to interpret difference scores and mean scores
+    - Complete side-by-side model comparisons
 - [NLSY regression analysis with
   discord](https://r-computing-lab.github.io/discord/articles/regression.html)
   - Use this vignette if you want an end-to-end applied example that
@@ -155,10 +161,10 @@ first stop:
   discord](https://r-computing-lab.github.io/discord/articles/categorical_predictors.html)
   - This vignette formalizes categorical predictors in discord designs
     by separating categorical variables into within-dyad and
-    between-dyad components. It makes the implied contrasts explicit. It
-    discusses the pitfalls of interpreting coefficients naively when
-    using categorical predictors, and reviews best practices for coding
-    and interpretation.
+    between-dyad components. It makes the implied contrasts explicit.  
+  - It discusses the pitfalls of interpreting coefficients when using
+    categorical predictors, and reviews best practices for coding and
+    interpretation.
 
 ## External Reproducible Examples
 
