@@ -145,13 +145,13 @@ data(Links79PairExpanded)
 Links79PairExpanded %>%
   arrange(ExtendedID) %>%
   filter(RelationshipPath == "Gen1Housemates" & RFull == 0.5) %>%
-  slice_head(n = 5) %>%
   select(
     ExtendedID,
     SubjectTag_S1, SubjectTag_S2,
     RelationshipPath, RFull, IsMz,
     EverSharedHouse
-  ) %>%
+  ) %>% # used to make the table
+  slice_head(n = 5) %>%
   knitr::kable()
 ```
 
