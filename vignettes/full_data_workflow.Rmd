@@ -490,7 +490,7 @@ between_model <- lm(
   data = df_discord_weight
 )
 ```
-```{r between-output, results='asis', message=FALSE, warning=FALSE}
+```{r between-output, results='asis', message=FALSE, warning=FALSE, eval = knitr::is_html_output()}
 stargazer::stargazer(between_model,
   type = "html",ci=TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
@@ -628,30 +628,41 @@ stargazer::stargazer(
 For each model, we can summarize the key features, what they capture, and how to interpret the results:
 
 **Standard OLS Regression** provides estimates of associations between variables at the individual level, controlling for measured covariates. However, it does not account for unmeasured familial confounding, which may bias the results.
-  - **Data**: One sibling per family (e.g., first-born or older sibling)
-  - **Level of analysis**: Individual level
-  - **What it captures**: Total association between predictors and outcome, confounded by both genetic and environmental factors shared within families
-  - **Interpretation**: "Individuals with higher height and age tend to have higher weight"
+- **Data**: One sibling per family (e.g., first-born or older sibling)
+
+- **Level of analysis**: Individual level
+
+- **What it captures**: Total association between predictors and outcome, confounded by both genetic and environmental factors shared within families
+
+- **Interpretation**: "Individuals with higher height and age tend to have higher weight"
 
 
 **Between-Family Regression** compares kin from different families, effectively controlling for all family-level unobserved heterogeneity. While it provides a clearer picture of the effects of interest, it may miss important individual-level variation within families.
-  - **Data**: Average values for each kin pair
-  - **Level of analysis**: Family level  
-  - **What it captures**: How family-average predictors relate to family-average outcomes
-  - **Interpretation**: "Cousin pairs with higher average height and age tend to have higher average weight"
+- **Data**: Average values for each kin pair
+
+- **Level of analysis**: Family level  
+
+- **What it captures**: How family-average predictors relate to family-average outcomes
+
+- **Interpretation**: "Cousin pairs with higher average height and age tend to have higher average weight"
 
 
 **Discordant Regression** focuses on within-family comparisons by examining kin with differing outcomes. It allows for a nuanced understanding of how individual-level factors interact above and beyond familial confounding.
-  - **Data**: Differences between cousins within families
-  - **Level of analysis**: Within-family (controlling for between-family variation)
-  - **What it captures**: Within-family effects after controlling for shared genetic and environmental factors
-  - **Key coefficients**:
-    - `*_mean`: Between-family effects (similar to between-family model)
-    - `*_diff`: Within-family effects - the unique contribution of the predictor after controlling for familial confounding
-  - **Interpretation**: "The cousin with higher weight tends to have higher height and age"
-  - **Advantage**: Controls for unmeasured familial confounders, providing stronger evidence for (or against) causal effects
+- **Data**: Differences between cousins within families
 
+- **Level of analysis**: Within-family (controlling for between-family variation)
 
+- **What it captures**: Within-family effects after controlling for shared genetic and environmental factors
+
+- **Key coefficients**:
+
+  - `*_mean`: Between-family effects (similar to between-family model)
+  
+  - `*_diff`: Within-family effects - the unique contribution of the predictor after controlling for familial confounding
+
+- **Interpretation**: "The cousin with higher weight tends to have higher height and age"
+
+- **Advantage**: Controls for unmeasured familial confounders, providing stronger evidence for (or against) causal effects
 # Conclusion
 
 Discordant-kinship regression offers a powerful tool for disentangling within-family effects from between-family confounding. By leveraging sibling and cousin comparisons, researchers can gain insights into causal relationships that are often obscured in traditional analyses.
