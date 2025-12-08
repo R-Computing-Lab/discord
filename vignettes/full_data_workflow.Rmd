@@ -659,12 +659,10 @@ For each model, we can summarize the key features, what they capture, and how to
   - `*_mean`: Between-family effects (similar to between-family model)
   
   - `*_diff`: Within-family effects - the unique contribution of the predictor after controlling for familial confounding
-  
-  - **Interpretation**: "The cousin with higher weight tends to have higher height and age"
-  
-  - **Advantage**: Controls for unmeasured familial confounders, providing stronger evidence for (or against) causal effects
 
+- **Interpretation**: "The cousin with higher weight tends to have higher height and age"
 
+- **Advantage**: Controls for unmeasured familial confounders, providing stronger evidence for (or against) causal effects
 # Conclusion
 
 Discordant-kinship regression offers a powerful tool for disentangling within-family effects from between-family confounding. By leveraging sibling and cousin comparisons, researchers can gain insights into causal relationships that are often obscured in traditional analyses.
