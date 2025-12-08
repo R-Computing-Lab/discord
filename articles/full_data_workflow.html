@@ -609,7 +609,7 @@ forms:</p>
 <span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Potter Pedigree Plot"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="full_data_workflow_files/figure-html/unnamed-chunk-6-1.png" width="480"></p>
+<p><img src="full_data_workflow_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="480"></p>
 <p>The pedigree tree above illustrates the family relationships among
 individuals in the Potter dataset. Each node represents an individual,
 and the lines connecting them indicate familial relationships such as
@@ -2476,46 +2476,60 @@ associations between variables at the individual level, controlling for
 measured covariates. However, it does not account for unmeasured
 familial confounding, which may bias the results. -
 <strong>Data</strong>: One sibling per family (e.g., first-born or older
-sibling) - <strong>Level of analysis</strong>: Individual level -
-<strong>What it captures</strong>: Total association between predictors
-and outcome, confounded by both genetic and environmental factors shared
-within families - <strong>Interpretation</strong>: “Individuals with
-higher height and age tend to have higher weight”</p>
+sibling)</p>
+<ul>
+<li><p><strong>Level of analysis</strong>: Individual level</p></li>
+<li><p><strong>What it captures</strong>: Total association between
+predictors and outcome, confounded by both genetic and environmental
+factors shared within families</p></li>
+<li><p><strong>Interpretation</strong>: “Individuals with higher height
+and age tend to have higher weight”</p></li>
+</ul>
 <p><strong>Between-Family Regression</strong> compares kin from
 different families, effectively controlling for all family-level
 unobserved heterogeneity. While it provides a clearer picture of the
 effects of interest, it may miss important individual-level variation
 within families. - <strong>Data</strong>: Average values for each kin
-pair - <strong>Level of analysis</strong>: Family level<br>
-- <strong>What it captures</strong>: How family-average predictors
-relate to family-average outcomes - <strong>Interpretation</strong>:
-“Cousin pairs with higher average height and age tend to have higher
-average weight”</p>
+pair</p>
+<ul>
+<li><p><strong>Level of analysis</strong>: Family level</p></li>
+<li><p><strong>What it captures</strong>: How family-average predictors
+relate to family-average outcomes</p></li>
+<li><p><strong>Interpretation</strong>: “Cousin pairs with higher
+average height and age tend to have higher average weight”</p></li>
+</ul>
 <p><strong>Discordant Regression</strong> focuses on within-family
 comparisons by examining kin with differing outcomes. It allows for a
 nuanced understanding of how individual-level factors interact above and
 beyond familial confounding. - <strong>Data</strong>: Differences
-between cousins within families - <strong>Level of analysis</strong>:
-Within-family (controlling for between-family variation) - <strong>What
-it captures</strong>: Within-family effects after controlling for shared
-genetic and environmental factors - <strong>Key coefficients</strong>: -
-<code>*_mean</code>: Between-family effects (similar to between-family
-model) - <code>*_diff</code>: Within-family effects - the unique
-contribution of the predictor after controlling for familial confounding
-- <strong>Interpretation</strong>: “The cousin with higher weight tends
-to have higher height and age” - <strong>Advantage</strong>: Controls
-for unmeasured familial confounders, providing stronger evidence for (or
-against) causal effects</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
-</h2>
+between cousins within families</p>
+<ul>
+<li><p><strong>Level of analysis</strong>: Within-family (controlling
+for between-family variation)</p></li>
+<li><p><strong>What it captures</strong>: Within-family effects after
+controlling for shared genetic and environmental factors</p></li>
+<li>
+<p><strong>Key coefficients</strong>:</p>
+<ul>
+<li><p><code>*_mean</code>: Between-family effects (similar to
+between-family model)</p></li>
+<li><p><code>*_diff</code>: Within-family effects - the unique
+contribution of the predictor after controlling for familial
+confounding</p></li>
+</ul>
+</li>
+<li><p><strong>Interpretation</strong>: “The cousin with higher weight
+tends to have higher height and age”</p></li>
+<li><p><strong>Advantage</strong>: Controls for unmeasured familial
+confounders, providing stronger evidence for (or against) causal effects
+# Conclusion</p></li>
+</ul>
 <p>Discordant-kinship regression offers a powerful tool for
 disentangling within-family effects from between-family confounding. By
 leveraging sibling and cousin comparisons, researchers can gain insights
 into causal relationships that are often obscured in traditional
 analyses.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
@@ -2532,7 +2546,7 @@ analyses.</p>
 <span><span class="co">#&gt;  collate  C.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    C.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       UTC</span></span>
-<span><span class="co">#&gt;  date     2025-11-06</span></span>
+<span><span class="co">#&gt;  date     2025-12-08</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt;  quarto   NA</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -2540,30 +2554,29 @@ analyses.</p>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package     </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version</span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
 <span><span class="co">#&gt;  backports      1.5.0   <span style="color: #555555;">2024-05-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  BGmisc       * 1.5.0   <span style="color: #555555;">2025-07-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  broom        * 1.0.10  <span style="color: #555555;">2025-09-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  broom        * 1.0.11  <span style="color: #555555;">2025-12-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  bslib          0.9.0   <span style="color: #555555;">2025-01-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  cachem         1.1.0   <span style="color: #555555;">2024-05-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  cli            3.6.5   <span style="color: #555555;">2025-04-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  data.table     1.17.8  <span style="color: #555555;">2025-07-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  desc           1.4.3   <span style="color: #555555;">2023-12-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  digest         0.6.37  <span style="color: #555555;">2024-08-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  discord      * 1.3     <span style="color: #555555;">2025-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  digest         0.6.39  <span style="color: #555555;">2025-11-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  discord      * 1.3     <span style="color: #555555;">2025-12-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  dplyr        * 1.1.4   <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  evaluate       1.0.5   <span style="color: #555555;">2025-08-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  farver         2.1.2   <span style="color: #555555;">2024-05-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  fastmap        1.2.0   <span style="color: #555555;">2024-05-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  fs             1.6.6   <span style="color: #555555;">2025-04-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  generics       0.1.4   <span style="color: #555555;">2025-05-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  ggpedigree   * 0.9.0   <span style="color: #555555;">2025-09-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  ggplot2      * 4.0.0   <span style="color: #555555;">2025-09-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  ggpedigree   * 1.0.0.1 <span style="color: #555555;">2025-11-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  ggplot2      * 4.0.1   <span style="color: #555555;">2025-11-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  glue           1.8.0   <span style="color: #555555;">2024-09-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  gtable         0.3.6   <span style="color: #555555;">2024-10-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  htmltools      0.5.8.1 <span style="color: #555555;">2024-04-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  htmltools      0.5.9   <span style="color: #555555;">2025-12-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  htmlwidgets    1.6.4   <span style="color: #555555;">2023-12-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  janitor      * 2.2.1   <span style="color: #555555;">2024-12-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  jquerylib      0.1.4   <span style="color: #555555;">2021-04-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  jsonlite       2.0.0   <span style="color: #555555;">2025-03-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  kinship2       1.9.6.2 <span style="color: #555555;">2025-09-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  knitr          1.50    <span style="color: #555555;">2025-03-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  labeling       0.4.3   <span style="color: #555555;">2023-08-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  lattice        0.22-7  <span style="color: #555555;">2025-04-02</span> <span style="color: #555555;">[3]</span> <span style="color: #555555;">CRAN (R 4.5.2)</span></span></span>
@@ -2574,7 +2587,7 @@ analyses.</p>
 <span><span class="co">#&gt;  NlsyLinks    * 2.2.3   <span style="color: #555555;">2025-08-31</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  pillar         1.11.1  <span style="color: #555555;">2025-09-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  pkgconfig      2.0.3   <span style="color: #555555;">2019-09-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  pkgdown        2.1.3   <span style="color: #555555;">2025-05-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">any (@2.1.3)</span></span></span>
+<span><span class="co">#&gt;  pkgdown        2.2.0   <span style="color: #555555;">2025-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">any (@2.2.0)</span></span></span>
 <span><span class="co">#&gt;  purrr          1.2.0   <span style="color: #555555;">2025-11-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  quadprog       1.5-8   <span style="color: #555555;">2019-11-20</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  R6             2.6.1   <span style="color: #555555;">2025-02-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -2582,7 +2595,7 @@ analyses.</p>
 <span><span class="co">#&gt;  RColorBrewer   1.1-3   <span style="color: #555555;">2022-04-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  rlang          1.1.6   <span style="color: #555555;">2025-04-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  rmarkdown      2.30    <span style="color: #555555;">2025-09-28</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  S7             0.2.0   <span style="color: #555555;">2024-11-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  S7             0.2.1   <span style="color: #555555;">2025-11-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  sass           0.4.10  <span style="color: #555555;">2025-04-11</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  scales         1.4.0   <span style="color: #555555;">2025-04-24</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  sessioninfo    1.2.3   <span style="color: #555555;">2025-02-05</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -2599,7 +2612,7 @@ analyses.</p>
 <span><span class="co">#&gt;  vctrs          0.6.5   <span style="color: #555555;">2023-12-01</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  withr          3.0.2   <span style="color: #555555;">2024-10-28</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  xfun           0.54    <span style="color: #555555;">2025-10-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;  yaml           2.3.10  <span style="color: #555555;">2024-07-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;  yaml           2.3.11  <span style="color: #555555;">2025-11-28</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #555555;"> [1] /home/runner/work/_temp/Library</span></span></span>
 <span><span class="co">#&gt; <span style="color: #555555;"> [2] /opt/R/4.5.2/lib/R/site-library</span></span></span>
@@ -2619,7 +2632,7 @@ analyses.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
