@@ -125,9 +125,9 @@ df_discord_flu <- df_discord_flu %>%
     # # Classify Difference Grouping
     ses_diff_group = factor(
       case_when(
-        scale(s00_h40_diff) > 0.33 ~ "More Advantaged",
-        scale(s00_h40_diff) < -0.33 ~ "Less Advantaged",
-        abs(scale(s00_h40_diff)) <= 0.33 ~ "Equally Advantaged"
+        as.numeric(scale(s00_h40_diff)) > 0.33 ~ "More Advantage",
+        as.numeric(scale(s00_h40_diff)) < -0.33 ~ "Less Advantage",
+        abs(as.numeric(scale(s00_h40_diff))) <= 0.33 ~ "Equally Advantage"
       ),
       levels = c(
         "Less Advantaged",
