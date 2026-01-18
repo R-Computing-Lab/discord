@@ -429,13 +429,13 @@ the `df_links` data frame we created earlier.
 set.seed(2024)
 
 df_synthetic <- discord::kinsim(
-  mu_all = c(1, 1), # means 
+  mu_all = c(1, 1), # means
   cov_a = .5,
-  cov_c = .1, # 
+  cov_c = .1, #
   cov_e = .3,
   c_vector = rep(df_cousin$cnuRel, 3),
   r_vector = rep(df_cousin$addRel, 3)
-) 
+)
 ```
 
 I now have a synthetic dataset containing pairs of first cousins raised
@@ -584,8 +584,10 @@ df_discord_weight %>%
     height_1, height_2, height_mean, height_diff
   ) %>%
   slice(1:3) %>%
-  knitr::kable(digits = 2,
-      caption = "After discord_data(): siblings ordered so weight_1 >= weight_2")
+  knitr::kable(
+    digits = 2,
+    caption = "After discord_data(): siblings ordered so weight_1 >= weight_2"
+  )
 ```
 
 |  id | weight_1 | weight_2 | weight_mean | weight_diff | height_1 | height_2 | height_mean | height_diff |
@@ -751,7 +753,7 @@ ols_model <- lm(weight ~ height + age, data = df_for_ols)
 
 ``` r
 stargazer::stargazer(ols_model,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
 )
 ```
@@ -779,7 +781,7 @@ stargazer::stargazer(ols_model,
 
 ``` r
 stargazer::stargazer(ols_model,
-  type = "latex",ci=TRUE,
+  type = "latex", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
 )
 ```
@@ -804,7 +806,7 @@ between_model <- lm(
 
 ``` r
 stargazer::stargazer(between_model,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
 )
 ```
@@ -863,7 +865,6 @@ differences in the outcome, controlling for shared family background.
 Below you can see how this model is specified manually:
 
 ``` r
-
 discord_model_manual <- lm(
   weight_diff ~ weight_mean + height_mean + height_diff + age_mean + age_diff,
   data = df_discord_weight
@@ -886,7 +887,7 @@ Discordant Regression (Manual)
 
 ``` r
 stargazer::stargazer(between_model, discord_model_manual,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results"
 )
 ```
@@ -979,7 +980,7 @@ glance(discord_model) %>%
 ``` r
 stargazer::stargazer(discord_model,
   discord_model_manual,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison"
 )
 ```
@@ -1001,9 +1002,9 @@ stargazer::stargazer(
   ols_model,
   between_model,
   discord_model_manual,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3,
-  single.row = TRUE, 
+  single.row = TRUE,
   title = "Comparison of OLS, Between-Family, and Discordant Regression Models",
   column.labels = c("Standard OLS", "Between-Family", "Discordant"),
   model.names = FALSE

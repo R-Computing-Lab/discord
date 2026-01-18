@@ -246,7 +246,7 @@ We bind the simulated outcome data to the links data to prepare it for
 modeling.
 
 ``` r
-data_demo <- cbind(df_cousin, syn_df) %>% 
+data_demo <- cbind(df_cousin, syn_df) %>%
   arrange(ID1, ID2)
 
 summary(data_demo)
@@ -384,7 +384,6 @@ summary(data_df)
 #>  Mean   : 2.080  
 #>  3rd Qu.: 2.911  
 #>  Max.   : 6.119
-
 
 
 lm_ind <- lm(y1_1 ~ y2_1, data = data_df)

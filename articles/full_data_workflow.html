@@ -867,13 +867,13 @@ earlier.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_synthetic</span> <span class="op">&lt;-</span> <span class="fu">discord</span><span class="fu">::</span><span class="fu"><a href="../reference/kinsim.html">kinsim</a></span><span class="op">(</span></span>
-<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, <span class="co"># means </span></span>
+<span>  mu_all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, <span class="co"># means</span></span>
 <span>  cov_a <span class="op">=</span> <span class="fl">.5</span>,</span>
-<span>  cov_c <span class="op">=</span> <span class="fl">.1</span>, <span class="co"># </span></span>
+<span>  cov_c <span class="op">=</span> <span class="fl">.1</span>, <span class="co">#</span></span>
 <span>  cov_e <span class="op">=</span> <span class="fl">.3</span>,</span>
 <span>  c_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">$</span><span class="va">cnuRel</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  r_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">df_cousin</span><span class="op">$</span><span class="va">addRel</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="op">)</span> </span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <p>I now have a synthetic dataset containing pairs of first cousins
 raised apart, with simulated values for weight and height. Each row
 represents a unique pair of cousins, with variables for each cousin
@@ -1194,8 +1194,10 @@ variables:</p>
 <span>    <span class="va">height_1</span>, <span class="va">height_2</span>, <span class="va">height_mean</span>, <span class="va">height_diff</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>      caption <span class="op">=</span> <span class="st">"After discord_data(): siblings ordered so weight_1 &gt;= weight_2"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span></span>
+<span>    digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    caption <span class="op">=</span> <span class="st">"After discord_data(): siblings ordered so weight_1 &gt;= weight_2"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <table class="table">
 <caption>After discord_data(): siblings ordered so weight_1 &gt;=
 weight_2</caption>
@@ -1491,7 +1493,7 @@ Y = \beta_0 + \beta_1 X1 + \beta_2 X2 + \epsilon
 <code class="sourceCode R"><span><span class="va">ols_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">height</span> <span class="op">+</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">df_for_ols</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">ols_model</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Standard OLS Regression Results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table style="text-align:center" class="table">
@@ -1610,7 +1612,7 @@ F Statistic
 </table>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">ols_model</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"latex"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"latex"</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Standard OLS Regression Results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>This standard regression shows associations between our variables
@@ -1632,7 +1634,7 @@ Y_{mean} = \beta_0 + \beta_1 X1_{mean} + \beta_2 X2_{mean} + \epsilon
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family Regression Results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table style="text-align:center" class="table">
@@ -1779,8 +1781,7 @@ interest, as they provide insight into how differences between siblings
 relate to differences in the outcome, controlling for shared family
 background. Below you can see how this model is specified manually:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">discord_model_manual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">discord_model_manual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span></span>
 <span>  <span class="va">weight_diff</span> <span class="op">~</span> <span class="va">weight_mean</span> <span class="op">+</span> <span class="va">height_mean</span> <span class="op">+</span> <span class="va">height_diff</span> <span class="op">+</span> <span class="va">age_mean</span> <span class="op">+</span> <span class="va">age_diff</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">df_discord_weight</span></span>
 <span><span class="op">)</span></span>
@@ -1866,7 +1867,7 @@ background. Below you can see how this model is specified manually:</p>
 </table>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">between_model</span>, <span class="va">discord_model_manual</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Between-Family and Discordant Regression Results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <table style="text-align:center" class="table">
@@ -2182,7 +2183,7 @@ focused on demographic controls.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">stargazer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span><span class="va">discord_model</span>,</span>
 <span>  <span class="va">discord_model_manual</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>, single.row <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"Discordant Regression Results Comparison"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>% Error: Unrecognized object type.</p>
@@ -2205,9 +2206,9 @@ a different question about the data.</p>
 <span>  <span class="va">ols_model</span>,</span>
 <span>  <span class="va">between_model</span>,</span>
 <span>  <span class="va">discord_model_manual</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"html"</span>,ci<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"html"</span>, ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  single.row <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>  single.row <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  title <span class="op">=</span> <span class="st">"Comparison of OLS, Between-Family, and Discordant Regression Models"</span>,</span>
 <span>  column.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Standard OLS"</span>, <span class="st">"Between-Family"</span>, <span class="st">"Discordant"</span><span class="op">)</span>,</span>
 <span>  model.names <span class="op">=</span> <span class="cn">FALSE</span></span>

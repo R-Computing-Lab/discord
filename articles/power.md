@@ -104,7 +104,6 @@ n_trials <- 100
 ```
 
 ``` r
-
 set.seed(1492) # Set seed for reproducibility
 FAST <- FALSE # Set to FALSE for slower, more detailed analysis
 results_list <- list()
@@ -133,7 +132,7 @@ for (cond in seq_along(conditions$id)) {
       y_s1 = trial$y1_1, y_s2 = trial$y1_2,
       x_s1 = trial$y2_1, x_s2 = trial$y2_2
     )
-# 
+    #
     if (FAST == TRUE) {
       # faster
       # double enter the data and subset to ydiff > 0
@@ -202,7 +201,7 @@ power_summary <- lapply(results_list, function(res) {
     effect_notdetected = sum(res$p_xdiff >= 0.05, na.rm = TRUE),
     total = sum(!is.na(res$p_xdiff)),
     power_xdiff = mean(res$p_xdiff < 0.05, na.rm = TRUE),
-    median_r2   = median(res$r.squared, na.rm = TRUE)
+    median_r2 = median(res$r.squared, na.rm = TRUE)
   )
 })
 

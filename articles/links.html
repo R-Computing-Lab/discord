@@ -343,7 +343,7 @@ data.</p>
 <p>We bind the simulated outcome data to the links data to prepare it
 for modeling.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df_cousin</span>, <span class="va">syn_df</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">data_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">df_cousin</span>, <span class="va">syn_df</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">ID1</span>, <span class="va">ID2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">data_demo</span><span class="op">)</span></span>
@@ -544,7 +544,6 @@ deeper understanding of the different components of the association.</p>
 <span><span class="co">#&gt;  Mean   : 2.080  </span></span>
 <span><span class="co">#&gt;  3rd Qu.: 2.911  </span></span>
 <span><span class="co">#&gt;  Max.   : 6.119</span></span>
-<span></span>
 <span></span>
 <span></span>
 <span><span class="va">lm_ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y1_1</span> <span class="op">~</span> <span class="va">y2_1</span>, data <span class="op">=</span> <span class="va">data_df</span><span class="op">)</span></span>

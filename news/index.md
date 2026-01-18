@@ -10,6 +10,7 @@
 - Added more tests to legacy comparisons and ids
 - Clean up vignette code for graphics vignette
 - Cleaned up readme documentation
+- Added vignette change to ensure compatibility with dpylr
 
 ## discord 1.2.4.1
 

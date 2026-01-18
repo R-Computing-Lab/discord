@@ -144,12 +144,12 @@ transitions from red to blue.
 color_shading_4 <- c("firebrick4", "firebrick1", "dodgerblue1", "dodgerblue4")
 color_na <- "#AD78B6" # purple for missing values
 
-color_shading_3 = c(color_shading_4[2], color_na, color_shading_4[3])
+color_shading_3 <- c(color_shading_4[2], color_na, color_shading_4[3])
 
 # Determine the range of SES differences for color scaling
 max_val <- max(abs(df_discord_flu$s00_h40_diff), na.rm = TRUE)
 
-#values <- seq(-max_val, max_val, length = length(color_shading_4))
+# values <- seq(-max_val, max_val, length = length(color_shading_4))
 ```
 
 ## Plotting the Results
@@ -169,17 +169,19 @@ next code block, we add sibling 2 data to the plot.
 
 ``` r
 # Individual level plot
-plot_indiv <- plot_indiv_sib1 <- ggplot(df_flu_modeling, 
-                                        aes(
-  x = s00_h40_s1,
-  y = flu_total_s1,
-  color = s00_h40_s1 - s00_h40_s2
-)) +
+plot_indiv <- plot_indiv_sib1 <- ggplot(
+  df_flu_modeling,
+  aes(
+    x = s00_h40_s1,
+    y = flu_total_s1,
+    color = s00_h40_s1 - s00_h40_s2
+  )
+) +
   geom_point(
     size = 0.8, alpha = 0.8, na.rm = TRUE,
     position = position_jitter(width = 0.2, height = 0.2)
   ) +
-  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  geom_smooth(method = "lm", se = FALSE, color = "black")
 ```
 
 But if we only plot sibling 1, we can visualize that first.
@@ -199,8 +201,6 @@ plot_indiv_sib1 +
   theme_minimal() +
   ggtitle("Individual Level Plot: Sibling 1 Only") +
   theme(plot.title = element_text(hjust = 0.5))
-#> Warning: Removed 3 rows containing non-finite outside the scale range
-#> (`stat_smooth()`).
 ```
 
 ![](plots_files/figure-html/unnamed-chunk-5-1.png)
@@ -209,7 +209,7 @@ Now, we add sibling 2 to the plot, using the same color scheme to
 indicate SES differences between siblings.
 
 ``` r
-plot_indiv  <- plot_indiv +
+plot_indiv <- plot_indiv +
   # added sibling 2 to the plot
   geom_point(
     size = 0.8, alpha = 0.8, na.rm = TRUE,
@@ -236,8 +236,6 @@ plot_indiv  <- plot_indiv +
 plot_indiv +
   ggtitle("Individual Level Plot") +
   theme(plot.title = element_text(hjust = 0.5))
-#> Warning: Removed 3 rows containing non-finite outside the scale range
-#> (`stat_smooth()`).
 ```
 
 ![](plots_files/figure-html/unnamed-chunk-6-1.png)
@@ -249,18 +247,19 @@ between siblings, providing additional context for interpreting the
 data.
 
 ``` r
-
-plot_indiv_s00 <- ggplot(df_flu_modeling, 
-                                        aes(
-  x = s00_h40_s1,
-  y = s00_h40_s2,
-  color = s00_h40_s1 - s00_h40_s2
-)) +
+plot_indiv_s00 <- ggplot(
+  df_flu_modeling,
+  aes(
+    x = s00_h40_s1,
+    y = s00_h40_s2,
+    color = s00_h40_s1 - s00_h40_s2
+  )
+) +
   geom_point(
     size = 0.8, alpha = 0.8, na.rm = TRUE,
     position = position_jitter(width = 0.2, height = 0.2)
   ) +
-  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  geom_smooth(method = "lm", se = FALSE, color = "black")
 
 
 plot_indiv_s00 +
@@ -285,18 +284,19 @@ plot_indiv_s00 +
 ![](plots_files/figure-html/unnamed-chunk-7-1.png)
 
 ``` r
-
-plot_indiv_flu <- ggplot(df_flu_modeling, 
-                                        aes(
-  x = flu_total_s1,
-  y = flu_total_s2,
-  color = s00_h40_s1 - s00_h40_s2
-)) +
+plot_indiv_flu <- ggplot(
+  df_flu_modeling,
+  aes(
+    x = flu_total_s1,
+    y = flu_total_s2,
+    color = s00_h40_s1 - s00_h40_s2
+  )
+) +
   geom_point(
     size = 0.8, alpha = 0.8, na.rm = TRUE,
     position = position_jitter(width = 0.2, height = 0.2)
   ) +
-  geom_smooth(method = "lm", se = FALSE, color = "black") 
+  geom_smooth(method = "lm", se = FALSE, color = "black")
 
 
 plot_indiv_flu +
@@ -312,7 +312,7 @@ plot_indiv_flu +
   ) +
   theme_minimal() +
   ggtitle("Individual Level Plot: FLU Comparison Between Siblings") +
-  theme(plot.title = element_text(hjust = 0.5)) 
+  theme(plot.title = element_text(hjust = 0.5))
 #> `geom_smooth()` using formula = 'y ~ x'
 ```
 
@@ -344,17 +344,19 @@ category.
 
 ``` r
 # Set relative size of marginal plots (main plot 10x bigger than marginals)
-ggMarginal(plot_btwn, type="histogram", size=10, #groupColour = TRUE, 
-           groupFill = T,
-           fill = color_shading_3
-           )
+ggMarginal(plot_btwn,
+  type = "histogram", size = 10, # groupColour = TRUE,
+  groupFill = T,
+  fill = color_shading_3
+)
 
 
-ggMarginal(plot_btwn, type="density", size=10,groupColour = F, groupFill = T, aes( color = ses_diff_group,
-                                                                                   fill = ses_diff_group,
-                                                                                   alpha = 0.95
-                                                                                   ))                                                          
-ggMarginal(plot_btwn, type="boxplot", size=10,groupColour = F, groupFill = T)
+ggMarginal(plot_btwn, type = "density", size = 10, groupColour = F, groupFill = T, aes(
+  color = ses_diff_group,
+  fill = ses_diff_group,
+  alpha = 0.95
+))
+ggMarginal(plot_btwn, type = "boxplot", size = 10, groupColour = F, groupFill = T)
 ```
 
 ![](plots_files/figure-html/unnamed-chunk-10-1.png)
@@ -372,9 +374,11 @@ and arrange them alongside the main scatter plot using
 
 ``` r
 # Marginal X density (SES mean)
-plot_xdensity <- ggplot(df_discord_flu, aes(x = s00_h40_mean, 
-                                            group = ses_diff_group, 
-                                            color = ses_diff_group)) +
+plot_xdensity <- ggplot(df_discord_flu, aes(
+  x = s00_h40_mean,
+  group = ses_diff_group,
+  color = ses_diff_group
+)) +
   geom_density(adjust = 2, linewidth = 1, fill = NA) +
   scale_colour_manual(
     name = "Sibling\nDifferences\nin SES",
@@ -394,14 +398,17 @@ plot_xdensity <- ggplot(df_discord_flu, aes(x = s00_h40_mean,
 And for the Y density plot:
 
 ``` r
-
 # Marginal Y density (Flu mean)
-plot_ydensity <- ggplot(df_discord_flu, aes(x = flu_total_mean, 
-                                            group = ses_diff_group, 
-                                            color = ses_diff_group)) +
-  geom_density(adjust = 2, 
-               linewidth = 1, 
-               fill = NA) +
+plot_ydensity <- ggplot(df_discord_flu, aes(
+  x = flu_total_mean,
+  group = ses_diff_group,
+  color = ses_diff_group
+)) +
+  geom_density(
+    adjust = 2,
+    linewidth = 1,
+    fill = NA
+  ) +
   scale_colour_manual(
     values = color_shading_3
   ) +
@@ -437,18 +444,22 @@ plot_blank <- ggplot() +
 
 # Final layout
 grid.arrange(
-  arrangeGrob(plot_xdensity, 
-              plot_blank, 
-              ncol = 2, 
-              widths = c(4, 1)),
-  arrangeGrob(plot_btwn, 
-              plot_ydensity, 
-              ncol = 2, 
-              widths = c(4, 1)),
+  arrangeGrob(plot_xdensity,
+    plot_blank,
+    ncol = 2,
+    widths = c(4, 1)
+  ),
+  arrangeGrob(plot_btwn,
+    plot_ydensity,
+    ncol = 2,
+    widths = c(4, 1)
+  ),
   heights = c(1.5, 4),
   top = textGrob("Sibling Differences in SES and Flu Vaccinations",
-    gp = gpar(fontsize = 20, 
-              font = 3)
+    gp = gpar(
+      fontsize = 20,
+      font = 3
+    )
   )
 )
 #> `geom_smooth()` using formula = 'y ~ x'
@@ -481,26 +492,29 @@ omitted for simplicity but can be added using the same structure.
 # Main scatter plot
 plot_within <- ggplot(df_discord_flu, aes(
   x = s00_h40_diff,
-  y = flu_total_diff, 
+  y = flu_total_diff,
   color = ses_diff_group
 )) +
-    geom_point( # this layer creates invisible points to all the marginal plots to align correctly
+  geom_point( # this layer creates invisible points to all the marginal plots to align correctly
     size = 1.8, alpha = 0.0, na.rm = TRUE,
- shape = 21,
-    position = position_jitter(width = 0.2, height = 0.2,seed=1234)
+    shape = 21,
+    position = position_jitter(width = 0.2, height = 0.2, seed = 1234)
   ) +
   geom_point(
     size = 1.8, alpha = 0.9, na.rm = TRUE,
     shape = 21,
-    aes(fill = s00_h40_diff,
-        colour = ses_diff_group
-        ),
-    group=1,
-    position = position_jitter(width = 0.2, height = 0.2,seed=1234)
+    aes(
+      fill = s00_h40_diff,
+      colour = ses_diff_group
+    ),
+    group = 1,
+    position = position_jitter(width = 0.2, height = 0.2, seed = 1234)
   ) +
-  geom_smooth(method = "lm", 
-              se = FALSE, 
-              color = "black") +
+  geom_smooth(
+    method = "lm",
+    se = FALSE,
+    color = "black"
+  ) +
   scale_fill_gradientn(
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
@@ -511,32 +525,41 @@ plot_within <- ggplot(df_discord_flu, aes(
       max_val
     ))
   ) +
-    scale_color_manual(
+  scale_color_manual(
     values = color_shading_3,
   ) +
   theme_minimal() +
   theme(legend.position = "left") +
-  labs(x = "Diff SES at Age 40", 
-       y = "Diff Flu Vaccinations (2006–2016)")
+  labs(
+    x = "Diff SES at Age 40",
+    y = "Diff Flu Vaccinations (2006–2016)"
+  )
 
 plot_within
 ```
 
 ![](plots_files/figure-html/plot-within-family-1.png)
 
+Adding marginal plots to the within-family scatter plot can be done
+similarly to the between-family plot. Below is the code to add marginal
+plots using the `ggExtra` package.
+
 ``` r
 # Set relative size of marginal plots (main plot 10x bigger than marginals)
-ggMarginal(plot_within, type="histogram", size=10, #groupColour = TRUE, 
-           groupFill = T#,
-         #  color = color_shading_3
-           )
+library(ggExtra)
+ggMarginal(plot_within,
+  type = "histogram", size = 10, # groupColour = TRUE,
+  groupFill = T # ,
+  #  color = color_shading_3
+)
 
 
-ggMarginal(plot_within, type="density", size=10,groupColour = F, groupFill = T, aes( color = ses_diff_group,
-                                                                                   fill = ses_diff_group,
-                                                                                   alpha = 0.95
-                                                                                   ))                                                          
-ggMarginal(plot_within, type="boxplot", size=10,groupColour = F, groupFill = T)
+ggMarginal(plot_within, type = "density", size = 10, groupColour = F, groupFill = T, aes(
+  color = ses_diff_group,
+  fill = ses_diff_group,
+  alpha = 0.95
+))
+ggMarginal(plot_within, type = "boxplot", size = 10, groupColour = F, groupFill = T)
 ```
 
 ![](plots_files/figure-html/unnamed-chunk-15-1.png)
@@ -546,8 +569,9 @@ see how the relationship varies across different groups. The following
 code does this and adds a title to the plot.
 
 ``` r
-plot_within + facet_wrap(~ses_diff_group, 
-                         ncol = 1) +
+plot_within + facet_wrap(~ses_diff_group,
+  ncol = 1
+) +
   theme(legend.position = "bottom") +
   labs(title = "Within Family Differences in SES and Flu Vaccinations")
 ```
