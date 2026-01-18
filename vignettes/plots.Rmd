@@ -125,9 +125,9 @@ df_discord_flu <- df_discord_flu %>%
     # # Classify Difference Grouping
     ses_diff_group = factor(
       case_when(
-        scale(s00_h40_diff) > 0.33 ~ "More Advantaged",
-        scale(s00_h40_diff) < -0.33 ~ "Less Advantaged",
-        abs(scale(s00_h40_diff)) <= 0.33 ~ "Equally Advantaged"
+        as.numeric(scale(s00_h40_diff)) > 0.33 ~ "More Advantaged",
+        as.numeric(scale(s00_h40_diff)) < -0.33 ~ "Less Advantaged",
+        abs(as.numeric(scale(s00_h40_diff))) <= 0.33 ~ "Equally Advantaged"
       ),
       levels = c(
         "Less Advantaged",
@@ -164,7 +164,7 @@ max_val <- max(abs(df_discord_flu$s00_h40_diff), na.rm = TRUE)
 
 ## Individual Level Plot
 
-This plot is for looking at individual level data rather than sibling pair means or differences. It provides context for understanding the relationship between SES and flu vaccinations before examining sibling differences.
+This plot is for looking at individual-level data rather than sibling pair means or differences. It provides context for understanding the relationship between SES and flu vaccinations before examining sibling differences.
 
 This scatter plot shows individual SES at age 40 against individual flu vaccinations. Point color indicates the SES difference between siblings. 
 
@@ -240,7 +240,7 @@ plot_indiv +
 ```
 
 
-The individual level plot shows a positive association between SES and flu vaccinations. Higher SES individuals tend to have higher flu vaccination rates. The color gradient indicates the SES difference between siblings, providing additional context for interpreting the data.
+The individual-level plot shows a positive association between SES and flu vaccinations. Higher SES individuals tend to have higher flu vaccination rates. The color gradient indicates the SES difference between siblings, providing additional context for interpreting the data.
 
 ```{r}
 
@@ -311,7 +311,7 @@ plot_indiv_flu +
 
 ## Between Family Plots
 
-This section creates a between-family plot that visualizes mean SES at age 40 against mean flu vaccinations for sibling pairs. Points are colored based on the SES difference between siblings. Each point represents a sibling pair, with the x-axis showing the average SES of the pair and the y-axis showing the average flu vaccinations.
+This section creates a between-family plot that visualizes mean SES at age 40 against mean flu vaccinations for sibling pairs. Points are colored based on the SES difference between siblings. Each point represents a sibling pair, with the x-axis showing the pair's average SES and the y-axis showing the average number of flu vaccinations.
 
 
 ```{r scatter, message=FALSE, include=FALSE, echo=TRUE}
@@ -381,12 +381,12 @@ ggMarginal(plot_btwn, type="boxplot", size=10,groupColour = F, groupFill = T)
 
 ```
 
-Like the individual level plot, this between-family plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. 
+Like the individual-level plot, this between-family plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. 
 
 
 ### Adding Marginal Density Plots
 
-And alternative way to implement marginal density plots is to create them separately and then arrange them with the main scatter plot using `gridExtra::grid.arrange()`.
+An alternative approach is to create marginal density plots separately and arrange them alongside the main scatter plot using `gridExtra::grid.arrange()`.
 
 ```{r plot-raw-data, message=FALSE}
 # Marginal X density (SES mean)
@@ -452,7 +452,7 @@ plot_ydensity + theme_bw() + theme(
 
 #### Assembling the Final Plot
 
-Finally, we arrange the main scatter plot and the marginal density plots into a cohesive layout using `gridExtra::grid.arrange()`. The x-density plot is placed above the main scatter plot, and the y-density plot is placed to the right of the main scatter plot. We can do this by creating a blank placeholder plot to fill the empty space in the layout.
+Finally, we arrange the main scatter plot and the marginal density plots into a cohesive layout using `gridExtra::grid.arrange()`. The x-density plot is placed above the main scatter plot, and the y-density plot is placed to the right of the main scatter plot. We can do this by creating a blank placeholder plot to fill the layout's empty space.
 
 ```{r}
 # Blank placeholder plot
