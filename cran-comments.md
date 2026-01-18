@@ -1,17 +1,17 @@
 
 # Description
 
-This is a small fix to ensure compatibility with the transfer of plotPedigree from BGmisc to ggpedigree.
+This update addes several vignettes as well as a tweak to be compatible with the upcoming dplyr update.
 
 ## Pretest Notes
 Trattner is not misspelled in the DESCRIPTION file. It is the surname of one of the authors.
-As requested, removed duplicate reference to GPL3 license, and added license to rbuild ignore file.
+
  
 # Test Environments
 
-1. Local OS: Windows 11 x64 (build 26120), R 4.5.0 (2025-02-28 ucrt)
+1. Local OS: Windows 11 x64 (build 26200), R 4.5.2 (2025-10-31 ucrt)
 4. **GitHub Actions**:  
-    - [Link](https://github.com/R-Computing-Lab/discord/actions/runs/15563627886)
+    - [Link](https://github.com/R-Computing-Lab/discord/actions/runs/21118257716)
     - macOS (latest version) with the latest R release.
     - Windows (latest version) with the latest R release.
     - Ubuntu (latest version) with:
@@ -23,8 +23,8 @@ As requested, removed duplicate reference to GPL3 license, and added license to 
 
 ==> devtools::check()
 
-── R CMD check results ─────────── discord 1.2.4.1 ────
-Duration: 46.7s
+──  R CMD check results  disc
+Duration: 1m 7.8s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
