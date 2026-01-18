@@ -185,9 +185,9 @@ the marginal density plots.</p>
 <span>    <span class="co"># # Classify Difference Grouping</span></span>
 <span>    ses_diff_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.33</span> <span class="op">~</span> <span class="st">"More Advantaged"</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span> <span class="op">&lt;</span> <span class="op">-</span><span class="fl">0.33</span> <span class="op">~</span> <span class="st">"Less Advantaged"</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">0.33</span> <span class="op">~</span> <span class="st">"Equally Advantaged"</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.33</span> <span class="op">~</span> <span class="st">"More Advantaged"</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="op">-</span><span class="fl">0.33</span> <span class="op">~</span> <span class="st">"Less Advantaged"</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">s00_h40_diff</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">0.33</span> <span class="op">~</span> <span class="st">"Equally Advantaged"</span></span>
 <span>      <span class="op">)</span>,</span>
 <span>      levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>        <span class="st">"Less Advantaged"</span>,</span>
@@ -222,7 +222,7 @@ that transitions from red to blue.</p>
 <div class="section level3">
 <h3 id="individual-level-plot">Individual Level Plot<a class="anchor" aria-label="anchor" href="#individual-level-plot"></a>
 </h3>
-<p>This plot is for looking at individual level data rather than sibling
+<p>This plot is for looking at individual-level data rather than sibling
 pair means or differences. It provides context for understanding the
 relationship between SES and flu vaccinations before examining sibling
 differences.</p>
@@ -262,7 +262,7 @@ next code block, we add sibling 2 data to the plot.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 3 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_smooth()`).</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672"></p>
 <p>Now, we add sibling 2 to the plot, using the same color scheme to
 indicate SES differences between siblings.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -295,8 +295,8 @@ indicate SES differences between siblings.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 3 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_smooth()`).</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="672"></p>
-<p>The individual level plot shows a positive association between SES
+<p><img src="plots_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672"></p>
+<p>The individual-level plot shows a positive association between SES
 and flu vaccinations. Higher SES individuals tend to have higher flu
 vaccination rates. The color gradient indicates the SES difference
 between siblings, providing additional context for interpreting the
@@ -333,7 +333,7 @@ data.</p>
 <span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_smooth()`).</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="672"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">plot_indiv_flu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df_flu_modeling</span>, </span>
@@ -364,7 +364,7 @@ data.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Individual Level Plot: FLU Comparison Between Siblings"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="between-family-plots">Between Family Plots<a class="anchor" aria-label="anchor" href="#between-family-plots"></a>
@@ -372,11 +372,11 @@ data.</p>
 <p>This section creates a between-family plot that visualizes mean SES
 at age 40 against mean flu vaccinations for sibling pairs. Points are
 colored based on the SES difference between siblings. Each point
-represents a sibling pair, with the x-axis showing the average SES of
-the pair and the y-axis showing the average flu vaccinations.</p>
+represents a sibling pair, with the x-axis showing the pair’s average
+SES and the y-axis showing the average number of flu vaccinations.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_btwn</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="672"></p>
 <p>As you can see, the base scatter plot shows a positive association
 between mean SES and mean flu vaccinations. Higher average SES among
 sibling pairs is associated with higher average flu vaccination rates.
@@ -399,16 +399,16 @@ difference category.</p>
 <span>                                                                                   alpha <span class="op">=</span> <span class="fl">0.95</span></span>
 <span>                                                                                   <span class="op">)</span><span class="op">)</span>                                                          </span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ggExtra/man/ggMarginal.html" class="external-link">ggMarginal</a></span><span class="op">(</span><span class="va">plot_btwn</span>, type<span class="op">=</span><span class="st">"boxplot"</span>, size<span class="op">=</span><span class="fl">10</span>,groupColour <span class="op">=</span> <span class="cn">F</span>, groupFill <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="672"></p>
-<p>Like the individual level plot, this between-family plot shows a
+<p><img src="plots_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="672"></p>
+<p>Like the individual-level plot, this between-family plot shows a
 positive association between mean SES and mean flu vaccinations. Higher
 average SES among sibling pairs is associated with higher average flu
 vaccination rates.</p>
 <div class="section level4">
 <h4 id="adding-marginal-density-plots">Adding Marginal Density Plots<a class="anchor" aria-label="anchor" href="#adding-marginal-density-plots"></a>
 </h4>
-<p>And alternative way to implement marginal density plots is to create
-them separately and then arrange them with the main scatter plot using
+<p>An alternative approach is to create marginal density plots
+separately and arrange them alongside the main scatter plot using
 <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange()</a></code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Marginal X density (SES mean)</span></span>
@@ -452,7 +452,7 @@ them separately and then arrange them with the main scatter plot using
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p>To finalize the marginal plots, we add titles and adjust themes for
 better presentation.</p>
-<p><img src="plots_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" width="672"><img src="plots_files/figure-html/unnamed-chunk-12-2.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="672"><img src="plots_files/figure-html/unnamed-chunk-12-2.png" class="r-plt" alt="" width="672"></p>
 <div class="section level5">
 <h5 id="assembling-the-final-plot">Assembling the Final Plot<a class="anchor" aria-label="anchor" href="#assembling-the-final-plot"></a>
 </h5>
@@ -461,7 +461,7 @@ plots into a cohesive layout using
 <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange()</a></code>. The x-density plot is placed
 above the main scatter plot, and the y-density plot is placed to the
 right of the main scatter plot. We can do this by creating a blank
-placeholder plot to fill the empty space in the layout.</p>
+placeholder plot to fill the layout’s empty space.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Blank placeholder plot</span></span>
 <span><span class="va">plot_blank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -484,7 +484,7 @@ placeholder plot to fill the empty space in the layout.</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 </div>
 <div class="section level4">
@@ -494,7 +494,7 @@ placeholder plot to fill the empty space in the layout.</p>
 create separate panels for each SES difference group. This can help
 visualize the differences in flu vaccinations across different SES
 categories.</p>
-<p><img src="plots_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 </div>
 <div class="section level3">
@@ -553,7 +553,7 @@ omitted for simplicity but can be added using the same structure.</p>
 <span>       y <span class="op">=</span> <span class="st">"Diff Flu Vaccinations (2006–2016)"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_within</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/plot-within-family-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/plot-within-family-1.png" class="r-plt" alt="" width="672"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set relative size of marginal plots (main plot 10x bigger than marginals)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ggExtra/man/ggMarginal.html" class="external-link">ggMarginal</a></span><span class="op">(</span><span class="va">plot_within</span>, type<span class="op">=</span><span class="st">"histogram"</span>, size<span class="op">=</span><span class="fl">10</span>, <span class="co">#groupColour = TRUE, </span></span>
@@ -567,7 +567,7 @@ omitted for simplicity but can be added using the same structure.</p>
 <span>                                                                                   alpha <span class="op">=</span> <span class="fl">0.95</span></span>
 <span>                                                                                   <span class="op">)</span><span class="op">)</span>                                                          </span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ggExtra/man/ggMarginal.html" class="external-link">ggMarginal</a></span><span class="op">(</span><span class="va">plot_within</span>, type<span class="op">=</span><span class="st">"boxplot"</span>, size<span class="op">=</span><span class="fl">10</span>,groupColour <span class="op">=</span> <span class="cn">F</span>, groupFill <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="672"></p>
 <p>You can further facet this plot by the difference in SES between kin
 to see how the relationship varies across different groups. The
 following code does this and adds a title to the plot.</p>
@@ -576,7 +576,7 @@ following code does this and adds a title to the plot.</p>
 <span>                         ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Within Family Differences in SES and Flu Vaccinations"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" width="672"></p>
+<p><img src="plots_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 </div>
 <div class="section level2">

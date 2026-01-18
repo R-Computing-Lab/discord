@@ -17,14 +17,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/R-Computing-Lab/discord/blob/main/DESCRIPTION)
 
-Garrison S, Trattner J, Hwang Y (2025). *discord: Functions for
+Garrison S, Trattner J, Hwang Y (2026). *discord: Functions for
 Discordant Kinship Modeling*. R package version 1.3,
 <https://github.com/R-Computing-Lab/discord>.
 
     @Manual{,
       title = {discord: Functions for Discordant Kinship Modeling},
       author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
-      year = {2025},
+      year = {2026},
       note = {R package version 1.3},
       url = {https://github.com/R-Computing-Lab/discord},
     }
