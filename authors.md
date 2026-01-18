@@ -15,7 +15,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/R-Computing-Lab/discord/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/R-Computing-Lab/discord/blob/v1.3/DESCRIPTION)
 
 Garrison S, Trattner J, Hwang Y (2026). *discord: Functions for
 Discordant Kinship Modeling*. R package version 1.3,
