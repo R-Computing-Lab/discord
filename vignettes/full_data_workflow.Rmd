@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 options(rmarkdown.html_vignette.check_title = FALSE)
 
 # if local
-#source("../data-raw/pretty_regression_tables.R")
+# source("../data-raw/pretty_regression_tables.R")
 ```
 
 
@@ -278,13 +278,13 @@ df_cousin <- df_links %>%
 set.seed(2024)
 
 df_synthetic <- discord::kinsim(
-  mu_all = c(1, 1), # means 
+  mu_all = c(1, 1), # means
   cov_a = .5,
-  cov_c = .1, # 
+  cov_c = .1, #
   cov_e = .3,
   c_vector = rep(df_cousin$cnuRel, 3),
   r_vector = rep(df_cousin$addRel, 3)
-) 
+)
 ```
 
 I now have a synthetic dataset containing pairs of first cousins raised apart, with simulated values for weight and height. Each row represents a unique pair of cousins, with variables for each cousin distinguished by the `_1` and `_2` suffixes. This data is designed such that our weight and height variables have genetic (cov_a=.5) and environmental correlations (cov_c=.1, cov_e=.3). By default, univariate ACE values are 1/3 genetic, 1/3 shared environment, and 1/3 unique environment. Also by default, `kinsim()` generates variables named `y1` and `y2` for the first and second variables, respectively. We can rename these to more meaningful names like `weight` and `height` for clarity.
@@ -368,8 +368,10 @@ df_discord_weight %>%
     height_1, height_2, height_mean, height_diff
   ) %>%
   slice(1:3) %>%
-  knitr::kable(digits = 2,
-      caption = "After discord_data(): siblings ordered so weight_1 >= weight_2")
+  knitr::kable(
+    digits = 2,
+    caption = "After discord_data(): siblings ordered so weight_1 >= weight_2"
+  )
 ```
 
 Notice several important patterns in this output. First, the ordering changes depending on which sibling has the higher outcome value:
@@ -460,13 +462,13 @@ ols_model <- lm(weight ~ height + age, data = df_for_ols)
 
 ```{r ols-output, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(ols_model,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
 )
 ```
 ```{r ols-output-latex, message=FALSE, warning=FALSE,  eval = knitr::is_latex_output(), error=FALSE}
 stargazer::stargazer(ols_model,
-  type = "latex",ci=TRUE,
+  type = "latex", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Standard OLS Regression Results"
 )
 ```
@@ -492,13 +494,13 @@ between_model <- lm(
 ```
 ```{r between-output, results='asis', message=FALSE, warning=FALSE, eval = knitr::is_html_output()}
 stargazer::stargazer(between_model,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
 )
 ```
 ```{r between-output-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
 stargazer::stargazer(between_model,
-  type = "latex",ci=TRUE,
+  type = "latex", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family Regression Results"
 )
 ```
@@ -517,7 +519,6 @@ $$ Y_{diff} = \beta_0 + \beta_1 Y_{mean} + \beta_2 X1_{mean} + \beta_3 X1_{diff}
 When fitting the discordant regression model, the coefficient for each `*_mean` variable captures the between-family effect, while the coefficient for each `*_diff` variable captures the within-family effect. The within-family effects are of particular interest, as they provide insight into how differences between siblings relate to differences in the outcome, controlling for shared family background. Below you can see how this model is specified manually:
 
 ```{r discord-manual}
-
 discord_model_manual <- lm(
   weight_diff ~ weight_mean + height_mean + height_diff + age_mean + age_diff,
   data = df_discord_weight
@@ -528,14 +529,14 @@ tidy(discord_model_manual, conf.int = TRUE) %>%
 ```
 ```{r discord-manual-output, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(between_model, discord_model_manual,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results"
 )
 ```
 
 ```{r discord-manual-output-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
 stargazer::stargazer(between_model, discord_model_manual,
-  type = "latex",ci=TRUE,
+  type = "latex", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Between-Family and Discordant Regression Results"
 )
 ```
@@ -572,14 +573,14 @@ glance(discord_model) %>%
 ```{r discord-compare, message=FALSE, warning=FALSE, eval = knitr::is_html_output(),results='asis'}
 stargazer::stargazer(discord_model,
   discord_model_manual,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison"
 )
 ```
 ```{r discord-compare-latex, echo = FALSE, eval = knitr::is_latex_output(), error=FALSE}
 stargazer::stargazer(discord_model,
   discord_model_manual,
-  type =  "latex",
+  type = "latex",
   digits = 3, single.row = TRUE, title = "Discordant Regression Results Comparison"
 )
 ```
@@ -597,9 +598,9 @@ stargazer::stargazer(
   ols_model,
   between_model,
   discord_model_manual,
-  type = "html",ci=TRUE,
+  type = "html", ci = TRUE,
   digits = 3,
-  single.row = TRUE, 
+  single.row = TRUE,
   title = "Comparison of OLS, Between-Family, and Discordant Regression Models",
   column.labels = c("Standard OLS", "Between-Family", "Discordant"),
   model.names = FALSE
@@ -612,9 +613,9 @@ stargazer::stargazer(
   ols_model,
   between_model,
   discord_model_manual,
-  type = "latex",ci=TRUE,
+  type = "latex", ci = TRUE,
   digits = 3,
-  single.row = TRUE, 
+  single.row = TRUE,
   title = "Comparison of OLS, Between-Family, and Discordant Regression Models",
   column.labels = c("Standard OLS", "Between-Family", "Discordant"),
   model.names = FALSE

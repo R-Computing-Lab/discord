@@ -29,15 +29,16 @@
 #' \item{predictor_i_mean}{mean predictor i for kin1 and kin2}
 #'
 discord_data_legacy <- function(
-    outcome,
-    predictors = NULL,
-    doubleentered = TRUE,
-    sep = "",
-    scale = FALSE,
-    df = NULL,
-    id = NULL,
-    full = TRUE,
-    ...) {
+  outcome,
+  predictors = NULL,
+  doubleentered = TRUE,
+  sep = "",
+  scale = FALSE,
+  df = NULL,
+  id = NULL,
+  full = TRUE,
+  ...
+) {
   arguments <- as.list(match.call())
   y <- ysort <- NULL
 
@@ -60,7 +61,7 @@ discord_data_legacy <- function(
 
   if (!doubleentered) {
     outcome2x <- outcome2
-    outcome2 <- c(outcome2, outcome1) #c(outcome2[, 1], outcome1[, 1])
+    outcome2 <- c(outcome2, outcome1) # c(outcome2[, 1], outcome1[, 1])
     outcome1 <- c(outcome1, outcome2x) #  c(outcome1[, 1], outcome2x[, 1])
 
     if (scale & is.numeric(outcome1)) {
@@ -79,9 +80,9 @@ discord_data_legacy <- function(
       predictor1x <- predictor1 <- subset(df, select = paste0(predictors[i], sep, "1"))[, 1]
       predictor2 <- subset(df, select = paste0(predictors[i], sep, "2"))[, 1]
       predictor1 <- c(predictor1, predictor2)
-        #c(predictor1[, 1], predictor2[, 1])
+      # c(predictor1[, 1], predictor2[, 1])
       predictor2 <- c(predictor2, predictor1x)
-        #c(predictor2[, 1], predictor1x[, 1])
+      # c(predictor2[, 1], predictor1x[, 1])
       if (scale & is.numeric(predictor1)) {
         predictor1 <- scale(predictor1)
         predictor2 <- scale(predictor2)
@@ -152,7 +153,6 @@ discord_data_legacy <- function(
 
   return(merged.data.frame)
 }
-
 
 
 #' Legacy Code: Discord Regression

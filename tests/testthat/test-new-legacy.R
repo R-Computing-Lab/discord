@@ -35,8 +35,8 @@ test_that("monozygotic significant: new & legacy regression code results are equ
 
   set.seed(18)
 
-    old_results_nde <- discord_data_legacy(
-    df = mz_signif[,c("id","y1_1","y1_2","y2_1","y2_2")],
+  old_results_nde <- discord_data_legacy(
+    df = mz_signif[, c("id", "y1_1", "y1_2", "y2_1", "y2_2")],
     outcome = "y1",
     predictors = "y2",
     id = "id",
@@ -64,7 +64,7 @@ test_that("monozygotic significant: new & legacy regression code results are equ
   )
   expect_equal(summarize_results(new_results), summarize_results(old_results))
   expect_equal(summarize_results(new_results), summarize_results(old_results_nde))
-    expect_equal(summarize_results(old_results), summarize_results(old_results_nde))
+  expect_equal(summarize_results(old_results), summarize_results(old_results_nde))
 })
 
 test_that("monozygotic significant: new & legacy data prep code results are equal", {
@@ -151,7 +151,6 @@ test_that("monozygotic nonsignificant: new & legacy data prep code results are e
 
   expect_equal(new_data, old_data)
 })
-
 
 
 # Dizygotic Significant -------------------------------------------------
@@ -415,7 +414,6 @@ test_that("half-siblings nonsignificant: new & legacy data prep code results are
 
   expect_equal(new_data, old_data)
 })
-
 
 
 test_that("discord_data_legacy returns scaled values when scale = TRUE", {

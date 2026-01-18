@@ -74,22 +74,23 @@
 #' @export
 
 kinsim <- function(
-    r_all = c(1, .5),
-    c_all = 1,
-    npg_all = 500,
-    npergroup_all = rep(npg_all, length(r_all)),
-    mu_all = 0,
-    variables = 2,
-    mu_list = rep(mu_all, variables),
-    r_vector = NULL, # alternative specification, give vector of rs
-    c_vector = NULL, #
-    ace_all = c(1, 1, 1), # variance default
-    ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
-    cov_a = 0, # default shared covariance for genetics across variables
-    cov_c = 0, # default shared variance for c across variables
-    cov_e = 0, # default shared variance for e across variables
-    id = NULL,
-    ...) {
+  r_all = c(1, .5),
+  c_all = 1,
+  npg_all = 500,
+  npergroup_all = rep(npg_all, length(r_all)),
+  mu_all = 0,
+  variables = 2,
+  mu_list = rep(mu_all, variables),
+  r_vector = NULL, # alternative specification, give vector of rs
+  c_vector = NULL, #
+  ace_all = c(1, 1, 1), # variance default
+  ace_list = matrix(rep(ace_all, variables), byrow = TRUE, nrow = variables),
+  cov_a = 0, # default shared covariance for genetics across variables
+  cov_c = 0, # default shared variance for c across variables
+  cov_e = 0, # default shared variance for e across variables
+  id = NULL,
+  ...
+) {
   # Check if the number of rows in ace_list matches the number of variables
   mu <- NULL
   sA <- ace_list[, 1]^0.5
@@ -118,7 +119,6 @@ kinsim <- function(
     data_v$E2_u <- data_v$E2
     data_v$y1_u <- data_v$y1
     data_v$y2_u <- data_v$y2
-
 
 
     merged.data.frame <- data_v

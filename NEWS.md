@@ -5,6 +5,8 @@
 * Added more tests to legacy comparisons and ids
 * Clean up vignette code for graphics vignette
 * Cleaned up readme documentation
+* Added vignette change to ensure compatibility with dpylr
+
 
 # discord 1.2.4.1
 * Added a new vignette demonstrating ways to visualize discordant kinship data using the `ggplot2` package. 

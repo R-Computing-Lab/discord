@@ -126,7 +126,6 @@ discord_regression <- function(data,
 discord_within_model <- discord_regression
 
 
-
 #' Perform a Between-Family Linear Regression within the Discordant Kinship Framework
 #'
 #' @inheritParams discord_data

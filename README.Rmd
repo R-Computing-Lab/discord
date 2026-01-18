@@ -184,15 +184,14 @@ If you use `discord` in your research or wish to refer to it, please cite the fo
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, comment=NA}
 cite <- citation(package = "discord")
-if(length(cite$year)==0 || is.na(cite$year)){
+if (length(cite$year) == 0 || is.na(cite$year)) {
   cite$year <- format(Sys.Date(), "%Y")
 }
-if(length(cite$doi)==0 || is.na(cite$doi)){
+if (length(cite$doi) == 0 || is.na(cite$doi)) {
   cite$doi <- "10.32614/CRAN.package.discord"
 }
 
 print(cite)
-
 ```
 
 ## Contributing

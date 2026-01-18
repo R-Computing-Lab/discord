@@ -61,16 +61,17 @@
 
 
 kinsim_internal <- function(
-    r = c(1, .5),
-    c_rel = 1,
-    npg = 100,
-    npergroup = rep(npg, length(r)),
-    mu = 0,
-    ace = c(1, 1, 1),
-    r_vector = NULL,
-    c_vector = NULL,
-    id = NULL,
-    ...) {
+  r = c(1, .5),
+  c_rel = 1,
+  npg = 100,
+  npergroup = rep(npg, length(r)),
+  mu = 0,
+  ace = c(1, 1, 1),
+  r_vector = NULL,
+  c_vector = NULL,
+  id = NULL,
+  ...
+) {
   # Calculate standard deviations from variance components
   sA <- ace[1]^0.5
   sC <- ace[2]^0.5
@@ -89,10 +90,9 @@ kinsim_internal <- function(
 
   # Handle standard case with groups of different relatedness
   if (is.null(r_vector)) {
-
-    if(is.null(id)){
+    if (is.null(id)) {
       id <- 1:sum(npergroup)
-      }
+    }
 
 
     # Generate data for each relatedness group
@@ -136,8 +136,8 @@ kinsim_internal <- function(
     merged.data.frame$id <- id
   } else {
     # Handle case with custom relatedness vector
-    if(is.null(id)){
-       id <- 1:length(r_vector)
+    if (is.null(id)) {
+      id <- 1:length(r_vector)
     }
 
     data_vector <- data.frame(id, r_vector)

@@ -151,8 +151,6 @@ test_that("flu_2008 ~ edu_2008 + ses_2008", {
 })
 
 
-
-
 test_that("flu_2008 ~ edu_2008 + ses_2008 + race + sex", {
   control <- structure(list(Estimate = c(
     0.10867561046245, 0.713512189509684,

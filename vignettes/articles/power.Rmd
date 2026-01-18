@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
   fig.height = 5
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
-
 ```
 
 ```{r define-parameters, include=FALSE}
@@ -95,7 +94,6 @@ conditions <- expand.grid(
   ace_e = c(1)
 )
 conditions$id <- 1:nrow(conditions)
-
 ```
 
 Here, we vary the total number of sibling pairs, genetic relatedness (MZ vs. DZ), and the presence/absence of covariates influencing the phenotypes through A, C, and E pathways. The ACE variance components are held constant at 1 for simplicity. This results in a total of `r nrow(conditions)` unique conditions to evaluate.
@@ -111,7 +109,6 @@ Please note that the simulations may take some time to run, especially with larg
 ```
 
 ```{r, run-simulations}
-
 set.seed(1492) # Set seed for reproducibility
 FAST <- FALSE # Set to FALSE for slower, more detailed analysis
 results_list <- list()
@@ -140,7 +137,7 @@ for (cond in seq_along(conditions$id)) {
       y_s1 = trial$y1_1, y_s2 = trial$y1_2,
       x_s1 = trial$y2_1, x_s2 = trial$y2_2
     )
-# 
+    #
     if (FAST == TRUE) {
       # faster
       # double enter the data and subset to ydiff > 0
@@ -206,7 +203,7 @@ power_summary <- lapply(results_list, function(res) {
     effect_notdetected = sum(res$p_xdiff >= 0.05, na.rm = TRUE),
     total = sum(!is.na(res$p_xdiff)),
     power_xdiff = mean(res$p_xdiff < 0.05, na.rm = TRUE),
-    median_r2   = median(res$r.squared, na.rm = TRUE)
+    median_r2 = median(res$r.squared, na.rm = TRUE)
   )
 })
 
@@ -329,11 +326,9 @@ In the plots above, we see how power varies with the number of sibling pairs, re
 The table below summarizes the power estimates across different conditions. The `power_xdiff` column indicates the proportion of trials where the p-value for the difference in means (`p_xdiff`) is less than 0.05, and the `median_r2` column reports the median R-squared value from the regression models.
 
 ```{r, echo=FALSE, message=FALSE}
-
-DT::formatRound(DT::datatable(final_results, 
-              options = list(pageLength = 10, scrollX = TRUE)), c('power_xdiff', 'median_r2'), 3)
- 
-
+DT::formatRound(DT::datatable(final_results,
+  options = list(pageLength = 10, scrollX = TRUE)
+), c("power_xdiff", "median_r2"), 3)
 ```
 
 ## Conclusion

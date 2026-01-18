@@ -191,7 +191,7 @@ The simulated data reflect a known variance structure: additive genetic covarian
 We bind the simulated outcome data to the links data to prepare it for modeling.
 
 ```{r}
-data_demo <- cbind(df_cousin, syn_df) %>% 
+data_demo <- cbind(df_cousin, syn_df) %>%
   arrange(ID1, ID2)
 
 summary(data_demo)
@@ -243,7 +243,6 @@ data_df <- discord_data(
   pair_identifiers = c("_1", "_2")
 )
 summary(data_df)
-
 
 
 lm_ind <- lm(y1_1 ~ y2_1, data = data_df)

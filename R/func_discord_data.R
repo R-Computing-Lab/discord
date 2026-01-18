@@ -248,7 +248,6 @@ discord_data_fast <- function(data,
   )
 
 
-
   if (demographics == "none") {
     mrg <- function(x, y) {
       merge(
