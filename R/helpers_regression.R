@@ -99,6 +99,8 @@ check_sibling_order_fast <- function(data, outcome, pair_identifiers) {
 #' @description This function calculates differences and means of a given variable for each kinship pair. The order of subtraction and the variables' names in the output dataframe depend on the order column set by check_sibling_order().
 #' If the demographics parameter is set to "race", "sex", or "both", it also prepares demographic information accordingly,
 #' swapping the order of demographics as per the order column.
+#' 
+#' For numeric variables, this function computes the difference and mean between pairs. For non-numeric variables (e.g., categorical predictors like location = "south"/"north"), the individual values are preserved in _1 and _2 columns, while _diff and _mean are set to NA.
 #' @inheritParams discord_data
 #' @inheritParams check_sibling_order
 #'
@@ -123,13 +125,21 @@ make_mean_diffs_ram_optimized <- function(data, id, sex, race, demographics,
 
   data <- data[row, ]
 
+  # Check if variable is numeric
+  is_numeric_var <- is.numeric(data[[S1]]) && is.numeric(data[[S2]])
 
   # write the core of the of the make_mean_diffs
   # This always runs -- ignoring sex or race variables
   if (data[, "order"] == "s1") {
-    # no need to be yelled at by r for subtracting strings)
-    diff <- suppressMessages(suppressWarnings(data[[S1]] - data[[S2]]))
-    mean <- suppressMessages(suppressWarnings(base::mean(c(data[[S1]], data[[S2]]))))
+    if (is_numeric_var) {
+      # For numeric variables, compute diff and mean
+      diff <- data[[S1]] - data[[S2]]
+      mean <- base::mean(c(data[[S1]], data[[S2]]))
+    } else {
+      # For non-numeric variables, set diff and mean to NA
+      diff <- NA
+      mean <- NA
+    }
 
     output <- data.frame(
       id = data[[id]],
@@ -139,9 +149,15 @@ make_mean_diffs_ram_optimized <- function(data, id, sex, race, demographics,
       variable_mean = mean
     )
   } else if (data[, "order"] == "s2") {
-    # no need to be yelled at by r for subtracting strings)
-    diff <- suppressMessages(suppressWarnings(data[[S2]] - data[[S1]]))
-    mean <- suppressMessages(suppressWarnings(base::mean(c(data[[S1]], data[[S2]]))))
+    if (is_numeric_var) {
+      # For numeric variables, compute diff and mean
+      diff <- data[[S2]] - data[[S1]]
+      mean <- base::mean(c(data[[S1]], data[[S2]]))
+    } else {
+      # For non-numeric variables, set diff and mean to NA
+      diff <- NA
+      mean <- NA
+    }
 
     output <- data.frame(
       id = data[[id]],
@@ -319,8 +335,19 @@ make_mean_diffs_fast <- function(data, id, sex, race, demographics,
       data[[paste0(var, pair_identifiers[1])]]
     )
 
-    diff <- var1 - var2
-    mean_ <- (var1 + var2) / 2
+    # Check if variable is numeric
+    is_numeric_var <- is.numeric(data[[paste0(var, pair_identifiers[1])]]) && 
+                      is.numeric(data[[paste0(var, pair_identifiers[2])]])
+    
+    if (is_numeric_var) {
+      # For numeric variables, compute diff and mean
+      diff <- var1 - var2
+      mean_ <- (var1 + var2) / 2
+    } else {
+      # For non-numeric variables, set diff and mean to NA
+      diff <- rep(NA, length(var1))
+      mean_ <- rep(NA, length(var1))
+    }
 
     tmp <- data.frame(
       id = data[[id]],

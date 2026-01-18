@@ -5,6 +5,9 @@
 #'   interest.
 #' @param predictors A character vector containing the column names for
 #'   predicting the outcome. Can be NULL if no predictors are desired.
+#'   Predictors can be either numeric (for which differences and means will be
+#'   calculated) or non-numeric/categorical (e.g., location = "south"/"north",
+#'   for which values will be preserved but differences and means set to NA).
 #' @param id Default's to NULL. If supplied, must specify the column name
 #'   corresponding to unique kinship pair identifiers.
 #' @param sex A character string for the sex column name.
@@ -25,6 +28,7 @@
 #'
 #' @examples
 #'
+#' # Example with numeric predictor
 #' discord_data(
 #'   data = data_sample,
 #'   outcome = "height",
@@ -34,6 +38,31 @@
 #'   race = NULL,
 #'   demographics = "none"
 #' )
+#'
+#' \dontrun{
+#' # Example with categorical predictor
+#' # Create sample data with location predictor
+#' sample_data <- data.frame(
+#'   id = 1:5,
+#'   age_s1 = c(25, 30, 35, 40, 45),
+#'   age_s2 = c(23, 28, 33, 38, 43),
+#'   location_s1 = c("south", "north", "south", "north", "south"),
+#'   location_s2 = c("south", "south", "north", "north", "south")
+#' )
+#'
+#' discord_data(
+#'   data = sample_data,
+#'   outcome = "age",
+#'   predictors = "location",
+#'   id = "id",
+#'   pair_identifiers = c("_s1", "_s2"),
+#'   sex = NULL,
+#'   race = NULL,
+#'   demographics = "none"
+#' )
+#' # For categorical predictors, location_1 and location_2 contain the values,
+#' # while location_diff and location_mean are set to NA
+#' }
 #'
 discord_data <- function(data,
                          outcome,
