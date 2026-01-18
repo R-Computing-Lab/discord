@@ -307,8 +307,8 @@ columns for their unique identifier, mother’s identifier, father’s
 identifier, and other relevant variables. The {BGmisc} package provides
 functions to compute kinship matrices from pedigree data. The package is
 available on CRAN and GitHub. The package ( and its documentation ) can
-be found at: <https://cran.r-project.org/web/packages/BGmisc/BGmisc.pdf>
-as well as it’s accompanying Journal of Open Source Software paper:
+be found at: <https://CRAN.R-project.org/package=BGmisc> as well as it’s
+accompanying Journal of Open Source Software paper:
 <https://joss.theoj.org/papers/10.21105/joss.06203>
 
 #### Computing Kinship Matrices

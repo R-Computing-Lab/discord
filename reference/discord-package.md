@@ -8,7 +8,9 @@ functions for generating biometrically informed data for kin pairs. See
 \], \[Sims, Trattner, and Garrison, 2024
 [doi:10.3389/fpsyg.2024.1430978](https://doi.org/10.3389/fpsyg.2024.1430978)
 \] for empirical examples, and \[Garrison and colleagues for theoretical
-work \<doi.org/10.1101/2025.08.25.25334395\>\].
+work
+[doi:10.1101/2025.08.25.25334395](https://doi.org/10.1101/2025.08.25.25334395)
+\].
 
 ## See also
 

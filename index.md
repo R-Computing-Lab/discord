@@ -193,19 +193,19 @@ cite the following package as well as the AMPPS paper:
 ``` R
 To cite package 'discord' in publications use:
 
-  Garrison S, Trattner J, Hwang Y (2025). _discord: Functions for
+  Garrison S, Trattner J, Hwang Y (2026). _discord: Functions for
   Discordant Kinship Modeling_. doi:10.32614/CRAN.package.discord
   <https://doi.org/10.32614/CRAN.package.discord>, R package version
-  1.2.4.1, <https://CRAN.R-project.org/package=discord>.
+  1.3, <https://github.com/R-Computing-Lab/discord>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {discord: Functions for Discordant Kinship Modeling},
     author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
-    year = {2025},
-    note = {R package version 1.2.4.1},
-    url = {https://CRAN.R-project.org/package=discord},
+    note = {R package version 1.3},
+    url = {https://github.com/R-Computing-Lab/discord},
+    year = {2026},
     doi = {10.32614/CRAN.package.discord},
   }
 ```

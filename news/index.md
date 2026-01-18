@@ -103,8 +103,7 @@ CRAN release: 2020-11-10
 - Combined the functions `kinsim1` and `kinsim_multi` into `kinsim` to
   simplify simulations.
 - Revised `discord_data` and `discord_regression` to support functional
-  programming and the [tidyverse](https://www.tidyverse.org/)
-  principles.
+  programming and the [tidyverse](https://tidyverse.org/) principles.
 
 ## discord 0.1
 
