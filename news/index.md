@@ -2,6 +2,8 @@
 
 ## discord 1.3
 
+CRAN release: 2026-01-18
+
 - Adding new full data tutorial in response to reviewers
 - Adding links to external repositories for reproducible examples from
   publications

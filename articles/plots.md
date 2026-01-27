@@ -33,6 +33,8 @@ For full details on the data processing and kinship link construction,
 see the [regression
 vignette](https://r-computing-lab.github.io/discord/articles/regression.html).
 
+Click to expand data preparation code
+
 ``` r
 # Setup: Use discord_data
 # Visualizing the Results
@@ -95,6 +97,9 @@ With the data prepared, we restructure it using
 [`discord_data()`](https://r-computing-lab.github.io/discord/reference/discord_data.md).
 
 ``` r
+library(tidyverse)
+library(ggplot2)
+
 df_discord_flu <- discord_data(
   data = df_flu_modeling,
   outcome = "flu_total",
@@ -112,17 +117,31 @@ Because we are interested in differences between kin, we create a new
 variable, `ses_diff_group`, that classifies SES differences into three
 categories: “More Advantaged”, “Equally Advantaged”, and “Less
 Advantaged”. This variable is later used to group observations in the
-marginal density plots.
+marginal density plots. They serve to help visualize how the
+distributions of mean SES and mean flu vaccinations differ across these
+SES difference categories.
 
 ``` r
 df_discord_flu <- df_discord_flu %>%
   mutate(
+     ses_mean_group = factor(
+      case_when(
+        as.numeric(scale(s00_h40_mean)) > 0.5 ~ "More Advantaged",
+        as.numeric(scale(s00_h40_mean)) < -0.5 ~ "Less Advantaged",
+        abs(as.numeric(scale(s00_h40_mean))) <= 0.5 ~ "Equally Advantaged"
+      ),
+            levels = c(
+        "Less Advantaged",
+        "Equally Advantaged",
+        "More Advantaged"
+      )
+     ),
     # # Classify Difference Grouping
     ses_diff_group = factor(
       case_when(
-        as.numeric(scale(s00_h40_diff)) > 0.33 ~ "More Advantaged",
-        as.numeric(scale(s00_h40_diff)) < -0.33 ~ "Less Advantaged",
-        abs(as.numeric(scale(s00_h40_diff))) <= 0.33 ~ "Equally Advantaged"
+        as.numeric(scale(s00_h40_diff)) > 0.5 ~ "More Advantaged",
+        as.numeric(scale(s00_h40_diff)) < -0.5 ~ "Less Advantaged",
+        abs(as.numeric(scale(s00_h40_diff))) <= 0.5 ~ "Equally Advantaged"
       ),
       levels = c(
         "Less Advantaged",
@@ -137,7 +156,11 @@ df_discord_flu <- df_discord_flu %>%
 
 To enhance the visualizations, we define a color palette that reflects
 the SES differences between siblings. Here, we use a gradient that
-transitions from red to blue.
+transitions from red to blue. This color scheme helps to intuitively
+convey the direction and magnitude of SES differences, with red
+indicating lower SES and blue indicating higher SES. Missing values are
+represented in purple, which is approximately midway between red and
+blue.
 
 ``` r
 # Create a color palette for the shading
@@ -147,9 +170,9 @@ color_na <- "#AD78B6" # purple for missing values
 color_shading_3 <- c(color_shading_4[2], color_na, color_shading_4[3])
 
 # Determine the range of SES differences for color scaling
-max_val <- max(abs(df_discord_flu$s00_h40_diff), na.rm = TRUE)
+max_val_scale <- max(abs(df_discord_flu$s00_h40_diff), na.rm = TRUE)
 
-# values <- seq(-max_val, max_val, length = length(color_shading_4))
+# values <- seq(-max_val_scale, max_val_scale, length = length(color_shading_4))
 ```
 
 ## Plotting the Results
@@ -192,7 +215,7 @@ plot_indiv_sib1 +
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
-    values = scales::rescale(c(-max_val, max_val))
+    values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
     x = "SES at Age 40",
@@ -224,7 +247,7 @@ plot_indiv <- plot_indiv +
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
-    values = scales::rescale(c(-max_val, max_val))
+    values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
     x = "SES at Age 40",
@@ -267,7 +290,7 @@ plot_indiv_s00 +
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
-    values = scales::rescale(c(-max_val, max_val))
+    values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
     x = "SES at Age 40 (Sibling 1)",
@@ -304,7 +327,7 @@ plot_indiv_flu +
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
-    values = scales::rescale(c(-max_val, max_val))
+    values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
     x = "Flu Vaccinations (Sibling 1)",
@@ -318,7 +341,9 @@ plot_indiv_flu +
 
 ![](plots_files/figure-html/unnamed-chunk-8-1.png)
 
-### Between Family Plots
+### Family Level Plots
+
+#### Between Family Plots
 
 This section creates a between-family plot that visualizes mean SES at
 age 40 against mean flu vaccinations for sibling pairs. Points are
@@ -349,22 +374,33 @@ ggMarginal(plot_btwn,
   groupFill = T,
   fill = color_shading_3
 )
+```
 
+![](plots_files/figure-html/unnamed-chunk-10-1.png)
 
+``` r
 ggMarginal(plot_btwn, type = "density", size = 10, groupColour = F, groupFill = T, aes(
   color = ses_diff_group,
   fill = ses_diff_group,
   alpha = 0.95
 ))
+```
+
+![](plots_files/figure-html/unnamed-chunk-11-1.png)
+
+``` r
 ggMarginal(plot_btwn, type = "boxplot", size = 10, groupColour = F, groupFill = T)
 ```
 
-![](plots_files/figure-html/unnamed-chunk-10-1.png)
+![](plots_files/figure-html/unnamed-chunk-12-1.png)
 
-Like the individual-level plot, this between-family plot shows a
+Like the individual-level plot, these between-family plot shows a
 positive association between mean SES and mean flu vaccinations. Higher
 average SES among sibling pairs is associated with higher average flu
-vaccination rates.
+vaccination rates. The marginal plots further illustrate the
+distributions of mean SES and mean flu vaccinations, grouped by the SES
+difference category. This helps to visualize how the distributions
+differ across sibling pairs with varying SES differences.
 
 #### Adding Marginal Density Plots
 
@@ -425,7 +461,7 @@ plot_ydensity <- ggplot(df_discord_flu, aes(
 To finalize the marginal plots, we add titles and adjust themes for
 better presentation.
 
-![](plots_files/figure-html/unnamed-chunk-12-1.png)![](plots_files/figure-html/unnamed-chunk-12-2.png)
+![](plots_files/figure-html/unnamed-chunk-14-1.png)![](plots_files/figure-html/unnamed-chunk-14-2.png)
 
 ##### Assembling the Final Plot
 
@@ -465,7 +501,7 @@ grid.arrange(
 #> `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](plots_files/figure-html/unnamed-chunk-13-1.png)
+![](plots_files/figure-html/unnamed-chunk-15-1.png)
 
 #### Bonus: Faceting by SES Difference Group
 
@@ -473,7 +509,7 @@ Other ways to plot this data include using `facet_wrap` to create
 separate panels for each SES difference group. This can help visualize
 the differences in flu vaccinations across different SES categories.
 
-![](plots_files/figure-html/unnamed-chunk-14-1.png)
+![](plots_files/figure-html/unnamed-chunk-16-1.png)
 
 ### Within Family Plots
 
@@ -520,9 +556,9 @@ plot_within <- ggplot(df_discord_flu, aes(
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(
-      -max_val,
+      -max_val_scale,
       0,
-      max_val
+      max_val_scale
     ))
   ) +
   scale_color_manual(
@@ -552,17 +588,26 @@ ggMarginal(plot_within,
   groupFill = T # ,
   #  color = color_shading_3
 )
+```
 
+![](plots_files/figure-html/unnamed-chunk-17-1.png)
+
+``` r
 
 ggMarginal(plot_within, type = "density", size = 10, groupColour = F, groupFill = T, aes(
   color = ses_diff_group,
   fill = ses_diff_group,
   alpha = 0.95
 ))
+```
+
+![](plots_files/figure-html/unnamed-chunk-18-1.png)
+
+``` r
 ggMarginal(plot_within, type = "boxplot", size = 10, groupColour = F, groupFill = T)
 ```
 
-![](plots_files/figure-html/unnamed-chunk-15-1.png)
+![](plots_files/figure-html/unnamed-chunk-19-1.png)
 
 You can further facet this plot by the difference in SES between kin to
 see how the relationship varies across different groups. The following
@@ -576,7 +621,7 @@ plot_within + facet_wrap(~ses_diff_group,
   labs(title = "Within Family Differences in SES and Flu Vaccinations")
 ```
 
-![](plots_files/figure-html/unnamed-chunk-16-1.png)
+![](plots_files/figure-html/unnamed-chunk-20-1.png)
 
 ## Conclusion
 
