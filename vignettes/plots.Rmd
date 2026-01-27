@@ -42,6 +42,8 @@ As in the regression vignette, we restrict the sample to individuals who are hou
 
 For full details on the data processing and kinship link construction, see the [regression vignette](https://r-computing-lab.github.io/discord/articles/regression.html).
 
+<details>
+  <summary>Click to expand data preparation code</summary>
 ```{r, warning=FALSE, message=FALSE}
 # Setup: Use discord_data
 # Visualizing the Results
@@ -97,12 +99,16 @@ df_flu_modeling <- semi_join(df_link,
 ) %>%
   clean_names()
 ```
+</details>
 
 ## Creating the Discord Data
 
 With the data prepared, we restructure it using `discord_data()`.
 
 ```{r, warning=FALSE}
+library(tidyverse)
+library(ggplot2)
+
 df_discord_flu <- discord_data(
   data = df_flu_modeling,
   outcome = "flu_total",
@@ -116,17 +122,29 @@ df_discord_flu <- discord_data(
   filter(!is.na(s00_h40_mean), !is.na(flu_total_mean))
 ```
 
-Because we are interested in differences between kin, we create a new variable, `ses_diff_group`, that classifies SES differences into three categories: "More Advantaged", "Equally Advantaged", and "Less Advantaged". This variable is later used to group observations in the marginal density plots.
+Because we are interested in differences between kin, we create a new variable, `ses_diff_group`, that classifies SES differences into three categories: "More Advantaged", "Equally Advantaged", and "Less Advantaged". This variable is later used to group observations in the marginal density plots. They serve to help visualize how the distributions of mean SES and mean flu vaccinations differ across these SES difference categories.
 
 ```{r}
 df_discord_flu <- df_discord_flu %>%
   mutate(
+     ses_mean_group = factor(
+      case_when(
+        as.numeric(scale(s00_h40_mean)) > 0.5 ~ "More Advantaged",
+        as.numeric(scale(s00_h40_mean)) < -0.5 ~ "Less Advantaged",
+        abs(as.numeric(scale(s00_h40_mean))) <= 0.5 ~ "Equally Advantaged"
+      ),
+            levels = c(
+        "Less Advantaged",
+        "Equally Advantaged",
+        "More Advantaged"
+      )
+     ),
     # # Classify Difference Grouping
     ses_diff_group = factor(
       case_when(
-        as.numeric(scale(s00_h40_diff)) > 0.33 ~ "More Advantaged",
-        as.numeric(scale(s00_h40_diff)) < -0.33 ~ "Less Advantaged",
-        abs(as.numeric(scale(s00_h40_diff))) <= 0.33 ~ "Equally Advantaged"
+        as.numeric(scale(s00_h40_diff)) > 0.5 ~ "More Advantaged",
+        as.numeric(scale(s00_h40_diff)) < -0.5 ~ "Less Advantaged",
+        abs(as.numeric(scale(s00_h40_diff))) <= 0.5 ~ "Equally Advantaged"
       ),
       levels = c(
         "Less Advantaged",
@@ -142,7 +160,7 @@ df_discord_flu <- df_discord_flu %>%
 
 ## Setting Up Color Palette
 
-To enhance the visualizations, we define a color palette that reflects the SES differences between siblings. Here, we use a gradient that transitions from red to blue. 
+To enhance the visualizations, we define a color palette that reflects the SES differences between siblings. Here, we use a gradient that transitions from red to blue. This color scheme helps to intuitively convey the direction and magnitude of SES differences, with red indicating lower SES and blue indicating higher SES. Missing values are represented in purple, which is approximately midway between red and blue.
 
 
 ```{r}
@@ -153,9 +171,9 @@ color_na <- "#AD78B6" # purple for missing values
 color_shading_3 <- c(color_shading_4[2], color_na, color_shading_4[3])
 
 # Determine the range of SES differences for color scaling
-max_val <- max(abs(df_discord_flu$s00_h40_diff), na.rm = TRUE)
+max_val_scale <- max(abs(df_discord_flu$s00_h40_diff), na.rm = TRUE)
 
-# values <- seq(-max_val, max_val, length = length(color_shading_4))
+# values <- seq(-max_val_scale, max_val_scale, length = length(color_shading_4))
 ```
 
 
@@ -194,7 +212,7 @@ plot_indiv_sib1 +
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
-    values = scales::rescale(c(-max_val, max_val))
+    values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
     x = "SES at Age 40",
@@ -223,7 +241,7 @@ plot_indiv <- plot_indiv +
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
-    values = scales::rescale(c(-max_val, max_val))
+    values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
     x = "SES at Age 40",
@@ -261,7 +279,7 @@ plot_indiv_s00 +
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
-    values = scales::rescale(c(-max_val, max_val))
+    values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
     x = "SES at Age 40 (Sibling 1)",
@@ -294,7 +312,7 @@ plot_indiv_flu +
     name = "Sibling\nDifferences\nin SES",
     colours = color_shading_4,
     na.value = color_na,
-    values = scales::rescale(c(-max_val, max_val))
+    values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
     x = "Flu Vaccinations (Sibling 1)",
@@ -306,7 +324,9 @@ plot_indiv_flu +
 ```
 
 
-## Between Family Plots
+## Family Level Plots
+
+### Between Family Plots
 
 This section creates a between-family plot that visualizes mean SES at age 40 against mean flu vaccinations for sibling pairs. Points are colored based on the SES difference between siblings. Each point represents a sibling pair, with the x-axis showing the pair's average SES and the y-axis showing the average number of flu vaccinations.
 
@@ -343,9 +363,9 @@ plot_btwn <- ggplot(df_discord_flu, aes(
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(
-      -max_val,
+      -max_val_scale,
       0,
-      max_val
+      max_val_scale
     ))
   ) +
   scale_color_manual(
@@ -370,17 +390,21 @@ ggMarginal(plot_btwn,
   groupFill = T,
   fill = color_shading_3
 )
+```
 
-
+```{r echo=TRUE, message=FALSE}
 ggMarginal(plot_btwn, type = "density", size = 10, groupColour = F, groupFill = T, aes(
   color = ses_diff_group,
   fill = ses_diff_group,
   alpha = 0.95
 ))
+```
+
+```{r echo=TRUE, message=FALSE}
 ggMarginal(plot_btwn, type = "boxplot", size = 10, groupColour = F, groupFill = T)
 ```
 
-Like the individual-level plot, this between-family plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. 
+Like the individual-level plot, these between-family plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. The marginal plots further illustrate the distributions of mean SES and mean flu vaccinations, grouped by the SES difference category. This helps to visualize how the distributions differ across sibling pairs with varying SES differences.
 
 
 ### Adding Marginal Density Plots
@@ -540,9 +564,9 @@ plot_within <- ggplot(df_discord_flu, aes(
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(
-      -max_val,
+      -max_val_scale,
       0,
-      max_val
+      max_val_scale
     ))
   ) +
   scale_color_manual(
@@ -568,13 +592,17 @@ ggMarginal(plot_within,
   groupFill = T # ,
   #  color = color_shading_3
 )
+```
 
+```{r echo=TRUE, message=FALSE}
 
 ggMarginal(plot_within, type = "density", size = 10, groupColour = F, groupFill = T, aes(
   color = ses_diff_group,
   fill = ses_diff_group,
   alpha = 0.95
 ))
+```
+```{r echo=TRUE, message=FALSE}
 ggMarginal(plot_within, type = "boxplot", size = 10, groupColour = F, groupFill = T)
 ```
 
