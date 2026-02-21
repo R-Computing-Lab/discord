@@ -267,19 +267,19 @@ recoded as factors to prepare them for analysis.</p>
 <span><span class="va">df_link</span> <span class="op">&lt;-</span> <span class="va">df_link</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">S00_H40_S1</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">S00_H40_S2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    SEX_S1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    SEX_S1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">SEX_S1</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"MALE"</span>,</span>
 <span>      <span class="va">SEX_S1</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"FEMALE"</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    SEX_S2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    SEX_S2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">SEX_S2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"MALE"</span>,</span>
 <span>      <span class="va">SEX_S2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"FEMALE"</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    RACE_S1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    RACE_S1 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">RACE_S1</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"NONMINORITY"</span>,</span>
 <span>      <span class="va">RACE_S1</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"MINORITY"</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    RACE_S2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    RACE_S2 <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"NONMINORITY"</span>,</span>
 <span>      <span class="va">RACE_S2</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"MINORITY"</span></span>
 <span>    <span class="op">)</span></span>
@@ -834,11 +834,11 @@ model.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cat_both</span> <span class="op">&lt;-</span> <span class="va">cat_both</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    RACE_binarymatch <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    RACE_binarymatch <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">RACE_binarymatch</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"diff-race"</span>,</span>
 <span>      <span class="va">RACE_binarymatch</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"same-race"</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    SEX_binarymatch <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    SEX_binarymatch <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">SEX_binarymatch</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"mixed-sex"</span>,</span>
 <span>      <span class="va">SEX_binarymatch</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"same-sex"</span></span>
 <span>    <span class="op">)</span></span>

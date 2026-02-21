@@ -323,21 +323,21 @@ from Lucy D’Agostino McGowan on this project.
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-01-27
+    #>  date     2026-02-21
     #>  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  package      * version date (UTC) lib source
     #>  backports      1.5.0   2024-05-23 [1] RSPM
-    #>  broom        * 1.0.11  2025-12-04 [1] RSPM
+    #>  broom        * 1.0.12  2026-01-27 [1] RSPM
     #>  bslib          0.10.0  2026-01-26 [1] RSPM
     #>  cachem         1.1.0   2024-05-16 [1] RSPM
     #>  cli            3.6.5   2025-04-23 [1] RSPM
     #>  desc           1.4.3   2023-12-10 [1] RSPM
     #>  digest         0.6.39  2025-11-19 [1] RSPM
-    #>  discord      * 1.3     2026-01-27 [1] local
-    #>  dplyr        * 1.1.4   2023-11-17 [1] RSPM
+    #>  discord      * 1.3     2026-02-21 [1] local
+    #>  dplyr        * 1.2.0   2026-02-03 [1] RSPM
     #>  evaluate       1.0.5   2025-08-27 [1] RSPM
     #>  farver         2.1.2   2024-05-13 [1] RSPM
     #>  fastmap        1.2.0   2024-05-15 [1] RSPM
@@ -352,7 +352,7 @@ from Lucy D’Agostino McGowan on this project.
     #>  kableExtra     1.4.0   2024-01-24 [1] RSPM
     #>  knitr          1.51    2025-12-20 [1] RSPM
     #>  lifecycle      1.0.5   2026-01-08 [1] RSPM
-    #>  lubridate      1.9.4   2024-12-08 [1] RSPM
+    #>  lubridate      1.9.5   2026-02-04 [1] RSPM
     #>  magrittr     * 2.0.4   2025-09-12 [1] RSPM
     #>  NlsyLinks    * 2.2.3   2025-08-31 [1] RSPM
     #>  otel           0.2.0   2025-08-29 [1] RSPM
@@ -378,9 +378,9 @@ from Lucy D’Agostino McGowan on this project.
     #>  tibble         3.3.1   2026-01-11 [1] RSPM
     #>  tidyr          1.3.2   2025-12-19 [1] RSPM
     #>  tidyselect     1.2.1   2024-03-11 [1] RSPM
-    #>  timechange     0.3.0   2024-01-18 [1] RSPM
+    #>  timechange     0.4.0   2026-01-29 [1] RSPM
     #>  vctrs          0.7.1   2026-01-23 [1] RSPM
-    #>  viridisLite    0.4.2   2023-05-02 [1] RSPM
+    #>  viridisLite    0.4.3   2026-02-04 [1] RSPM
     #>  withr          3.0.2   2024-10-28 [1] RSPM
     #>  xfun           0.56    2026-01-18 [1] RSPM
     #>  xml2           1.5.2   2026-01-17 [1] RSPM
