@@ -124,18 +124,18 @@ SES difference categories.
 ``` r
 df_discord_flu <- df_discord_flu %>%
   mutate(
-     ses_mean_group = factor(
+    ses_mean_group = factor(
       case_when(
         as.numeric(scale(s00_h40_mean)) > 0.5 ~ "More Advantaged",
         as.numeric(scale(s00_h40_mean)) < -0.5 ~ "Less Advantaged",
         abs(as.numeric(scale(s00_h40_mean))) <= 0.5 ~ "Equally Advantaged"
       ),
-            levels = c(
+      levels = c(
         "Less Advantaged",
         "Equally Advantaged",
         "More Advantaged"
       )
-     ),
+    ),
     # # Classify Difference Grouping
     ses_diff_group = factor(
       case_when(
@@ -593,7 +593,6 @@ ggMarginal(plot_within,
 ![](plots_files/figure-html/unnamed-chunk-17-1.png)
 
 ``` r
-
 ggMarginal(plot_within, type = "density", size = 10, groupColour = F, groupFill = T, aes(
   color = ses_diff_group,
   fill = ses_diff_group,

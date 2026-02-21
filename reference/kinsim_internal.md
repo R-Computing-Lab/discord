@@ -55,7 +55,7 @@ kinsim_internal(
 
 - c_vector:
 
-  Numeric vector. Optional vector of shared environmental correlations.
+  Numeric vector. Optional vector of shared environmental correlations
   for each kinship pair. If provided, `c_vector` overrides `c_rel` and
   `npergroup`. The length of `c_vector` must match that of `r_vector`
   (if provided), or the total number of pairs implied by `r` and
