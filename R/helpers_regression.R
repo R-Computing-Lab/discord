@@ -402,7 +402,7 @@ check_discord_errors <- function(data, id, sex, race, pair_identifiers) {
     ))
   }
   if (base::sum(base::grepl(pair_identifiers[1], base::names(data))) == 0 ||
-        base::sum(base::grepl(pair_identifiers[2], base::names(data))) == 0) {
+    base::sum(base::grepl(pair_identifiers[2], base::names(data))) == 0) {
     stop(paste0(
       "Please check that the kinship pair identifiers \"", pair_identifiers[1],
       "\" and \"", pair_identifiers[2],
