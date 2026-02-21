@@ -21,5 +21,6 @@ check_discord_errors(data, id, sex, race, pair_identifiers)
 An error message if one of the conditions are met.
 }
 \description{
-This function checks for common errors in the provided data, including the correct specification of identifiers (ID, sex, race) and their existence in the data.
+This function checks for common errors in the provided data, including
+the correct specification of identifiers (ID, sex, race) and their existence in the data.
 }
