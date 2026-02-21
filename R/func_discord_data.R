@@ -98,7 +98,7 @@ discord_data_ram_optimized <- function(data,
   orderedOnOutcome <- do.call(
     rbind,
     lapply(
-      X = 1:nrow(data),
+      X = seq_len(nrow(data)),
       FUN = check_sibling_order,
       data = data, outcome = outcome,
       pair_identifiers = pair_identifiers
@@ -106,17 +106,17 @@ discord_data_ram_optimized <- function(data,
   )
 
   if (!valid_ids(orderedOnOutcome,
-    id = id
+        id = id
   )) {
     id <- "rowwise_id"
-    orderedOnOutcome <- cbind(orderedOnOutcome, rowwise_id = 1:nrow(data))
+    orderedOnOutcome <- cbind(orderedOnOutcome, rowwise_id = seq_len(nrow(data)))
   }
 
   out <- vector(mode = "list", length = length(variables))
 
-  for (i in 1:length(variables)) {
+  for (i in seq_along(variables)) {
     out[[i]] <- do.call(rbind, lapply(
-      X = 1:nrow(orderedOnOutcome),
+      X = seq_len(nrow(orderedOnOutcome)),
       FUN = make_mean_diffs,
       data = orderedOnOutcome, id = id,
       sex = sex, race = race,
@@ -184,11 +184,11 @@ discord_data_ram_optimized <- function(data,
   }
 
 
-  return(output)
+  output
 }
 .clean_names <- function(df) {
   names(df) <- sub(".*\\.", "", names(df)) # If name has "prefix.name", keep only "name"
-  return(df)
+  df
 }
 #' @title Discord Data Fast
 #'
@@ -220,13 +220,13 @@ discord_data_fast <- function(data,
   )
 
   if (!valid_ids(orderedOnOutcome,
-    id = id
+        id = id
   )) {
     id_original <- id
     id <- "rowwise_id"
     orderedOnOutcome <- cbind(orderedOnOutcome,
       id_original = data[id_original],
-      rowwise_id = 1:nrow(data)
+      rowwise_id = seq_len(nrow(data))
     )
   }
 
@@ -307,5 +307,5 @@ discord_data_fast <- function(data,
   }
 
 
-  return(output)
+  output
 }
