@@ -28,7 +28,7 @@ discord_regression <- function(data,
                                data_processed = FALSE,
                                coding_method = "none",
                                fast = TRUE) {
-  if (data_processed == TRUE & !is.data.frame(data)) {
+  if (data_processed == TRUE && !is.data.frame(data)) {
     stop("data must be a data frame if data_processed is TRUE")
   }
   if (data_processed == FALSE) {
@@ -36,13 +36,13 @@ discord_regression <- function(data,
   }
   # if no demographics provided
   if (is.null(demographics)) {
-    if (is.null(sex) & is.null(race)) {
+    if (is.null(sex) && is.null(race)) {
       demographics <- "none"
-    } else if (is.null(sex) & !is.null(race)) {
+    } else if (is.null(sex) && !is.null(race)) {
       demographics <- "race"
-    } else if (!is.null(sex) & is.null(race)) {
+    } else if (!is.null(sex) && is.null(race)) {
       demographics <- "sex"
-    } else if (!is.null(sex) & !is.null(race)) {
+    } else if (!is.null(sex) && !is.null(race)) {
       demographics <- "both"
     }
   }
@@ -116,7 +116,7 @@ discord_regression <- function(data,
     list(formula_obj = formula_)
   ))
 
-  return(model)
+  model
 }
 
 # alias
@@ -164,13 +164,13 @@ discord_between_model <- function(data,
 
   # if no demographics provided
   if (is.null(demographics)) {
-    if (is.null(sex) & is.null(race)) {
+    if (is.null(sex) && is.null(race)) {
       demographics <- "none"
-    } else if (is.null(sex) & !is.null(race)) {
+    } else if (is.null(sex) && !is.null(race)) {
       demographics <- "race"
-    } else if (!is.null(sex) & is.null(race)) {
+    } else if (!is.null(sex) && is.null(race)) {
       demographics <- "sex"
-    } else if (!is.null(sex) & !is.null(race)) {
+    } else if (!is.null(sex) && !is.null(race)) {
       demographics <- "both"
     }
   }
@@ -243,5 +243,5 @@ discord_between_model <- function(data,
     list(formula_obj = formula_)
   ))
 
-  return(model)
+  model
 }
