@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-check.yaml)
 [![Dev Main branch](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-dev_check.yaml/badge.svg)](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-dev_check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/R-Computing-Lab/discord/graph/badge.svg)](https://app.codecov.io/gh/R-Computing-Lab/discord)
+[![CodeFactor](https://www.codefactor.io/repository/github/r-computing-lab/discord/badge)](https://www.codefactor.io/repository/github/r-computing-lab/discord)
 ![License](https://img.shields.io/badge/License-GPL_v3-blue.svg)
 
 <!-- badges: end -->
