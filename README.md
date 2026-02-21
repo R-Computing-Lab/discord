@@ -18,6 +18,7 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/discord)](https://cran.
 branch](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-dev_check.yaml/badge.svg)](https://github.com/R-Computing-Lab/discord/actions/workflows/R-CMD-dev_check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/R-Computing-Lab/discord/graph/badge.svg)](https://app.codecov.io/gh/R-Computing-Lab/discord)
+[![CodeFactor](https://www.codefactor.io/repository/github/r-computing-lab/discord/badge)](https://www.codefactor.io/repository/github/r-computing-lab/discord)
 ![License](https://img.shields.io/badge/License-GPL_v3-blue.svg)
 
 <!-- badges: end -->
@@ -217,16 +218,16 @@ cite the following package as well as the AMPPS paper:
       Garrison S, Trattner J, Hwang Y (2026). _discord: Functions for
       Discordant Kinship Modeling_. doi:10.32614/CRAN.package.discord
       <https://doi.org/10.32614/CRAN.package.discord>, R package version
-      1.3, <https://github.com/R-Computing-Lab/discord>.
+      1.3, <https://CRAN.R-project.org/package=discord>.
 
     A BibTeX entry for LaTeX users is
 
       @Manual{,
         title = {discord: Functions for Discordant Kinship Modeling},
         author = {S. Mason Garrison and Jonathan Trattner and Yoo Ri Hwang},
-        note = {R package version 1.3},
-        url = {https://github.com/R-Computing-Lab/discord},
         year = {2026},
+        note = {R package version 1.3},
+        url = {https://CRAN.R-project.org/package=discord},
         doi = {10.32614/CRAN.package.discord},
       }
 

@@ -20,13 +20,15 @@
 
 #' Simulate Kinship-Based Biometrically Informed Univariate Data
 #'
-#' @description Generates paired univariate data for kinship pairs with specified genetic relatedness,
-#' following the classical ACE model (Additive genetic, Common environment, unique Environment).
+#' @description Generates paired univariate data for kinship pairs with
+#' specified genetic relatedness, following the classical
+#' ACE model (Additive genetic, Common environment, unique Environment).
 #' @details
-#' This function simulates data according to the ACE model, where phenotypic variance
-#' is decomposed into additive genetic (A), shared environmental (C), and non-shared
-#' environmental (E) components. It can generate data for multiple kinship groups with
-#' different levels of genetic relatedness (e.g., MZ twins, DZ twins, siblings).
+#' This function simulates data according to the ACE model,
+#' where phenotypic variance is decomposed into additive genetic (A),
+#' shared environmental (C), and non-shared environmental (E) components.
+#' It can generate data for multiple kinship groups with different levels of
+#' genetic relatedness (e.g., MZ twins, DZ twins, siblings).
 #'
 #' @param r Numeric vector. Levels of genetic relatedness for each group;
 #'   default is c(1, 0.5) representing MZ and DZ twins respectively.
@@ -37,9 +39,15 @@
 #' @param ace Numeric vector. Variance components in order c(a, c, e) where
 #'   a = additive genetic, c = shared environment, e = non-shared environment;
 #'   default is c(1, 1, 1).
-#' @param r_vector Numeric vector. Alternative specification method providing relatedness
-#'   coefficients for the entire sample; default is NULL. If provided, \code{r_vector} overrides \code{r} and \code{npergroup}.
-#' @param c_vector Numeric vector. Optional vector of shared environmental correlations. for each kinship pair. If provided, \code{c_vector} overrides \code{c_rel} and \code{npergroup}. The length of \code{c_vector} must match that of \code{r_vector} (if provided), or the total number of pairs implied by \code{r} and \code{npergroup}. Values should be in the range [0, 1].
+#' @param r_vector Numeric vector. Alternative specification method
+#'    providing relatedness coefficients for the entire sample; default is NULL.
+#'    If provided, \code{r_vector} overrides \code{r} and \code{npergroup}.
+#' @param c_vector Numeric vector. Optional vector of shared environmental
+#'    correlations for each kinship pair. If provided, \code{c_vector}
+#'    overrides \code{c_rel} and \code{npergroup}. The length of \code{c_vector}
+#'    must match that of \code{r_vector} (if provided), or the total number of
+#'    pairs implied by \code{r} and \code{npergroup}.
+#'    Values should be in the range [0, 1].
 #' @param id Numeric vector. Optional unique identifiers for each kinship pair;
 #'   default is NULL, in which case IDs are assigned sequentially.
 #' @param ... Additional arguments passed to other methods.

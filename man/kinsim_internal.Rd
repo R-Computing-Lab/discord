@@ -32,10 +32,16 @@ default repeats \code{npg} for all groups in \code{r}.}
 a = additive genetic, c = shared environment, e = non-shared environment;
 default is c(1, 1, 1).}
 
-\item{r_vector}{Numeric vector. Alternative specification method providing relatedness
-coefficients for the entire sample; default is NULL. If provided, \code{r_vector} overrides \code{r} and \code{npergroup}.}
+\item{r_vector}{Numeric vector. Alternative specification method
+providing relatedness coefficients for the entire sample; default is NULL.
+If provided, \code{r_vector} overrides \code{r} and \code{npergroup}.}
 
-\item{c_vector}{Numeric vector. Optional vector of shared environmental correlations. for each kinship pair. If provided, \code{c_vector} overrides \code{c_rel} and \code{npergroup}. The length of \code{c_vector} must match that of \code{r_vector} (if provided), or the total number of pairs implied by \code{r} and \code{npergroup}. Values should be in the range [0, 1].}
+\item{c_vector}{Numeric vector. Optional vector of shared environmental
+correlations for each kinship pair. If provided, \code{c_vector}
+overrides \code{c_rel} and \code{npergroup}. The length of \code{c_vector}
+must match that of \code{r_vector} (if provided), or the total number of
+pairs implied by \code{r} and \code{npergroup}.
+Values should be in the range [0, 1].}
 
 \item{id}{Numeric vector. Optional unique identifiers for each kinship pair;
 default is NULL, in which case IDs are assigned sequentially.}
@@ -58,13 +64,15 @@ A data frame with the following columns:
 }
 }
 \description{
-Generates paired univariate data for kinship pairs with specified genetic relatedness,
-following the classical ACE model (Additive genetic, Common environment, unique Environment).
+Generates paired univariate data for kinship pairs with
+specified genetic relatedness, following the classical
+ACE model (Additive genetic, Common environment, unique Environment).
 }
 \details{
-This function simulates data according to the ACE model, where phenotypic variance
-is decomposed into additive genetic (A), shared environmental (C), and non-shared
-environmental (E) components. It can generate data for multiple kinship groups with
-different levels of genetic relatedness (e.g., MZ twins, DZ twins, siblings).
+This function simulates data according to the ACE model,
+where phenotypic variance is decomposed into additive genetic (A),
+shared environmental (C), and non-shared environmental (E) components.
+It can generate data for multiple kinship groups with different levels of
+genetic relatedness (e.g., MZ twins, DZ twins, siblings).
 }
 \keyword{internal}
