@@ -1,14 +1,16 @@
 base_ends_with <- function(string, end_pattern) {
   reg_pattern <- paste0(end_pattern, "$")
-  out <- string[grepl(pattern = end_pattern, x = string)]
-  return(out)
+  string[grepl(pattern = end_pattern, x = string)]
 }
 
 make_double_entered <- function(.data) {
   new_data <- .data
-  names(new_data)[which(names(new_data) %in% base_ends_with(names(new_data), "_1"))] <- gsub(pattern = "_1", replacement = "_3", x = base_ends_with(names(new_data), "_1"))
-  names(new_data)[which(names(new_data) %in% base_ends_with(names(new_data), "_2"))] <- gsub(pattern = "_2", replacement = "_1", x = base_ends_with(names(new_data), "_2"))
-  names(new_data)[which(names(new_data) %in% base_ends_with(names(new_data), "_3"))] <- gsub(pattern = "_3", replacement = "_2", x = base_ends_with(names(new_data), "_3"))
+  names(new_data)[which(names(new_data) %in% base_ends_with(names(new_data), "_1"))] <-
+    gsub(pattern = "_1", replacement = "_3", x = base_ends_with(names(new_data), "_1"))
+  names(new_data)[which(names(new_data) %in% base_ends_with(names(new_data), "_2"))] <-
+    gsub(pattern = "_2", replacement = "_1", x = base_ends_with(names(new_data), "_2"))
+  names(new_data)[which(names(new_data) %in% base_ends_with(names(new_data), "_3"))] <-
+    gsub(pattern = "_3", replacement = "_2", x = base_ends_with(names(new_data), "_3"))
 
   rbind(.data, new_data)
 }
@@ -16,7 +18,7 @@ make_double_entered <- function(.data) {
 summarize_results <- function(.results) {
   results_df <- summary(.results)
   results_df <- as.data.frame(results_df$coefficients)
-  return(results_df)
+  results_df
 }
 
 
