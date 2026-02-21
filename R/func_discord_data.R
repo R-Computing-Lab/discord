@@ -107,7 +107,7 @@ discord_data_ram_optimized <- function(data,
 
   if (!valid_ids(orderedOnOutcome,
         id = id
-  )) {
+      )) {
     id <- "rowwise_id"
     orderedOnOutcome <- cbind(orderedOnOutcome, rowwise_id = seq_len(nrow(data)))
   }
