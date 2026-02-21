@@ -2,7 +2,8 @@
 #'
 #' @description This function determines the order of sibling pairs based on an outcome variable.
 #' The function checks which of the two kinship pairs has more of a specified outcome variable.
-#' It adds a new column named `order` to the dataset, indicating which sibling (identified as "s1" or "s2") has more of the outcome.
+#' It adds a new column named `order` to the dataset, indicating which sibling
+#' (identified as "s1" or "s2") has more of the outcome.
 #' If the two siblings have the same amount of the outcome, it randomly assigns one as having more.
 #
 #' @inheritParams discord_data
@@ -16,7 +17,7 @@ check_sibling_order <- function(..., fast = FALSE) {
   if (fast == TRUE) {
     check_sibling_order_fast(...)
   } else {
-    check_sibling_order_ram_optimized(...)
+    check_sibling_order_ram(...)
   }
 }
 
@@ -24,7 +25,8 @@ check_sibling_order <- function(..., fast = FALSE) {
 #'
 #' @description This function determines the order of sibling pairs based on an outcome variable.
 #' The function checks which of the two kinship pairs has more of a specified outcome variable.
-#' It adds a new column named `order` to the dataset, indicating which sibling (identified as "s1" or "s2") has more of the outcome.
+#' It adds a new column named `order` to the dataset, indicating which sibling
+#' (identified as "s1" or "s2") has more of the outcome.
 #' If the two siblings have the same amount of the outcome, it randomly assigns one as having more.
 #'
 #' @inheritParams discord_data
@@ -36,7 +38,7 @@ check_sibling_order <- function(..., fast = FALSE) {
 #'  neither) has more of the outcome.
 #' @keywords internal
 
-check_sibling_order_ram_optimized <- function(data, outcome, pair_identifiers, row) {
+check_sibling_order_ram <- function(data, outcome, pair_identifiers, row) {
   # Select the row of interest from the data frame
   data <- data[row, ]
 
@@ -46,7 +48,11 @@ check_sibling_order_ram_optimized <- function(data, outcome, pair_identifiers, r
 
   # Check if either sibling has missing (NA) outcome data
   if (is.na(outcome1) || is.na(outcome2)) {
-    stop(paste0("There are missing data, encoded as `NA`, for at least one kinship pair in the '", outcome, "' variable and data cannot be prepped properly.\n Please remove or impute missing data."))
+    stop(paste0(
+      "There are missing data, encoded as `NA`, for at least one kinship pair in the '",
+      outcome, "' variable and data cannot be prepped properly.\n",
+      " Please remove or impute missing data."
+    ))
   }
   # Determine sibling order
   if (outcome1 > outcome2) {
@@ -63,7 +69,7 @@ check_sibling_order_ram_optimized <- function(data, outcome, pair_identifiers, r
     }
   }
 
-  return(data)
+  data
 }
 
 check_sibling_order_fast <- function(data, outcome, pair_identifiers) {
@@ -75,7 +81,11 @@ check_sibling_order_fast <- function(data, outcome, pair_identifiers) {
 
   # Check for missing outcome data
   if (any(is.na(outcome1) | is.na(outcome2))) {
-    stop(paste0("There are missing data, encoded as `NA`, for at least one kinship pair in the '", outcome, "' variable and data cannot be prepped properly.\n Please remove or impute missing data."))
+    stop(paste0(
+      "There are missing data, encoded as `NA`, for at least one kinship pair in the '",
+      outcome, "' variable and data cannot be prepped properly.\n",
+      " Please remove or impute missing data."
+    ))
   }
 
   order <- ifelse(outcome1 > outcome2, "s1",
@@ -90,14 +100,17 @@ check_sibling_order_fast <- function(data, outcome, pair_identifiers) {
   }
 
   data$order <- order
-  return(data)
+  data
 }
 
 
 #' @title Make Mean Differences
 #'
-#' @description This function calculates differences and means of a given variable for each kinship pair. The order of subtraction and the variables' names in the output dataframe depend on the order column set by check_sibling_order().
-#' If the demographics parameter is set to "race", "sex", or "both", it also prepares demographic information accordingly,
+#' @description This function calculates differences and means of a given variable for each
+#' kinship pair. The order of subtraction and the variables' names in the output dataframe
+#' depend on the order column set by check_sibling_order().
+#' If the demographics parameter is set to "race", "sex", or "both", it also prepares
+#' demographic information accordingly,
 #' swapping the order of demographics as per the order column.
 #' @inheritParams discord_data
 #' @inheritParams check_sibling_order
@@ -177,7 +190,7 @@ make_mean_diffs_ram_optimized <- function(data, id, sex, race, demographics,
   )
 
 
-  return(output)
+  output
 }
 
 
@@ -270,20 +283,26 @@ recode_demographics <- function(demographics, data, raceS1, raceS2,
     if (demographics == "both" || demographics == "race") {
       race_1_name <- paste0(race, "_1")
       race_2_name <- paste0(race, "_2")
-      output_demographics[[paste0(race, "_binarymatch")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
+      output_demographics[[paste0(race, "_binarymatch")]] <- ifelse(
+        output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
         1, 0
       )
-      output_demographics[[paste0(race, "_multimatch")]] <- ifelse(output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
+      output_demographics[[paste0(race, "_multimatch")]] <- ifelse(
+        output_demographics[[race_1_name]] == output_demographics[[race_2_name]],
         as.character(output_demographics[[race_2_name]]), "mixed"
       )
     }
     if (demographics == "both" || demographics == "sex") {
       sex_1_name <- paste0(sex, "_1")
       sex_2_name <- paste0(sex, "_2")
-      output_demographics[[paste0(sex, "_binarymatch")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]],
+      output_demographics[[paste0(sex, "_binarymatch")]] <- ifelse(
+        output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]],
         1, 0
       )
-      output_demographics[[paste0(sex, "_multimatch")]] <- ifelse(output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]], as.character(output_demographics[[sex_2_name]]), "mixed")
+      output_demographics[[paste0(sex, "_multimatch")]] <- ifelse(
+        output_demographics[[sex_1_name]] == output_demographics[[sex_2_name]],
+        as.character(output_demographics[[sex_2_name]]), "mixed"
+      )
     }
   }
 
@@ -291,7 +310,7 @@ recode_demographics <- function(demographics, data, raceS1, raceS2,
     output <- base::cbind(output, output_demographics)
   }
 
-  return(output)
+  output
 }
 
 
@@ -346,12 +365,13 @@ make_mean_diffs_fast <- function(data, id, sex, race, demographics,
     )
     diff_list[[var]] <- tmp
   }
-  return(diff_list)
+  diff_list
 }
 
 #' @title Check Discord Errors
 #'
-#' @description This function checks for common errors in the provided data, including the correct specification of identifiers (ID, sex, race) and their existence in the data.
+#' @description This function checks for common errors in the provided data, including
+#' the correct specification of identifiers (ID, sex, race) and their existence in the data.
 #'
 #
 #' @param data The data to perform a discord regression on.
@@ -370,15 +390,26 @@ check_discord_errors <- function(data, id, sex, race, pair_identifiers) {
   }
 
   if (!base::is.null(sex) && base::sum(base::grepl(sex, base::names(data))) == 0) {
-    stop(paste0("The kinship pair sex identifier \"", sex, "\" is not appropriately defined. Please check that you have the correct column name."))
+    stop(paste0(
+      "The kinship pair sex identifier \"", sex,
+      "\" is not appropriately defined. Please check that you have the correct column name."
+    ))
   }
   if (!base::is.null(race) && base::sum(base::grepl(race, base::names(data))) == 0) {
-    stop(paste0("The kinship pair race identifier \"", race, "\" is not appropriately defined. Please check that you have the correct column name."))
+    stop(paste0(
+      "The kinship pair race identifier \"", race,
+      "\" is not appropriately defined. Please check that you have the correct column name."
+    ))
   }
-  if (base::sum(base::grepl(pair_identifiers[1], base::names(data))) == 0 | base::sum(base::grepl(pair_identifiers[2], base::names(data))) == 0) {
-    stop(paste0("Please check that the kinship pair identifiers \"", pair_identifiers[1], "\" and \"", pair_identifiers[2], "\" are valid, i.e. ensure that you have the correct labels for each kin."))
+  if (base::sum(base::grepl(pair_identifiers[1], base::names(data))) == 0 ||
+    base::sum(base::grepl(pair_identifiers[2], base::names(data))) == 0) {
+    stop(paste0(
+      "Please check that the kinship pair identifiers \"", pair_identifiers[1],
+      "\" and \"", pair_identifiers[2],
+      "\" are valid, i.e. ensure that you have the correct labels for each kin."
+    ))
   }
-  if (!base::is.null(sex) & !base::is.null(race) && sex == race) {
+  if (!base::is.null(sex) && !base::is.null(race) && sex == race) {
     stop("Please check that your sex and race variables are not equal.")
   }
 }
@@ -401,11 +432,11 @@ valid_ids <- function(data, id) {
       dwarn("Specified id column does not contain unique values for each kin-pair.
 Adding row-wise ID for restructuring data into paired format for analysis.
 For more details, see <https://github.com/R-Computing-Lab/discord/issues/6>.")
-      return(FALSE)
+      FALSE
     } else if (id_length == nrow(data)) {
-      return(TRUE)
+      TRUE
     }
   } else if (is.null(id)) {
-    return(FALSE)
+    FALSE
   }
 }
