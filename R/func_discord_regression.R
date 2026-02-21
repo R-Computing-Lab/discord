@@ -112,8 +112,8 @@ discord_regression <- function(data,
   formula_ <- stats::as.formula(base::paste(realOutcome, preds, sep = " ~ "))
 
   model <- eval(substitute(
-    stats::lm(formula = F, data = preppedData),
-    list(F = formula_)
+    stats::lm(formula = formula_obj, data = preppedData),
+    list(formula_obj = formula_)
   ))
 
   return(model)
@@ -239,8 +239,8 @@ discord_between_model <- function(data,
   formula_ <- stats::as.formula(base::paste(realOutcome, preds, sep = " ~ "))
 
   model <- eval(substitute(
-    stats::lm(formula = F, data = preppedData),
-    list(F = formula_)
+    stats::lm(formula = formula_obj, data = preppedData),
+    list(formula_obj = formula_)
   ))
 
   return(model)
