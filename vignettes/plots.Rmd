@@ -23,19 +23,14 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 # Overview
 
 
-This vignette recreates the style of a figure in [Garrison and Rodgers (2016)](https://www.sciencedirect.com/science/article/pii/S0160289616300162) using `ggplot2` and example data from NLSY79 on SES and flu vaccinations.
+This vignette recreates the style of a figure in [Garrison and Rodgers (2016)](https://www.sciencedirect.com/science/article/pii/S0160289616300162) using `ggplot2` and synthetic data structured with `discord_data()`. The figure illustrates the patterns of relationships between sibling differences in socioeconomic status (SES) and sibling differences in flu vaccinations. 
 
 
-# Data Preparation
+# Data Generation and Preparation
 
 ## Data Cleaning
 
-This section reuses the data preparation pipeline developed in the regression vignette.
 
-That vignette demonstrated how to set up data for discordant regression analysis by using discord data processing tools. Those tools facilitate the construction of kinship links, including identifying sibling pairs, merging sibling characteristics, and calculating pair-level variables.
-
-Here, we reuse that same pipeline to prepare the data for plotting.
-Specifically, we apply the same kinship pairing, data merging, and cleaning procedures, but our focus is now on visualizing patterns rather than fitting regression models.
 
 The underlying dataset is the NLSY79, which includes measures of flu vaccination and socioeconomic status (SES) for kinship pairs.
 As in the regression vignette, we restrict the sample to individuals who are housemates and have a relatedness of 0.5.
@@ -57,47 +52,40 @@ library(gridExtra)
 library(ggExtra)
 library(janitor)
 
-# Load the data
-data(data_flu_ses)
+data(mz_signif)
+data(mz_nonsignif)
+set.seed(18)
 
-# Get kinship links for individuals with the following variables:
-list_vars <- c(
-  "FLU_total", "FLU_2008", "FLU_2010",
-  "FLU_2012", "FLU_2014", "FLU_2016",
-  "S00_H40", "RACE", "SEX"
-)
+discord_mz_sig <- discord_data(mz_signif,
+    outcome = "y1",
+    predictors = "y2",
+    id = "id",
+    sex = NULL,
+    race = NULL,
+    demographics = "none",
+    pair_identifiers = c("_1", "_2"),
+    fast = TRUE
+  )  %>%
+  rename_with(~ str_replace_all(., c("y1" = "flu", "y2" = "SES")), everything()) 
 
-df_link_pairs <- Links79PairExpanded %>%
-  filter(RelationshipPath == "Gen1Housemates", RFull == 0.5)
+discord_mz_nsig <- discord_data(mz_nonsignif,
+    outcome = "y1",
+    predictors = "y2",
+    id = "id",
+    sex = NULL,
+    race = NULL,
+        demographics = "none",
+    pair_identifiers = c("_1", "_2"),
+    fast = TRUE
+  )   %>%
+  rename_with(~ str_replace_all(., c("y1" = "flu", "y2" = "SES")), everything()) 
 
+df_mz_signif <- mz_signif  %>%
+  rename_with(~ str_replace_all(., c("y1" = "flu", "y2" = "SES")), everything()) 
 
-df_link <- CreatePairLinksSingleEntered(
-  outcomeDataset = data_flu_ses,
-  linksPairDataset = df_link_pairs,
-  outcomeNames = list_vars
-)
+df_mz_nonsignif <- mz_nonsignif  %>%
+  rename_with(~ str_replace_all(., c("y1" = "flu", "y2" = "SES")), everything()) 
 
-df_consistent_kin <- df_link %>%
-  group_by(SubjectTag_S1, SubjectTag_S2) %>%
-  count(
-    FLU_2008_S1, FLU_2010_S1,
-    FLU_2012_S1, FLU_2014_S1,
-    FLU_2016_S1, FLU_2008_S2,
-    FLU_2010_S2, FLU_2012_S2,
-    FLU_2014_S2, FLU_2016_S2
-  ) %>%
-  na.omit()
-
-# Create the df_flu_modeling object with only consistent responders.
-# Clean the column names with the {janitor} package.
-df_flu_modeling <- semi_join(df_link,
-  df_consistent_kin,
-  by = c(
-    "SubjectTag_S1",
-    "SubjectTag_S2"
-  )
-) %>%
-  clean_names()
 ```
 </details>
 
@@ -105,21 +93,20 @@ df_flu_modeling <- semi_join(df_link,
 
 With the data prepared, we restructure it using `discord_data()`.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, eval=FALSE}
 library(tidyverse)
 library(ggplot2)
 
-df_discord_flu <- discord_data(
-  data = df_flu_modeling,
-  outcome = "flu_total",
-  predictors = "s00_h40",
-  id = "extended_id",
-  sex = "sex",
-  race = "race",
-  pair_identifiers = c("_s1", "_s2"),
-  demographics = "both"
-) %>%
-  filter(!is.na(s00_h40_mean), !is.na(flu_total_mean))
+df_discord_flu <- discord_data(df_mz_signif,
+    outcome = "flu",
+    predictors = "SES",
+    id = "id",
+    sex = NULL,
+    race = NULL,
+    demographics = "none",
+    pair_identifiers = c("_1", "_2"),
+    fast = TRUE
+  )
 ```
 
 Because we are interested in differences between kin, we create a new variable, `ses_diff_group`, that classifies SES differences into three categories: "More Advantaged", "Equally Advantaged", and "Less Advantaged". This variable is later used to group observations in the marginal density plots. They serve to help visualize how the distributions of mean SES and mean flu vaccinations differ across these SES difference categories.
@@ -129,9 +116,9 @@ df_discord_flu <- df_discord_flu %>%
   mutate(
     ses_mean_group = factor(
       case_when(
-        as.numeric(scale(s00_h40_mean)) > 0.5 ~ "More Advantaged",
-        as.numeric(scale(s00_h40_mean)) < -0.5 ~ "Less Advantaged",
-        abs(as.numeric(scale(s00_h40_mean))) <= 0.5 ~ "Equally Advantaged"
+        as.numeric(scale(SES_mean)) > 0.5 ~ "More Advantaged",
+        as.numeric(scale(SES_mean)) < -0.5 ~ "Less Advantaged",
+        abs(as.numeric(scale(SES_mean))) <= 0.5 ~ "Equally Advantaged"
       ),
       levels = c(
         "Less Advantaged",
@@ -142,9 +129,9 @@ df_discord_flu <- df_discord_flu %>%
     # # Classify Difference Grouping
     ses_diff_group = factor(
       case_when(
-        as.numeric(scale(s00_h40_diff)) > 0.5 ~ "More Advantaged",
-        as.numeric(scale(s00_h40_diff)) < -0.5 ~ "Less Advantaged",
-        abs(as.numeric(scale(s00_h40_diff))) <= 0.5 ~ "Equally Advantaged"
+        as.numeric(scale(SES_diff)) > 0.5 ~ "More Advantaged",
+        as.numeric(scale(SES_diff)) < -0.5 ~ "Less Advantaged",
+        abs(as.numeric(scale(SES_diff))) <= 0.5 ~ "Equally Advantaged"
       ),
       levels = c(
         "Less Advantaged",
@@ -171,7 +158,7 @@ color_na <- "#AD78B6" # purple for missing values
 color_shading_3 <- c(color_shading_4[2], color_na, color_shading_4[3])
 
 # Determine the range of SES differences for color scaling
-max_val_scale <- max(abs(df_discord_flu$s00_h40_diff), na.rm = TRUE)
+max_val_scale <- max(abs(df_discord_flu$SES_diff), na.rm = TRUE)
 
 # values <- seq(-max_val_scale, max_val_scale, length = length(color_shading_4))
 ```
@@ -190,11 +177,11 @@ The first step is to create the base plot with sibling 1 data. In the next code 
 ```{r individual, echo=TRUE, message=FALSE}
 # Individual level plot
 plot_indiv <- plot_indiv_sib1 <- ggplot(
-  df_flu_modeling,
+  df_mz_signif,
   aes(
-    x = s00_h40_s1,
-    y = flu_total_s1,
-    color = s00_h40_s1 - s00_h40_s2
+    x = SES_1,
+    y = flu_1,
+    color = SES_1 - SES_2
   )
 ) +
   geom_point(
@@ -232,9 +219,9 @@ plot_indiv <- plot_indiv +
     size = 0.8, alpha = 0.8, na.rm = TRUE,
     position = position_jitter(width = 0.2, height = 0.2),
     aes(
-      x = s00_h40_s2,
-      y = flu_total_s2,
-      color = s00_h40_s2 - s00_h40_s1 # this reverses the color difference so sibling 2 points use the opposite color gradient compared to sibling 1, making it visually clear which sibling is being represented and how their SES difference is encoded
+      x = SES_2,
+      y = flu_2,
+      color = SES_2 - SES_1 # this reverses the color difference so sibling 2 points use the opposite color gradient compared to sibling 1, making it visually clear which sibling is being represented and how their SES difference is encoded
     )
   ) +
   scale_colour_gradientn(
@@ -260,11 +247,11 @@ The individual-level plot shows a positive association between SES and flu vacci
 
 ```{r}
 plot_indiv_s00 <- ggplot(
-  df_flu_modeling,
+  df_mz_signif,
   aes(
-    x = s00_h40_s1,
-    y = s00_h40_s2,
-    color = s00_h40_s1 - s00_h40_s2
+    x = SES_1,
+    y = SES_2,
+    color = SES_1 - SES_2
   )
 ) +
   geom_point(
@@ -293,11 +280,11 @@ plot_indiv_s00 +
 
 ```{r}
 plot_indiv_flu <- ggplot(
-  df_flu_modeling,
+  df_mz_signif,
   aes(
-    x = flu_total_s1,
-    y = flu_total_s2,
-    color = s00_h40_s1 - s00_h40_s2
+    x = flu_1,
+    y = flu_2,
+    color = SES_1 - SES_2
   )
 ) +
   geom_point(
@@ -334,8 +321,8 @@ This section creates a between-family plot that visualizes mean SES at age 40 ag
 ```{r scatter, message=FALSE, include=FALSE, echo=TRUE}
 # Main scatter plot
 plot_btwn <- ggplot(df_discord_flu, aes(
-  x = s00_h40_mean,
-  y = flu_total_mean,
+  x = SES_mean,
+  y = flu_mean,
   color = ses_diff_group,
 )) +
   geom_point( # this layer creates invisible points to all the marginal plots to align correctly
@@ -347,7 +334,7 @@ plot_btwn <- ggplot(df_discord_flu, aes(
     size = 1.8, alpha = 0.8, na.rm = TRUE,
     shape = 21,
     aes(
-      fill = s00_h40_diff,
+      fill = SES_diff,
       colour = ses_diff_group
     ),
     group = 1,
@@ -414,7 +401,7 @@ An alternative approach is to create marginal density plots separately and arran
 ```{r plot-raw-data, message=FALSE}
 # Marginal X density (SES mean)
 plot_xdensity <- ggplot(df_discord_flu, aes(
-  x = s00_h40_mean,
+  x = SES_mean,
   group = ses_diff_group,
   color = ses_diff_group
 )) +
@@ -439,7 +426,7 @@ And for the Y density plot:
 ```{r}
 # Marginal Y density (Flu mean)
 plot_ydensity <- ggplot(df_discord_flu, aes(
-  x = flu_total_mean,
+  x = flu_mean,
   group = ses_diff_group,
   color = ses_diff_group
 )) +
@@ -498,7 +485,7 @@ grid.arrange(
     widths = c(4, 1)
   ),
   heights = c(1.5, 4),
-  top = textGrob("Sibling Differences in SES and Flu Vaccinations",
+  top = textGrob("Sibling Means in SES and Flu Vaccinations",
     gp = gpar(
       fontsize = 20,
       font = 3
@@ -535,8 +522,8 @@ This plot compares differences in SES at age 40 to differences in flu vaccinatio
 
 # Main scatter plot
 plot_within <- ggplot(df_discord_flu, aes(
-  x = s00_h40_diff,
-  y = flu_total_diff,
+  x = SES_diff,
+  y = flu_diff,
   color = ses_diff_group
 )) +
   geom_point( # this layer creates invisible points to all the marginal plots to align correctly
@@ -548,7 +535,7 @@ plot_within <- ggplot(df_discord_flu, aes(
     size = 1.8, alpha = 0.9, na.rm = TRUE,
     shape = 21,
     aes(
-      fill = s00_h40_diff,
+      fill = SES_diff,
       colour = ses_diff_group
     ),
     group = 1,
