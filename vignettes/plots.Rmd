@@ -99,8 +99,8 @@ With the data prepared, we restructure it using `discord_data()`.
 ```{r, warning=FALSE}
 library(tidyverse)
 library(ggplot2)
-
-df_discord_depressiveness <- discord_data(df_mz_signif,
+df_used <- df_mz_signif
+df_discord_depressiveness <- discord_data(df_used,
     outcome = "depressiveness",
     predictors = "Behavior",
     id = "id",
@@ -245,7 +245,7 @@ individual_level_plot_b <- plot_indiv +
   theme(plot.title = element_text(hjust = 0.5)) 
 
 
-  ggsave("vignettes/individual_level_plot_b.png", plot = individual_level_plot_b, width = 7, height = 5, dpi = 300)
+#  ggsave("vignettes/individual_level_plot_a.png", plot = individual_level_plot_b, width = 7, height = 5, dpi = 300)
 ```
 
 
@@ -253,7 +253,7 @@ The individual-level plot shows a positive association between Behavior and depr
 
 ```{r}
 plot_indiv_s00 <- ggplot(
-  df_mz_nonsignif,
+  df_used,
   aes(
     x = Behavior_1,
     y = Behavior_2,
@@ -269,7 +269,7 @@ plot_indiv_s00 <- ggplot(
 
 plot_indiv_s00 +
   scale_colour_gradientn(
-    name = "Sibling\nDifferences\nin Behavior",
+    name = "Kin\nDifferences\nin Behavior",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(-max_val_scale, max_val_scale))
@@ -352,7 +352,7 @@ plot_btwn <- ggplot(df_discord_depressiveness, aes(
     group = 1
   ) +
   scale_fill_gradientn(
-    name = "Sibling\nDifferences\nin Behavior",
+    name = "Kin\nDifferences\nin Behavior",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(
@@ -366,7 +366,7 @@ plot_btwn <- ggplot(df_discord_depressiveness, aes(
   ) +
   theme_minimal() +
   theme(legend.position = "left") +
-  labs(x = "Mean Behavior", y = "Mean depressiveness")
+  labs(x = "Mean Behavior", y = "Mean Depressiveness")
 ```
 
 ```{r echo=TRUE, message=FALSE}
@@ -383,6 +383,9 @@ ggMarginal(plot_btwn,
   groupFill = T,
   fill = color_shading_3
 )
+
+ggsave("vignettes/between_family_histogram_a.png", plot = last_plot(), width = 7, height = 5, dpi = 300)
+
 ```
 
 ```{r echo=TRUE, message=FALSE}
@@ -413,7 +416,7 @@ plot_xdensity <- ggplot(df_discord_depressiveness, aes(
 )) +
   geom_density(adjust = 2, linewidth = 1, fill = NA) +
   scale_colour_manual(
-    name = "Sibling\nDifferences\nin Behavior",
+    name = "Kin\nDifferences\nin Behavior",
     values = color_shading_3
   ) +
   theme_minimal() +
@@ -461,12 +464,12 @@ To finalize the marginal plots, we add titles and adjust themes for better prese
 plot_xdensity + theme_bw() + theme(
   plot.title = element_text(hjust = 0.5, size = 12),
   axis.title.x = element_text(size = 12)
-) + labs(title = "Mean Behavior at Age 40")
+) + labs(title = "Mean Behavior")
 
 plot_ydensity + theme_bw() + theme(
   plot.title = element_text(hjust = 0.5, size = 12),
   axis.title.x = element_text(size = 12)
-) + labs(title = "Mean depressiveness Vaccinations (2006–2016)")
+) + labs(title = "Mean depressiveness")
 ```
 
 #### Assembling the Final Plot
@@ -491,7 +494,7 @@ grid.arrange(
     widths = c(4, 1)
   ),
   heights = c(1.5, 4),
-  top = textGrob("Sibling Means in Behavior and depressiveness Vaccinations",
+  top = textGrob("Sibling Means in Behavior and depressiveness",
     gp = gpar(
       fontsize = 20,
       font = 3
@@ -553,7 +556,7 @@ plot_within <- ggplot(df_discord_depressiveness, aes(
     color = "black"
   ) +
   scale_fill_gradientn(
-    name = "Sibling\nDifferences\nin Behavior",
+    name = "Kin\nDifferences\nin Behavior",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(
@@ -585,6 +588,7 @@ ggMarginal(plot_within,
   groupFill = T # ,
   #  color = color_shading_3
 )
+ggsave("vignettes/within_family_histogram_a.png", plot = last_plot(), width = 7, height = 5, dpi = 300)
 ```
 
 ```{r echo=TRUE, message=FALSE}
