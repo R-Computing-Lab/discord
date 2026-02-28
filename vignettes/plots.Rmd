@@ -23,7 +23,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 # Overview
 
 
-This vignette recreates the style of a figure in [Garrison and Rodgers (2016)](https://www.sciencedirect.com/science/article/pii/S0160289616300162) using `ggplot2` and synthetic data structured with `discord_data()`. The figure illustrates the patterns of relationships between sibling differences in socioeconomic status (SES) and sibling differences in flu vaccinations. 
+This vignette recreates the style of a figure in [Garrison and Rodgers (2016)](https://www.sciencedirect.com/science/article/pii/S0160289616300162) using `ggplot2` and synthetic data structured with `discord_data()`. The figure illustrates the patterns of relationships between sibling differences in socioeconomic status (Behavior) and sibling differences in the depressiveness. 
 
 
 # Data Generation and Preparation
@@ -32,7 +32,7 @@ This vignette recreates the style of a figure in [Garrison and Rodgers (2016)](h
 
 
 
-The underlying dataset is the NLSY79, which includes measures of flu vaccination and socioeconomic status (SES) for kinship pairs.
+The underlying dataset is the NLSY79, which includes measures of depressiveness vaccination and socioeconomic status (Behavior) for kinship pairs.
 As in the regression vignette, we restrict the sample to individuals who are housemates and have a relatedness of 0.5.
 
 For full details on the data processing and kinship link construction, see the [regression vignette](https://r-computing-lab.github.io/discord/articles/regression.html).
@@ -56,6 +56,8 @@ data(mz_signif)
 data(mz_nonsignif)
 set.seed(18)
 
+
+
 discord_mz_sig <- discord_data(mz_signif,
     outcome = "y1",
     predictors = "y2",
@@ -66,7 +68,7 @@ discord_mz_sig <- discord_data(mz_signif,
     pair_identifiers = c("_1", "_2"),
     fast = TRUE
   )  %>%
-  rename_with(~ str_replace_all(., c("y1" = "flu", "y2" = "SES")), everything()) 
+  rename_with(~ str_replace_all(., c("y1" = "depressiveness", "y2" = "Behavior")), everything()) 
 
 discord_mz_nsig <- discord_data(mz_nonsignif,
     outcome = "y1",
@@ -78,14 +80,15 @@ discord_mz_nsig <- discord_data(mz_nonsignif,
     pair_identifiers = c("_1", "_2"),
     fast = TRUE
   )   %>%
-  rename_with(~ str_replace_all(., c("y1" = "flu", "y2" = "SES")), everything()) 
+  rename_with(~ str_replace_all(., c("y1" = "depressiveness", "y2" = "Behavior")), everything()) 
 
 df_mz_signif <- mz_signif  %>%
-  rename_with(~ str_replace_all(., c("y1" = "flu", "y2" = "SES")), everything()) 
+  rename_with(~ str_replace_all(., c("y1" = "depressiveness", "y2" = "Behavior")), everything()) 
 
 df_mz_nonsignif <- mz_nonsignif  %>%
-  rename_with(~ str_replace_all(., c("y1" = "flu", "y2" = "SES")), everything()) 
+  rename_with(~ str_replace_all(., c("y1" = "depressiveness", "y2" = "Behavior")), everything()) 
 
+df_used <- df_mz_signif
 ```
 </details>
 
@@ -93,13 +96,13 @@ df_mz_nonsignif <- mz_nonsignif  %>%
 
 With the data prepared, we restructure it using `discord_data()`.
 
-```{r, warning=FALSE, eval=FALSE}
+```{r, warning=FALSE}
 library(tidyverse)
 library(ggplot2)
 
-df_discord_flu <- discord_data(df_mz_signif,
-    outcome = "flu",
-    predictors = "SES",
+df_discord_depressiveness <- discord_data(df_mz_signif,
+    outcome = "depressiveness",
+    predictors = "Behavior",
     id = "id",
     sex = NULL,
     race = NULL,
@@ -109,16 +112,16 @@ df_discord_flu <- discord_data(df_mz_signif,
   )
 ```
 
-Because we are interested in differences between kin, we create a new variable, `ses_diff_group`, that classifies SES differences into three categories: "More Advantaged", "Equally Advantaged", and "Less Advantaged". This variable is later used to group observations in the marginal density plots. They serve to help visualize how the distributions of mean SES and mean flu vaccinations differ across these SES difference categories.
+Because we are interested in differences between kin, we create a new variable, `mom_diff_group`, that classifies Behavior differences into three categories: "More Advantaged", "Equally Advantaged", and "Less Advantaged". This variable is later used to group observations in the marginal density plots. They serve to help visualize how the distributions of mean Behavior and mean depressiveness vaccinations differ across these Behavior difference categories.
 
 ```{r}
-df_discord_flu <- df_discord_flu %>%
+df_discord_depressiveness <- df_discord_depressiveness %>%
   mutate(
     ses_mean_group = factor(
       case_when(
-        as.numeric(scale(SES_mean)) > 0.5 ~ "More Advantaged",
-        as.numeric(scale(SES_mean)) < -0.5 ~ "Less Advantaged",
-        abs(as.numeric(scale(SES_mean))) <= 0.5 ~ "Equally Advantaged"
+        as.numeric(scale(Behavior_mean)) > 0.5 ~ "More Advantaged",
+        as.numeric(scale(Behavior_mean)) < -0.5 ~ "Less Advantaged",
+        abs(as.numeric(scale(Behavior_mean))) <= 0.5 ~ "Equally Advantaged"
       ),
       levels = c(
         "Less Advantaged",
@@ -127,11 +130,11 @@ df_discord_flu <- df_discord_flu %>%
       )
     ),
     # # Classify Difference Grouping
-    ses_diff_group = factor(
+    mom_diff_group = factor(
       case_when(
-        as.numeric(scale(SES_diff)) > 0.5 ~ "More Advantaged",
-        as.numeric(scale(SES_diff)) < -0.5 ~ "Less Advantaged",
-        abs(as.numeric(scale(SES_diff))) <= 0.5 ~ "Equally Advantaged"
+        as.numeric(scale(Behavior_diff)) > 0.5 ~ "More Advantaged",
+        as.numeric(scale(Behavior_diff)) < -0.5 ~ "Less Advantaged",
+        abs(as.numeric(scale(Behavior_diff))) <= 0.5 ~ "Equally Advantaged"
       ),
       levels = c(
         "Less Advantaged",
@@ -147,7 +150,7 @@ df_discord_flu <- df_discord_flu %>%
 
 ## Setting Up Color Palette
 
-To enhance the visualizations, we define a color palette that reflects the SES differences between siblings. Here, we use a gradient that transitions from red to blue. This color scheme helps to intuitively convey the direction and magnitude of SES differences, with red indicating lower SES and blue indicating higher SES. Missing values are represented in purple, which is approximately midway between red and blue.
+To enhance the visualizations, we define a color palette that reflects the Behavior differences between siblings. Here, we use a gradient that transitions from red to blue. This color scheme helps to intuitively convey the direction and magnitude of Behavior differences, with red indicating lower Behavior and blue indicating higher Behavior. Missing values are represented in purple, which is approximately midway between red and blue.
 
 
 ```{r}
@@ -157,8 +160,8 @@ color_na <- "#AD78B6" # purple for missing values
 
 color_shading_3 <- c(color_shading_4[2], color_na, color_shading_4[3])
 
-# Determine the range of SES differences for color scaling
-max_val_scale <- max(abs(df_discord_flu$SES_diff), na.rm = TRUE)
+# Determine the range of Behavior differences for color scaling
+max_val_scale <- max(abs(df_discord_depressiveness$Behavior_diff), na.rm = TRUE)
 
 # values <- seq(-max_val_scale, max_val_scale, length = length(color_shading_4))
 ```
@@ -168,20 +171,20 @@ max_val_scale <- max(abs(df_discord_flu$SES_diff), na.rm = TRUE)
 
 ## Individual Level Plot
 
-This plot is for looking at individual-level data rather than sibling pair means or differences. It provides context for understanding the relationship between SES and flu vaccinations before examining sibling differences.
+This plot is for looking at individual-level data rather than sibling pair means or differences. It provides context for understanding the relationship between Behavior and depressiveness vaccinations before examining sibling differences.
 
-This scatter plot shows individual SES at age 40 against individual flu vaccinations. Point color indicates the SES difference between siblings. 
+This scatter plot shows individual Behavior at age 40 against individual depressiveness vaccinations. Point color indicates the Behavior difference between siblings. 
 
 The first step is to create the base plot with sibling 1 data. In the next code block, we add sibling 2 data to the plot. 
 
 ```{r individual, echo=TRUE, message=FALSE}
 # Individual level plot
 plot_indiv <- plot_indiv_sib1 <- ggplot(
-  df_mz_signif,
+  df_used,
   aes(
-    x = SES_1,
-    y = flu_1,
-    color = SES_1 - SES_2
+    x = Behavior_1,
+    y = depressiveness_1,
+    color = Behavior_1 - Behavior_2
   )
 ) +
   geom_point(
@@ -196,62 +199,65 @@ But if we only plot sibling 1, we can visualize that first.
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 plot_indiv_sib1 +
   scale_colour_gradientn(
-    name = "Sibling\nDifferences\nin SES",
+    name = "Kin\nDifferences\nin Behavior",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
-    x = "SES at Age 40",
-    y = "Flu Vaccination Count"
+    x = "Behavior",
+    y = "Depressiveness"
   ) +
   theme_minimal() +
-  ggtitle("Individual Level Plot: Sibling 1 Only") +
+  ggtitle("Individual Level Plot: Kin 1 Only") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-Now, we add sibling 2 to the plot, using the same color scheme to indicate SES differences between siblings. 
+Now, we add sibling 2 to the plot, using the same color scheme to indicate Behavior differences between siblings. 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-plot_indiv <- plot_indiv +
+plot_indiv <- plot_indiv_sib1 +
   # added sibling 2 to the plot
   geom_point(
     size = 0.8, alpha = 0.8, na.rm = TRUE,
     position = position_jitter(width = 0.2, height = 0.2),
     aes(
-      x = SES_2,
-      y = flu_2,
-      color = SES_2 - SES_1 # this reverses the color difference so sibling 2 points use the opposite color gradient compared to sibling 1, making it visually clear which sibling is being represented and how their SES difference is encoded
+      x = Behavior_2,
+      y = depressiveness_2,
+      color = Behavior_2 - Behavior_1 # this reverses the color difference so sibling 2 points use the opposite color gradient compared to sibling 1, making it visually clear which sibling is being represented and how their Behavior difference is encoded
     )
   ) +
   scale_colour_gradientn(
-    name = "Sibling\nDifferences\nin SES",
+    name = "Kin \nDifferences\nin Behavior",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
-    x = "SES at Age 40",
-    y = "Flu Vaccination Count"
+    x = "Maternal Behavior",
+    y = "Child depressiveness"
   ) +
   theme_minimal() #+
 #  theme(legend.position = "none")
 
-plot_indiv +
-  ggtitle("Individual Level Plot") +
-  theme(plot.title = element_text(hjust = 0.5))
+individual_level_plot_b <- plot_indiv +
+  ggtitle("Individual Level Panel B") +
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+
+  ggsave("vignettes/individual_level_plot_b.png", plot = individual_level_plot_b, width = 7, height = 5, dpi = 300)
 ```
 
 
-The individual-level plot shows a positive association between SES and flu vaccinations. Higher SES individuals tend to have higher flu vaccination rates. The color gradient indicates the SES difference between siblings, providing additional context for interpreting the data.
+The individual-level plot shows a positive association between Behavior and depressiveness vaccinations. Higher Behavior individuals tend to have higher depressiveness vaccination rates. The color gradient indicates the Behavior difference between siblings, providing additional context for interpreting the data.
 
 ```{r}
 plot_indiv_s00 <- ggplot(
-  df_mz_signif,
+  df_mz_nonsignif,
   aes(
-    x = SES_1,
-    y = SES_2,
-    color = SES_1 - SES_2
+    x = Behavior_1,
+    y = Behavior_2,
+    color = Behavior_1 - Behavior_2
   )
 ) +
   geom_point(
@@ -263,28 +269,28 @@ plot_indiv_s00 <- ggplot(
 
 plot_indiv_s00 +
   scale_colour_gradientn(
-    name = "Sibling\nDifferences\nin SES",
+    name = "Sibling\nDifferences\nin Behavior",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
-    x = "SES at Age 40 (Sibling 1)",
-    y = "SES at Age 40 (Sibling 2)"
+    x = "Maternal Behavior (Kin 1)",
+    y = "Maternal Behavior (Kin 2)"
   ) +
   theme_minimal() +
-  ggtitle("Individual Level Plot: SES Comparison Between Siblings") +
+  ggtitle("Individual Level Plot: Behavior Comparison Between Siblings") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
 
 ```{r}
-plot_indiv_flu <- ggplot(
-  df_mz_signif,
+plot_indiv_depressiveness <- ggplot(
+  df_mz_nonsignif,
   aes(
-    x = flu_1,
-    y = flu_2,
-    color = SES_1 - SES_2
+    x = depressiveness_1,
+    y = depressiveness_2,
+    color = Behavior_1 - Behavior_2
   )
 ) +
   geom_point(
@@ -294,19 +300,19 @@ plot_indiv_flu <- ggplot(
   geom_smooth(method = "lm", se = FALSE, color = "black")
 
 
-plot_indiv_flu +
+plot_indiv_depressiveness +
   scale_colour_gradientn(
-    name = "Sibling\nDifferences\nin SES",
+    name = "Differences\nin Depressiveness",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(-max_val_scale, max_val_scale))
   ) +
   labs(
-    x = "Flu Vaccinations (Sibling 1)",
-    y = "Flu Vaccinations (Sibling 2)"
+    x = "Depressiveness (Kin 1)",
+    y = "Depressiveness (Kin 2)"
   ) +
   theme_minimal() +
-  ggtitle("Individual Level Plot: FLU Comparison Between Siblings") +
+  ggtitle("Individual Level Plot: Depressiveness Comparison Between Kin") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -315,15 +321,15 @@ plot_indiv_flu +
 
 ### Between Family Plots
 
-This section creates a between-family plot that visualizes mean SES at age 40 against mean flu vaccinations for sibling pairs. Points are colored based on the SES difference between siblings. Each point represents a sibling pair, with the x-axis showing the pair's average SES and the y-axis showing the average number of flu vaccinations.
+This section creates a between-family plot that visualizes mean Behavior at age 40 against mean depressiveness vaccinations for sibling pairs. Points are colored based on the Behavior difference between siblings. Each point represents a sibling pair, with the x-axis showing the pair's average Behavior and the y-axis showing the average number of depressiveness vaccinations.
 
 
 ```{r scatter, message=FALSE, include=FALSE, echo=TRUE}
 # Main scatter plot
-plot_btwn <- ggplot(df_discord_flu, aes(
-  x = SES_mean,
-  y = flu_mean,
-  color = ses_diff_group,
+plot_btwn <- ggplot(df_discord_depressiveness, aes(
+  x = Behavior_mean,
+  y = depressiveness_mean,
+  color = mom_diff_group,
 )) +
   geom_point( # this layer creates invisible points to all the marginal plots to align correctly
     size = 1.8, alpha = 0.0, na.rm = TRUE,
@@ -334,8 +340,8 @@ plot_btwn <- ggplot(df_discord_flu, aes(
     size = 1.8, alpha = 0.8, na.rm = TRUE,
     shape = 21,
     aes(
-      fill = SES_diff,
-      colour = ses_diff_group
+      fill = Behavior_diff,
+      colour = mom_diff_group
     ),
     group = 1,
     position = position_jitter(width = 0.2, height = 0.2, seed = 1234)
@@ -346,7 +352,7 @@ plot_btwn <- ggplot(df_discord_flu, aes(
     group = 1
   ) +
   scale_fill_gradientn(
-    name = "Sibling\nDifferences\nin SES",
+    name = "Sibling\nDifferences\nin Behavior",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(
@@ -360,14 +366,14 @@ plot_btwn <- ggplot(df_discord_flu, aes(
   ) +
   theme_minimal() +
   theme(legend.position = "left") +
-  labs(x = "Mean SES at Age 40", y = "Mean Flu Vaccinations (2006–2016)")
+  labs(x = "Mean Behavior", y = "Mean depressiveness")
 ```
 
 ```{r echo=TRUE, message=FALSE}
 plot_btwn
 ```
 
-As you can see, the base scatter plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. Marginal plots can be added to further illustrate the distributions of mean SES and mean flu vaccinations. Below is the code to add marginal plots using the `ggExtra` package. Note that the marginal plots are histograms, density plots, or boxplots that show the distribution of mean SES and mean flu vaccinations, grouped by the SES difference category.
+As you can see, the base scatter plot shows a positive association between mean Behavior and mean depressiveness vaccinations. Higher average Behavior among sibling pairs is associated with higher average depressiveness vaccination rates. Marginal plots can be added to further illustrate the distributions of mean Behavior and mean depressiveness vaccinations. Below is the code to add marginal plots using the `ggExtra` package. Note that the marginal plots are histograms, density plots, or boxplots that show the distribution of mean Behavior and mean depressiveness vaccinations, grouped by the Behavior difference category.
 
 
 ```{r echo=TRUE, message=FALSE}
@@ -381,8 +387,8 @@ ggMarginal(plot_btwn,
 
 ```{r echo=TRUE, message=FALSE}
 ggMarginal(plot_btwn, type = "density", size = 10, groupColour = F, groupFill = T, aes(
-  color = ses_diff_group,
-  fill = ses_diff_group,
+  color = mom_diff_group,
+  fill = mom_diff_group,
   alpha = 0.95
 ))
 ```
@@ -391,7 +397,7 @@ ggMarginal(plot_btwn, type = "density", size = 10, groupColour = F, groupFill = 
 ggMarginal(plot_btwn, type = "boxplot", size = 10, groupColour = F, groupFill = T)
 ```
 
-Like the individual-level plot, these between-family plot shows a positive association between mean SES and mean flu vaccinations. Higher average SES among sibling pairs is associated with higher average flu vaccination rates. The marginal plots further illustrate the distributions of mean SES and mean flu vaccinations, grouped by the SES difference category. This helps to visualize how the distributions differ across sibling pairs with varying SES differences.
+Like the individual-level plot, these between-family plot shows a positive association between mean Behavior and mean depressiveness vaccinations. Higher average Behavior among sibling pairs is associated with higher average depressiveness vaccination rates. The marginal plots further illustrate the distributions of mean Behavior and mean depressiveness vaccinations, grouped by the Behavior difference category. This helps to visualize how the distributions differ across sibling pairs with varying Behavior differences.
 
 
 ### Adding Marginal Density Plots
@@ -399,15 +405,15 @@ Like the individual-level plot, these between-family plot shows a positive assoc
 An alternative approach is to create marginal density plots separately and arrange them alongside the main scatter plot using `gridExtra::grid.arrange()`.
 
 ```{r plot-raw-data, message=FALSE}
-# Marginal X density (SES mean)
-plot_xdensity <- ggplot(df_discord_flu, aes(
-  x = SES_mean,
-  group = ses_diff_group,
-  color = ses_diff_group
+# Marginal X density (Behavior mean)
+plot_xdensity <- ggplot(df_discord_depressiveness, aes(
+  x = Behavior_mean,
+  group = mom_diff_group,
+  color = mom_diff_group
 )) +
   geom_density(adjust = 2, linewidth = 1, fill = NA) +
   scale_colour_manual(
-    name = "Sibling\nDifferences\nin SES",
+    name = "Sibling\nDifferences\nin Behavior",
     values = color_shading_3
   ) +
   theme_minimal() +
@@ -424,11 +430,11 @@ plot_xdensity <- ggplot(df_discord_flu, aes(
 And for the Y density plot:
 
 ```{r}
-# Marginal Y density (Flu mean)
-plot_ydensity <- ggplot(df_discord_flu, aes(
-  x = flu_mean,
-  group = ses_diff_group,
-  color = ses_diff_group
+# Marginal Y density (depressiveness mean)
+plot_ydensity <- ggplot(df_discord_depressiveness, aes(
+  x = depressiveness_mean,
+  group = mom_diff_group,
+  color = mom_diff_group
 )) +
   geom_density(
     adjust = 2,
@@ -455,12 +461,12 @@ To finalize the marginal plots, we add titles and adjust themes for better prese
 plot_xdensity + theme_bw() + theme(
   plot.title = element_text(hjust = 0.5, size = 12),
   axis.title.x = element_text(size = 12)
-) + labs(title = "Mean SES at Age 40")
+) + labs(title = "Mean Behavior at Age 40")
 
 plot_ydensity + theme_bw() + theme(
   plot.title = element_text(hjust = 0.5, size = 12),
   axis.title.x = element_text(size = 12)
-) + labs(title = "Mean Flu Vaccinations (2006–2016)")
+) + labs(title = "Mean depressiveness Vaccinations (2006–2016)")
 ```
 
 #### Assembling the Final Plot
@@ -485,7 +491,7 @@ grid.arrange(
     widths = c(4, 1)
   ),
   heights = c(1.5, 4),
-  top = textGrob("Sibling Means in SES and Flu Vaccinations",
+  top = textGrob("Sibling Means in Behavior and depressiveness Vaccinations",
     gp = gpar(
       fontsize = 20,
       font = 3
@@ -496,21 +502,21 @@ grid.arrange(
 
 
 
-### Bonus: Faceting by SES Difference Group
+### Bonus: Faceting by Behavior Difference Group
 
-Other ways to plot this data include using `facet_wrap` to create separate panels for each SES difference group. This can help visualize the differences in flu vaccinations across different SES categories.
+Other ways to plot this data include using `facet_wrap` to create separate panels for each Behavior difference group. This can help visualize the differences in depressiveness vaccinations across different Behavior categories.
 
 ```{r echo=FALSE, message=FALSE}
-plot_btwn + facet_wrap(~ses_diff_group,
+plot_btwn + facet_wrap(~mom_diff_group,
   ncol = 1
 ) +
   theme(legend.position = "none") +
-  labs(title = "Between Family Differences in SES and Flu Vaccinations by SES Difference Group")
+  labs(title = "Between Family Differences in Behavior and depressiveness Vaccinations by Behavior Difference Group")
 ```
 
 ## Within Family Plots
 
-This plot compares differences in SES at age 40 to differences in flu vaccinations, with points colored by SES difference. Marginal plots are omitted for simplicity but can be added using the same structure.
+This plot compares differences in Behavior at age 40 to differences in depressiveness vaccinations, with points colored by Behavior difference. Marginal plots are omitted for simplicity but can be added using the same structure.
 
 ```{r plot-within-family, echo=TRUE, message=FALSE}
 # Within Family
@@ -521,10 +527,10 @@ This plot compares differences in SES at age 40 to differences in flu vaccinatio
 # Setup: Use discord_data
 
 # Main scatter plot
-plot_within <- ggplot(df_discord_flu, aes(
-  x = SES_diff,
-  y = flu_diff,
-  color = ses_diff_group
+plot_within <- ggplot(df_discord_depressiveness, aes(
+  x = Behavior_diff,
+  y = depressiveness_diff,
+  color = mom_diff_group
 )) +
   geom_point( # this layer creates invisible points to all the marginal plots to align correctly
     size = 1.8, alpha = 0.0, na.rm = TRUE,
@@ -535,8 +541,8 @@ plot_within <- ggplot(df_discord_flu, aes(
     size = 1.8, alpha = 0.9, na.rm = TRUE,
     shape = 21,
     aes(
-      fill = SES_diff,
-      colour = ses_diff_group
+      fill = Behavior_diff,
+      colour = mom_diff_group
     ),
     group = 1,
     position = position_jitter(width = 0.2, height = 0.2, seed = 1234)
@@ -547,7 +553,7 @@ plot_within <- ggplot(df_discord_flu, aes(
     color = "black"
   ) +
   scale_fill_gradientn(
-    name = "Sibling\nDifferences\nin SES",
+    name = "Sibling\nDifferences\nin Behavior",
     colours = color_shading_4,
     na.value = color_na,
     values = scales::rescale(c(
@@ -562,8 +568,8 @@ plot_within <- ggplot(df_discord_flu, aes(
   theme_minimal() +
   theme(legend.position = "left") +
   labs(
-    x = "Diff SES at Age 40",
-    y = "Diff Flu Vaccinations (2006–2016)"
+    x = "Diff Behavior",
+    y = "Diff Outcome"
   )
 
 plot_within
@@ -583,27 +589,28 @@ ggMarginal(plot_within,
 
 ```{r echo=TRUE, message=FALSE}
 ggMarginal(plot_within, type = "density", size = 10, groupColour = F, groupFill = T, aes(
-  color = ses_diff_group,
-  fill = ses_diff_group,
+  color = mom_diff_group,
+  fill = mom_diff_group,
   alpha = 0.95
 ))
 ```
 ```{r echo=TRUE, message=FALSE}
-ggMarginal(plot_within, type = "boxplot", size = 10, groupColour = F, groupFill = T)
+ggMarginal(plot_within, type = "boxplot", 
+           size = 10, groupColour = F, groupFill = T)
 ```
 
 
 
-You can further facet this plot by the difference in SES between kin to see how the relationship varies across different groups. The following code does this and adds a title to the plot.
+You can further facet this plot by the difference in Behavior between kin to see how the relationship varies across different groups. The following code does this and adds a title to the plot.
 
 ```{r echo=TRUE, message=FALSE}
-plot_within + facet_wrap(~ses_diff_group,
+plot_within + facet_wrap(~mom_diff_group,
   ncol = 1
 ) +
   theme(legend.position = "bottom") +
-  labs(title = "Within Family Differences in SES and Flu Vaccinations")
+  labs(title = "Within Family Differences in Behavior and Depressiveness")
 ```
 
 # Conclusion
 
-This vignette demonstrated how to visualize sibling differences in SES and flu vaccinations using discord-structured data. Scatter and density plots highlight associations by SES difference group. The use of color to indicate the difference in SES between kin adds an additional layer of insight into the data.
+This vignette demonstrated how to visualize sibling differences in Behavior and Depressiveness vaccinations using discord-structured data. Scatter and density plots highlight associations by Behavior difference group. The use of color to indicate the difference in Behavior between kin adds an additional layer of insight into the data.
